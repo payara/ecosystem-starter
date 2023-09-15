@@ -41,11 +41,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>fish.payara.starter</groupId>
-    <artifactId>payara-starter-archetype</artifactId>
-    <version>2.0</version>
-    <packaging>maven-archetype</packaging>
-    <name>Payara Starter</name>
-    <description>Archetype for Payara Micro application.</description>
+    <artifactId>payara-starter-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Payara Starter Parent</name>
     <url>http://github.com/payara/ecosystem-starter</url>
     <scm>
         <connection>scm:git:git://github.com/payara/ecosystem-starter.git</connection>
@@ -60,65 +59,14 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+    
+    <modules>
+        <module>starter-archetype</module>
+        <module>starter-ui</module>
+    </modules>
             
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.archetype</groupId>
-                <artifactId>archetype-packaging</artifactId>
-                <version>3.2.1</version>
-            </extension>
-        </extensions>
-
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-archetype-plugin</artifactId>
-                    <version>3.2.1</version>
-                    <configuration>
-                        <!-- to copy .gitignore -->
-                        <useDefaultExcludes>false</useDefaultExcludes>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.1</version>
-                    <configuration>
-                        <!-- to copy .gitignore -->
-                        <addDefaultExcludes>false</addDefaultExcludes>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.1</version>

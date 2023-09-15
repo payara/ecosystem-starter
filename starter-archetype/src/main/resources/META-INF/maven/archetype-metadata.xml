@@ -69,11 +69,10 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <validationRegex>^(8|11|17)$</validationRegex>
         </requiredProperty>
         <requiredProperty key="platform">
-            <defaultValue>none</defaultValue>
+            <defaultValue>server</defaultValue>
             <validationRegex>^(server|micro)$</validationRegex>
         </requiredProperty>
         <requiredProperty key="payaraVersion">
-            <defaultValue>6.2023.8</defaultValue>
         </requiredProperty>
         <requiredProperty key="autoBindHttp">
             <defaultValue>true</defaultValue>
