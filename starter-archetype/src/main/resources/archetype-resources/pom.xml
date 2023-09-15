@@ -30,11 +30,12 @@
 #set ($payaraUrl = "${payaraUrlPrefix}/payara/${payaraVersion}/payara-${payaraVersion}.zip")
 #end
 #end
-#if (${payaraVersion} == "" || ${payaraVersion} == null)
+#if (!${payaraVersion})
 #if (${jakartaEEVersion} == '8')
 #set ($payaraVersion = "5.2022.5")
 #else
 #set ($payaraVersion = "6.2023.8")
+#end
 #end
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
