@@ -108,6 +108,8 @@ public class ApplicationGeneratorResource {
             "-DarchetypeArtifactId=" + archetypeArtifactId, "-DarchetypeVersion=" + archetypeVersion}));
         properties.forEach((k, v) -> options.add("-D" + k + "=" + v));
 
+        LOGGER.log(Level.INFO, "Executing Maven Archetype {0} ", new Object[]{options.toString()});
+
         int result = new MavenCli().doMain(options.toArray(String[]::new), workingDirectory.getAbsolutePath(),
                 System.out, System.err);
 
