@@ -126,6 +126,9 @@
                 <select name="javaVersion" id="javaVersion">
                 </select><br><br>
 
+                <label for="docker">Docker</label>
+                <input type="checkbox" name="docker" id="docker" value="false"><br><br>
+
                 <label for="platform">Platform:</label>
                 <select name="platform" id="platform">
                 </select><br><br>
@@ -157,7 +160,11 @@
                 // Convert form data to JSON
                 const jsonObject = {};
                 formData.forEach((value, key) => {
-                    jsonObject[key] = value;
+                    if (key === 'docker') {
+                        jsonObject[key] = document.getElementById(key).checked ? 'true' : 'false';
+                    } else {
+                        jsonObject[key] = value;
+                    }
                 });
 
                 const requestOptions = {

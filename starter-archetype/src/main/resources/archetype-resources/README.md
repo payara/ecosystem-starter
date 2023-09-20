@@ -32,3 +32,26 @@ To run the application locally, follow these steps:
 #else
 4. Once the runtime starts, you can access the project at http://localhost:8080/
 #end
+
+#if (${docker} == 'true')
+#[[##]]# Building a Docker Image
+To build a Docker image for this application follow these steps:
+
+Open a terminal and navigate to the project's root directory. Make sure you have Docker installed and running on your system.
+Execute the following Maven command to build the Docker image:
+
+```
+mvn docker:build
+```
+
+This command will build a Docker image for your application.
+
+Once the image is built, you can run a Docker container from the image using the following command:
+
+```
+docker run -p 8080:8080 ${artifactId}:${project.version}
+```
+Replace ${artifactId}:${project.version} with the actual image name and tag.
+
+That's it! You have successfully built and run the application in a Docker container.
+#end

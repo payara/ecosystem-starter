@@ -7,11 +7,12 @@ def profile = request.properties["profile"].trim()
 def jakartaEEVersion = request.properties["jakartaEEVersion"].trim()
 def javaVersion = request.properties["javaVersion"].trim()
 def platform = request.properties["platform"].trim()
+def docker = request.properties["docker"].trim()
 
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
-generateSource(platform, jakartaEEVersion, outputDirectory)
+generateSource(platform, jakartaEEVersion, docker, outputDirectory)
 bindEEPackage(jakartaEEVersion, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
@@ -63,9 +64,12 @@ private void throwAndDelete(String message, File outputDirectory) {
     throw new RuntimeException(message);
 }
 
-private generateSource(platform, jakartaEEVersion, File outputDirectory) {
+private generateSource(platform, jakartaEEVersion, docker, File outputDirectory) {
     if (platform.equals("micro")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/test/resources"))
+    }
+    if (!docker.equalsIgnoreCase("true")) {
+        FileUtils.forceDelete(new File(outputDirectory, "Dockerfile"))
     }
 }
 

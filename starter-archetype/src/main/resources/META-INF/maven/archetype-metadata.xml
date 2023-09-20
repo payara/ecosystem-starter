@@ -104,6 +104,11 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
         </requiredProperty>
         <requiredProperty key="includeTests">
             <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
+        <requiredProperty key="docker">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
         </requiredProperty>
     </requiredProperties>
     
@@ -125,6 +130,7 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <includes>
                 <include>pom.xml</include>
                 <include>README.md</include>
+                <include>Dockerfile</include>
             </includes>
         </fileSet>
         <fileSet filtered="false" encoding="UTF-8">
