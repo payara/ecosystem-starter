@@ -1,0 +1,221 @@
+body {
+    background-color: #002c3e;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+
+}
+
+*, ::after, ::before {
+    box-sizing: initial;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    background-color: #ffffff10;
+    color: #F0981B;
+}
+.logo {
+    width: 10%;
+}
+.logo-text {
+    margin-top: 1.25%;
+    font-size: 27px;
+    background-image: linear-gradient(to right, rgba(255,255,255,0.001), rgba(255,255,255,0.1));
+    padding: .5%;
+    border-radius: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form select,
+form input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form input[type="checkbox"] {
+    width: auto;
+}
+
+#loadingBar {
+    display: none;
+    width: 100%;
+    background-color: #f1f1f1;
+    position: relative;
+    height: 30px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+#loadingBarFill {
+    width: 0;
+    height: 100%;
+    background-color: #f0981b;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    animation: progressAnimation 2s linear infinite;
+}
+
+@keyframes progressAnimation {
+    0% {
+        left: -100%;
+        width: 100%;
+    }
+    100% {
+        left: 100%;
+        width: 0;
+    }
+}
+
+input[type="submit"] {
+    background-color: #f0981b;
+    color: #333c4d;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: larger;
+    width: 50%;
+    margin-left: 25%;
+}
+
+input[type="submit"]:hover {
+    background-color: #f0981b;
+    color: #333c4d;
+
+}
+
+/* Add accordion styling */
+.accordion {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #002c3e;
+    color: white;
+}
+
+/*            .accordion-section {
+                border-bottom: 1px solid #ccc;
+            }*/
+
+.accordion-title {
+    padding-left: 20px;
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+    font-size: larger;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.accordion-content {
+    padding-left: 20px;
+    margin-left: 28px;
+    /*padding: 0;*/
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out; /* Add a smooth transition */
+}
+
+.accordion-content {
+    border-left: 1px solid;
+}
+
+.accordion-content-last {
+    border-left: 0px solid !important;
+}
+
+.accordion-sub-content {
+    padding: 16px;
+    /* border-left: 1px solid; */
+    /* margin-left: 12px; */
+    background-image: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    border-radius: 20px;
+}
+
+
+.accordion-title.active + .accordion-content {
+    /*background-color: #49829929;*/
+    max-height: 200px; /* Set the maximum height to an appropriate value */
+    padding: 20px;
+    transition: max-height 0.3s ease-in; /* Add a smooth transition */
+    background-image: linear-gradient(to right, rgba(255,255,255,0.01), rgba(255,255,255,0.025));
+    border-top-right-radius: 45px;
+    border-bottom-right-radius: 45px;
+}
+
+.accordion-title.active {
+    /*background-color: #F0981B;*/
+    color: #F0981B;
+    font-weight: bolder;
+}
+
+.space {
+    height: 30px;
+    border-left: 1px solid;
+    margin-left: 3.5%;
+}
+
+.next-button {
+    margin-top: 10px;
+    background-color: #f0981b;
+    color: #333c4d;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.next-button:hover {
+    background-color: #f0981b;
+    color: #333c4d;
+}
+
+
+.generate-button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 25%;
+    background-color: #f0981b;
+    color: #333c4d;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: x-large;
+    font-weight: bolder;
+    width: 50%;
+}
+.generate-button:hover {
+    background-color: #f0981b;
+    color: #333c4d;
+}
+
+.form-check-label {
+    padding-top: 7px;
+}
