@@ -1,7 +1,9 @@
 package fish.payara.starter.resources;
 
 import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID;
+import static fish.payara.starter.resources.ApplicationConfiguration.DOCKER;
 import static fish.payara.starter.resources.ApplicationConfiguration.GROUP_ID;
+import static fish.payara.starter.resources.ApplicationConfiguration.INCLUDE_TESTS;
 import static fish.payara.starter.resources.ApplicationConfiguration.JAKARTA_EE_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.JAVA_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PACKAGE;
@@ -95,6 +97,8 @@ public class ApplicationGeneratorResource {
         properties.put(JAVA_VERSION, appProperties.getJavaVersion());
         properties.put(PLATFORM, appProperties.getPlatform());
         properties.put(PAYARA_VERSION, appProperties.getPayaraVersion());
+        properties.put(INCLUDE_TESTS, appProperties.isIncludeTests());
+        properties.put(DOCKER, appProperties.isDocker());
         return properties;
     }
 

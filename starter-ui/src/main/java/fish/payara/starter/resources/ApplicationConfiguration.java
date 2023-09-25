@@ -21,6 +21,7 @@ public class ApplicationConfiguration {
     public static final String JAVA_VERSION = "javaVersion";
     public static final String PLATFORM = "platform";
     public static final String INCLUDE_TESTS = "includeTests";
+    public static final String DOCKER = "docker";
     public static final String PAYARA_VERSION = "payaraVersion";
     public static final String AUTO_BIND_HTTP = "autoBindHttp";
     public static final String ADD_CONCURRENT_API = "addConcurrentApi";
@@ -55,9 +56,12 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(PLATFORM)
     private String platform = "none";
-    
+
     @JsonbProperty(INCLUDE_TESTS)
     private boolean includeTests = false;
+
+    @JsonbProperty(DOCKER)
+    private boolean docker = false;
 
     @JsonbProperty(PAYARA_VERSION)
     private String payaraVersion;
@@ -240,5 +244,13 @@ public class ApplicationConfiguration {
     public void setIncludeTests(boolean includeTests) {
         this.includeTests = includeTests;
     }
-    
+
+    public boolean isDocker() {
+        return docker;
+    }
+
+    public void setDocker(boolean docker) {
+        this.docker = docker;
+    }
+
 }
