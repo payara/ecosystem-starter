@@ -1,3 +1,7 @@
 /target/
 /starter-archetype/target/
 /starter-ui/target/
+/.idea/*
+/*.iml
+/starter-archetype/payara-starter-archetype.iml
+/starter-ui/payara-starter-ui.iml
