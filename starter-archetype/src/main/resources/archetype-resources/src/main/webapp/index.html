@@ -30,7 +30,13 @@
             The REST end-point is available at <a href="resources/hello">resources/hello</a>.
             You can supply a name to the end-point using a query parameter like this: <a href="resources/hello?name=John">resources/hello?name=John</a>
         </p>
-
+<% if (mpOpenAPI) { %>        
+        <h2>API Documentation</h2>
+        <p>
+            Explore the API documentation for the RESTful service using Swagger and OpenAPI. You can access the documentation at the following link:
+            <a href="swagger.html">Swagger and OpenAPI Documentation</a>
+        </p>
+<% } %>
         <h2>Why Choose Payara?</h2>
         <p>
             Dive into the world of Jakarta EE with Payara. Our robust application server empowers you to build and deploy scalable, enterprise-ready solutions with ease.

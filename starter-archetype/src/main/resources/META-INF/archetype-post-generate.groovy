@@ -9,12 +9,13 @@ def javaVersion = request.properties["javaVersion"].trim()
 def platform = request.properties["platform"].trim()
 def includeTests = request.properties["includeTests"].trim()
 def docker = request.properties["docker"].trim()
+def mpOpenAPI = request.properties["mpOpenAPI"].trim()
 
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
-generateSource(platform, jakartaEEVersion, includeTests, docker, outputDirectory)
-bindEEPackage(jakartaEEVersion, outputDirectory)
+generateSource(platform, jakartaEEVersion, includeTests, docker, mpOpenAPI, outputDirectory)
+bindEEPackage(jakartaEEVersion, mpOpenAPI, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
     boolean deleteDirectory = true;
@@ -65,7 +66,7 @@ private void throwAndDelete(String message, File outputDirectory) {
     throw new RuntimeException(message);
 }
 
-private generateSource(platform, jakartaEEVersion, includeTests, docker, File outputDirectory) {
+private generateSource(platform, jakartaEEVersion, includeTests, docker, mpOpenAPI, File outputDirectory) {
     if (platform.equals("micro")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/test/resources"))
     }
@@ -75,14 +76,17 @@ private generateSource(platform, jakartaEEVersion, includeTests, docker, File ou
     if (!docker.equalsIgnoreCase("true")) {
         FileUtils.forceDelete(new File(outputDirectory, "Dockerfile"))
     }
+    if (!mpOpenAPI.equalsIgnoreCase("true")) {
+        FileUtils.forceDelete(new File(outputDirectory, "src/main/webapp/swagger.html"))
+    }
 }
 
-private void bindEEPackage(String jakartaEEVersion, File outputDirectory) {
+private void bindEEPackage(String jakartaEEVersion, String mpOpenAPI, File outputDirectory) {
     def eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
-
     println "Binding EE package: $eePackage"
+    println "Binding mpOpenAPI: $mpOpenAPI"
 
-    def binding = [eePackage: eePackage]
+    def binding = [eePackage: eePackage, 'mpOpenAPI': mpOpenAPI.toBoolean()]
     def engine = new SimpleTemplateEngine()
 
     outputDirectory.eachFileRecurse(FileType.FILES) { file ->

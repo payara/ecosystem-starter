@@ -6,6 +6,7 @@ import static fish.payara.starter.resources.ApplicationConfiguration.GROUP_ID;
 import static fish.payara.starter.resources.ApplicationConfiguration.INCLUDE_TESTS;
 import static fish.payara.starter.resources.ApplicationConfiguration.JAKARTA_EE_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.JAVA_VERSION;
+import static fish.payara.starter.resources.ApplicationConfiguration.MP_OPEN_API;
 import static fish.payara.starter.resources.ApplicationConfiguration.PACKAGE;
 import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PLATFORM;
@@ -99,6 +100,7 @@ public class ApplicationGeneratorResource {
         properties.put(PAYARA_VERSION, appProperties.getPayaraVersion());
         properties.put(INCLUDE_TESTS, appProperties.isIncludeTests());
         properties.put(DOCKER, appProperties.isDocker());
+        properties.put(MP_OPEN_API, appProperties.isMpOpenAPI());
         return properties;
     }
 

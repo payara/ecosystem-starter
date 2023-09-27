@@ -110,6 +110,10 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <defaultValue>false</defaultValue>
             <validationRegex>^(false|true)$</validationRegex>
         </requiredProperty>
+        <requiredProperty key="mpOpenAPI">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
     </requiredProperties>
     
     <fileSets>

@@ -22,6 +22,7 @@ public class ApplicationConfiguration {
     public static final String PLATFORM = "platform";
     public static final String INCLUDE_TESTS = "includeTests";
     public static final String DOCKER = "docker";
+    public static final String MP_OPEN_API = "mpOpenAPI";
     public static final String PAYARA_VERSION = "payaraVersion";
     public static final String AUTO_BIND_HTTP = "autoBindHttp";
     public static final String ADD_CONCURRENT_API = "addConcurrentApi";
@@ -62,6 +63,17 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(DOCKER)
     private boolean docker = false;
+
+    @JsonbProperty(MP_OPEN_API)
+    private boolean mpOpenAPI = false;
+
+    public boolean isMpOpenAPI() {
+        return mpOpenAPI;
+    }
+
+    public void setMpOpenAPI(boolean mpOpenAPI) {
+        this.mpOpenAPI = mpOpenAPI;
+    }
 
     @JsonbProperty(PAYARA_VERSION)
     private String payaraVersion;
