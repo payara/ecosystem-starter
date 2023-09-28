@@ -23,6 +23,8 @@ public class ApplicationConfiguration {
     public static final String INCLUDE_TESTS = "includeTests";
     public static final String DOCKER = "docker";
     public static final String MP_OPEN_API = "mpOpenAPI";
+    public static final String MP_FAULT_TOLERANCE = "mpFaultTolerance";
+    public static final String MP_METRICS = "mpMetrics";
     public static final String PAYARA_VERSION = "payaraVersion";
     public static final String AUTO_BIND_HTTP = "autoBindHttp";
     public static final String ADD_CONCURRENT_API = "addConcurrentApi";
@@ -67,13 +69,11 @@ public class ApplicationConfiguration {
     @JsonbProperty(MP_OPEN_API)
     private boolean mpOpenAPI = false;
 
-    public boolean isMpOpenAPI() {
-        return mpOpenAPI;
-    }
+    @JsonbProperty(MP_FAULT_TOLERANCE)
+    private boolean mpFaultTolerance = false;
 
-    public void setMpOpenAPI(boolean mpOpenAPI) {
-        this.mpOpenAPI = mpOpenAPI;
-    }
+    @JsonbProperty(MP_METRICS)
+    private boolean mpMetrics = false;
 
     @JsonbProperty(PAYARA_VERSION)
     private String payaraVersion;
@@ -263,6 +263,30 @@ public class ApplicationConfiguration {
 
     public void setDocker(boolean docker) {
         this.docker = docker;
+    }
+
+    public boolean isMpOpenAPI() {
+        return mpOpenAPI;
+    }
+
+    public void setMpOpenAPI(boolean mpOpenAPI) {
+        this.mpOpenAPI = mpOpenAPI;
+    }
+
+    public boolean isMpFaultTolerance() {
+        return mpFaultTolerance;
+    }
+
+    public void setMpFaultTolerance(boolean mpFaultTolerance) {
+        this.mpFaultTolerance = mpFaultTolerance;
+    }
+
+    public boolean isMpMetrics() {
+        return mpMetrics;
+    }
+
+    public void setMpMetrics(boolean mpMetrics) {
+        this.mpMetrics = mpMetrics;
     }
 
 }

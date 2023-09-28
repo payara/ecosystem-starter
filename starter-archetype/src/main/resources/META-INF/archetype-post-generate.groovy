@@ -10,12 +10,14 @@ def platform = request.properties["platform"].trim()
 def includeTests = request.properties["includeTests"].trim()
 def docker = request.properties["docker"].trim()
 def mpOpenAPI = request.properties["mpOpenAPI"].trim()
+def mpFaultTolerance = request.properties["mpFaultTolerance"].trim()
+def mpMetrics = request.properties["mpMetrics"].trim()
 
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
 generateSource(platform, jakartaEEVersion, includeTests, docker, mpOpenAPI, outputDirectory)
-bindEEPackage(jakartaEEVersion, mpOpenAPI, outputDirectory)
+bindEEPackage(jakartaEEVersion, mpOpenAPI, mpFaultTolerance, mpMetrics, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
     boolean deleteDirectory = true;
@@ -81,12 +83,11 @@ private generateSource(platform, jakartaEEVersion, includeTests, docker, mpOpenA
     }
 }
 
-private void bindEEPackage(String jakartaEEVersion, String mpOpenAPI, File outputDirectory) {
+private void bindEEPackage(String jakartaEEVersion, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, File outputDirectory) {
     def eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
     println "Binding EE package: $eePackage"
-    println "Binding mpOpenAPI: $mpOpenAPI"
 
-    def binding = [eePackage: eePackage, 'mpOpenAPI': mpOpenAPI.toBoolean()]
+    def binding = [eePackage: eePackage, 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean()]
     def engine = new SimpleTemplateEngine()
 
     outputDirectory.eachFileRecurse(FileType.FILES) { file ->

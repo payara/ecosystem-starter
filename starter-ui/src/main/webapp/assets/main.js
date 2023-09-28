@@ -99,7 +99,8 @@ const form = document.getElementById('appForm');
 const inputToConfigurationMap = {
     'version': 'project-configuration',
     'javaVersion': 'jakarta-configuration',
-    'profile': 'payara-configuration',
+    'profile': 'microprofile-configuration',
+    'mpMetrics': 'payara-configuration'
 };
 
 formInputs.forEach((input, index) => {
