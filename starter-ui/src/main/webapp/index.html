@@ -4,331 +4,151 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Generate Payara Application</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-            }
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/styles.css">
 
-            h1 {
-                background-color: #002C3E;
-                color: #F0981B;
-                padding: 20px;
-                text-align: center;
-            }
-
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-                padding: 20px;
-                background-color: #fff;
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-            }
-
-            form label {
-                display: block;
-                margin-bottom: 5px;
-            }
-
-            form input[type="text"],
-            form select,
-            form input[type="checkbox"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-            }
-
-            form input[type="checkbox"] {
-                width: auto;
-            }
-
-            #loadingBar {
-                display: none;
-                width: 100%;
-                background-color: #f1f1f1;
-                position: relative;
-                height: 30px;
-                overflow: hidden;
-                margin-top: 20px;
-            }
-
-            #loadingBarFill {
-                width: 0;
-                height: 100%;
-                background-color: #4caf50;
-                text-align: center;
-                line-height: 30px;
-                color: white;
-                font-weight: bold;
-                position: absolute;
-                top: 0;
-                left: -100%;
-                animation: progressAnimation 2s linear infinite;
-            }
-
-            @keyframes progressAnimation {
-                0% {
-                    left: -100%;
-                    width: 100%;
-                }
-                100% {
-                    left: 100%;
-                    width: 0;
-                }
-            }
-
-            input[type="submit"] {
-                background-color: #4caf50;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                cursor: pointer;
-            }
-
-            input[type="submit"]:hover {
-                background-color: #45a049;
-            }
-        </style>
     </head>
     <body>
-        <h1>Generate Payara Application</h1>
-        <div class="container">
-            <form id="appForm">
-                <label for="groupId">Group ID:</label>
-                <input type="text" name="groupId" id="groupId" value="fish.payara"><br><br>
-
-                <label for="artifactId">Artifact ID:</label>
-                <input type="text" name="artifactId" id="artifactId" value="hello-world"><br><br>
-
-                <label for="version">Version:</label>
-                <input type="text" name="version" id="version" value="0.1-SNAPSHOT"><br><br>
-
-                <label for="package">Package:</label>
-                <input type="text" name="package" id="package" value="fish.payara"><br><br>
-
-                <label for="includeTests">Include Tests:</label>
-                <input type="checkbox" name="includeTests" id="includeTests" value="true"><br><br>
-
-                <label for="jakartaEEVersion">Jakarta EE Version:</label>
-                <select name="jakartaEEVersion" id="jakartaEEVersion">
-                </select><br><br>
-
-                <label for="profile">Profile:</label>
-                <select name="profile" id="profile">
-                </select><br><br>
-
-                <label for="javaVersion">Java Version:</label>
-                <select name="javaVersion" id="javaVersion">
-                </select><br><br>
-
-                <label for="docker">Docker</label>
-                <input type="checkbox" name="docker" id="docker" value="false"><br><br>
-
-                <label for="platform">Platform:</label>
-                <select name="platform" id="platform">
-                </select><br><br>
-
-                <label for="payaraVersion">Payara Platform version:</label>
-                <select name="payaraVersion" id="payaraVersion"></select><br>
-
-                <div id="loadingBar" style="display: none;">
-                    <div id="loadingBarFill" style="width: 0%;"></div>
-                </div>
-                <br>
-                <input type="submit" value="Generate">
-            </form>
-
+        <div class="header">
+            <img class="logo" src="assets/payara-logo.svg" alt="Payara Logo">
+            <div class="logo-text">STARTER</div>
         </div>
+        <form id="appForm">
+            <div class="accordion">
+                <!-- Project Information Section -->
+                <div class="accordion-section">
+                    <div class="accordion-title" data-toggle="project-details">
+                        <i class="bi current-icon bi-circle-half"></i> Project Details <i class="bi next-icon"></i>
+                    </div>
+                    <div class="accordion-content" id="project-details">
+                        <div class="accordion-sub-content"> 
+                            <label for="groupId">Group ID:</label>
+                            <input type="text" name="groupId" id="groupId" value="fish.payara"><br><br>
 
-        <script>
-            document.getElementById('appForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent the default form submission
+                            <label for="artifactId">Artifact ID:</label>
+                            <input type="text" name="artifactId" id="artifactId" value="hello-world"><br><br>
 
-                // Show the loading bar
-                document.getElementById('loadingBar').style.display = 'block';
-                const loadingBarFill = document.getElementById('loadingBarFill');
-                loadingBarFill.style.width = '0%'; // Initialize the width to 0%
+                            <label for="version">Version:</label>
+                            <input type="text" name="version" id="version" value="0.1-SNAPSHOT"><br><br>
+                        </div>
 
-                const form = event.target;
-                const formData = new FormData(form);
+                        <button type="button" class="next-button" data-next="project-configuration">
+                            Next <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="space"></div>
 
-                // Convert form data to JSON
-                const jsonObject = {};
-                formData.forEach((value, key) => {
-                    if (key === 'docker') {
-                        jsonObject[key] = document.getElementById(key).checked ? 'true' : 'false';
-                    } else {
-                        jsonObject[key] = value;
-                    }
-                });
+                <!-- Project Configuration Section -->
+                <div class="accordion-section">
+                    <div class="accordion-title" data-toggle="project-configuration">
+                        <i class="bi previous-icon bi-circle"></i> Configuration <i class="bi next-icon"></i>
+                    </div>
+                    <div class="accordion-content" id="project-configuration">
 
-                const requestOptions = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Set the content type to JSON
-                    },
-                    body: JSON.stringify(jsonObject),
-                };
+                        <div class="accordion-sub-content"> 
+                            <label for="package">Package:</label>
+                            <input type="text" name="package" id="package" value="fish.payara"><br><br>
 
-                fetch('resources/starter', requestOptions)
-                        .then(response => {
-                            if (response.status === 200) {
-                                // Create a blob from the response data
-                                return response.blob();
-                            } else {
-                                // Handle other response statuses, e.g., display an error message
-                                alert('Error generating application. Please try again.');
-                            }
-                        })
-                        .then(blob => {
-                            // Hide the loading bar
-                            document.getElementById('loadingBar').style.display = 'none';
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="includeTests" name="includeTests" value="true">
+                                <label class="form-check-label" for="includeTests">Include Tests</label>
+                            </div><br><br>
 
-                            // Generate the filename dynamically based on the 'artifactId'
-                            const filename = jsonObject['artifactId'] + '.zip';
+                            <label for="javaVersion">Java Version:</label>
+                            <select name="javaVersion" id="javaVersion"></select><br><br>
+                        </div>
+                        <button type="button" class="previous-button" data-previous="project-details">
+                            Previous <i class="bi bi-arrow-left"></i>
+                        </button>
+                        <button type="button" class="next-button" data-next="jakarta-configuration">
+                            Next <i class="bi bi-arrow-right"></i>
+                        </button>
 
-                            // Create a URL for the blob
-                            const url = window.URL.createObjectURL(blob);
+                    </div>
+                </div>
+                <div class="space"></div>
+                <!-- Jakarta Settings Section -->
+                <div class="accordion-section">
+                    <div class="accordion-title" data-toggle="jakarta-configuration">
+                        <i class="bi previous-icon bi-circle"></i> Jakarta EE <i class="bi next-icon"></i>
+                    </div>
+                    <div class="accordion-content" id="jakarta-configuration">
 
-                            // Create an anchor element to trigger the download
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = filename; // Use the dynamically generated filename
-                            document.body.appendChild(a);
-                            a.click();
+                        <div class="accordion-sub-content"> 
+                            <label for="jakartaEEVersion">Jakarta EE version:</label>
+                            <select name="jakartaEEVersion" id="jakartaEEVersion">
+                            </select><br><br>
 
-                            // Cleanup: Revoke the blob URL to free up resources
-                            window.URL.revokeObjectURL(url);
-                        })
-                        .catch(error => {
-                            // Hide the loading bar
-                            document.getElementById('loadingBar').style.display = 'none';
+                            <label for="profile">Jakarta EE Profile:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="profile" id="full" value="full">
+                                <label class="form-check-label" for="full">Platform</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="profile" id="web" value="web">
+                                <label class="form-check-label" for="web">Web Profile</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="profile" id="core" value="core">
+                                <label class="form-check-label" for="core">Core Profile</label>
+                            </div><br><br>
+                        </div>
+                         <button type="button" class="previous-button" data-previous="project-configuration">
+                            Previous <i class="bi bi-arrow-left"></i>
+                        </button>
+                        <button type="button" class="next-button" data-next="payara-configuration">
+                            Next <i class="bi bi-arrow-right"></i>
+                        </button>
 
-                            console.error('Error:', error);
-                            alert('An error occurred while generating the application.');
-                        });
-            });
+                    </div>
+                </div>
+                <div class="space"></div>
+                <!-- Payara Settings Section -->
+                <div class="accordion-section">
+                    <div class="accordion-title" data-toggle="payara-configuration">
+                        <i class="bi previous-icon bi-circle"></i> Payara Platform
+                    </div>
+                    <div class="accordion-content accordion-content-last" id="payara-configuration">
 
+                        <div class="accordion-sub-content"> 
+                            <label for="platform">Platform:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="platform" id="server" value="server">
+                                <label class="form-check-label" for="server">Payara Server</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="platform" id="micro" value="micro">
+                                <label class="form-check-label" for="micro">Payara Micro</label>
+                            </div><br><br>
 
-            // Define the order of Jakarta EE versions
-            const jakartaEEVersionOrder = ["10", "9.1", "9", "8"];
-            const jakartaVersions = {
-                "10": "Jakarta EE 10",
-                "9.1": "Jakarta EE 9.1",
-                "9": "Jakarta EE 9",
-                "8": "Jakarta EE 8"
-            };
+                            <label for="payaraVersion">Payara Platform version:</label>
+                            <select name="payaraVersion" id="payaraVersion"></select><br><br>
 
-            const profiles = {
-                "full": "Platform",
-                "web": "Web Profile",
-                "core": "Core Profile"
-            };
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="docker" name="docker" value="false">
+                                <label class="form-check-label" for="docker">Docker</label>
+                            </div><br><br>
+                        </div>
+                         <button type="button" class="previous-button" data-previous="jakarta-configuration">
+                            Previous <i class="bi bi-arrow-left"></i>
+                        </button>
 
-            const javaVersions = {
-                "17": "Java SE 17",
-                "11": "Java SE 11",
-                "8": "Java SE 8"
-            };
+                    </div>
+                </div>
 
-            const platform = {
-                "server": "Payara Server",
-                "micro": "Payara Micro"
-            };
+                <button type="submit" class="generate-button">
+                    Generate <i class="bi bi-download"></i>
+                </button>
+            </div>
+            <div id="loadingBar" style="display: none;">
+                <div id="loadingBarFill" style="width: 0%;"></div>
+            </div>
+        </form>
 
-// Function to populate a select element with options
-            function populateSelect(selectId, optionOrder, optionMap) {
-                const select = document.getElementById(selectId);
-
-                optionOrder.forEach(value => {
-                    const option = document.createElement('option');
-                    option.value = value;
-                    option.text = optionMap[value];
-                    select.appendChild(option);
-                });
-            }
-
-// Call the function to populate the select elements
-            populateSelect('jakartaEEVersion', jakartaEEVersionOrder, jakartaVersions);
-            populateSelect('profile', Object.keys(profiles), profiles);
-            populateSelect('javaVersion', Object.keys(javaVersions), javaVersions);
-            populateSelect('platform', Object.keys(platform), platform);
-
-            // Function to fetch Payara versions and populate the dropdown
-            function populatePayaraVersionsDropdown(jakartaEEVersion) {
-                // Modify the URL to include the selected Jakarta EE version
-                const url = `resources/version?jakartaEEVersion=${jakartaEEVersion}`;
-
-                fetch(url)
-                        .then(response => {
-                            if (response.status === 200) {
-                                return response.json();
-                            } else {
-                                console.error('Error fetching Payara versions.');
-                            }
-                        })
-                        .then(versions => {
-                            const payaraVersion = document.getElementById('payaraVersion');
-                            payaraVersion.innerHTML = ''; // Clear existing options
-
-                            // Add an option for each version
-                            versions.forEach(version => {
-                                const option = document.createElement('option');
-                                option.value = version;
-                                option.text = version;
-                                payaraVersion.appendChild(option);
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-            }
-
-
-            const jakartaEEVersionSelect = document.getElementById('jakartaEEVersion');
-            const javaVersionSelect = document.getElementById('javaVersion');
-
-            // Attach an event listener to the jakartaEEVersion select element
-            jakartaEEVersionSelect.addEventListener('change', function (event) {
-                const selectedValue = event.target.value;
-
-                // Call the function to populate the Payara version dropdown with the selected Jakarta EE version
-                populatePayaraVersionsDropdown(selectedValue);
-
-                // Get the "Java Version" options select element
-                const javaVersionOptions = javaVersionSelect.querySelectorAll('option');
-                // Clear existing options
-                javaVersionOptions.forEach(option => {
-                    option.remove();
-                });
-
-                // Add options based on the selected Jakarta EE Version
-                if (selectedValue === '8') {
-                    addJavaVersionOption('11', 'Java SE 11');
-                    addJavaVersionOption('8', 'Java SE 8');
-                } else {
-                    addJavaVersionOption('17', 'Java SE 17');
-                    addJavaVersionOption('11', 'Java SE 11');
-                }
-            });
-
-            // Function to add an option to the "Java Version" select element
-            function addJavaVersionOption(value, text) {
-                const option = document.createElement('option');
-                option.value = value;
-                option.text = text;
-                javaVersionSelect.appendChild(option);
-            }
-
-            // Trigger the change event initially to set the default options
-            jakartaEEVersionSelect.dispatchEvent(new Event('change'));
-        </script>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="assets/main.js"></script>
 
     </body>
 </html>
