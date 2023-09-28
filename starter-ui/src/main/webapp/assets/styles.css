@@ -119,10 +119,6 @@ input[type="submit"]:hover {
     color: white;
 }
 
-/*            .accordion-section {
-                border-bottom: 1px solid #ccc;
-            }*/
-
 .accordion-title {
     padding-left: 20px;
     cursor: pointer;
@@ -136,7 +132,6 @@ input[type="submit"]:hover {
 .accordion-content {
     padding-left: 20px;
     margin-left: 28px;
-    /*padding: 0;*/
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-out; /* Add a smooth transition */
@@ -152,25 +147,21 @@ input[type="submit"]:hover {
 
 .accordion-sub-content {
     padding: 16px;
-    /* border-left: 1px solid; */
-    /* margin-left: 12px; */
     background-image: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0));
     border-radius: 20px;
 }
 
 
 .accordion-title.active + .accordion-content {
-    /*background-color: #49829929;*/
-    max-height: 200px; /* Set the maximum height to an appropriate value */
+    max-height: 200px;
     padding: 20px;
-    transition: max-height 0.3s ease-in; /* Add a smooth transition */
+    transition: max-height 0.3s ease-in;
     background-image: linear-gradient(to right, rgba(255,255,255,0.01), rgba(255,255,255,0.025));
     border-top-right-radius: 45px;
     border-bottom-right-radius: 45px;
 }
 
 .accordion-title.active {
-    /*background-color: #F0981B;*/
     color: #F0981B;
     font-weight: bolder;
 }
@@ -181,21 +172,30 @@ input[type="submit"]:hover {
     margin-left: 3.5%;
 }
 
+.previous-button {
+    margin-top: 10px;
+    background-color: #f0981b;
+    color: #333c4d;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 .next-button {
     margin-top: 10px;
     background-color: #f0981b;
     color: #333c4d;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 24px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.next-button:hover {
+.next-button:hover, .previous-button:hover {
     background-color: #f0981b;
     color: #333c4d;
 }
-
 
 .generate-button {
     margin-top: 20px;

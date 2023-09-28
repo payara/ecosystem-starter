@@ -1,6 +1,7 @@
 
 // JavaScript to handle accordion toggling
 const accordionTitles = document.querySelectorAll('.accordion-title');
+const prevButtons = document.querySelectorAll('.previous-button');
 const nextButtons = document.querySelectorAll('.next-button');
 
 
@@ -44,6 +45,20 @@ function updateAccordionIcons() {
 
 // Call the function to set initial icon states
 
+
+prevButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const prevContentId = button.getAttribute('data-previous');
+        const prevContent = document.getElementById(prevContentId);
+
+        if (prevContent) {
+            closeAllAccordions();
+            prevContent.style.maxHeight = prevContent.scrollHeight + 'px';
+            const prevTitle = prevContent.previousElementSibling;
+            prevTitle.classList.add('active');
+        }
+    });
+});
 
 nextButtons.forEach(button => {
     button.addEventListener('click', () => {
