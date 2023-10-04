@@ -80,7 +80,8 @@ private generateSource(platform, jakartaEEVersion, includeTests, docker, mpConfi
         FileUtils.forceDelete(new File(outputDirectory, "Dockerfile"))
     }
     if (!mpConfig.equalsIgnoreCase("true")) {
-        FileUtils.forceDelete(new File(outputDirectory, "src/main/resources/microprofile-config.properties"))
+        FileUtils.forceDelete(new File(outputDirectory, "src/main/resources/META-INF/beans.xml"))
+        FileUtils.forceDelete(new File(outputDirectory, "src/main/resources/META-INF/microprofile-config.properties"))
     }
     if (!mpOpenAPI.equalsIgnoreCase("true")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/main/webapp/swagger.html"))
