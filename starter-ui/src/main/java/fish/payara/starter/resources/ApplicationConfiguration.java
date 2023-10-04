@@ -22,6 +22,7 @@ public class ApplicationConfiguration {
     public static final String PLATFORM = "platform";
     public static final String INCLUDE_TESTS = "includeTests";
     public static final String DOCKER = "docker";
+    public static final String MP_CONFIG = "mpConfig";
     public static final String MP_OPEN_API = "mpOpenAPI";
     public static final String MP_FAULT_TOLERANCE = "mpFaultTolerance";
     public static final String MP_METRICS = "mpMetrics";
@@ -65,6 +66,9 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(DOCKER)
     private boolean docker = false;
+
+    @JsonbProperty(MP_CONFIG)
+    private boolean mpConfig = false;
 
     @JsonbProperty(MP_OPEN_API)
     private boolean mpOpenAPI = false;
@@ -263,6 +267,14 @@ public class ApplicationConfiguration {
 
     public void setDocker(boolean docker) {
         this.docker = docker;
+    }
+
+    public boolean isMpConfig() {
+        return mpConfig;
+    }
+
+    public void setMpConfig(boolean mpConfig) {
+        this.mpConfig = mpConfig;
     }
 
     public boolean isMpOpenAPI() {

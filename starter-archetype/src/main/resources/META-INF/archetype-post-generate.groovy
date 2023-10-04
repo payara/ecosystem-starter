@@ -9,6 +9,7 @@ def javaVersion = request.properties["javaVersion"].trim()
 def platform = request.properties["platform"].trim()
 def includeTests = request.properties["includeTests"].trim()
 def docker = request.properties["docker"].trim()
+def mpConfig = request.properties["mpConfig"].trim()
 def mpOpenAPI = request.properties["mpOpenAPI"].trim()
 def mpFaultTolerance = request.properties["mpFaultTolerance"].trim()
 def mpMetrics = request.properties["mpMetrics"].trim()
@@ -16,8 +17,8 @@ def mpMetrics = request.properties["mpMetrics"].trim()
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
-generateSource(platform, jakartaEEVersion, includeTests, docker, mpOpenAPI, outputDirectory)
-bindEEPackage(jakartaEEVersion, mpOpenAPI, mpFaultTolerance, mpMetrics, outputDirectory)
+generateSource(platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, outputDirectory)
+bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
     boolean deleteDirectory = true;
@@ -68,7 +69,7 @@ private void throwAndDelete(String message, File outputDirectory) {
     throw new RuntimeException(message);
 }
 
-private generateSource(platform, jakartaEEVersion, includeTests, docker, mpOpenAPI, File outputDirectory) {
+private generateSource(platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, File outputDirectory) {
     if (platform.equals("micro")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/test/resources"))
     }
@@ -78,16 +79,19 @@ private generateSource(platform, jakartaEEVersion, includeTests, docker, mpOpenA
     if (!docker.equalsIgnoreCase("true")) {
         FileUtils.forceDelete(new File(outputDirectory, "Dockerfile"))
     }
+    if (!mpConfig.equalsIgnoreCase("true")) {
+        FileUtils.forceDelete(new File(outputDirectory, "src/main/resources/microprofile-config.properties"))
+    }
     if (!mpOpenAPI.equalsIgnoreCase("true")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/main/webapp/swagger.html"))
     }
 }
 
-private void bindEEPackage(String jakartaEEVersion, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, File outputDirectory) {
+private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, File outputDirectory) {
     def eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
     println "Binding EE package: $eePackage"
 
-    def binding = [eePackage: eePackage, 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean()]
+    def binding = [eePackage: eePackage, 'mpConfig': mpConfig, 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean()]
     def engine = new SimpleTemplateEngine()
 
     outputDirectory.eachFileRecurse(FileType.FILES) { file ->

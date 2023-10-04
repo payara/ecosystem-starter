@@ -1,9 +1,11 @@
 package ${package}.hello;
-
+<% if (mpConfig) { %>
+import ${eePackage}.inject.Inject;<% } %>
 import ${eePackage}.ws.rs.GET;
 import ${eePackage}.ws.rs.Path;
 import ${eePackage}.ws.rs.QueryParam;
-import ${eePackage}.ws.rs.core.Response;<% if (mpFaultTolerance) { %>
+import ${eePackage}.ws.rs.core.Response;<% if (mpConfig) { %>
+import org.eclipse.microprofile.config.inject.ConfigProperty;<% } %><% if (mpFaultTolerance) { %>
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;<% } %><% if (mpMetrics) { %>
@@ -16,6 +18,10 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;<% } %>
 
 @Path("hello")
 public class HelloWorldResource {
+<% if (mpConfig) { %>
+    @Inject
+    @ConfigProperty(name = "defaultName", defaultValue = "world")
+    private String defaultName;<% } %>
 
     @GET<% if (mpOpenAPI) { %>
     @Operation(summary = "Get a personalized greeting")
@@ -30,7 +36,7 @@ public class HelloWorldResource {
     @Fallback(fallbackMethod = "fallbackMethod")<% } %>
     public Response hello(@QueryParam("name")<% if (mpOpenAPI) { %> @Parameter(name = "name", description = "Name to include in the greeting", required = false, example = "John")<% } %> String name) {
         if ((name == null) || name.trim().isEmpty()) {
-            name = "world";
+            name = <% if (mpConfig) { %>defaultName<% } else { %>"world"<% } %>;
         }
         return Response
                 .ok(name)
