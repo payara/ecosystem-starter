@@ -6,6 +6,10 @@ import static fish.payara.starter.resources.ApplicationConfiguration.GROUP_ID;
 import static fish.payara.starter.resources.ApplicationConfiguration.INCLUDE_TESTS;
 import static fish.payara.starter.resources.ApplicationConfiguration.JAKARTA_EE_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.JAVA_VERSION;
+import static fish.payara.starter.resources.ApplicationConfiguration.MP_CONFIG;
+import static fish.payara.starter.resources.ApplicationConfiguration.MP_FAULT_TOLERANCE;
+import static fish.payara.starter.resources.ApplicationConfiguration.MP_METRICS;
+import static fish.payara.starter.resources.ApplicationConfiguration.MP_OPEN_API;
 import static fish.payara.starter.resources.ApplicationConfiguration.PACKAGE;
 import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PLATFORM;
@@ -81,7 +85,7 @@ public class ApplicationGeneratorResource {
                 }
             }
         }
-        if(!directory.delete()) {
+        if (!directory.delete()) {
             LOGGER.log(Level.WARNING, "Failed to delete directory: {0}", directory);
         }
     }
@@ -99,6 +103,10 @@ public class ApplicationGeneratorResource {
         properties.put(PAYARA_VERSION, appProperties.getPayaraVersion());
         properties.put(INCLUDE_TESTS, appProperties.isIncludeTests());
         properties.put(DOCKER, appProperties.isDocker());
+        properties.put(MP_CONFIG, appProperties.isMpConfig());
+        properties.put(MP_OPEN_API, appProperties.isMpOpenAPI());
+        properties.put(MP_FAULT_TOLERANCE, appProperties.isMpFaultTolerance());
+        properties.put(MP_METRICS, appProperties.isMpMetrics());
         return properties;
     }
 

@@ -99,7 +99,8 @@ const form = document.getElementById('appForm');
 const inputToConfigurationMap = {
     'version': 'project-configuration',
     'javaVersion': 'jakarta-configuration',
-    'profile': 'payara-configuration',
+    'profile': 'microprofile-configuration',
+    'mpMetrics': 'payara-configuration'
 };
 
 formInputs.forEach((input, index) => {
@@ -145,8 +146,17 @@ form.addEventListener('submit', function (event) {
     const jsonObject = {};
     formInputs.forEach((input) => {
         const key = input.name;
-        const value = input.type === 'checkbox' ? input.checked.toString() : input.value;
-        jsonObject[key] = value;
+        if (input.type === 'checkbox') {
+            jsonObject[key] = input.checked.toString();
+        } else if (input.type === 'radio') {
+            if (!input.checked) {
+                return;
+            } else {
+                jsonObject[key] = input.value;
+            }
+        } else {
+            jsonObject[key] = input.value;
+        }
     });
 
     const requestOptions = {

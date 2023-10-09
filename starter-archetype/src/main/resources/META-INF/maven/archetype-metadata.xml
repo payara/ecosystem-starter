@@ -110,6 +110,22 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <defaultValue>false</defaultValue>
             <validationRegex>^(false|true)$</validationRegex>
         </requiredProperty>
+        <requiredProperty key="mpConfig">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
+        <requiredProperty key="mpOpenAPI">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
+        <requiredProperty key="mpFaultTolerance">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
+        <requiredProperty key="mpMetrics">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
     </requiredProperties>
     
     <fileSets>
@@ -144,6 +160,13 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
         </fileSet>
         <fileSet filtered="true" packaged="true">
             <directory>src/test/java</directory>
+        </fileSet>
+        <fileSet filtered="false" encoding="UTF-8">
+            <directory>src/main/resources/META-INF</directory>
+            <includes>
+                <include>beans.xml</include>
+                <include>microprofile-config.properties</include>
+            </includes>
         </fileSet>
         <fileSet filtered="false" encoding="UTF-8">
             <directory>src/test/resources</directory>

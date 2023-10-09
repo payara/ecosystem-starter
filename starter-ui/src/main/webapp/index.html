@@ -94,8 +94,44 @@
                                 <input class="form-check-input" type="radio" name="profile" id="core" value="core">
                                 <label class="form-check-label" for="core">Core Profile</label>
                             </div><br><br>
+
                         </div>
                          <button type="button" class="previous-button" data-previous="project-configuration">
+                            Previous <i class="bi bi-arrow-left"></i>
+                        </button>
+                        <button type="button" class="next-button" data-next="microprofile-configuration">
+                            Next <i class="bi bi-arrow-right"></i>
+                        </button>
+
+                    </div>
+                </div>
+                <div class="space"></div>
+                <!-- MicroProfile Settings Section -->
+                <div class="accordion-section">
+                    <div class="accordion-title" data-toggle="microprofile-configuration">
+                        <i class="bi previous-icon bi-circle"></i> MicroProfile<i class="bi next-icon"></i>
+                    </div>
+                    <div class="accordion-content" id="microprofile-configuration">
+
+                        <div class="accordion-sub-content">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="mpConfig" name="mpConfig" value="false">
+                                <label class="form-check-label" for="mpConfig">MicroProfile Config</label>
+                            </div><br><br>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="mpOpenAPI" name="mpOpenAPI" value="false">
+                                <label class="form-check-label" for="mpOpenAPI">MicroProfile Open API</label>
+                            </div><br><br>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="mpFaultTolerance" name="mpFaultTolerance" value="false">
+                                <label class="form-check-label" for="mpFaultTolerance">MicroProfile Fault Tolerance</label>
+                            </div><br><br>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="mpMetrics" name="mpMetrics" value="false">
+                                <label class="form-check-label" for="mpMetrics">MicroProfile Metrics</label>
+                            </div><br><br>
+                        </div>
+                        <button type="button" class="previous-button" data-previous="jakarta-configuration">
                             Previous <i class="bi bi-arrow-left"></i>
                         </button>
                         <button type="button" class="next-button" data-next="payara-configuration">
@@ -115,7 +151,7 @@
                         <div class="accordion-sub-content"> 
                             <label for="platform">Platform:</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="platform" id="server" value="server">
+                                <input class="form-check-input" type="radio" name="platform" id="server" value="server" checked>
                                 <label class="form-check-label" for="server">Payara Server</label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -131,7 +167,7 @@
                                 <label class="form-check-label" for="docker">Docker</label>
                             </div><br><br>
                         </div>
-                         <button type="button" class="previous-button" data-previous="jakarta-configuration">
+                         <button type="button" class="previous-button" data-previous="microprofile-configuration">
                             Previous <i class="bi bi-arrow-left"></i>
                         </button>
 
