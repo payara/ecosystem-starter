@@ -34,5 +34,10 @@
 #set ($baseImage = "payara/micro:${payaraVersion}")
 #end
 #end
+#if (${build} == 'maven')
+#set ($artifactParentDir = "target")
+#else
+#set ($artifactParentDir = "build/libs")
+#end
 FROM $baseImage
-COPY target/${artifactId}-${version}.war $DEPLOY_DIR
+COPY $artifactParentDir/${artifactId}-${version}.war $DEPLOY_DIR

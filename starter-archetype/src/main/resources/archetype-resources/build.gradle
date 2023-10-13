@@ -1,0 +1,88 @@
+#if (${jakartaEEVersion} == '10')
+#set ($eeApiVersion = "10.0.0")
+#elseif (${jakartaEEVersion} == '9.1')
+#set ($eeApiVersion = "9.1.0")
+#elseif (${jakartaEEVersion} == '9')
+#set ($eeApiVersion = "9.0.0")
+#else
+#set ($eeApiVersion = "8.0.0")
+#end
+#if (${profile} == 'core')
+#set ($eeArtifactId = "jakarta.jakartaee-core-api")
+#elseif (${profile} == 'web')
+#set ($eeArtifactId = "jakarta.jakartaee-web-api")
+#else
+#set ($eeArtifactId = "jakarta.jakartaee-api")
+#end
+#set ($payaraUrlPrefix = "https://repo1.maven.org/maven2/fish/payara/distributions")
+#if (${jakartaEEVersion} == '8')
+#set ($payaraHome = "payara5")
+#if (${profile} == 'web')
+#set ($payaraUrl = "${payaraUrlPrefix}/payara-web/${payaraVersion}/payara-web-${payaraVersion}.zip")
+#else
+#set ($payaraUrl = "${payaraUrlPrefix}/payara/${payaraVersion}/payara-${payaraVersion}.zip")
+#end
+#else
+#set ($payaraHome = "payara6")
+#if (${profile} == 'web')
+#set ($payaraUrl = "${payaraUrlPrefix}/payara-web/${payaraVersion}/payara-web-${payaraVersion}.zip")
+#else
+#set ($payaraUrl = "${payaraUrlPrefix}/payara/${payaraVersion}/payara-${payaraVersion}.zip")
+#end
+#end
+#if (!${payaraVersion})
+#if (${jakartaEEVersion} == '8')
+#set ($payaraVersion = "5.2022.5")
+#set ($microprofileVersion = "4.0")
+#else
+#set ($payaraVersion = "6.2023.8")
+#set ($microprofileVersion = "5.0")
+#end
+#end
+plugins {
+    id 'java'
+    id 'war'
+    id "fish.payara.micro-gradle-plugin" version "2.0.1"
+}
+
+group = '${groupId}'
+version = '${version}'
+
+#if (${javaVersion} == '8')
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+#else
+sourceCompatibility = JavaVersion.VERSION_${javaVersion}
+targetCompatibility = JavaVersion.VERSION_${javaVersion}
+#end
+
+#if ((${platform} == 'micro'))
+payaraMicro {
+    payaraVersion = '${payaraVersion}'
+    #if (${deployWar} == "true")deployWar = true #end
+    useUberJar = false
+    daemon = false
+    commandLineOptions = [port: 8080]
+    javaCommandLineOptions = [#if (${includeTests} == "true")Dtest: 'test123',#end ea:true] 
+}
+#end
+
+dependencies {
+    providedCompile 'jakarta.platform:${eeArtifactId}:${eeApiVersion}'
+    #if (${addMicroprofileApi} == "true")providedCompile 'org.eclipse.microprofile:microprofile:${microprofileVersion}'#end
+    #if (${addPayaraApi} == "true")providedCompile 'fish.payara.api:payara-api:${payaraVersion}'#end
+}
+
+repositories {
+    mavenCentral()
+}
+
+#if (${docker} == "true")
+task buildDockerImage(type: Exec) {
+    commandLine 'docker', 'build', '-t', '${groupId}/${artifactId}:${version}', '.'
+}
+
+task startDockerContainer(type: Exec, dependsOn: 'buildDockerImage') {
+    commandLine 'docker', 'run', '-p', '8080:8080', '${groupId}/${artifactId}:${version}'
+}
+#end

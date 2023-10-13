@@ -1,6 +1,7 @@
 package fish.payara.starter.resources;
 
 import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID;
+import static fish.payara.starter.resources.ApplicationConfiguration.BUILD;
 import static fish.payara.starter.resources.ApplicationConfiguration.DOCKER;
 import static fish.payara.starter.resources.ApplicationConfiguration.GROUP_ID;
 import static fish.payara.starter.resources.ApplicationConfiguration.INCLUDE_TESTS;
@@ -92,6 +93,7 @@ public class ApplicationGeneratorResource {
 
     private Properties buildMavenProperties(ApplicationConfiguration appProperties) {
         Properties properties = new Properties();
+        properties.put(BUILD, appProperties.getBuild());
         properties.put(GROUP_ID, appProperties.getGroupId());
         properties.put(ARTIFACT_ID, appProperties.getArtifactId());
         properties.put(VERSION, appProperties.getVersion());

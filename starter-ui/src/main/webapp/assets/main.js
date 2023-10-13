@@ -70,9 +70,28 @@ nextButtons.forEach(button => {
             nextContent.style.maxHeight = nextContent.scrollHeight + 'px';
             const nextTitle = nextContent.previousElementSibling;
             nextTitle.classList.add('active');
+            
+            updateLabelsForBuildSystem();
         }
     });
 });
+
+const buildInputs = document.querySelectorAll('input[name="build"]');
+buildInputs.forEach(input => {
+    input.addEventListener('click', updateLabelsForBuildSystem);
+});
+
+function updateLabelsForBuildSystem() {
+    const buildSystem = document.querySelector('input[name="build"]:checked').value;
+
+    if (buildSystem === 'maven') {
+        document.querySelector('label[for="groupId"]').textContent = 'Group ID:';
+        document.querySelector('label[for="artifactId"]').textContent = 'Artifact ID:';
+    } else if (buildSystem === 'gradle') {
+        document.querySelector('label[for="groupId"]').textContent = 'Group:';
+        document.querySelector('label[for="artifactId"]').textContent = 'Project Name:';
+    }
+}
 
 // Close all accordion sections
 function closeAllAccordions() {

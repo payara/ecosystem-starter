@@ -3,6 +3,7 @@ import org.apache.commons.io.FileUtils
 import groovy.text.SimpleTemplateEngine
 import groovy.io.FileType
 
+def build = request.properties["build"].trim()
 def profile = request.properties["profile"].trim()
 def jakartaEEVersion = request.properties["jakartaEEVersion"].trim()
 def javaVersion = request.properties["javaVersion"].trim()
@@ -17,7 +18,7 @@ def mpMetrics = request.properties["mpMetrics"].trim()
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
-generateSource(platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, outputDirectory)
+generateSource(build, platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, outputDirectory)
 bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
@@ -69,7 +70,13 @@ private void throwAndDelete(String message, File outputDirectory) {
     throw new RuntimeException(message);
 }
 
-private generateSource(platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, File outputDirectory) {
+private generateSource(build, platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, File outputDirectory) {
+    if (build.equals("maven")) {
+        FileUtils.forceDelete(new File(outputDirectory, "build.gradle"))
+        FileUtils.forceDelete(new File(outputDirectory, "settings.gradle"))
+    } else {
+        FileUtils.forceDelete(new File(outputDirectory, "pom.xml"))
+    }
     if (platform.equals("micro")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/test/resources"))
     }
