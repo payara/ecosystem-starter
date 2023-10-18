@@ -130,6 +130,10 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <defaultValue>false</defaultValue>
             <validationRegex>^(false|true)$</validationRegex>
         </requiredProperty>
+        <requiredProperty key="auth">
+            <defaultValue>none</defaultValue>
+            <validationRegex>^(none|formBasedAuth|jwtAuth)$</validationRegex>
+        </requiredProperty>
     </requiredProperties>
     
     <fileSets>

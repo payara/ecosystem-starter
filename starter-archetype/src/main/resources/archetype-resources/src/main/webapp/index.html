@@ -30,6 +30,26 @@
             The REST end-point is available at <a href="resources/hello">resources/hello</a>.
             You can supply a name to the end-point using a query parameter like this: <a href="resources/hello?name=John">resources/hello?name=John</a>
         </p>
+
+<% if (formBasedAuth) { %>
+        <h2>Secured RESTful Endpoints</h2>
+        <p>
+            Access secured RESTful endpoints:
+        </p>
+        <ul>
+            <li><a href="resources/protected">Secured Protected Resource</a></li>
+            <li><a href="resources/admin">Secured Admin Resource</a></li>
+        </ul>
+
+        <h2>Secure Pages</h2>
+        <p>
+            Explore the secured pages:
+        </p>
+        <ul>
+            <li><a href="secured/users.xhtml">Secure Users Page</a></li>
+            <li><a href="admin/admins.xhtml">Admin Page</a></li>
+        </ul>
+<% } %>
 <% if (mpOpenAPI) { %>        
         <h2>API Documentation</h2>
         <p>

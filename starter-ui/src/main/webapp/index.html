@@ -23,7 +23,7 @@
                     </div>
                     <div class="accordion-content" id="project-details">
                         <div class="accordion-sub-content">
-                             <label for="profile">Build:</label>
+                            <label for="profile">Build:</label>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="build" id="maven" value="maven" checked>
                                 <label class="form-check-label" for="maven">Maven</label>
@@ -180,9 +180,40 @@
                          <button type="button" class="previous-button" data-previous="microprofile-configuration">
                             Previous <i class="bi bi-arrow-left"></i>
                         </button>
+                        <button type="button" class="next-button" data-next="advance-configuration">
+                            Next <i class="bi bi-arrow-right"></i>
+                        </button>
 
                     </div>
                 </div>
+                
+                <div class="space"></div>
+                <!-- Advance Settings Section -->
+                <div class="accordion-section">
+                    <div class="accordion-title" data-toggle="advance-configuration">
+                        <i class="bi previous-icon bi-circle"></i> Advance Settings
+                    </div>
+                    <div class="accordion-content accordion-content-last" id="advance-configuration">
+
+                        <div class="accordion-sub-content"> 
+
+                            <label for="profile">Login:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="auth" id="none" value="none" checked>
+                                <label class="form-check-label" for="none">None</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="auth" id="formBasedAuth" value="formBasedAuth">
+                                <label class="form-check-label" for="formBasedAuth">Form Based Authentication</label>
+                            </div>
+                        </div>
+                        <button type="button" class="previous-button" data-previous="payara-configuration">
+                            Previous <i class="bi bi-arrow-left"></i>
+                        </button>
+
+                    </div>
+                </div>
+                
 
                 <button type="submit" class="generate-button">
                     Generate <i class="bi bi-download"></i>
