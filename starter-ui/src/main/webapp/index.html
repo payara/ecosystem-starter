@@ -22,7 +22,17 @@
                         <i class="bi current-icon bi-circle-half"></i> Project Details <i class="bi next-icon"></i>
                     </div>
                     <div class="accordion-content" id="project-details">
-                        <div class="accordion-sub-content"> 
+                        <div class="accordion-sub-content">
+                             <label for="profile">Build:</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="build" id="maven" value="maven" checked>
+                                <label class="form-check-label" for="maven">Maven</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="build" id="gradle" value="gradle">
+                                <label class="form-check-label" for="gradle">Gradle</label>
+                            </div>
+                             
                             <label for="groupId">Group ID:</label>
                             <input type="text" name="groupId" id="groupId" value="fish.payara"><br><br>
 

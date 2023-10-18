@@ -12,6 +12,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
  */
 public class ApplicationConfiguration {
 
+    public static final String BUILD = "build";
     public static final String GROUP_ID = "groupId";
     public static final String ARTIFACT_ID = "artifactId";
     public static final String VERSION = "version";
@@ -36,6 +37,9 @@ public class ApplicationConfiguration {
     public static final String ADD_PAYARA_API = "addPayaraApi";
     public static final String DEPLOY_WAR = "deployWar";
     public static final String CONTEXT_ROOT = "contextRoot";
+
+    @JsonbProperty(BUILD)
+    private String build = "build";
 
     @JsonbProperty(GROUP_ID)
     private String groupId = "fish.payara";
@@ -108,6 +112,14 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(CONTEXT_ROOT)
     private String contextRoot = "/";
+
+    public String getBuild() {
+        return build;
+    }
+
+    public void setBuild(String build) {
+        this.build = build;
+    }
 
     public String getGroupId() {
         return groupId;

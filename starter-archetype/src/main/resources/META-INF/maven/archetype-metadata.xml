@@ -44,6 +44,10 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   
     <requiredProperties>
+        <requiredProperty key="build">
+            <defaultValue>maven</defaultValue>
+            <validationRegex>^(maven|gradle)$</validationRegex>
+        </requiredProperty>
         <requiredProperty key="groupId">
             <defaultValue>fish.payara</defaultValue>
         </requiredProperty>
@@ -145,6 +149,8 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <directory></directory>
             <includes>
                 <include>pom.xml</include>
+                <include>build.gradle</include>
+                <include>settings.gradle</include>
                 <include>README.md</include>
                 <include>Dockerfile</include>
             </includes>

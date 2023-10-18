@@ -20,10 +20,18 @@ To run the application locally, follow these steps:
 3. Execute the following command:
 
 ```
+#if (${build} == 'maven')
 #if (${platform} == 'server')
 ./mvn clean package cargo:run
 #else
 ./mvn clean package payara-micro:start
+#end
+#else
+#if (${platform} == 'server')
+./gradle build
+#else
+./gradle build microStart
+#end
 #end
 ```
 
@@ -37,6 +45,7 @@ To run the application locally, follow these steps:
 #[[##]]# Building a Docker Image
 To build a Docker image for this application follow these steps:
 
+#if (${build} == 'maven')
 Open a terminal and navigate to the project's root directory. Make sure you have Docker installed and running on your system.
 Execute the following Maven command to build the Docker image:
 
@@ -52,6 +61,21 @@ Once the image is built, you can run a Docker container from the image using the
 docker run -p 8080:8080 ${artifactId}:${project.version}
 ```
 Replace ${artifactId}:${project.version} with the actual image name and tag.
+#else
+Open a terminal and navigate to the project's root directory. Make sure you have Docker installed and running on your system.
+Execute the following Gradle command to build the Docker image:
 
+```
+gradle buildDockerImage
+```
+
+This command will build a Docker image for your application.
+
+Once the image is built, you can run a Docker container from the image using the following command:
+
+```
+gradle startDockerContainer
+```
+#end
 That's it! You have successfully built and run the application in a Docker container.
 #end
