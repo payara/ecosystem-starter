@@ -4,12 +4,14 @@ import ${eePackage}.annotation.security.DeclareRoles;
 import ${eePackage}.enterprise.context.ApplicationScoped;
 import ${eePackage}.inject.Named;
 import ${eePackage}.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
-import ${eePackage}.security.enterprise.authentication.mechanism.http.LoginToContinue;
+import ${eePackage}.security.enterprise.authentication.mechanism.http.LoginToContinue;<% if (formAuthDB) { %>
 import ${eePackage}.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
-import ${eePackage}.security.enterprise.identitystore.Pbkdf2PasswordHash;
+import ${eePackage}.security.enterprise.identitystore.Pbkdf2PasswordHash;<% } %><% if (formAuthLDAP) { %>
+import ${eePackage}.security.enterprise.identitystore.LdapIdentityStoreDefinition;<% } %>
 import java.util.HashMap;
 import java.util.Map;
 
+<% if (formAuthDB) { %>
 @DatabaseIdentityStoreDefinition(
     callerQuery = "#{'select password from caller where name = ?'}",
     groupsQuery = "select group_name from caller_groups where caller_name = ?",
@@ -19,6 +21,14 @@ import java.util.Map;
         "${'${applicationConfig.hashAlgorithmParameters}'}"
     }
 )
+<% } %>
+<% if (formAuthLDAP) { %>
+@LdapIdentityStoreDefinition(
+    url = "ldap://localhost:33389/",
+    callerBaseDn = "ou=caller,dc=jsr375,dc=net",
+    groupSearchBase = "ou=group,dc=jsr375,dc=net"
+)
+<% } %>
 @FormAuthenticationMechanismDefinition(
     loginToContinue = @LoginToContinue(
         loginPage="/login.xhtml",
@@ -29,7 +39,7 @@ import java.util.Map;
 @ApplicationScoped
 @Named
 public class ApplicationConfig {
-
+<% if (formAuthDB) { %>
     public String[] getHashAlgorithmParameters() {
         return getHashAlgorithmParameterMap().entrySet()
                 .stream()
@@ -44,5 +54,5 @@ public class ApplicationConfig {
         parameters.put("Pbkdf2PasswordHash.SaltSizeBytes", "64");
         return parameters;
     }
-
+<% } %>
 }

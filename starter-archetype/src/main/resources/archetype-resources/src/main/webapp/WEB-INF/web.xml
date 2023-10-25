@@ -18,7 +18,7 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-<% if (formAuthFileRealm || formAuthDB) { %>
+<% if (formAuthFileRealm || formAuthDB || formAuthLDAP) { %>
     <security-constraint>
         <display-name>Secured pages</display-name>
         <web-resource-collection>

@@ -109,3 +109,20 @@ The application currently has two existing users with the following credentials:
 
 Use these credentials to log in and test the application.
 #end
+
+#if (${auth} == 'formAuthLDAP')
+#[[###]]# Existing Users for Form-Based Authentication with LDAP
+The application integrates with an embedded LDAP server, and you can adjust the LDAP user details for testing by modifying the "ldap-test.ldif" file located in the resources directory.
+
+By default, the application includes the following LDAP users for testing:
+
+- **User**: myuser
+  - **Password**: secret
+  - **Roles**: user
+
+- **Admin**: myadmin
+  - **Password**: secret
+  - **Roles**: admin, user
+
+Use these credentials to log in and test the application.
+#end

@@ -132,7 +132,7 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
         </requiredProperty>
         <requiredProperty key="auth">
             <defaultValue>none</defaultValue>
-            <validationRegex>^(none|formAuthFileRealm|formAuthDB)$</validationRegex>
+            <validationRegex>^(none|formAuthFileRealm|formAuthDB|formAuthLDAP)$</validationRegex>
         </requiredProperty>
     </requiredProperties>
     
@@ -172,11 +172,7 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <directory>src/test/java</directory>
         </fileSet>
         <fileSet filtered="false" encoding="UTF-8">
-            <directory>src/main/resources/META-INF</directory>
-            <includes>
-                <include>beans.xml</include>
-                <include>microprofile-config.properties</include>
-            </includes>
+            <directory>src/main/resources</directory>
         </fileSet>
         <fileSet filtered="false" encoding="UTF-8">
             <directory>src/test/resources</directory>

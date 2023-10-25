@@ -1,0 +1,54 @@
+dn: dc=net
+objectclass: top
+objectclass: dcObject
+objectclass: organization
+dc: net
+o: net
+
+dn: dc=jsr375,dc=net
+objectclass: top
+objectclass: dcObject
+objectclass: organization
+dc: jsr375
+o: jsr375
+
+dn: ou=caller,dc=jsr375,dc=net
+objectclass: top
+objectclass: organizationalUnit
+ou: caller
+
+dn: uid=myuser,ou=caller,dc=jsr375,dc=net
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: myuser
+cn: My User
+sn: MyUser
+userPassword: secret
+
+dn: uid=myadmin,ou=caller,dc=jsr375,dc=net
+objectclass: top
+objectclass: uidObject
+objectclass: person
+uid: myadmin
+cn: My Admin
+sn: MyAdmin
+userPassword: secret
+
+dn: ou=group,dc=jsr375,dc=net
+objectclass: top
+objectclass: organizationalUnit
+ou: group
+
+dn: cn=admin,ou=group,dc=jsr375,dc=net
+objectclass: top
+objectclass: groupOfNames
+cn: admin
+member: uid=myadmin,ou=caller,dc=jsr375,dc=net
+
+dn: cn=user,ou=group,dc=jsr375,dc=net
+objectclass: top
+objectclass: groupOfNames
+cn: user
+member: uid=myuser,ou=caller,dc=jsr375,dc=net
+member: uid=myadmin,ou=caller,dc=jsr375,dc=net
