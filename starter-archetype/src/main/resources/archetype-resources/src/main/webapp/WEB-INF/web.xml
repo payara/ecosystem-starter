@@ -18,7 +18,7 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-<% if (formBasedAuth) { %>
+<% if (formAuthFileRealm || formAuthDB) { %>
     <security-constraint>
         <display-name>Secured pages</display-name>
         <web-resource-collection>
@@ -41,14 +41,15 @@
             <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
-
+<% } %>
+<% if (formAuthFileRealm) { %>
     <login-config>
         <auth-method>FORM</auth-method>
         <!-- Default works with file realm -->
         <realm-name>file</realm-name>
         <form-login-config>
             <form-login-page>/login.xhtml</form-login-page>
-            <form-error-page>/login.xhtml</form-error-page>
+            <form-error-page>/login_error.xhtml</form-error-page>
         </form-login-config>
     </login-config>
     <security-role>

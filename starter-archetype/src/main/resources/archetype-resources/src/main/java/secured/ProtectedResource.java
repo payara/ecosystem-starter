@@ -1,8 +1,10 @@
 package ${package}.secured;
 
 import ${eePackage}.annotation.security.RolesAllowed;
+import ${eePackage}.servlet.http.HttpServletRequest;
 import ${eePackage}.ws.rs.GET;
 import ${eePackage}.ws.rs.Path;
+import ${eePackage}.ws.rs.core.Context;
 import ${eePackage}.ws.rs.core.Response;
 
 /**
@@ -10,13 +12,22 @@ import ${eePackage}.ws.rs.core.Response;
  *
  */
 @Path("protected")
+@RolesAllowed("user")
 public class ProtectedResource {
-    
+
+    @Context
+    private HttpServletRequest request;
+
     @GET
-    @RolesAllowed("user")
     public Response info() {
+        String webName = null;
+        if (request.getUserPrincipal() != null) {
+            webName = request.getUserPrincipal().getName();
+        }
         return Response
-                .ok("Protected information for users in role 'user'.")
+                .ok("Protected information for user:" + webName
+                        + " | web user has role \"user\": " + request.isUserInRole("user")
+                        + " | web user has role \"admin\": " + request.isUserInRole("admin"))
                 .build();
     }
 }

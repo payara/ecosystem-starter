@@ -82,9 +82,12 @@ gradle startDockerContainer
 ```
 #end
 
-#if (${auth} == 'formBasedAuth')
-#[[###]]# Adding a User for Form-Based Authentication
-If you are using form-based authentication, you can create a user with the following command:
+That's it! You have successfully built and run the application in a Docker container.
+#end
+
+#if (${auth} == 'formAuthFileRealm')
+#[[###]]# Adding a User for Form-Based Authentication with File Realm
+If you are using form-based authentication with file realm, you can create a user with the following command:
 
 ```
 asadmin create-file-user --groups=user --target=server-config --authrealmname=file myuser
@@ -92,5 +95,17 @@ asadmin create-file-user --groups=user --target=server-config --authrealmname=fi
 This command creates a user with the username `myuser` and assigns them to the `user` group. You can adjust the username and group as needed for your authentication setup.
 #end
 
-That's it! You have successfully built and run the application in a Docker container.
+#if (${auth} == 'formAuthDB')
+#[[###]]# Existing Users for Form-Based Authentication with Database 
+The application currently has two existing users with the following credentials:
+
+- **User**: myuser
+  - **Password**: secret
+  - **Roles**: user
+
+- **Admin**: myadmin
+  - **Password**: secret
+  - **Roles**: admin, user
+
+Use these credentials to log in and test the application.
 #end

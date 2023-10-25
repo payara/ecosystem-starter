@@ -97,17 +97,24 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     if (!mpOpenAPI.equalsIgnoreCase("true")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/main/webapp/swagger.html"))
     }
-    if (!auth.equals("formBasedAuth")) {
+    if (!auth.equals("formAuthFileRealm") && !auth.equals("formAuthDB")) {
         def packagePath = _package.replaceAll("\\.", "/")
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/AdminResource.java"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/LogoutResource.java"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/ProtectedResource.java"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/login.xhtml"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/login_error.xhtml"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/admin/admins.xhtml"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured/users.xhtml"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/admin"))
+    }
+    
+    if (!auth.equals("formAuthDB")) {
+        def packagePath = _package.replaceAll("\\.", "/")
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/ApplicationConfig.java"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/DatabaseSetup.java"))
     }
 }
 
@@ -117,7 +124,8 @@ private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOp
 
     def binding = [eePackage: eePackage, \
         'mpConfig': mpConfig, 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean(),
-        'formBasedAuth': auth.equals("formBasedAuth")
+        'formAuthFileRealm': auth.equals("formAuthFileRealm"),
+        'formAuthDB': auth.equals("formAuthDB")
     ]
     def engine = new SimpleTemplateEngine()
 
