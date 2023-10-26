@@ -99,6 +99,19 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     }
     
     def packagePath = _package.replaceAll("\\.", "/")
+
+    if (!auth.equals("formAuthDB")) {
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/DatabaseSetup.java"))
+    }
+    
+    if (!auth.equals("formAuthLDAP")) {
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/LdapSetup.java"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/resources/ldap-test.ldif"))
+    }
+
+    if (!auth.equals("formAuthDB") && !auth.equals("formAuthLDAP")) {
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/ApplicationConfig.java"))
+    }
     
     if (!auth.equals("formAuthFileRealm") && !auth.equals("formAuthDB") && !auth.equals("formAuthLDAP")) {
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/AdminResource.java"))
@@ -111,19 +124,6 @@ private generateSource(build, _package, platform, jakartaEEVersion,
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured/users.xhtml"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/admin"))
-    }
-    
-    if (!auth.equals("formAuthDB")) {
-        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/DatabaseSetup.java"))
-    }
-    
-    if (!auth.equals("formAuthLDAP")) {
-        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/LdapSetup.java"))
-        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/resources/ldap-test.ldif"))
-    }
-
-    if (!auth.equals("formAuthDB") && !auth.equals("formAuthLDAP")) {
-        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/ApplicationConfig.java"))
     }
 }
 
