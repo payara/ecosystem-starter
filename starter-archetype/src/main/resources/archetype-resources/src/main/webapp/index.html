@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Welcome to Payara</title>
-        
+
         <style>
             body {
                 background-image: linear-gradient(rgba(0,44,62), rgba(0,44,62,.8), rgba(0,44,62));
@@ -30,13 +30,34 @@
             The REST end-point is available at <a href="resources/hello">resources/hello</a>.
             You can supply a name to the end-point using a query parameter like this: <a href="resources/hello?name=John">resources/hello?name=John</a>
         </p>
-<% if (mpOpenAPI) { %>        
+
+        <% if (formAuthFileRealm || formAuthDB || formAuthLDAP) { %>
+        <h2>Secure Pages</h2>
+        <p>
+            Explore the secured pages:
+        </p>
+        <ul>
+            <li><a href="secured/users.xhtml">Secure Protected Page</a></li>
+            <li><a href="admin/admins.xhtml">Admin Page</a></li>
+        </ul>
+
+        <h2>Secured RESTful Endpoints</h2>
+        <p>
+            Access secured RESTful endpoints:
+        </p>
+        <ul>
+            <li><a href="resources/protected">Secured Protected Resource</a></li>
+            <li><a href="resources/admin">Secured Admin Resource</a></li>
+        </ul>
+        <% } %>
+
+        <% if (mpOpenAPI) { %>        
         <h2>API Documentation</h2>
         <p>
             Explore the API documentation for the RESTful service using Swagger and OpenAPI. You can access the documentation at the following link:
             <a href="swagger.html">Swagger and OpenAPI Documentation</a>
         </p>
-<% } %>
+        <% } %>
         <h2>Why Choose Payara?</h2>
         <p>
             Dive into the world of Jakarta EE with Payara. Our robust application server empowers you to build and deploy scalable, enterprise-ready solutions with ease.
