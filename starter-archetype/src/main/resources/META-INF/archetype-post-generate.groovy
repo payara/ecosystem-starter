@@ -132,7 +132,7 @@ private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOp
     println "Binding EE package: $eePackage"
 
     def binding = [eePackage: eePackage, \
-        'mpConfig': mpConfig, 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean(),
+        'mpConfig': mpConfig.toBoolean(), 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean(),
         'formAuthFileRealm': auth.equals("formAuthFileRealm"),
         'formAuthDB': auth.equals("formAuthDB"),
         'formAuthLDAP': auth.equals("formAuthLDAP")
