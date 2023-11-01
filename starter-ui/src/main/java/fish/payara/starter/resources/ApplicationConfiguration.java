@@ -37,9 +37,10 @@ public class ApplicationConfiguration {
     public static final String ADD_PAYARA_API = "addPayaraApi";
     public static final String DEPLOY_WAR = "deployWar";
     public static final String CONTEXT_ROOT = "contextRoot";
+    public static final String AUTH = "auth";
 
     @JsonbProperty(BUILD)
-    private String build = "build";
+    private String build = "maven";
 
     @JsonbProperty(GROUP_ID)
     private String groupId = "fish.payara";
@@ -112,6 +113,9 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(CONTEXT_ROOT)
     private String contextRoot = "/";
+
+    @JsonbProperty(AUTH)
+    private String auth = "none";
 
     public String getBuild() {
         return build;
@@ -311,6 +315,14 @@ public class ApplicationConfiguration {
 
     public void setMpMetrics(boolean mpMetrics) {
         this.mpMetrics = mpMetrics;
+    }
+
+    public String getAuth() {
+        return auth;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
     }
 
 }

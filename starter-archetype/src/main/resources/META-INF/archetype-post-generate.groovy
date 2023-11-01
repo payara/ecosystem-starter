@@ -4,6 +4,7 @@ import groovy.text.SimpleTemplateEngine
 import groovy.io.FileType
 
 def build = request.properties["build"].trim()
+def _package = request.properties["package"].trim()
 def profile = request.properties["profile"].trim()
 def jakartaEEVersion = request.properties["jakartaEEVersion"].trim()
 def javaVersion = request.properties["javaVersion"].trim()
@@ -14,12 +15,13 @@ def mpConfig = request.properties["mpConfig"].trim()
 def mpOpenAPI = request.properties["mpOpenAPI"].trim()
 def mpFaultTolerance = request.properties["mpFaultTolerance"].trim()
 def mpMetrics = request.properties["mpMetrics"].trim()
+def auth = request.properties["auth"].trim()
 
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
-generateSource(build, platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, outputDirectory)
-bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, outputDirectory)
+generateSource(build, _package, platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, auth, outputDirectory)
+bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, auth, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
     boolean deleteDirectory = true;
@@ -70,7 +72,10 @@ private void throwAndDelete(String message, File outputDirectory) {
     throw new RuntimeException(message);
 }
 
-private generateSource(build, platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, File outputDirectory) {
+private generateSource(build, _package, platform, jakartaEEVersion,
+    includeTests, docker, mpConfig, mpOpenAPI,
+    auth, File outputDirectory) {
+
     if (build.equals("maven")) {
         FileUtils.forceDelete(new File(outputDirectory, "build.gradle"))
         FileUtils.forceDelete(new File(outputDirectory, "settings.gradle"))
@@ -87,19 +92,51 @@ private generateSource(build, platform, jakartaEEVersion, includeTests, docker, 
         FileUtils.forceDelete(new File(outputDirectory, "Dockerfile"))
     }
     if (!mpConfig.equalsIgnoreCase("true")) {
-        FileUtils.forceDelete(new File(outputDirectory, "src/main/resources/META-INF/beans.xml"))
         FileUtils.forceDelete(new File(outputDirectory, "src/main/resources/META-INF/microprofile-config.properties"))
     }
     if (!mpOpenAPI.equalsIgnoreCase("true")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/main/webapp/swagger.html"))
     }
+    
+    def packagePath = _package.replaceAll("\\.", "/")
+
+    if (!auth.equals("formAuthDB")) {
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/DatabaseSetup.java"))
+    }
+    
+    if (!auth.equals("formAuthLDAP")) {
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/LdapSetup.java"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/resources/ldap-test.ldif"))
+    }
+
+    if (!auth.equals("formAuthDB") && !auth.equals("formAuthLDAP")) {
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/ApplicationConfig.java"))
+    }
+    
+    if (!auth.equals("formAuthFileRealm") && !auth.equals("formAuthDB") && !auth.equals("formAuthLDAP")) {
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/AdminResource.java"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/LogoutResource.java"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/ProtectedResource.java"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/login.xhtml"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/login_error.xhtml"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/admin/admins.xhtml"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured/users.xhtml"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured"))
+        FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/admin"))
+    }
 }
 
-private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, File outputDirectory) {
+private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, File outputDirectory) {
     def eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
     println "Binding EE package: $eePackage"
 
-    def binding = [eePackage: eePackage, 'mpConfig': mpConfig, 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean()]
+    def binding = [eePackage: eePackage, \
+        'mpConfig': mpConfig, 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean(),
+        'formAuthFileRealm': auth.equals("formAuthFileRealm"),
+        'formAuthDB': auth.equals("formAuthDB"),
+        'formAuthLDAP': auth.equals("formAuthLDAP")
+    ]
     def engine = new SimpleTemplateEngine()
 
     outputDirectory.eachFileRecurse(FileType.FILES) { file ->
