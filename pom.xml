@@ -45,6 +45,7 @@
     <version>1.0-beta1</version>
     <packaging>pom</packaging>
     <name>Payara Starter Parent</name>
+    <description>Payara Starter Parent</description>
     <url>http://github.com/payara/ecosystem-starter</url>
     <scm>
         <connection>scm:git:git://github.com/payara/ecosystem-starter.git</connection>
@@ -59,6 +60,14 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <id>gaurav.gupta</id>
+            <name>Gaurav Gupta</name>
+            <email>gaurav.gupta@payara.fish</email>
+            <url>https://github.com/jgauravgupta</url>
+        </developer>
+    </developers>
     
     <modules>
         <module>starter-archetype</module>

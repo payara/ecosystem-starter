@@ -44,7 +44,7 @@
     <version>1.0-beta1</version>
     <packaging>war</packaging>
     <name>Payara Starter UI</name>
-    <description>Archetype for Payara Micro application.</description>
+    <description>Payara Starter UI</description>
     <parent>
         <groupId>fish.payara.starter</groupId>
         <artifactId>payara-starter-parent</artifactId>
