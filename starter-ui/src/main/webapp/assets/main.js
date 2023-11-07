@@ -1,80 +1,80 @@
 
 // JavaScript to handle accordion toggling
-const accordionTitles = document.querySelectorAll('.accordion-title');
-const prevButtons = document.querySelectorAll('.previous-button');
-const nextButtons = document.querySelectorAll('.next-button');
+// const accordionTitles = document.querySelectorAll('.accordion-title');
+// const prevButtons = document.querySelectorAll('.previous-button');
+// const nextButtons = document.querySelectorAll('.next-button');
 
 
-accordionTitles.forEach(title => {
-    title.addEventListener('click', () => {
-        const contentId = title.getAttribute('data-toggle');
-        const content = document.getElementById(contentId);
+// accordionTitles.forEach(title => {
+//     title.addEventListener('click', () => {
+//         const contentId = title.getAttribute('data-toggle');
+//         const content = document.getElementById(contentId);
 
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-            title.classList.remove('active');
-        } else {
-            closeAllAccordions();
-            content.style.maxHeight = content.scrollHeight + 'px';
-            title.classList.add('active');
-        }
+//         if (content.style.maxHeight) {
+//             content.style.maxHeight = null;
+//             title.classList.remove('active');
+//         } else {
+//             closeAllAccordions();
+//             content.style.maxHeight = content.scrollHeight + 'px';
+//             title.classList.add('active');
+//         }
 
-        updateAccordionIcons();
-    });
-});
+//         updateAccordionIcons();
+//     });
+// });
 
-function updateAccordionIcons() {
-    const activeIndex = Array.from(accordionTitles).findIndex((title) =>
-        title.classList.contains('active')
-    );
+// function updateAccordionIcons() {
+//     const activeIndex = Array.from(accordionTitles).findIndex((title) =>
+//         title.classList.contains('active')
+//     );
 
-    accordionTitles.forEach((title, index) => {
-        const icon = title.querySelector('.bi');
-        if (index === activeIndex) {
-            icon.classList.remove('bi-circle', 'bi-circle-fill');
-            icon.classList.add('bi-circle-half');
-        } else if (index < activeIndex) {
-            icon.classList.remove('bi-circle-half', 'bi-circle');
-            icon.classList.add('bi-circle-fill');
-        } else {
-            icon.classList.remove('bi-circle-half', 'bi-circle-fill');
-            icon.classList.add('bi-circle');
-        }
-    });
-}
+//     accordionTitles.forEach((title, index) => {
+//         const icon = title.querySelector('.bi');
+//         if (index === activeIndex) {
+//             icon.classList.remove('bi-circle', 'bi-circle-fill');
+//             icon.classList.add('bi-circle-half');
+//         } else if (index < activeIndex) {
+//             icon.classList.remove('bi-circle-half', 'bi-circle');
+//             icon.classList.add('bi-circle-fill');
+//         } else {
+//             icon.classList.remove('bi-circle-half', 'bi-circle-fill');
+//             icon.classList.add('bi-circle');
+//         }
+//     });
+// }
 
 // Call the function to set initial icon states
 
 
-prevButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const prevContentId = button.getAttribute('data-previous');
-        const prevContent = document.getElementById(prevContentId);
+// prevButtons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         const prevContentId = button.getAttribute('data-previous');
+//         const prevContent = document.getElementById(prevContentId);
 
-        if (prevContent) {
-            closeAllAccordions();
-            prevContent.style.maxHeight = prevContent.scrollHeight + 'px';
-            const prevTitle = prevContent.previousElementSibling;
-            prevTitle.classList.add('active');
-        }
-    });
-});
+//         if (prevContent) {
+//             closeAllAccordions();
+//             prevContent.style.maxHeight = prevContent.scrollHeight + 'px';
+//             const prevTitle = prevContent.previousElementSibling;
+//             prevTitle.classList.add('active');
+//         }
+//     });
+// });
 
-nextButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const nextContentId = button.getAttribute('data-next');
-        const nextContent = document.getElementById(nextContentId);
+// nextButtons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         const nextContentId = button.getAttribute('data-next');
+//         const nextContent = document.getElementById(nextContentId);
 
-        if (nextContent) {
-            closeAllAccordions();
-            nextContent.style.maxHeight = nextContent.scrollHeight + 'px';
-            const nextTitle = nextContent.previousElementSibling;
-            nextTitle.classList.add('active');
+//         if (nextContent) {
+//             closeAllAccordions();
+//             nextContent.style.maxHeight = nextContent.scrollHeight + 'px';
+//             const nextTitle = nextContent.previousElementSibling;
+//             nextTitle.classList.add('active');
             
-            updateLabelsForBuildSystem();
-        }
-    });
-});
+//             updateLabelsForBuildSystem();
+//         }
+//     });
+// });
 
 const buildInputs = document.querySelectorAll('input[name="build"]');
 buildInputs.forEach(input => {
@@ -104,11 +104,11 @@ function closeAllAccordions() {
 }
 
 // Open the first accordion by default
-const defaultAccordion = document.getElementById('project-details');
-const defaultAccordionTitle = defaultAccordion.previousElementSibling;
-defaultAccordion.style.maxHeight = defaultAccordion.scrollHeight + 'px';
-defaultAccordionTitle.classList.add('active');
-updateAccordionIcons();
+// const defaultAccordion = document.getElementById('project-details');
+// const defaultAccordionTitle = defaultAccordion.previousElementSibling;
+// defaultAccordion.style.maxHeight = defaultAccordion.scrollHeight + 'px';
+// defaultAccordionTitle.classList.add('active');
+// updateAccordionIcons();
 
 
 // Get all the input fields in the form
@@ -140,7 +140,7 @@ formInputs.forEach((input, index) => {
                         configurationContent.style.maxHeight = configurationContent.scrollHeight + 'px';
                         configurationAccordionTitle.classList.add('active');
                     }
-                    updateAccordionIcons();
+                    // updateAccordionIcons();
                 }
 
                 formInputs[index + 1].focus();
