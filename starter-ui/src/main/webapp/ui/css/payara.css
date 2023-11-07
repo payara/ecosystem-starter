@@ -1,0 +1,6270 @@
+/*! Payara Pattern Library version: 0.51.2 */
+/*! DO NOT MODIFY THIS FILE, CHANGES WILL BE OVERWRITTEN! */
+
+/* Reset */
+
+	html {
+		/* Normalise box-sizing. */
+		box-sizing: border-box;
+
+		/* Give everything a safe base font. */
+		font-family: Helvetica, Arial, sans-serif;
+
+		/* Resets the base font to 10px, this is an easier starting point for sizing 
+		text with REMs. */
+		font-size: 62.5%;
+	}
+	/* 1600 / 16px. We measure in EMs so that the scale of the text is taken 
+	   into account. */
+	@media only screen and (min-width: 100em) {
+		html {
+			font-size: 70.3125%;
+		}
+	}
+	@media screen and (prefers-reduced-motion: no-preference) {
+		html {
+			scroll-behavior: smooth;
+		}
+	}
+	/* Normalise box-sizing, part 2. Inheritance makes the rare occurance when 
+		content-box might be used not be overridden with border-box. */
+	*, *:before, *:after {
+		box-sizing: inherit;
+	}
+	/* Fixes an issue where open details elements default to content-box, 
+		which then breaks sizing on icons and form elements. See CLOUD-2138. */
+	details[open] > *, details[open] > *:before, details[open] > *:after {
+		box-sizing: border-box;
+	}
+	img {
+		display: block;
+		max-width: 100%;
+		height: auto;
+		border: none;
+	}
+	/* Since we always style these we don't need to test for the existence of 
+	   classes. */
+	body, 
+	h1, h2, h3, h4, h5, h6,
+	p, ul, ol,
+	dl, dt, dd,
+	blockquote, cite {
+		font-weight: normal;
+		font-size: 1em;
+		font-style: normal;
+		margin: 0;
+		padding: 0;
+	}
+	ul, ol {
+		list-style-type: none;
+	}
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		border: none;
+	}
+	th {
+		font-weight: normal;
+	}
+	pre {
+		font-size: 2ex;	
+		margin: 0;
+		tab-size: 4;
+	}
+	code {
+		font-size: 2ex;
+	}
+
+	/* For safety only reset buttons that have a class attached. */
+	/* For v1: change to button */
+	button[class] {
+		cursor: pointer;
+		-webkit-appearance: none;
+	}
+
+	input, 
+	textarea,
+	select {
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		margin: 0;
+		outline: 0;
+		-webkit-appearance: none;
+	}
+
+	/* This is hacky and we shouldn't be showing desfault checkboxes but whilst we are... */
+	/* For v1: remove this */
+	input[type=checkbox] {
+		appearance: auto;
+		-webkit-appearance: checkbox;
+	}
+
+	fieldset {
+		border: 0;
+		padding: 0;
+	}
+	legend {
+		padding: 0;
+	}
+
+
+
+/* Colours */
+
+	:root {
+
+		/* Primary Payara Colours. */
+		--tango: 240,152,27;
+		--midnight: 0,44,62;
+
+		/* Secondary Payara Colours. */
+		--smurf: 5,152,214;
+		--basalt: 50,68,74;
+		--concrete: 218,224,226;
+
+		/* Statuses, can be paired with white text to comply with AA a11y. */
+		--cherry: 155,18,0;		/* Error */
+		--frog: 0,103,41;		/* Success */
+
+		--cherry-on-dark: 255,150,130;
+		--cherry-on-dark: 255,86,65;	/* This should not be used for text colour, more for edge cases like error borders on form fields. */
+		/* --frog-on-dark:  */
+
+		/* Used for dark mode, shadows, etc. */
+		--coal: 23,24,24;		/* Primarily used for dark mode background. */
+		--jet: 15,15,15;
+		--onyx: 11,11,11;		/* Header and button text. */
+
+		--post-it: 244,244,52;
+
+		--marmalade: 244,74,2;
+		--gecko: 98,196,0;
+		--plum: 170,0,250;
+		--candy: 255,66,180;
+		--mud: 152,73,0;
+		--slate: 152,147,138;
+		--ortolan: 0,53,241;
+	}
+
+
+	.color--marmalade {
+		color: rgb(244,74,2) !important;
+		color: rgb(var(--marmalade)) !important;
+	}
+	.color-bk--marmalade {
+		background: rgb(244,74,2) !important;
+		background: rgb(var(--marmalade)) !important;
+	}
+	.color-fill--marmalade {
+		fill: rgb(244,74,2) !important;
+		fill: rgb(var(--marmalade)) !important;
+	}
+
+
+	.color--gecko {
+		color: rgb(98,196,0) !important;
+		color: rgb(var(--gecko)) !important;
+	}
+	.color-bk--gecko {
+		background: rgb(98,196,0) !important;
+		background: rgb(var(--gecko)) !important;
+	}
+	.color-fill--gecko {
+		fill: rgb(98,196,0) !important;
+		fill: rgb(var(--gecko)) !important;
+	}
+
+
+	.color--plum {
+		color: rgb(170,0,250) !important;
+		color: rgb(var(--plum)) !important;
+	}
+	.color-bk--plum {
+		background: rgb(170,0,250) !important;
+		background: rgb(var(--plum)) !important;
+	}
+	.color-fill--plum {
+		fill: rgb(170,0,250) !important;
+		fill: rgb(var(--plum)) !important;
+	}
+
+
+	.color--candy {
+		color: rgb(255,66,180) !important;
+		color: rgb(var(--candy)) !important;
+	}
+	.color-bk--candy {
+		background: rgb(255,66,180) !important;
+		background: rgb(var(--candy)) !important;
+	}
+	.color-fill--candy {
+		fill: rgb(255,66,180) !important;
+		fill: rgb(var(--candy)) !important;
+	}
+
+
+	.color--mud {
+		color: rgb(152,73,0) !important;
+		color: rgb(var(--mud)) !important;
+	}
+	.color-bk--mud {
+		background: rgb(152,73,0) !important;
+		background: rgb(var(--mud)) !important;
+	}
+	.color-fill--mud {
+		fill: rgb(152,73,0) !important;
+		fill: rgb(var(--mud)) !important;
+	}
+
+
+	.color--slate {
+		color: rgb(152,147,138) !important;
+		color: rgb(var(--slate)) !important;
+	}
+	.color-bk--slate {
+		background: rgb(152,147,138) !important;
+		background: rgb(var(--slate)) !important;
+	}
+	.color-fill--slate {
+		fill: rgb(152,147,138) !important;
+		fill: rgb(var(--slate)) !important;
+	}
+
+
+	.color--ortolan {
+		color: rgb(0,53,241) !important;
+		color: rgb(var(--ortolan)) !important;
+	}
+	.color-bk--ortolan {
+		background: rgb(0,53,241) !important;
+		background: rgb(var(--ortolan)) !important;
+	}
+	.color-fill--ortolan {
+		fill: rgb(0,53,241) !important;
+		fill: rgb(var(--ortolan)) !important;
+	}
+
+
+	.color--tango {
+		color: rgb(240,152,27) !important;
+		color: rgb(var(--tango)) !important;
+	}
+	.color-bk--tango {
+		background: rgb(240,152,27) !important;
+		background: rgb(var(--tango)) !important;
+	}
+	.color-fill--tango {
+		fill: rgb(240,152,27) !important;
+		fill: rgb(var(--tango)) !important;
+	}
+
+	.color--midnight {
+		color: rgb(0,44,62) !important;
+		color: rgb(var(--midnight)) !important;
+	}
+	.color-bk--midnight {
+		background: rgb(0,44,62) !important;
+		background: rgb(var(--midnight)) !important;
+	}
+	.color-fill--midnight {
+		fill: rgb(0,44,62) !important;
+		fill: rgb(var(--midnight)) !important;
+	}
+
+	.color--smurf {
+		color: rgb(5,152,214) !important;
+		color: rgb(var(--smurf)) !important;
+	}
+	.color-bk--smurf {
+		background: rgb(5,152,214) !important;
+		background: rgb(var(--smurf)) !important;
+	}
+	.color-fill--smurf {
+		fill: rgb(5,152,214) !important;
+		fill: rgb(var(--smurf)) !important;
+	}
+
+	.color--cherry {
+		color: rgb(155,18,0) !important;
+		color: rgb(var(--cherry)) !important;
+	}
+	.color-bk--cherry {
+		background: rgb(155,18,0) !important;
+		background: rgb(var(--cherry)) !important;
+	}
+	.color-fill--cherry {
+		fill: rgb(155,18,0) !important;
+		fill: rgb(var(--cherry)) !important;
+	}
+
+	.color--frog {
+		color: rgb(0,103,41) !important;
+		color: rgb(var(--frog)) !important;
+	}
+	.color-bk--frog {
+		background: rgb(0,103,41) !important;
+		background: rgb(var(--frog)) !important;
+	}
+	.color-fill--frog {
+		fill: rgb(0,103,41) !important;
+		fill: rgb(var(--frog)) !important;
+	}
+
+
+	
+/* Fonts */
+
+	/* Normal */
+	@font-face {
+		font-family: 'IBM Plex Sans';
+		font-style: normal;
+		font-weight: 400;
+		/* Uses the visitor's locally installed copy if available. */
+		src: local('IBM Plex Sans'), local('IBMPlexSans'),
+			/* Super Modern Browsers */
+			url('../fonts/ibm-plex-sans-v2-latin-regular.woff2') format('woff2'), 
+			/* Modern Browsers */
+			url('../fonts/ibm-plex-sans-v2-latin-regular.woff') format('woff');
+		font-display: swap;
+	}
+
+	/* Normal Italic */
+	@font-face {
+		font-family: 'IBM Plex Sans';
+		font-style: italic;
+		font-weight: 400;
+		src: local('IBM Plex Sans Italic'), local('IBMPlexSans-Italic'),
+			url('../fonts/ibm-plex-sans-v2-latin-italic.woff2') format('woff2'),
+			url('../fonts/ibm-plex-sans-v2-latin-italic.woff') format('woff');
+		font-display: swap;
+	}
+	
+	/* Bold */
+	@font-face {
+		font-family: 'IBM Plex Sans';
+		font-style: normal;
+		font-weight: 700;
+		src: local('IBM Plex Sans Bold'), local('IBMPlexSans-Bold'),
+			url('../fonts/ibm-plex-sans-v2-latin-700.woff2') format('woff2'),
+			url('../fonts/ibm-plex-sans-v2-latin-700.woff') format('woff');
+		font-display: swap;
+	}
+
+	/* Bold Italic */
+	@font-face {
+		font-family: 'IBM Plex Sans';
+		font-style: italic;
+		font-weight: 700;
+		src: local('IBM Plex Sans Bold Italic'), local('IBMPlexSans-BoldItalic'),
+			url('../fonts/ibm-plex-sans-v2-latin-700italic.woff2') format('woff2'),
+			url('../fonts/ibm-plex-sans-v2-latin-700italic.woff') format('woff');
+		font-display: swap;
+	}
+
+	/* Semi-bold */
+	@font-face {
+		font-family: 'IBM Plex Sans';
+		font-style: normal;
+		font-weight: 500;
+		src: local('IBM Plex Sans Medium'), local('IBMPlexSans-Medium'),
+			url('../fonts/ibm-plex-sans-v2-latin-500.woff2') format('woff2'),
+			url('../fonts/ibm-plex-sans-v2-latin-500.woff') format('woff');
+		font-display: swap;
+	}
+
+	/* Semi-bold Italic */
+	@font-face {
+		font-family: 'IBM Plex Sans';
+		font-style: italic;
+		font-weight: 500;
+		src: local('IBM Plex Sans Medium Italic'), local('IBMPlexSans-MediumItalic'),
+			url('../fonts/ibm-plex-sans-v2-latin-500italic.woff2') format('woff2'),
+			url('../fonts/ibm-plex-sans-v2-latin-500italic.woff') format('woff');
+		font-display: swap;
+	}
+
+	body {
+		font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif;
+		font-size: 1.6rem;
+
+		/* We don't put a unit type here as this way the browser keeps it as a 
+		   multiple of the text size. */
+		line-height: 1.5;
+	}
+
+
+
+/* Paragraph */
+
+	p:not([class]), .p {
+		margin-bottom: 1.6rem;
+	}
+	p:not([class]):last-child, .p:last-child {
+		margin-bottom: 0;
+	}
+
+
+	
+/* Titles */
+
+	/* We apply the styling to either H elements that have no explicit styling 
+	   added or where a specific style is needed, never to both. This is so we can 
+	   make an H2 look like an H1 wehilst keeping the correct document structure. */
+	h1:not([class]), .h1 {
+		font-size: 3.2rem;
+		font-weight: 700;
+		margin-bottom: 1.6rem;
+		margin-top: 3.2rem;
+	}
+	h2:not([class]), .h2 {
+		font-size: 2.6rem;
+		font-weight: 700;
+		margin-bottom: 1.6rem;
+		margin-top: 3.2rem;
+	}
+	h3:not([class]), .h3 {
+		font-size: 2rem;
+		font-weight: 700;
+		margin-bottom: 1.6rem;
+		margin-top: 3.2rem;
+	}
+	h4:not([class]), .h4 {
+		font-size: 1.6rem;
+		font-weight: 700;
+		margin-bottom: 1.6rem;
+		margin-top: 2.4rem;
+	}
+	h5:not([class]), .h5 {
+		font-size: 1.6rem;
+		font-weight: 700;
+	} 
+	h6:not([class]), .h6 {
+		font-size: 1.6rem;
+		font-weight: 700;
+	}
+
+	/* Squish the excessive margins when titles are placed next to each other. */
+	h1 + h1, h1 + h2, h1 + h3, h1 + h4, h1 + h5, h1 + h6,
+	h2 + h1, h2 + h2, h2 + h3, h2 + h4, h2 + h5, h2 + h6,
+	h3 + h1, h3 + h2, h3 + h3, h3 + h4, h3 + h5, h3 + h6,
+	h4 + h1, h4 + h2, h4 + h3, h4 + h4, h4 + h5, h4 + h6,
+	h5 + h1, h5 + h2, h5 + h3, h5 + h4, h5 + h5, h5 + h6,
+	h6 + h1, h6 + h2, h6 + h3, h6 + h4, h6 + h5, h6 + h6, 
+	:not(.cards) > h1:first-child,
+	:not(.cards) > h2:first-child,
+	:not(.cards) > h3:first-child,
+	:not(.cards) > h4:first-child,
+	:not(.cards) > h5:first-child,
+	:not(.cards) > h6:first-child,
+	/* Sometimes a form will inject a hidden field and ruin the :first-child selector. */
+	:not(.cards) > input[type="hidden"] + h1,
+	:not(.cards) > input[type="hidden"] + h2,
+	:not(.cards) > input[type="hidden"] + h3,
+	:not(.cards) > input[type="hidden"] + h4,
+	:not(.cards) > input[type="hidden"] + h5,
+	:not(.cards) > input[type="hidden"] + h6,
+	/* If we want a hidden from the DOM class this should be compatible as long as it's name ends in 'hidden'. */
+	:not(.cards) > [class$="hidden"] + h1, 
+	:not(.cards) > [class$="hidden"] + h2, 
+	:not(.cards) > [class$="hidden"] + h3, 
+	:not(.cards) > [class$="hidden"] + h4, 
+	:not(.cards) > [class$="hidden"] + h5, 
+	:not(.cards) > [class$="hidden"] + h6 {
+		margin-top: 0 !important;
+	}
+	h1:last-child,
+	h2:last-child,
+	h3:last-child,
+	h4:last-child,
+	h5:last-child,
+	h6:last-child {
+		margin-bottom: 0 !important;
+	}
+
+	/* Sometimes the full spacing is too much so provide an option for half spacing. */
+	.h1.half-space, .h2.half-space, .h3.half-space, .h4.half-space {
+		margin-bottom: 0.8rem;
+	}
+
+
+
+/* Unordered List */
+
+	ul:not([class]) {
+		list-style-type: disc;
+		margin-bottom: 1.6rem;
+		margin-left: 4.8rem;
+	}
+	ul:not([class]):last-child {
+		margin-bottom: 0;
+	}
+
+	.ul--no-indent {
+		list-style-type: disc;
+		margin-bottom: 1.6rem;
+		/* margin-left: 4.8rem; */
+	}
+	.ul--no-indent:last-child {
+		margin-bottom: 0;
+	}
+
+
+	
+/* Ordered List */
+
+	ol:not([class]) {
+		list-style-type: decimal;
+		margin-bottom: 1.6rem;
+		margin-left: 4.8rem;
+	}
+	ol:not([class]):last-child {
+		margin-bottom: 0;
+	}
+
+
+	
+/* Definition List */
+
+	dl:not([class]) {
+		margin-bottom: 1.6rem;
+	}
+	dl:not([class]):last-child {
+		margin-bottom: 0;
+	}
+		dl:not([class]) dt {
+			font-weight: 700;
+		}
+	
+	/* Horizontal DL */
+	.dl--horizontal {
+		margin-bottom: 1.6rem;
+	}
+	.dl--horizontal:last-child {
+		margin-bottom: 0;
+	}
+		.dl--horizontal > * {
+			display: inline;
+		}
+		.dl--horizontal dt {
+			font-weight: 700;
+		}
+		.dl--horizontal > dd:not(:last-child) {
+			margin-right: 1.6rem;
+		}
+
+	/* Grid DL */
+	.dl--grid {
+		margin-bottom: 1.6rem;
+	}
+	.dl--grid:last-child {
+		margin-bottom: 0;
+	}
+		.dl--grid dt {
+			clear: left;
+			float: left;
+			font-weight: 700;
+			margin-right: 1.6rem;
+		}
+		.dl--grid dd {
+			float: left;
+		}
+	@supports (display: grid) {
+		.dl--grid {
+			display: grid;
+			grid-template-columns: fit-content(50%) 1fr;
+		}
+	}
+
+
+	
+/* Icon list */
+
+	.icon-list {
+		list-style-type: none;
+		margin-bottom: 1.6rem;
+		/* margin-left: 2.8rem; */
+		padding-left: 2rem;
+	}
+	.icon-list:last-child {
+		margin-bottom: 0;
+	}
+		.icon-list li {
+			position: relative;
+		}
+			.icon-list .icon {
+				position: absolute;
+				right: calc(100% + 0.4rem);
+				top: 0.4rem;
+			}
+			.icon-list .icon--tick {
+				fill: rgb(0,103,41);
+				fill: rgb(var(--frog));
+			}
+
+
+
+/* Large text */
+
+	.text--large {
+		font-size: 2em;
+	}
+
+	p.text--large {
+		margin-bottom: 1.6rem;
+	}
+	p.text--large:last-child {
+		margin-bottom: 0;
+	}
+
+
+
+/* Pre */
+
+	pre:not([class]) {
+		margin-bottom: 1.6rem;
+	}
+	pre:not([class]):last-child {
+		margin-bottom: 0;
+	}
+
+
+	
+/* Small text */
+
+	small {
+		font-size: 1.4rem;
+	}
+	small.block {
+		display: block;
+		margin: 0;
+	}
+
+
+
+/* Accessible way to hide content whilst keeping it available to screen readers. */
+
+	.visually-hidden:not(:focus):not(:active) {
+		clip: rect(0 0 0 0);
+		clip-path: inset(100%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
+
+	
+/* Hide content even from screen readers. */
+
+	.dom-hidden {
+		display: none !important;
+	}
+
+
+	
+/* Page Scrollbar */
+	:root {
+		--scrollbar-track: rgba(var(--basalt), 0.1);
+		--scrollbar-thumb: rgba(var(--basalt), 0.4);
+		--scrollbar-shadow: rgba(var(--onyx), 0.3);
+
+		--scrollbar-sidebar-track: rgba(var(--onyx), 0.5);
+		--scrollbar-sidebar-thumb: rgba(var(--smurf), 0.4);
+		--scrollbar-sidebar-shadow: rgba(var(--onyx), 0.75);
+
+		--scrollbar-status-track: rgba(var(--onyx), 0.2);
+		--scrollbar-status-thumb: rgba(255,255,255, 0.4);
+		--scrollbar-status-shadow: rgba(var(--onyx), 0.3);
+	}
+	.theme--light {
+		--scrollbar-track: rgba(var(--basalt), 0.1);
+		--scrollbar-thumb: rgba(var(--basalt), 0.4);
+		--scrollbar-shadow: rgba(var(--onyx), 0.3);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--scrollbar-track: rgba(255,255,255, 0.15);
+			--scrollbar-thumb: rgba(255,255,255, 0.6);
+			--scrollbar-shadow: rgba(var(--onyx), 0.75);
+		}
+	}
+	.theme--dark {
+		--scrollbar-track: rgba(255,255,255, 0.15);
+		--scrollbar-thumb: rgba(255,255,255, 0.6);
+		--scrollbar-shadow: rgba(var(--onyx), 0.75);
+	}
+
+
+
+
+
+	.scroll {
+		overflow: auto;
+
+		/* Firefox */
+		scrollbar-color: rgba(50,68,74, 0.4) rgba(50,68,74, 0.1);
+		scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+		scrollbar-width: auto;
+	}
+	.page__sidebar .scroll {
+		/* Firefox */
+		scrollbar-color: rgba(5,152,214, 0.4) rgba(11,11,11, 0.5);
+		scrollbar-color: var(--scrollbar-sidebar-thumb) var(--scrollbar-sidebar-track);
+	}
+	.status .scroll,
+	.console.scroll {
+		/* Firefox */
+		scrollbar-color: rgba(255,255,255, 0.4) rgba(11,11,11, 0.2);
+		scrollbar-color: var(--scrollbar-status-thumb) var(--scrollbar-status-track);
+	}
+
+
+
+
+	/* Prevents the PRE from stretching the page layout to it's fullest width. */
+	.scroll pre {
+		width: 0;
+	}
+
+
+
+	/* Chrome / Safari / Edge */
+	.scroll::-webkit-scrollbar {
+		height: 10px;
+		width: 10px;
+	}
+
+
+
+	.scroll::-webkit-scrollbar-track {
+		background: rgba(50,68,74, 0.1);
+		background: var(--scrollbar-track);
+	}
+	.page__sidebar .scroll::-webkit-scrollbar-track {
+		background: rgba(11,11,11, 0.5);
+		background: var(--scrollbar-sidebar-track);
+	}
+	.status .scroll::-webkit-scrollbar-track,
+	.console.scroll::-webkit-scrollbar-track {
+		background: rgba(11,11,11, 0.2);
+		background: var(--scrollbar-status-track);
+	}
+
+
+
+	.scroll::-webkit-scrollbar-thumb {
+		background: rgba(50,68,74, 0.4);
+		background: var(--scrollbar-thumb);
+		border-radius: 10px;
+	}
+	.page__sidebar .scroll::-webkit-scrollbar-thumb {
+		background: rgba(5,152,214, 0.4);
+		background: var(--scrollbar-sidebar-thumb);
+		border-radius: 10px;
+	}
+	.status .scroll::-webkit-scrollbar-thumb, 
+	.console.scroll::-webkit-scrollbar-thumb {
+		background: rgba(255,255,255, 0.4);
+		background: var(--scrollbar-status-thumb);
+		border-radius: 10px;
+	}
+
+
+
+	/* Shadows */
+	.js__scroll.scroll-shadow--top {
+		box-shadow: 0 1em 1em -1em rgba(11,11,11, 0.3) inset;
+		box-shadow: 0 1em 1em -1em var(--scrollbar-shadow) inset;
+	}
+	.js__scroll.scroll-shadow--bottom {
+		box-shadow: 0 -1em 1em -1em rgba(11,11,11, 0.3) inset;
+		box-shadow: 0 -1em 1em -1em var(--scrollbar-shadow) inset;
+	}
+	.js__scroll.scroll-shadow--top.scroll-shadow--bottom {
+		box-shadow: 0 1em 1em -1em rgba(11,11,11, 0.3) inset, 0 -1em 1em -1em rgba(11,11,11, 0.3) inset;
+		box-shadow: 0 1em 1em -1em var(--scrollbar-shadow) inset, 0 -1em 1em -1em var(--scrollbar-shadow) inset;
+	}
+
+	.page__sidebar .js__scroll.scroll-shadow--top {
+		box-shadow: 0 1em 1em -1em rgba(11,11,11, 0.75) inset;
+		box-shadow: 0 1em 1em -1em var(--scrollbar-sidebar-shadow) inset;
+	}
+	.page__sidebar .js__scroll.scroll-shadow--bottom {
+		box-shadow: 0 -1em 1em -1em rgba(11,11,11, 0.75) inset;
+		box-shadow: 0 -1em 1em -1em var(--scrollbar-sidebar-shadow) inset;
+	}
+	.page__sidebar .js__scroll.scroll-shadow--top.scroll-shadow--bottom {
+		box-shadow: 0 1em 1em -1em rgba(11,11,11, 0.75) inset, 0 -1em 1em -1em rgba(11,11,11, 0.75) inset;
+		box-shadow: 0 1em 1em -1em var(--scrollbar-sidebar-shadow) inset, 0 -1em 1em -1em var(--scrollbar-sidebar-shadow) inset;
+	}
+
+	.status .js__scroll.scroll-shadow--top {
+		box-shadow: 0 1em 1em -1em rgba(11,11,11, 0.3) inset;
+		box-shadow: 0 1em 1em -1em var(--scrollbar-status-shadow) inset;
+	}
+	.status .js__scroll.scroll-shadow--bottom {
+		box-shadow: 0 -1em 1em -1em rgba(11,11,11, 0.3) inset;
+		box-shadow: 0 -1em 1em -1em var(--scrollbar-status-shadow) inset;
+	}
+	.status .js__scroll.scroll-shadow--top.scroll-shadow--bottom {
+		box-shadow: 0 1em 1em -1em rgba(11,11,11, 0.3) inset, 0 -1em 1em -1em rgba(11,11,11, 0.3) inset;
+		box-shadow: 0 1em 1em -1em var(--scrollbar-status-shadow) inset, 0 -1em 1em -1em var(--scrollbar-status-shadow) inset;
+	}
+	
+
+
+/* Text alignment */
+
+	/* We give this some extra specifity to override the default 
+       left alignment on elements, eg tables. */
+	.page .text-align--left {
+		text-align: left;
+	}
+	.page .text-align--center {
+		text-align: center;
+	}
+	.page .text-align--right {
+		text-align: right;
+	}
+
+
+	
+/* No wrapping */
+
+	.no-wrap {
+		white-space: nowrap;
+	}
+	@media only screen and (max-width: 30em) {
+		.no-wrap {
+			white-space: normal;
+		}
+	}
+
+
+	
+/* Gutters and Padding */
+
+	:root {
+
+		/* Corner radiuses for buttons and block level elements. */
+		--button-radius: 0.3rem;
+		--block-radius: 0.3rem;
+
+		/* Gutter is the spacing between blocks, there is a choice of three sizes, 
+		   the one chosen should be assigned to --gutter. */
+		--gutter-tight: 0.8rem;
+		--gutter-medium: 1.6rem;
+		--gutter-loose: 3.2rem;
+		--gutter: var(--gutter-medium);
+
+		/* Padding is the space inside each block element, there is a choice of 
+		   three sizes, the one chosen should be assigned to --padding. */
+		--padding-tight: 1.2rem;
+		--padding-medium: 1.6rem;
+		--padding-loose: 2rem;
+		--padding: var(--padding-medium);
+	}
+
+	/* 
+		Apply these to space out blocks. This is more flexible than adding the 
+		spacing to each element. 
+		The individual gutter classes set the specific margins so as not to override 
+		any block specific spacing there might be on any given block.
+	*/
+	.gutter {
+		margin: 1.6rem;
+		margin: var(--gutter);
+	}
+	/* Top and bottom. */
+	.gutter--v {
+		margin-top: 1.6rem;
+		margin-top: var(--gutter);
+		margin-bottom: 1.6rem;
+		margin-bottom: var(--gutter);
+	}
+	/* Left and right. */
+	.gutter--h {
+		margin-left: 1.6rem;
+		margin-left: var(--gutter);
+		margin-right: 1.6rem;
+		margin-right: var(--gutter);
+	}
+	/* Left. */
+	.gutter--l {
+		margin-left: 1.6rem;
+		margin-left: var(--gutter);
+	}
+	/* Right. */
+	.gutter--r {
+		margin-right: 1.6rem;
+		margin-right: var(--gutter);
+	}
+	/* Top. */
+	.gutter--t {
+		margin-top: 1.6rem;
+		margin-top: var(--gutter);
+	}
+	/* Bottom. */
+	.gutter--b {
+		margin-bottom: 1.6rem;
+		margin-bottom: var(--gutter);
+	}
+
+	.gutter--v--double {
+		margin-bottom: calc(1.6rem * 2);
+		margin-bottom: calc(var(--gutter) * 2);
+		margin-top: calc(1.6rem * 2);
+		margin-top: calc(var(--gutter) * 2);
+	}
+	.gutter--t--double {
+		margin-top: calc(1.6rem * 2);
+		margin-top: calc(var(--gutter) * 2);
+	}
+	.gutter--b--double {
+		margin-bottom: calc(1.6rem * 2);
+		margin-bottom: calc(var(--gutter) * 2);
+	}
+
+
+	
+/* Cards */
+
+	/* Cards will be split into equal widths by default. Individual cards can be 
+	   overridden by using the 11 column-based width classes below. The total card 
+	   container width is divied in 12 as this number is more flexible to deal with 
+	   for multiple cards. */
+
+	:root {
+		--card-background-opacity: 1;
+		--card-listing-border: rgba(var(--basalt), 0.25);
+	}
+	.theme--light {
+		--card-background-opacity: 1;
+		--card-listing-border: rgba(var(--basalt), 0.25);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--card-background-opacity: 0.05;
+			--card-listing-border: rgba(255,255,255, 0.15);
+		}
+	}
+	.theme--dark {
+		--card-background-opacity: 0.05;
+		--card-listing-border: rgba(255,255,255, 0.15);
+	}
+
+	.cards {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		align-items: stretch;
+		/* Apply half the gutter to all sides except bottom, that gets a minus value 
+		   to account for the spacing on the card items. */
+		margin: 
+			calc(1.6rem / 2) 
+			calc(1.6rem / 2) 
+			calc((1.6rem / 2) - 1.6rem) 
+			calc(1.6rem / 2);
+		margin: 
+			calc(var(--gutter) / 2) 
+			calc(var(--gutter) / 2) 
+			calc((var(--gutter) / 2) - var(--gutter)) 
+			calc(var(--gutter) / 2);
+	}
+	.cards--vertical {
+		flex-flow: column;
+	}
+	.cards .cards {
+		/* This sets the margin of inner cards to a minus of half the gutter value 
+		   to cancel out the spacing. */
+		margin: calc((1.6rem / 2) - 1.6rem);
+		margin: calc((var(--gutter) / 2) - var(--gutter));
+	}
+
+		/* Individual cards, we don't add a class for these, it's mirroring flexbox 
+		   where any immediate child of .cards is treated as a card. */
+		.cards > *,
+		.cards .cards .card--bk {
+			background: rgba(255,255,255, 1);
+			background: rgba(255,255,255, var(--card-background-opacity));
+			border-radius: 0.3rem;
+			border-radius: var(--block-radius);
+			/* IE11 fallback. */
+			flex: 1 0 6rem;
+			/* This fits a single icon-only button plus padding, realistically 
+			   nothing should actually be this small. */
+			flex: 1 0 calc(4rem + calc(1.6rem * 2));
+			flex: 1 0 calc(4rem + calc(var(--padding) * 2));
+			margin: calc(1.6rem / 2);
+			margin: calc(var(--gutter) / 2);
+			padding: 1.6rem;
+			padding: var(--padding);
+		}
+		/* This will make a single button into a card, it will fill the width and 
+		   height of a card, use sparingly for highlighting something super-important. */
+		/* .cards > .button--block {
+			border-radius: var(--block-radius);
+			margin: calc(var(--gutter) / 2) !important;
+		} */
+
+		/* Nested cards shouldn't use the background by default. .card--no-pad can 
+		   be applied to individual cards or the whole group to target all cards. */
+		.cards .cards > *,
+		.card--no-pad {
+			background: none;
+			padding: 0;
+		}
+		.page__header .card--no-pad, 
+		.page__footer .card--no-pad {
+			margin: calc((1.6rem / 2) * -1);
+			margin: calc((var(--padding) / 2) * -1);
+		}
+		.cards.card--no-pad > * {
+			background: none;
+			padding: 0;
+		}
+		/* For if we want to use the card layout without the backgrounds. */
+		.card--no-bk {
+			background: none;
+		}
+		.card--child-block {
+			display: flex;
+		}
+			.card--child-block > * {
+				flex: 1 0 auto;
+			}
+
+		/* 
+			12 column-based width classes
+			
+			The total card group width is divided into 12. So, a card of 50% would 
+			be .card--width-6. Because IE11 doesn't support calc inside flex 
+			declarations we take a rough stab at an approximation, I don't bother 
+			the the decimal places because these values aren't taking into account 
+			the gutter widths anyway so ¯\_(ツ)_/¯. Best practice is to always leave 
+			the larger card unspecific in its width, that way IE11 has something to 
+			eat into and proper browsers will get it right anyway.
+		 */
+
+		/* Individual card widths. */
+		.card--width-1 {
+			/* This is for IE11, it doesn't support calc in flex so we need to approximate it. */
+			flex: 0 1 8%;
+			/* Sane browsers do this. */
+			flex: 0 1 calc(calc(100% / 12) - 1.6rem);
+			flex: 0 1 calc(calc(100% / 12) - var(--gutter));
+		}
+		.card--width-2 {
+			flex: 0 1 16%;
+			flex: 0 1 calc((calc(100% / 12) * 2) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 2) - var(--gutter));
+		}
+		.card--width-3 {
+			flex: 0 1 25%;
+			flex: 0 1 calc((calc(100% / 12) * 3) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 3) - var(--gutter));
+		}
+		.card--width-4 {
+			flex: 0 1 33%;
+			flex: 0 1 calc((calc(100% / 12) * 4) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 4) - var(--gutter));
+		}
+		.card--width-5 {
+			flex: 0 1 41%;
+			flex: 0 1 calc((calc(100% / 12) * 5) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 5) - var(--gutter));
+		}
+		.card--width-6 {
+			flex: 0 1 50%;
+			flex: 0 1 calc((calc(100% / 12) * 6) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 6) - var(--gutter));
+		}
+		.card--width-7 {
+			flex: 0 1 58%;
+			flex: 0 1 calc((calc(100% / 12) * 7) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 7) - var(--gutter));
+		}
+		.card--width-8 {
+			flex: 0 1 66%;
+			flex: 0 1 calc((calc(100% / 12) * 8) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 8) - var(--gutter));
+		}
+		.card--width-9 {
+			flex: 0 1 75%;
+			flex: 0 1 calc((calc(100% / 12) * 9) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 9) - var(--gutter));
+		}
+		.card--width-10 {
+			flex: 0 1 83%;
+			flex: 0 1 calc((calc(100% / 12) * 10) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 10) - var(--gutter));
+		}
+		.card--width-11 {
+			flex: 0 1 91%;
+			flex: 0 1 calc((calc(100% / 12) * 11) - 1.6rem);
+			flex: 0 1 calc((calc(100% / 12) * 11) - var(--gutter));
+		}
+		.card--width-12 {
+			flex: 0 1 100%;
+			flex: 0 1 100% - 1.6rem;
+			flex: 0 1 100% - var(--gutter);
+		}
+
+		.card--no-wrap {
+			white-space: nowrap;
+		}
+
+
+		.card--min-width-100 {
+			flex: 1 1 100rem;
+		}
+		.card--min-width-90 {
+			flex: 1 1 90rem;
+		}
+		.card--min-width-80 {
+			flex: 1 1 80rem;
+		}
+		.card--min-width-70 {
+			flex: 1 1 70rem;
+		}
+		.card--min-width-60 {
+			flex: 1 1 60rem;
+		}
+		.card--min-width-50 {
+			flex: 1 1 50rem;
+		}
+		.card--min-width-40 {
+			flex: 1 1 40rem;
+		}
+		.card--min-width-30 {
+			flex: 1 1 30rem;
+		}
+		.card--min-width-20 {
+			flex: 1 1 20rem;
+		}
+
+
+		/* Enforce some minimum widths on cards, they will wrap unless they can be 
+		   at least this wide in their row. */
+		.cards--min-width-small > * {
+			flex: 1 1 16rem;
+		}
+		.cards--min-width-medium > * {
+			flex: 1 1 30rem;
+		}
+		.cards--min-width-lardium > * {
+			flex: 1 1 45rem;
+		}
+		.cards--min-width-large > * {
+			flex: 1 1 60rem;
+		}
+		.cards--min-width-medium:not(.cards) {
+			flex: 1 1 200px;
+		}
+
+		.cards.card--min-width-100 > * {
+			flex: 1 1 100rem;
+		}
+		.cards.card--min-width-90 > * {
+			flex: 1 1 90rem;
+		}
+		.cards.card--min-width-80 > * {
+			flex: 1 1 80rem;
+		}
+		.cards.card--min-width-70 > * {
+			flex: 1 1 70rem;
+		}
+		.cards.card--min-width-60 > * {
+			flex: 1 1 60rem;
+		}
+		.cards.card--min-width-50 > * {
+			flex: 1 1 50rem;
+		}
+		.cards.card--min-width-40 > * {
+			flex: 1 1 40rem;
+		}
+		.cards.card--min-width-30 > * {
+			flex: 1 1 30rem;
+		}
+		.cards.card--min-width-20 > * {
+			flex: 1 1 20rem;
+		}
+
+
+		/* Sets a maximum width on the card container, if the available screen size exceeds this amount the extra space is distributed evenly on the left and right margins. */
+
+		.cards--max-width {
+			margin: auto;
+		}
+		.cards--max-width > .cards {
+			margin-left: calc((1.6rem/ 2) - 1.6rem);
+			margin-left: calc((var(--gutter)/ 2) - var(--gutter));
+			margin-right: calc((1.6rem/ 2) - 1.6rem);
+			margin-right: calc((var(--gutter)/ 2) - var(--gutter));
+		}
+		.cards--max-width--small {
+			max-width: 45rem;
+		}
+		.cards--max-width--medium {
+			max-width: 65rem;
+		}
+		.cards--max-width--large {
+			max-width: 130rem;
+		}
+
+
+		/* Cards that only take their content width. Should always be paired with 
+		   a card that is allowed to grow. */
+		/* .cards--no-grow {
+			flex-wrap: nowrap;
+			justify-content: start;
+		}
+			.cards--no-grow > * {
+				flex: 0 0 auto;
+				white-space: nowrap;
+			}
+				.card--grow {
+					flex: 1 1 auto;
+					white-space: normal;
+				}
+			.cards--no-grow > *:last-child {
+				background: red;
+				justify-self: flex-end;
+			} */
+
+
+		/* If we want to limit a flex item to be only its own content width, think a card block containing a title and a menu. */
+		.card--content-width {
+			flex: 0 0 auto;
+		}
+
+
+		.cards--listing > * {
+			background: none;
+			border: solid 1px rgba(50,68,74, 0.25);
+			border: solid 1px var(--card-listing-border);
+			padding: 1.6rem;
+			padding: var(--padding);
+		}
+		.cards .cards--listing > * {
+			padding: 1.6rem;
+			padding: var(--padding);
+		}
+
+
+
+/* Maximum widths for containers. */
+
+	.max-width {
+		max-width: 60rem;
+	}
+
+
+
+/* Page Structure */
+
+	:root {
+		/* 50% Concrete, we need to be specific because this is used in horizontal menu hovers and if it's translucent it won't work proper. */
+		--page-background: rgb(236,239,240);
+		--page-text: var(--basalt);
+
+		--sidebar-background: rgb(var(--midnight));
+		--sidebar-text: rgb(255,255,255);
+
+		--header-text: rgb(255,255,255);
+	}
+	.theme--light {
+		--page-background: rgb(236,239,240);
+		--page-text: var(--basalt);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--page-background: rgb(var(--coal));
+			--page-text: 255,255,255;
+		}
+	}
+	.theme--dark {
+		--page-background: rgb(var(--coal));
+		--page-text: 255,255,255;
+	}
+
+
+
+	.page {
+		background: rgb(236,239,240);
+		background: var(--page-background);
+		color: rgb(50,68,74);
+		color: rgb(var(--page-text));
+	}
+		.page__header {
+			background: rgb(11,11,11);
+			background: rgb(var(--onyx));
+			color: rgb(255,255,255);
+			color: var(--header-text);
+			padding: 1.6rem;
+			padding: var(--padding);
+		}
+			.page__sidebar {
+				align-self: stretch;
+				background: rgb(0,44,62);
+				background: var(--sidebar-background);
+				color: rgb(255,255,255);
+				color: var(--sidebar-text);
+				display: flex;
+			}
+		.page__footer {
+			background: rgb(11,11,11);
+			background: rgb(var(--onyx));
+			color: rgba(255,255,255, 0.75);
+			padding: 1.6rem;
+			padding: var(--padding);
+			text-align: center;
+		}
+
+
+
+	@media only screen and (min-width: 60rem) {
+		.page {
+			/* Lock the footer to the window bottom if the content doesn't require scrolling. */
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+		}
+			.page__header {
+				flex: 1 0 auto;
+			}
+			.page__main {
+				/* Flex to display sidebar and main content blocks. */
+				display: flex;
+				flex: 999 0 auto;
+			}
+			.page__main {
+				flex-direction: row;
+			}
+				.page__sidebar {
+					flex: 1 0 15em;
+				}
+				.page__sidebar.page__sidebar--wider {
+					flex: 1 0 20em;
+				}
+				.page__content {
+					flex: 999 0 0;
+					/* This fixes IE11's inability to flex-wrap contents. */
+					width: 100%;
+				}
+					.page__content-inner {
+						margin-bottom: 1.6rem;
+						margin-bottom: var(--gutter);
+					}
+
+			.page__footer {
+				flex: 1 0 auto;
+			}
+
+
+
+		.page--sticky {
+			height: 100vh;
+			overflow: hidden;
+		}
+			.page--sticky .page__content {
+				display: flex;
+				flex-direction: column;
+			}
+				.page--sticky .page__content-inner {
+					flex: 999 0 auto;
+					height: 0;
+					overflow-y: auto;
+					margin-bottom: calc(1.6rem / 2);
+					margin-bottom: calc(var(--gutter) / 2);
+				}
+	}
+		
+
+
+	.page--sticky-header .page__header {
+		position: sticky;
+		top: 0;
+		z-index: 3;
+	}
+
+
+
+	@media only screen and (max-width: calc(60rem - 1px) ) {
+		.page__sidebar--expanded {
+			overflow: hidden;
+		}
+			.page__sidebar--expanded .page__sidebar {
+				bottom: 0;
+				left: 0;
+				position: absolute;
+				right: 0;
+				top: 0;
+				z-index: 1;
+			}
+				.page__content-inner {
+					margin-bottom: 1.6rem;
+					margin-bottom: var(--gutter);
+				}
+	}
+
+
+
+/* Header */
+
+	.page__header .logo {
+		display: block;
+		width: 12rem;
+	}
+	.js__main-menu--wrapped.js__main-menu {
+		justify-content: center;
+	}
+
+
+	
+/* Sidebar Structure - menu open */
+
+	.sidebar {
+		align-self: stretch;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+		.sidebar__header,
+		.sidebar__footer {
+			flex: 0 0 auto;
+			padding: 1.6rem;
+			padding: var(--padding);
+		}
+		.sidebar__footer {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: stretch;
+			width: 100%;
+		}
+		.sidebar__content {
+			min-height: 4em;
+			overflow-y: auto;
+			flex: 1 1 auto;
+			height: 0;
+			padding: 0 1.6rem;
+			padding: 0 var(--padding);
+		}
+
+	.page__sidebar .menu {
+		margin: 0 calc(-1 * 1.6rem);
+		margin: 0 calc(-1 * var(--padding));
+		width: calc(100% + (1.6rem*2));
+		width: calc(100% + (var(--padding)*2));
+	}
+	.page__sidebar .sidebar__footer .menu {
+		margin-bottom: calc(-1 * 1.6rem);
+		margin-bottom: calc(-1 * var(--padding));
+	}
+
+	/* Menu locks to top of window when page is scrolled, this is the default behaviour for modern browsers. */
+	@supports (position: sticky) {
+		.page:not(.page--sticky) .sidebar {
+			top: 0;
+			position: sticky;
+			max-height: 100vh;
+		}
+	}
+
+
+
+
+
+
+		.page__sidebar .logo {
+			display: block;
+			max-width: 12rem;
+		}
+			/* Hide small fish icon. */
+			.page__sidebar .logo .logo__icon {
+				display: none;
+			}
+
+
+
+/* Sidebar - menu closed */
+	@media only screen and (min-width: 60rem) {
+		.page__sidebar.page__sidebar--minimised, 
+		.page__properties.page__sidebar--minimised {
+			flex: 0 0 5.6rem;
+			position: relative;
+		}
+			.page__sidebar--minimised .sidebar__content,
+			.page__sidebar--minimised .sidebar__footer {
+				display: none; 
+			}
+			
+				.page__sidebar.page__sidebar--minimised .logo {
+					margin-top: 1.6rem;
+					margin-top: var(--gutter);
+					max-width: 4rem;
+				}
+				/* Swap the full logo for the small fish only version. */
+				.page__sidebar.page__sidebar--minimised .logo .logo__full {
+					display: none;
+				}
+				.page__sidebar.page__sidebar--minimised .logo .logo__icon {
+					clear: both;
+					display: block;
+					margin: 0 0.4rem;
+				}
+	}
+
+	/* Toggles */
+	.page__sidebar .sidebar__toggle {
+		display: none;
+	}
+		.page__sidebar .sidebar__toggle,
+		.page__sidebar .sidebar__toggle__mob {
+			float: right;
+			margin: 0;
+		}
+			.page__sidebar .sidebar__toggle .icon,
+			.page__sidebar .sidebar__toggle__mob .icon {
+				transform: rotate(180deg);
+			}
+
+	@media only screen and (min-width: 60rem) {
+		.page__sidebar--minimised .sidebar__toggle {
+			float: none;
+		}
+			.page__sidebar--minimised .sidebar__toggle .icon {
+				transform: rotate(00deg);
+			}
+		.page__sidebar .sidebar__toggle {
+			display: block;
+		}
+		.page__sidebar .sidebar__toggle__mob {
+			display: none;
+		}
+	}
+	@media only screen and (max-width: calc(60rem - 1px) ) {
+		.page__sidebar .sidebar__toggle__mob {
+			display: block;
+		}
+			.sidebar__toggle__mob .icon {
+				transition: transform .2s;
+			}
+			.page__sidebar--expanded .sidebar__toggle__mob .icon {
+				transform: rotate(270deg);
+			}
+			.page__sidebar--expanded .sidebar__toggle__mob[aria-pressed="true"] .icon {
+				transform: rotate(90deg);
+			}
+		.sidebar__content,
+		.sidebar__footer {
+			display: none; 
+		}
+		.page__sidebar--expanded .sidebar__content {
+			display: block; 
+		}
+		.page__sidebar--expanded .sidebar__footer {
+			display: flex; 
+		}
+	}
+
+
+	
+	/* Profile block */
+	.profile {
+		align-items: center;
+		display: flex;
+		margin: 0 0.4rem 0.4rem 0;
+		/* We don't want the spacing if the whole lot fits on one line so trick 
+			it by adding a negative margin. */
+		margin-right: calc( (4rem - (1.6rem / 2)) * -1 );
+		margin-right: calc( (4rem - (var(--padding) / 2)) * -1 );
+	}
+		.profile__av {
+			border-radius: 0.3rem;
+			border-radius: var(--button-radius);
+			overflow: hidden;
+			width: 4rem;
+		}
+		.profile__name {
+			flex: 1 1 auto;
+			padding: calc(1.6rem / 4);
+			padding: calc(var(--padding) / 4);
+		}
+	.sidebar__logout {
+		align-self: flex-end;
+		justify-self: flex-end;
+		margin-bottom: 0.4rem;
+		/* Width of AV plus the spacing. */
+		margin-left: calc(4rem + (1.6rem / 4));
+		margin-left: calc(4rem + (var(--padding) / 4));
+	}
+
+
+
+/* Table */
+
+	:root {
+		--table: var(--basalt);
+		--table-tint: var(--concrete);
+		--table-header-text: 255,255,255;
+		--table-border-opacity: 0.25;
+		--table-header-opacity: 1;
+		--table-horizontal-header-opacity: 0.1;
+		--table-tint-opacity: 0.5;
+		--table-highlight: rgba(var(--tango), 0.75);
+		--table-highlight-th: 
+			linear-gradient(
+				rgba(var(--tango), 0.5), 
+				rgba(var(--tango), 0.5)),
+			rgba(var(--table), var(--table-header-opacity));
+		--table-highlight-row:
+			linear-gradient(
+				rgba(var(--tango), 0.8), 
+				rgba(var(--tango), 0.8)),
+			rgba(var(--table), var(--table-horizontal-header-opacity));
+		--table-highlight-intersect: rgba(var(--tango), 0.9);
+	}
+	.theme--light {
+		--table: var(--basalt);
+		--table-tint: var(--concrete);
+		--table-header-text: 255,255,255;
+		--table-border-opacity: 0.25;
+		--table-header-opacity: 1;
+		--table-tint-opacity: 0.5;
+		--table-highlight: rgba(var(--tango), 0.75);
+		--table-highlight-th: 
+			linear-gradient(
+				rgba(var(--tango), 0.5), 
+				rgba(var(--tango), 0.5)),
+			rgba(var(--table), var(--table-header-opacity));
+		--table-highlight-row:
+			linear-gradient(
+				rgba(var(--tango), 0.8), 
+				rgba(var(--tango), 0.8)),
+			rgba(var(--table), var(--table-horizontal-header-opacity));
+		--table-highlight-intersect: rgba(var(--tango), 0.9);
+		
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--table: 255,255,255;
+			--table-tint: 255,255,255;
+			--table-header-text: 255,255,255;
+			--table-border-opacity: 0.15;
+			--table-header-opacity: 0.2;
+			--table-tint-opacity: 0.1;
+			--table-highlight: rgba(var(--tango), 0.4);
+			--table-highlight-th: 
+				linear-gradient(
+					rgba(var(--tango), 0.4), 
+					rgba(var(--tango), 0.4)),
+				rgba(var(--table), var(--table-header-opacity));
+			--table-highlight-row:
+				linear-gradient(
+					rgba(var(--tango), 0.4), 
+					rgba(var(--tango), 0.4)),
+				rgba(var(--table), var(--table-horizontal-header-opacity));
+			--table-highlight-intersect: rgba(var(--tango), 0.5);
+		}
+	}
+	.theme--dark {
+		--table: 255,255,255;
+		--table-tint: 255,255,255;
+		--table-header-text: 255,255,255;
+		--table-border-opacity: 0.15;
+		--table-header-opacity: 0.2;
+		--table-tint-opacity: 0.1;
+		--table-highlight: rgba(var(--tango), 0.4);
+		--table-highlight-th: 
+			linear-gradient(
+				rgba(var(--tango), 0.4), 
+				rgba(var(--tango), 0.4)),
+			rgba(var(--table), var(--table-header-opacity));
+		--table-highlight-row:
+			linear-gradient(
+				rgba(var(--tango), 0.4), 
+				rgba(var(--tango), 0.4)),
+			rgba(var(--table), var(--table-horizontal-header-opacity));
+		--table-highlight-intersect: rgba(var(--tango), 0.5);
+	}
+
+	.table {
+		border-collapse: separate;
+	}
+	.table--full-width {
+		width: 100%;
+	}
+	.table--align-center {
+		margin-left: auto;
+		margin-right: auto;
+	}
+		.table th, 
+		.table td {
+			border-bottom: solid 1px rgba(50,68,74, 0.25);
+			border-bottom: solid 1px rgba(var(--table), var(--table-border-opacity));
+			padding: 0.8rem 1.6rem;
+			padding: 0.8rem var(--padding);
+			text-align: left;
+		}
+		.table th {
+			background: rgba(50,68,74, 1);
+			background: rgba(var(--table), var(--table-header-opacity));
+			color: rgb(255,255,255);
+			color: rgb(var(--table-header-text));
+			font-weight: 700;
+		}
+
+		/* Row header. */
+		.table [scope="row"] {
+			background: rgba(50,68,74, 1);
+			background: rgba(var(--table), var(--table-header-opacity));
+			font-weight: 700;
+		}
+		/* Row header if there's a horizontal table header. */
+		.table thead + tbody [scope="row"],
+		.table__thead ~ tr [scope="row"] {
+			background: rgba(50,68,74, 0.1);
+			background: rgba(var(--table), var(--table-horizontal-header-opacity));
+			font-weight: 500;
+		}
+		.table__tint td,
+		td.table__tint {
+			background: rgba(50,68,74, 0.1);
+			background: rgba(var(--table), var(--table-horizontal-header-opacity));
+		}
+
+		/* Left and right table edges. */
+		.table thead th:first-child {
+			border-left: solid 1px rgba(50,68,74, 1);
+			border-left: solid 1px rgba(var(--table), var(--table-header-opacity));
+		}
+		.table thead th:last-child {
+			border-right: solid 1px rgba(50,68,74, 1);
+			border-right: solid 1px rgba(var(--table), var(--table-header-opacity));
+		}
+		.table td:first-child {
+			border-left: solid 1px rgba(50,68,74, 0.25);
+			border-left: solid 1px rgba(var(--table), var(--table-border-opacity));
+		}
+		.table td:last-child {
+			border-right: solid 1px rgba(50,68,74, 0.25);
+			border-right: solid 1px rgba(var(--table), var(--table-border-opacity));
+		}
+
+		/* If there's no THEAD we need to apply a border to the top of the top row. */
+		.table tbody tr:first-child td {
+			border-top: solid 1px rgba(50,68,74, 0.25);
+			border-top: solid 1px rgba(var(--table), var(--table-border-opacity));
+		}
+		.table thead + tbody tr:first-child td {
+			border-top: none;
+		}
+
+		.table .table__cell-no-pad {
+			padding: 0;
+		}
+
+		/* Highlights. */
+		tr.table--highlight > *, 
+		td.table--highlight {
+			background: rgba(240,152,27, 0.75);
+			background: var(--table-highlight);
+		}
+		tr.table--highlight > [scope="row"], 
+		th.table--highlight {
+			background: linear-gradient(
+				rgba(240,152,27, 0.5), 
+				rgba(240,152,27, 0.5)),
+			rgba(50,68,74, 1);
+			background: var(--table-highlight-th);
+		}
+		thead + tbody tr.table--highlight > [scope="row"] {
+			background: linear-gradient(
+				rgba(240,152,27, 0.8), 
+				rgba(240,152,27, 0.8)),
+			rgba(50,68,74, 0.1);
+			background: var(--table-highlight-row);
+		}
+		tr.table--highlight td.table--highlight {
+			background: rgba(240,152,27, 0.9);
+			background: var(--table-highlight-intersect);
+		}
+
+			.table th .button--clear .icon {
+				/* fill: rgb(var(--table-header-text)); */
+				/* margin-right: -1.2rem; */
+			}
+			.table th .sort--desc .icon {
+				transform: rotate(180deg);
+			}
+			.table td > .button {
+				margin-bottom: -0.8rem;
+				margin-top: -0.8rem;
+			}
+		
+	/* Applying things to columns is painful, leading to code like below. 
+	   .table__nowrap can be applied to the TABLE, TR or a individual cell. */
+	.table__nowrap--1 tr > *:nth-child(1), 
+	.table__nowrap--2 tr > *:nth-child(2), 
+	.table__nowrap--3 tr > *:nth-child(3), 
+	.table__nowrap--4 tr > *:nth-child(4), 
+	.table__nowrap--5 tr > *:nth-child(5), 
+	.table__nowrap--6 tr > *:nth-child(6), 
+	.table__nowrap--7 tr > *:nth-child(7), 
+	.table__nowrap--8 tr > *:nth-child(8), 
+	.table__nowrap--9 tr > *:nth-child(9), 
+	tr.table__nowrap > *, 
+	.table__nowrap {
+		white-space: nowrap;
+	}
+
+	tr.table--grouped-with th, 
+	tr.table--grouped-with td {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+	th.table--grouped-with, 
+	td.table--grouped-with {
+		padding-right: 0;
+	}
+	th.table--grouped-with + th, 
+	td.table--grouped-with + td {
+		padding-left: 0.3em;
+	}
+
+
+	/* These have to be added as a psuedo element due to the pattern in Cloud where we have console logs inside table cells with no pagging, using a border or partial background on the table will get hidden by the console log. */
+	.table__color-tag {
+		position: relative;
+	}
+	.table__color-tag:before, 
+	.table__color-tag:after {
+		content: "";
+		/* This is 1px for the border and an 8px tag. We position this element over the left border because the difference in border colours looks jarring. */
+		width: 0.9rem;
+		position: absolute;
+		left: -1px;
+	}
+	.table__color-tag:before {
+		/* This is 1px for the border and an 8px tag. We position this element over the left border because the difference in border colours looks jarring. */
+		height: 100%;
+		top: 0;
+		opacity: 0.5;
+	}
+	/* Covers the TH bottom border to blend it in a little. */
+	.table__color-tag:after {
+		height: 1px;
+		bottom: -1px;
+		opacity: 0.75;
+	}
+	th.table__color-tag:before, 
+	.table__color-tag.table__tint:before,
+	tr.table__tint .table__color-tag:before,
+	.table [scope="row"]:before {
+		opacity: 1;
+	}
+	.table__color-tag--tango:before, 
+	.table__color-tag--tango:after {
+		background: rgb(240,152,27);
+		background: rgb(var(--tango));
+	}
+	.table__color-tag--midnight:before, 
+	.table__color-tag--midnight:after {
+		background: rgb(0,44,62);
+		background: rgb(var(--midnight));
+	}
+	.table__color-tag--smurf:before, 
+	.table__color-tag--smurf:after {
+		background: rgb(5,152,214);
+		background: rgb(var(--smurf));
+	}
+	.table__color-tag--marmalade:before, 
+	.table__color-tag--marmalade:after {
+		background: rgb(244,74,2);
+		background: rgb(var(--marmalade));
+	}
+	.table__color-tag--gecko:before, 
+	.table__color-tag--gecko:after {
+		background: rgb(98,196,0);
+		background: rgb(var(--gecko));
+	}
+	.table__color-tag--plum:before, 
+	.table__color-tag--plum:after {
+		background: rgb(170,0,250);
+		background: rgb(var(--plum));
+	}
+	.table__color-tag--candy:before, 
+	.table__color-tag--candy:after {
+		background: rgb(255,66,180);
+		background: rgb(var(--candy));
+	}
+	.table__color-tag--mud:before, 
+	.table__color-tag--mud:after {
+		background: rgb(152,73,0);
+		background: rgb(var(--mud));
+	}
+	.table__color-tag--slate:before, 
+	.table__color-tag--slate:after {
+		background: rgb(152,147,138);
+		background: rgb(var(--slate));
+	}
+	.table__color-tag--ortolan:before, 
+	.table__color-tag--ortolan:after {
+		background: rgb(0,53,241);
+		background: rgb(var(--ortolan));
+	}
+
+
+
+	
+/* Tab Panel */
+
+	:root {
+		--tab-panel-background: 255,255,255;
+		--tab-text: 255,255,255;
+		--inactive-tab-background: var(--tab-panel-background);
+	}
+	.theme--light {
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--tab-panel-background: 255,255,255;
+			--tab-text: 255,255,255;
+			--inactive-tab-background: var(--tab-panel-background);
+		}
+	}
+	.theme--dark {
+		--tab-panel-background: 255,255,255;
+		--tab-text: 255,255,255;
+		--inactive-tab-background: var(--tab-panel-background);
+	}
+
+	.tab-panel {
+		background: rgba(255,255,255, 0.1);
+		background: rgba(var(--tab-panel-background), 0.1);
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		overflow: hidden;
+	}
+	.page__sidebar .tab-panel {
+		background: rgba(var(--menu-sidebar-background), 0.15);
+	}
+
+
+		.tab-panel__header {
+			display: flex;
+			flex-direction: row-reverse;
+			align-items: flex-start;
+		}
+			.tab-panel__header .tab-panel__icon {
+				fill: rgba(11,11,11, 0.3);
+				fill: rgba(var(--icon-colour), 0.3);
+				flex: 0 0 auto;
+				margin: 1.6rem;
+				margin: var(--padding);
+			}
+			.tab-panel__header .tab-panel__title {
+				align-self: center;
+				flex: 1 1 auto;
+				margin: 0;
+			}
+			.tab-panel__header .tab-panel__toggle {
+				flex: 0 0 auto;
+				margin: 0;
+			}
+			.tab-panel__header .tab-panel__toggle .icon {
+				transform: rotate(90deg);
+			}
+			.tab-panel__header .tab-panel__toggle[aria-expanded="false"] .icon {
+				transform: rotate(0deg);
+			}
+
+
+
+		.tab-panel__inner.minimised {
+			display: none;
+		}
+
+
+
+		.tab-panel__tabs {
+			display: flex;
+			padding: 0 1.6rem;
+			padding: 0 var(--gutter);
+		}
+			.tab-panel__tab {
+				background: rgba(255,255,255, 0.2);
+				background: rgba(var(--inactive-tab-background), 0.2);
+				border: none;
+				border-radius: 0.3rem 0.3rem 0 0;
+				border-radius: var(--button-radius) var(--button-radius) 0 0;
+				color: rgb(255,255,255);
+				color: rgb(var(--tab-text));
+				font-family: inherit;
+				font-size: 100%;
+				line-height: inherit;
+				outline: 0;
+				padding: 0.8rem 1.2rem;
+				text-align: center;
+				-webkit-appearance: none;
+			}
+			.page__sidebar .tab-panel__tab {
+				background: rgba(var(--menu-sidebar-background), 0.35);
+			}
+			.tab-panel__tab:focus, 
+			.tab-panel__tab:focus-visible {
+				box-shadow: 
+					-4px -4px 0 0px rgb(0,115,165), 
+					4px -4px 0 0px rgb(0,115,165), 
+					-4px 0 0 0px rgb(0,115,165), 
+					4px 0 0 0px rgb(0,115,165);
+				box-shadow: 
+					-4px -4px 0 0px rgb(var(--link-color)), 
+					4px -4px 0 0px rgb(var(--link-color)), 
+					-4px 0 0 0px rgb(var(--link-color)), 
+					4px 0 0 0px rgb(var(--link-color));
+			}
+			.tab-panel__tab:focus:not(:focus-visible) {
+				box-shadow: none;
+			}
+			.tab-panel__tab:hover {
+				background: rgba(255,255,255, 0.15);
+				background: rgba(var(--inactive-tab-background), 0.15);
+			}
+			.page__sidebar .tab-panel__tab:hover {
+				background: rgba(var(--menu-sidebar-background), 0.3);
+			}
+			.tab-panel__tab + .tab-panel__tab {
+				margin-left: 0.4rem;
+			}
+			.tab-panel__tab[aria-selected="true"] {
+				background: rgba(255,255,255, 0.1);
+				background: rgba(var(--tab-panel-background), 0.1);
+			}
+			.page__sidebar .tab-panel__tab[aria-selected="true"] {
+				background: rgba(var(--menu-sidebar-background), 0.2);
+			}
+
+		.js .tab-panel__content {
+			display: none;
+			padding: 1.6rem;
+			padding: var(--padding);
+		}
+		.js .tab-panel__tabs ~ .tab-panel__content {
+			background: rgba(255,255,255, 0.1);
+			background: rgba(var(--tab-panel-background), 0.1);
+		}
+		.js .page__sidebar .tab-panel__tabs ~ .tab-panel__content {
+			background: rgba(var(--menu-sidebar-background), 0.2);
+		}
+		.tab-panel__content.tab-panel__active {
+			display: block;
+		}
+
+
+
+/* Tab Group */
+
+	:root {
+		--tab-group-bk: rgb(var(--concrete));
+		--tab-group-active-bk: rgb(255,255,255);
+	}
+	.theme--light {
+		--tab-group-bk: rgb(var(--concrete));
+		--tab-group-active-bk: rgb(255,255,255);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--tab-group-bk: 
+				linear-gradient(
+					rgba(255,255,255, 0.05), 
+					rgba(255,255,255, 0.05)), 
+				rgb(var(--coal));
+			--tab-group-active-bk: rgba(var(--coal), 1);
+		}
+	}
+	.theme--dark {
+		--tab-group-bk: 
+			linear-gradient(
+				rgba(255,255,255, 0.05), 
+				rgba(255,255,255, 0.05)), 
+			rgb(var(--coal));
+		--tab-group-active-bk: rgba(var(--coal), 1);
+	}
+
+	/* Group container, can be either a collapsible summary/details if we need to not use tonnes of space if JS isn't available or just a straigt up section. */
+	.tab-group.tab-group--box {
+		background: rgb(218,224,226);
+		background: var(--tab-group-bk);
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		padding: 1.6rem;
+		padding: var(--padding);
+	}
+
+	.tab-group__tabs {
+		display: none;
+		position: relative;
+		z-index: 1;
+	}
+	.js .tab-group__tabs {
+		display: block;
+	}
+		.tab-group__tab.button {
+			padding: 0.8rem 1.6rem;
+			padding: 0.8rem var(--padding);
+			border-radius: 0.3rem 0.3rem 0 0;
+			border-radius: var(--button-radius) var(--button-radius) 0 0;
+			box-shadow: none;
+			margin: 0 0rem;
+		}
+		.tab-group__tab[aria-selected=true]:not(:hover), 
+		.tab-group__tab[aria-selected=true]:hover {
+			background: rgb(218,224,226);
+			background: var(--tab-group-bk);
+			color: rgb(50,68,74);
+			color: rgb(var(--page-text));
+		}
+		.tab-group--box .tab-group__tab[aria-selected=true]:not(:hover), 
+		.tab-group--box .tab-group__tab[aria-selected=true]:hover {
+			background: rgb(255,255,255);
+			background: var(--tab-group-active-bk);
+		}
+
+	.tab-group__content {
+		background: rgb(218,224,226);
+		background: var(--tab-group-bk);
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		padding: 1.6rem;
+		padding: var(--padding);
+	}
+	.tab-group--box .tab-group__content {
+		background: rgb(255,255,255);
+		background: var(--tab-group-active-bk);
+		padding: 1.6rem;
+		padding: var(--padding);
+	}
+	.tab-group__content + .tab-group__content {
+		margin-top: 1.6rem;
+		margin-top: var(--gutter);
+	}
+	.js .tab-group__content {
+		display: none;
+		border-radius: 0 0.3rem 0.3rem 0.3rem;
+		border-radius: 0 var(--block-radius) var(--block-radius) var(--block-radius);
+	}
+	.js .tab-group__content + .tab-group__content {
+		margin-top: 0;
+	}
+	.js .tab-group__content--active {
+		display: block;
+	}
+
+
+
+/* Accordion */
+
+	:root {
+		--accordion-border: rgba(var(--basalt), 0.25);
+	}
+	.theme--light {
+		--accordion-border: rgba(var(--basalt), 0.25);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--accordion-border: rgba(255,255,255, 0.15);
+		}
+	}
+	.theme--dark {
+		--accordion-border: rgba(255,255,255, 0.15);
+	}
+
+
+	.accordion__item {
+		border: solid 1px rgba(50,68,74, 0.25);
+		border: solid 1px var(--accordion-border);
+		column-gap: 1.6rem;
+		column-gap: var(--padding);
+		display: grid;
+		grid-template-columns: 1fr fit-content(50%);
+		grid-template-areas: 'a b''c c';
+		padding: 0.8rem 1.6rem;
+		padding: 0.8rem var(--padding);
+		position: relative;
+	}
+	.accordion__item + .accordion__item {
+		border-top: none;
+	}
+	.accordion__item:first-child {
+		border-radius: 0.3rem 0.3rem 0 0;
+		border-radius: var(--button-radius) var(--button-radius) 0 0;
+	}
+	.accordion__item:last-child {
+		border-radius: 0 0 0.3rem 0.3rem;
+		border-radius: 0 0 var(--button-radius) var(--button-radius);
+	}
+	
+	.accordion__visible {
+		grid-area: a;
+	}
+		.accordion__toggle,
+		.accordion__button {
+			grid-area: b;
+			margin: -0.8rem calc(1.6rem * -1) !important;
+			margin: -0.8rem calc(var(--padding) * -1) !important;
+			white-space: nowrap;
+		}
+		.accordion__toggle.button--ghost,
+		.accordion__button.button--ghost {
+			margin: -0.8rem 0 !important;
+		}
+		.accordion__toggle .icon {
+			transition: all 0.2s ease-in-out;
+		}
+		.accordion__toggle[aria-expanded="false"] .icon {
+			transform: rotate(90deg);
+		}
+		.accordion__toggle[aria-expanded="true"] .icon {
+			transform: rotate(-90deg);
+		}
+
+		.accordion__content {
+			grid-area: c;
+			margin: -0.8rem calc(1.6rem * -1);
+			margin: -0.8rem calc(var(--padding) * -1);
+			margin-top: 0.4rem;
+			padding: 0.3rem 1.6rem;
+			padding: 0.3rem var(--padding);
+			transition: max-height 0.3s ease-in-out;
+		}
+		[aria-expanded="false"] + .accordion__content {
+			max-height: 0vh;
+			padding: 0.3rem 1.6rem;
+			padding: 0.3rem var(--padding);
+			visibility: hidden;
+		}
+		[aria-expanded="true"] + .accordion__content {
+			max-height: 100vh;
+			padding: 0.8rem 1.6rem;
+			padding: 0.8rem var(--padding);
+			visibility: visible;
+		}
+
+	@media only screen and (max-width: 18em) {
+		.accordion__item {
+			display: block;
+		}
+			.accordion .accordion__item .accordion__toggle,
+			.accordion .accordion__item .accordion__button {
+				display: block;
+				margin: 0 auto -0.8rem auto !important;
+			}
+	}
+
+
+
+/* Console log */
+
+	.console {
+		background: rgb(23,24,24);
+		background: rgb(var(--coal));
+		color: rgb(255,255,255);
+	}
+	.console--light {
+		background: rgb(255,255,255);
+		color: rgb(23,24,24);
+		color: rgb(var(--coal));
+	}
+		.console pre {
+			padding: calc(1.6rem / 2);
+			padding: calc(var(--padding) / 2);
+			max-height: 30rem;
+		}
+		/* Adjust the padding slightly for consoles inside tables so the left margin matches. */
+		.table .console pre {
+			padding-left: 1.6rem;
+			padding-left: var(--padding);
+			padding-right: 1.6rem;
+			padding-right: var(--padding);
+		}
+
+
+		
+/* Highlights panel */
+
+	:root {
+		--highlights-background: rgba(var(--basalt), 0.75);
+	}
+	.theme--light {
+		--highlights-background: rgba(var(--basalt), 0.75);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--highlights-background: rgba(255,255,255, 0.35);
+		}
+	}
+	.theme--dark {
+		--highlights-background: rgba(255,255,255, 0.35);
+	}
+
+
+	.highlights {
+		--border-width: 0 4px 0 0;
+		--display: flex;
+		--dl: block;
+		--pad: var(--padding);
+		--radius: var(--block-radius) 0 0 var(--block-radius);
+	}
+	@media only screen and (max-width: 40rem) {
+		.highlights--width-40 {
+			--border-width: 0 0 4px 0;
+			--display: block;
+			--dl: grid;
+			--pad: 0 var(--padding) var(--padding) var(--padding);
+			--radius: var(--block-radius) var(--block-radius) 0 0;
+		}
+	}
+	@media only screen and (max-width: 60rem) {
+		.highlights--width-60 {
+			--border-width: 0 0 4px 0;
+			--display: block;
+			--dl: grid;
+			--pad: 0 var(--padding) var(--padding) var(--padding);
+			--radius: var(--block-radius) var(--block-radius) 0 0;
+		}
+	}
+	@media only screen and (max-width: 80rem) {
+		.highlights--width-80 {
+			--border-width: 0 0 4px 0;
+			--display: block;
+			--dl: grid;
+			--pad: 0 var(--padding) var(--padding) var(--padding);
+			--radius: var(--block-radius) var(--block-radius) 0 0;
+		}
+	}
+
+
+	.page .highlights {
+		background: rgba(50,68,74, 0.75);
+		background: var(--highlights-background);
+		color: #fff;
+		display: var(--display);
+	}
+		.highlights__section {
+			flex: 0 1 auto;
+			padding: var(--pad);
+			white-space: nowrap;
+			display: flex;
+			align-items: center;
+		}
+		
+		.highlights__status,
+		.highlights__status + .highlights__section {
+			padding-top: 1.6rem;
+			padding-top: var(--padding);
+		}
+		.highlights__section:last-child {
+			flex-grow: 1;
+		}
+		.highlights__section--wrap {
+			flex-grow: 999;
+			white-space: normal;
+		}
+		.highlights__status {
+			border: solid 4px rgb(236,239,240);
+			border: solid 4px var(--page-background);
+			border-radius: var(--radius);
+			border-width: var(--border-width);
+		}
+			.highlights .dl--horizontal {
+				display: var(--dl);
+				grid-template-columns: fit-content(50%) 1fr;
+			}
+			.highlights .dl--horizontal dt {
+				margin-right: 0.4rem;
+			}
+
+
+	.highlight--right {
+		justify-content: flex-end;
+	}
+
+
+	.highlights a:not([class]) {
+		color: currentColor;
+	}
+	.highlights a:focus:not([class]), 
+	.highlights a:focus-visible:not([class]) {
+		background: rgb(255,255,255);
+		color: rgb(23,24,24);
+		color: rgb(var(--coal));
+	}
+	.highlights a:focus:not(:focus-visible):not([class]) {
+		background: none;
+		color: currentColor;
+	}
+
+	/* Status colours. */
+	.highlights__status.highlights__status--good {
+		background: rgb(0,103,41);
+		background: rgb(var(--frog));
+	}
+	.highlights__status.highlights__status--goodish {
+		background: linear-gradient(45deg, rgba(155,18,0,1) 49%, rgba(0,103,41,1) 50%);
+		background: linear-gradient(45deg, rgba(var(--cherry),1) 49%, rgba(var(--frog),1) 50%);
+	}
+	.highlights__status.highlights__status--bad {
+		background: rgb(155,18,0);
+		background: rgb(var(--cherry));
+	}
+
+
+
+/* Copy Box */
+
+	:root {
+		--copy-box-background: rgb(255,255,255);
+		--copy-box-border: rgb(var(--smurf));
+	}
+	.theme--light {
+		--copy-box-background: rgb(255,255,255);
+		--copy-box-border: rgb(var(--smurf));
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--copy-box-background: rgb(var(--coal));
+			--copy-box-border: rgb(var(--smurf));
+		}
+	}
+	.theme--dark {
+		--copy-box-background: rgb(var(--coal));
+		--copy-box-border: rgb(var(--smurf));
+	}
+
+	.copy-box {
+		align-items: start;
+		display: inline-grid;
+		grid-template-columns: 1fr max-content;
+		position: relative;
+	}
+		.copy-box__content {
+			border: 1px dashed rgb(5,152,214);
+			border: 1px dashed var(--copy-box-border);
+			background: rgb(255,255,255);
+			background: var(--copy-box-background);
+			padding: 0.8rem;
+			position: relative;
+			/* Allows the trick to use the animation to click to select the content. */
+			user-select: all;
+		}
+		/* Played when the user clicks on the content to copy. The first click selects all the content, a second click allows the user to manually select. Without the animation they would only ever be able to select all. */
+		.copy-box__content:focus,
+		.copy-box__content--focussed {
+			animation: to-copy 100ms step-end forwards;
+		}
+		@keyframes to-copy {
+			to {
+				-webkit-user-select: text;
+				user-select: text;
+			}
+		}
+		/* Played when the user clicks on the copy button. */
+		.copy-box__content--copied {
+			animation: copy-box 0.5s ease-out;
+			animation-fill-mode: forwards;
+		}
+		@keyframes copy-box {
+			0% {
+				background: rgba(5,152,214, 0);
+				background: rgba(var(--smurf), 0);
+			}
+			50% {
+				background: rgba(5,152,214, 0.25);
+				background: rgba(var(--smurf), 0.25);
+			}
+			100% {
+				background: rgba(5,152,214, 0);
+				background: rgba(var(--smurf), 0);
+			}
+		}
+		.copy-box__button {
+			flex: 0 0 auto;
+		}
+		
+
+
+/* Callout */
+
+	.callout {
+		background: rgba(240,152,27,0.5);
+		background: rgba(var(--tango),0.5);
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		padding: 1.6rem;
+		padding: var(--padding);
+		text-align: center;
+	}
+		.callout ul {
+			margin-left: auto;
+			margin-right: auto;
+			display: inline-block;
+		}
+			.callout li {
+				text-align: left;
+			}
+
+
+		/* .callout ul {
+			list-style-type: none;
+			padding-left: calc(1em + 0.4rem);
+		}
+			.callout li {
+				position: relative;
+			}
+				.callout .icon {
+					position: absolute;
+					right: calc(100% + 0.4rem);
+					top: 0.4rem;
+				}
+				.callout .icon--tick {
+					fill: rgb(var(--frog));
+				} */
+/* Status Label */
+
+	.status-label {
+		font-size: 1.4rem;
+		font-weight: bold;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+	a.status-label {
+		color: currentcolor;
+	}
+	a.status-label:hover {
+		text-decoration: none;
+	}
+	a.status-label:focus, 
+	a.status-label:focus-visible {
+		background: rgb(0,115,165);
+		background: rgb(var(--link-color));
+		border-radius: 2px;
+		color: rgb(255,255,255);
+		color: rgb(var(--link-color-focus));
+		text-decoration: none;
+	}
+	a.status-label:focus:not(:focus-visible) {
+		background: none;
+		border-radius: 0;
+		color: rgb(0,115,165);
+		color: rgb(var(--link-color));
+		text-decoration: underline;
+	}
+		.status-label .icon {
+			fill: inherit;
+		}
+		a.status-label:focus .icon, 
+		a.status-label:focus-visible .icon {
+			fill: rgb(255,255,255);
+			fill: rgb(var(--link-color-focus));
+		}
+		a.status-label:focus:not(:focus-visible) .icon {
+			fill: rgb(0,115,165);
+			fill: rgb(var(--link-color));
+		}
+
+
+
+/* Status */
+
+	:root {
+		--popup-background: 255,255,255;
+		--popup-text: var(--page-text);
+		--popup-page-text: var(--page-text);
+		--popup-status-link: 0,115,165;
+	}
+	.theme--light {
+		--popup-background: 255,255,255;
+		--popup-text: var(--page-text);
+		--popup-page-text: var(--page-text);
+		--popup-status-link: 0,115,165;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--popup-background: var(--basalt);
+			--popup-text: var(--page-text);
+			--popup-page-text: 255,255,255;
+			--popup-status-link: 255,255,255;
+		}
+	}
+	.theme--dark {
+		--popup-background: var(--basalt);
+		--popup-text: var(--page-text);
+		--popup-page-text: 255,255,255;
+		--popup-status-link: 255,255,255;
+	}
+
+	
+
+	.status {
+		background: rgb(50,68,74);
+		background: rgb(var(--basalt));
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		color: rgb(255,255,255);
+		padding: 1.6rem;
+		padding: var(--padding);
+		position: relative;
+	}
+		/* Hide by default anything that is optional. */
+		.status__title, 
+		.status__icon, 
+		.status .status__close-button,
+		.status__actions {
+			display: none;
+		}
+
+		.status .icon {
+			/* fill: rgb(255,255,255) !important; */
+			fill: currentColor;
+		}
+		/* .theme--light .status.popup:not(.status--success):not(.status--error) .icon {
+			fill: rgb(var(--page-text)) !important;
+		} */
+		/* .popup:not(.status--success):not(.status--error) .icon {
+			fill: rgb(var(--popup-page-text)) !important;
+		} */
+		/* .status button .icon {
+			fill: rgb(255,255,255) !important;
+		} */
+
+
+		/* With close button */
+		.status--cb .status__close-button {
+			display: block;
+			margin: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+		/* Add some spacing to accommodate the clcose button in top right. */
+		.status--cb .status__title, 
+		.status--cb .status__content {
+			margin-right: calc(4rem - 1.6rem);
+			margin-right: calc(4rem - var(--padding));
+		}
+
+
+		/* With title */
+		.status--title .status__title {
+			display: block;
+		}
+		/* If there's a title and a close button in use we can remove the spacing 
+		   for the close button as the main content is likely underneath it. */
+		.status--title.status--cb .status__content {
+			margin-right: 0;
+		}
+
+
+		/* With icon */
+		.status--icon .status__icon {
+			display: block;
+			left: 1.6rem;
+			left: var(--padding);
+			position: absolute;
+			top: 1.6rem;
+			top: var(--padding);
+			width: 3.2rem;
+			height: 3.2rem;
+
+			/* This is to shrink the icon if we have short status text that is only 
+			   one line long, the minimum height of the status block ends up at 
+			   about 48px tall so we show an icon that's 24px in height. */
+			max-height: 50%;
+		}
+		.status--icon .status__title, 
+		.status--icon .status__content {
+			margin-left: calc(1.6rem + 3.2rem);
+			margin-left: calc(var(--padding) + 3.2rem);
+		}
+
+
+	.status.status--small {
+		padding: calc(1.6rem / 2);
+		padding: calc(var(--padding) / 2);
+	}
+		.status--icon.status--small .status__icon {
+			width: 2rem;
+			height: 2rem;
+			top: calc(1.6rem / 2);
+			top: calc(var(--padding) / 2);
+		}
+		.status--icon.status--small .status__content {
+			margin-left: calc(1.6rem + 2rem);
+			margin-left: calc(var(--padding) + 2rem);
+		}
+
+
+		/* With actions */
+		.status--actions {
+			/* Add 25% extra padding to the bottom to visually balance things out. */
+			padding-bottom: calc(1.6rem + calc(1.6rem / 2));
+			padding-bottom: calc(var(--padding) + calc(var(--padding) / 2));
+		}
+			.status--actions .status__actions {
+				display: block;
+				padding-top: calc(1.6rem / 4);
+				padding-top: calc(var(--gutter) / 4);
+				text-align: center;
+			}
+			.status--actions:not(.status--small) .status__actions {
+				padding-top: calc(1.6rem * 2);
+				padding-top: calc(var(--gutter) * 2);
+			}
+
+
+	.status a {
+		color: rgb(255,255,255);
+	}
+	.popup:not(.status--success):not(.status--error) a:not([class]) {
+		color: rgb(0,115,165);
+		color: rgb(var(--popup-status-link));
+	} 
+
+			
+	.status--error {
+		background: rgb(155,18,0) !important;
+		background: rgb(var(--cherry)) !important;
+	}
+	.status--success {
+		background: rgb(0,103,41) !important;
+		background: rgb(var(--frog)) !important;
+	}
+
+
+
+	.popup__freeze-page {
+		overflow: hidden;
+	}
+		.popup__overlay {
+			align-items: center;
+			background: rgba(23,24,24, 0.9);
+			background: rgba(var(--coal), 0.9);
+			bottom: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			left: 0;
+			position: fixed;
+			right: 0;
+			top: 0;
+			z-index: 100;
+		}
+			.popup {
+				background: rgb(255,255,255);
+				background: rgb(var(--popup-background));
+				border-radius: 0.3rem;
+				border-radius: var(--block-radius);
+				box-shadow: 0px 20px 20px 4px rgba(11,11,11,0.9);
+				box-shadow: 0px 20px 20px 4px rgba(var(--onyx),0.9);
+				color: rgb(255,255,255);
+				display: inline-flex;
+				flex-direction: column;
+				margin: 1.6rem 0;
+				margin: var(--gutter) 0;
+				padding: 1.6rem;
+				padding: var(--padding);
+				position: relative;
+				width: 60rem;
+			}
+			/* .theme--light .popup:not(.status--success):not(.status--error) {
+				color: rgb(var(--page-text));
+			} */
+
+			/* Popup that isn't a success or error, on light theme by default or with .theme--light only, all other instances of this will be white. */
+			.popup:not(.status--success):not(.status--error) {
+				color: rgb(50,68,74);
+				color: rgb(var(--popup-page-text));
+			}
+				.popup .status__title, 
+				.popup .status__actions {
+					flex: 0 0 auto;
+				}
+				.popup .status__content {
+					flex: 1 0 auto;
+
+					/* The 22rem is very approximate, this doesn't need to be pixel perfect so an approximation of when to kick in the scoll is fine. It allows for titles of two lines. */
+					max-height: calc(100vh - 22rem);
+				}
+
+	.status--tiny {
+		display: inline-block;
+		padding: calc(1.6rem / 2);
+		padding: calc(var(--padding) / 2);
+		padding-right: 1.6rem;
+		padding-right: var(--padding);
+	}
+		.status--tiny .status__icon {
+			display: block;
+			left: 1.6rem;
+			left: var(--padding);
+			position: absolute;
+			/* This is to shrink the icon if we have short status text that is only 
+			   one line long, the minimum height of the status block ends up at 
+			   about 48px tall so we show an icon that's 24px in height. */
+			max-height: 50%;
+
+			width: 2rem;
+			height: 2rem;
+			top: calc(1.6rem/ 1.8);
+			top: calc(var(--padding)/ 1.8);
+		}
+		.status--tiny .status__icon ~ .status__content {
+			margin-left: calc(1.6rem + 2rem);
+			margin-left: calc(var(--padding) + 2rem);
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.8rem;
+		}
+		
+		.status--tiny .status__actions {
+			display: inline-block;
+			margin: -0.8rem 0;
+		}
+
+
+	
+	:root {
+		--notifictions-bk: rgb(255,255,255);
+		--notifiction-bk: rgba(var(--concrete), 0.4);
+		--notifictions-text: var(--basalt);
+	}
+	.theme--light {
+		--notifictions-bk: rgb(255,255,255);
+		--notifiction-bk: rgba(var(--concrete), 0.4);
+		--notifictions-text: var(--basalt);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--notifictions-bk: linear-gradient(rgba(255,255,255,0.05),rgba(255,255,255,0.05)),rgb(var(--coal));
+			--notifiction-bk: rgba(var(--coal), 0.5);
+			--notifictions-text: 255,255,255;
+		}
+	}
+	.theme--dark {
+		--notifictions-bk: linear-gradient(rgba(255,255,255,0.05),rgba(255,255,255,0.05)),rgb(var(--coal));
+		--notifiction-bk: rgba(var(--coal), 0.5);
+		--notifictions-text: 255,255,255;
+	}
+
+	.notifications--popup.notifications {
+		display: inline-block;
+		position: relative;
+		z-index: 1;
+	}
+
+		.notifications .button.notification__button:first-child {
+			margin-left: calc((1.6rem/ 2) - 2px) !important;
+			margin-left: calc((var(--gutter)/ 2) - 2px) !important;
+			margin-right: 0 !important;
+		}
+		.notifications .button.notification__button[aria-expanded='true'] {
+			background: rgb(255,255,255) !important;
+			background: var(--notifictions-bk) !important;
+			position: relative;
+			z-index: 1;
+		}
+		.button.notification__button[aria-expanded='true']:after {
+			background: rgb(255,255,255);
+			background: var(--notifictions-bk);
+			bottom: -8px;
+			content: '';
+			display: block;
+			height: 10px;
+			left: 0;
+			position: absolute;
+			width: 100%;
+		}
+			.button.notification__button .icon {
+				height: 2.4rem;
+				margin: -4px -12px;
+				width: 2.4rem;
+			}
+			.button.notification__button[aria-expanded='true'] .icon {
+				fill: rgb(5,152,214);
+				fill: rgb(var(--smurf));
+			}
+				.notification__button use {
+					display: none;
+				}
+				.notification__button--old use[href$=icon-bell--existing], 
+				.notification__button--new use[href$=icon-bell--new], 
+				.notification__button--new use[href$=icon-bell--existing], 
+				.notification__button--empty use[href$=icon-bell--empty] {
+					display: block;
+				}
+				.notification__button--new use[href$=icon-bell--new] {
+					fill: rgb(240,152,27);
+					fill: rgb(var(--tango));
+				}
+
+	.notifications--popup .notifications__panel {
+		background: rgb(255,255,255);
+		background: var(--notifictions-bk);
+		box-shadow: 0 1px 6px 0px rgba(11,11,11,0.9);
+		box-shadow: 0 1px 6px 0px rgba(var(--onyx),0.9);
+		color: rgb(50,68,74);
+		color: rgb(var(--notifictions-text));
+		display: none;
+		padding: 1.6rem;
+		padding: var(--padding);
+		position: absolute;
+		right: 0;
+		text-align: left;
+		top: calc(100% + 3px);
+		width: 40rem;
+	}
+	.notification__button[aria-expanded='true'] + .notifications__panel {
+		display: block;
+	}
+		.notification__list {
+			padding-bottom: 1.6rem;
+			padding-bottom: var(--padding);
+			padding-top: 1.6rem;
+			padding-top: var(--padding);
+		}
+				.notification__list-inner {
+					display: flex;
+					flex-direction: column;
+					gap: 1.6rem;
+					gap: var(--padding);
+				}
+					.notification {
+						background: rgba(218,224,226, 0.4);
+						background: var(--notifiction-bk);
+						border-radius: 0.3rem;
+						border-radius: var(--block-radius);
+						padding: 1.6rem;
+						padding: var(--padding);
+						position: relative;
+					}
+						.notification .notification__title {
+							font-weight: bold;
+							padding-right: 0.8rem;
+						}
+						.icon.notification-pin {
+							fill: currentColor;
+							height: 1.6rem;
+							position: absolute;
+							right: 0.4rem;
+							top: 0.4rem;
+							width: 1.6rem;
+
+						}
+						.notification-delete {
+							position: absolute;
+							right: calc(1.6rem / 2);
+							right: calc(var(--padding) / 2);
+							bottom: calc(1.6rem / 2);
+							bottom: calc(var(--padding) / 2);
+						}
+
+	.notification__empty-text {
+		margin: 0.8rem 0 1.6rem 0;
+	}
+
+			.notification--time {
+				fill: rgb(5,152,214);
+				fill: rgb(var(--smurf));
+			}
+			.notification--info {
+				fill: rgb(0,103,41);
+				fill: rgb(var(--frog));
+			}
+			.notification--alert {
+				fill: rgb(155,18,0);
+				fill: rgb(var(--cherry));
+			}
+
+
+	@media only screen and (max-width: 37.5rem) {
+		.notifications--popup.notifications {
+			position: static;
+		}
+			.notifications--popup .notifications__panel {
+				left: 0;
+				/* This covers the extra height on the expanded notification button. */
+				margin-top: 3px;
+				right: auto;
+				top: auto;
+				width: 100%;
+			}
+	}
+
+	.page--sticky-header .notifications--popup .notification__button[aria-expanded='true'] + .notifications__panel {
+		display: flex;
+		flex-direction: column;
+		/* Deduct the height of the sticky header, might change this to a JS solution in a future update. */
+		max-height: calc(100vh - 4.5em);
+	}
+	.page--sticky-header .notifications--popup .notifications__panel > * {
+		flex: 0 0 auto;
+	}
+	.page--sticky-header .notifications--popup .notification__list {
+		flex: 1 1 auto;
+		margin-bottom: 1.6rem;
+		margin-bottom: var(--padding);
+		margin-top: 1.6rem;
+		margin-top: var(--padding);
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+
+	
+
+/* Post-it */
+
+	:root {
+		--post-it-bk: rgb(var(--post-it));
+	}
+	.theme--light {
+		--post-it-bk: rgb(var(--post-it));
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--post-it-bk: rgba(var(--post-it),0.4);
+		}
+	}
+	.theme--dark {
+		--post-it-bk: rgba(var(--post-it),0.4);
+	}
+
+
+
+	.post-it {
+		background: rgb(244,244,52);
+		background: var(--post-it-bk);
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		padding: 1.6rem;
+		padding: var(--padding);
+	}
+	.post-it + .post-it {
+		margin-top: 1.6rem;
+		margin-top: var(--gutter);
+	}
+	.post-it-table :not(.icon)[aria-hidden=true] {
+		display: none;
+	}
+		.post-it__title {
+			margin-top: 0;
+		}
+		.post-it__content--monospaced {
+			font-family: 'Courier New', Courier, monospace;
+		}
+		.post-it__footer {
+			text-align: center;
+		}
+		.post-it__footer:before {
+			background: rgba(50,68,74,0.7);
+			background: var(--form-footer-border);
+			border-radius: 1px;
+			content: '';
+			display: block;
+			height: 2px;
+			margin-bottom: calc(1.6rem + 2px);
+			margin-bottom: calc(var(--gutter) + 2px);
+			margin-top: calc(1.6rem / 2);
+			margin-top: calc(var(--gutter) / 2);
+			opacity: 0.2;
+		}
+
+
+
+/* Chart JS */
+
+.chart {
+	position: relative;
+}
+	.chart canvas {
+		position: absolute;
+	}
+
+.no-js .chart {
+	display: none;
+}
+.js .chart__table {
+	clip: rect(0 0 0 0);
+	clip-path: inset(100%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+
+
+/* Percentage bar */
+
+	:root {
+		--chart-border: rgba(var(--basalt), 0.5);
+	}
+	.theme--light {
+		--chart-border: rgba(var(--basalt), 0.5);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--chart-border: rgba(255,255,255, 0.3);
+		}
+	}
+	.theme--dark {
+		--chart-border: rgba(255,255,255, 0.3);
+	}
+
+	.percentage-bar {
+		border: solid 1px rgba(50,68,74, 0.5);
+		border: solid 1px var(--chart-border);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		height: 8px;
+		position: relative;
+	}
+		.percentage-bar__progress {
+			background: rgb(240,152,27);
+			background: rgb(var(--tango));
+			height: 100%;
+			left: 0;
+			position: absolute;
+		}
+		
+
+
+/* Buttons and Links */
+
+	:root {
+		/* Smurf + 32% Midnight overlay. */
+		--link-color: 0,115,165;
+		--link-color-focus: 255,255,255;
+	}
+	.theme--light {
+		--link-color: 0,115,165;
+		--link-color-focus: 255,255,255;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--link-color: 8,161,226;
+			--link-color-focus: var(--onyx);
+		}
+	}
+	.theme--dark {
+		--link-color: 8,161,226;
+		--link-color-focus: var(--onyx);
+	}
+
+	/* Make life easier an only style links that have no assigned class. */
+	a:not([class]) {
+		color: rgb(0,115,165);
+		color: rgb(var(--link-color));
+		text-decoration: underline;
+		outline: 0;
+		padding: 0.2rem 0.1rem;
+	}
+	a:hover:not([class]) {
+		opacity: 0.9;
+		text-decoration: none;
+	}
+	a:focus:not([class]), 
+	a:focus-visible:not([class]) {
+		background: rgb(0,115,165);
+		background: rgb(var(--link-color));
+		border-radius: 2px;
+		color: rgb(255,255,255);
+		color: rgb(var(--link-color-focus));
+		text-decoration: none;
+	}
+	a:focus:not(:focus-visible):not([class]) {
+		background: none;
+		border-radius: 0;
+		color: rgb(0,115,165);
+		color: rgb(var(--link-color));
+		text-decoration: underline;
+	}
+
+
+	.page__sidebar a:not([class]) {
+		color: rgb(5,152,214);
+		color: rgb(var(--smurf));
+	}
+	.page__sidebar a:focus:not([class]) {
+		color: rgb(0,44,62);
+		color: rgb(var(--midnight));
+	}
+
+	/* Display external icon on links that have no class set whilst also having a target="_blank". */
+	a[target='_blank']:not([class]):after,
+	.button[target='_blank']:not(.button--small):after,
+	.button--small[target='_blank'] .button__text:after,
+	a.menu__content[target='_blank'] .menu__text:after {
+		color: currentColor;
+		content: '\279C';
+		display: inline-block;
+		font-size: 0.7em;
+		line-height: 0.1em;
+		margin-left: 0.2em;
+		transform: rotate(-45deg);
+		vertical-align: super;
+	}
+
+
+
+/* Buttons */
+
+	:root {
+		/* 30% smurf over midnight. */
+		--button-bk: rgb(0,76,108);
+
+		/* 40% smurf over midnight. */
+		--button-bk-hover: rgb(0,86,123);
+
+		--button-ghost-text: var(--button-bk);
+
+		--button-shadow: var(--basalt);
+		
+		--popup-button-bk: var(--button-bk);
+		--popup-button-text: rgb(255,255,255);
+		--popup-button-bk-hover: var(--button-bk-hover);
+	}
+	.theme--light {
+		--button-ghost-text: var(--button-bk);
+		--popup-button-bk: var(--button-bk);
+		--popup-button-text: rgb(255,255,255);
+		--popup-button-bk-hover: var(--button-bk-hover);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--button-ghost-text: rgb(255,255,255);
+			--popup-button-bk: rgb(255,255,255);
+			--popup-button-text: var(--button-bk);
+			--popup-button-bk-hover: rgba(255,255,255,0.9);
+		}
+	}
+	.theme--dark {
+		--button-ghost-text: rgb(255,255,255);
+		--popup-button-bk: rgb(255,255,255);
+		--popup-button-text: var(--button-bk);
+		--popup-button-bk-hover: rgba(255,255,255,0.9);
+	}
+
+	/* Styles that are used on all buttons. */
+	.button {
+		background: transparent;
+		border: none;
+		direction: ltr;
+		display: inline-block;
+		font-family: inherit;
+		font-size: 100%;
+		font-weight: 400;
+		line-height: inherit;
+		outline: 0;
+		text-align: center;
+		text-decoration: none;
+	}
+
+	/* Corner radiuses. */
+	.button:not(.button--small), 
+	.button--small .button__text {
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+	}
+
+	/* Don't let JS use the inner part of the buttons as the click target. */
+	.button .button__text {
+		pointer-events: none;
+	}
+
+
+
+	/* BUTTON PADDING */
+
+	/* Normal sized buttons. */
+	.button:not(.button--small):not(.button--text) {
+		padding: 0.8rem 2rem;
+	}
+	/* Links with button spacing. */
+	.button--text {
+		padding: 0.8rem 0.1rem;
+	}
+	/* Buttons that open in new tabs or windows. */
+	.button:not(.button--small):not(.button--text)[target="_blank"] {
+		/* Adjust the right padding by roughly the width of the arrow. */
+		padding-right: 1.2rem;
+	}
+	/* Small buttons. */
+	.button--small {
+		/* Adds some hidden padding to these buttons so that the hit state is still 40px tall. */
+		padding: 0.6rem 0;
+	}
+		.button--small .button__text {
+			display: inline-block;
+			/* The remainder of the padding that we've adjusted on the button--small. */
+			padding: 0.2rem 0.8rem;
+		}
+	
+
+
+	/* BUTTON SPACING */
+
+	/* If we need a button to be wrapped in a form it will break the button spacing as it's the first item in the form but not visually the first button in a group. */
+	.button__container {
+		display: inline-block;
+	}
+
+	/* Horizontal margins. */
+	.button, 
+	.button__container .button {
+		margin: 0 calc((1.6rem /2) - 2px);
+		margin: 0 calc((var(--gutter) /2) - 2px);
+	}
+	.button--small, 
+	.button__container .button--small {
+		margin: 0 calc((1.6rem /4) - 2px);
+		margin: 0 calc((var(--gutter) /4) - 2px);
+	}
+
+	/* Remove margin on first and last buttons in a group. */
+	:not(.button__container) > .button:first-child, 
+	.button__container:first-child .button:first-child {
+		margin-left: 0;
+	}
+	:not(.button__container) > .button:last-child, 
+	.button__container:last-child .button:last-child {
+		margin-right: 0;
+	}
+
+
+
+	/* BACKGROUNDS, BORDERS AND TEXT */
+
+	/* Solid blue buttons. */
+	.button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear), 
+	.button--small:not(.button--ghost) .button__text {
+		background: rgb(0,76,108);
+		background: var(--button-bk);
+		box-shadow: 0 1px 0 0 rgba(50,68,74, 0.3);
+		box-shadow: 0 1px 0 0 rgba(var(--button-shadow), 0.3);
+		color: rgb(255,255,255);
+	}
+	.button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear):hover, 
+	.button--small:not(.button--ghost):hover .button__text {
+		background: rgb(0,86,123);
+		background: var(--button-bk-hover);
+		box-shadow: none;
+	}
+
+	/* Solid white buttons: most status blocks, table header. */
+	/* TODO: Status buttons - once buttons--light added to cloud we can remove these two lines. */
+	.status .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear), 
+	.status .button--small:not(.button--ghost) .button__text,
+	/* TODO: Table header buttons - once buttons--light added to cloud we can remove these two lines. */
+	.table th .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear), 
+	.table th .button--small:not(.button--ghost) .button__text,
+
+	.buttons--light .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear), 
+	.buttons--light .button--small:not(.button--ghost) .button__text {
+		background: rgb(255,255,255);
+		color: rgb(0,76,108);
+		color: var(--button-bk);
+	}
+	/* TODO: Status buttons - once buttons--light added to cloud we can remove these two lines. */
+	.status .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear):hover, 
+	.status .button--small:not(.button--ghost):hover .button__text,
+	/* TODO: Table header buttons - once buttons--light added to cloud we can remove these two lines. */
+	.table th .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear):hover, 
+	.table th .button--small:not(.button--ghost):hover .button__text,
+
+	.buttons--light .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear):hover, 
+	.buttons--light .button--small:not(.button--ghost):hover .button__text {
+		background: rgba(255,255,255,0.9);
+	}
+
+	/* Solid blue buttons on light theme popup. */
+	.popup.status:not(.status--success):not(.status--error) .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear) {
+		background: rgb(0,76,108);
+		background: var(--popup-button-bk);
+		color: rgb(255,255,255);
+		color: var(--popup-button-text);
+	}
+	.popup.status:not(.status--success):not(.status--error) .button:not(.button--small):not(.button--ghost):not(.button--text):not(.button--clear):hover {
+		background: rgb(0,86,123);
+		background: var(--popup-button-bk-hover);
+		box-shadow: none;
+	}
+
+	/* Ghost buttons, all sizes, all themes. */
+	.button--ghost:not(.button--small), 
+	.button--ghost.button--small .button__text {
+		box-shadow: 0 0 0 1px rgb(0,76,108) inset;
+		box-shadow: 0 0 0 1px var(--button-bk) inset;
+		color: rgb(0,76,108);
+		color: var(--button-ghost-text);
+	}
+	.button--ghost:not(.button--small):hover, 
+	.button--ghost.button--small:hover .button__text {
+		box-shadow: 0 0 0 2px rgb(0,86,123) inset;
+		box-shadow: 0 0 0 2px var(--button-bk-hover) inset;
+	}
+
+	/* Always white buttons, used in table headers and most status boxes. */
+	.buttons--light .button--ghost:not(.button--small), 
+	.buttons--light .button--ghost.button--small .button__text, 
+	/* TODO: Status buttons - once buttons--light added to cloud we can remove these two lines. */
+	.status .button--ghost:not(.button--small), 
+	.status .button--ghost.button--small .button__text, 
+	/* Table header buttons - once buttons--light added to cloud we can remove these two lines. */
+	.table th .button--ghost:not(.button--small), 
+	.table th .button--ghost.button--small .button__text {
+		box-shadow: 0 0 0 1px rgb(255,255,255) inset;
+		color: rgb(255,255,255);
+	}
+	.buttons--light .button--ghost:not(.button--small):hover, 
+	.buttons--light .button--ghost.button--small:hover .button__text, 
+	/* TODO: Status buttons - once buttons--light added to cloud we can remove these two lines. */
+	.status .button--ghost:not(.button--small):hover, 
+	.status .button--ghost.button--small:hover .button__text, 
+	/* Table header buttons - once buttons--light added to cloud we can remove these two lines. */
+	.table th .button--ghost:not(.button--small):hover, 
+	.table th .button--ghost.button--small:hover .button__text {
+		box-shadow: 0 0 0 2px rgb(255,255,255) inset;
+	}
+
+	/* Ghost buttons on light theme popup. */
+	.popup.status:not(.status--success):not(.status--error) .button--ghost:not(.button--small):not(.button--text):not(.button--clear) {
+		box-shadow: 0 0 0 1px rgb(0,76,108) inset;
+		box-shadow: 0 0 0 1px var(--popup-button-bk) inset;
+		color: rgb(0,76,108);
+		color: var(--popup-button-bk);
+	}
+	.popup.status:not(.status--success):not(.status--error) .button--ghost:not(.button--small):not(.button--text):not(.button--clear):hover {
+		box-shadow: 0 0 0 2px rgb(0,76,108) inset;
+		box-shadow: 0 0 0 2px var(--popup-button-bk) inset;
+	}
+
+	/* Links with button spacing. */
+	.button--text:not(.button--small) {
+		color: rgb(0,115,165);
+		color: rgb(var(--link-color));
+		text-decoration: underline;
+	}
+	.button--text:not(.button--small):hover {
+		text-decoration: none;
+	}
+
+	/* Clear buttons. */
+	.button--clear {
+		color: currentColor;
+	}
+	.button--clear:hover {
+		opacity: 0.9;
+	}
+
+	/* Large buttons with adjusted layout. */
+	.button.button--large .icon {
+		display: block;
+		height: 4.8rem;
+		margin: auto auto 0.8rem auto;
+		width: 4.8rem;
+	}
+	.button.button--large .icon + .button__text {
+		margin-left: 0;
+	}
+
+
+
+	/* ALL FOCUS STATES */
+	
+	.button:not(.button--small):focus, 
+	.button:not(.button--small):focus-visible, 
+	.button--small:focus .button__text, 
+	.button--small:focus-visible .button__text {
+		box-shadow: 0 0 0 4px rgb(5,152,214) !important;
+		box-shadow: 0 0 0 4px rgb(var(--smurf)) !important;
+	}
+	.button:not(.button--small):not(.button--ghost):focus:not(:focus-visible), 
+	.button--small:not(.button--ghost):focus:not(:focus-visible) .button__text {
+		box-shadow: none !important;
+	}
+	.button--ghost:not(.button--small):focus:not(:focus-visible), 
+	.button--small.button--ghost:focus:not(:focus-visible) .button__text {
+		box-shadow: 0 0 0 1px rgb(0,76,108) inset !important;
+		box-shadow: 0 0 0 1px var(--popup-button-bk) inset !important;
+	}
+
+
+
+	/* Because a toggle will only work with JavaScript we hide the toggle until it's been inited. */
+	.button--toggle:not(.js__button--toggle) {
+		display: none;
+	}
+		.button--toggle .toggle__2, 
+		.button--toggle[data-toggled] .toggle__1 {
+			display: none;
+		}
+		.button--toggle .toggle__1, 
+		.button--toggle[data-toggled] .toggle__2 {
+			display: block;
+		}
+		.toggle__text {
+			margin-left: 0.4rem;
+		}
+/* Menu */
+
+	:root {
+		--menu: var(--smurf);
+		--menu-shadow: var(--onyx);
+		--menu-text: 255,255,255;
+		/* Midnight with a 30% black tint to meet a11y contrast. */
+		--menu-current-text: 0,31,43;
+	}
+
+
+
+	.menu {
+		position: relative;
+	}
+	/* .page__sidebar .menu {
+		margin: calc(var(--padding) * 2) calc(-1 * var(--padding));
+		width: calc(100% + (var(--padding)*2));
+	}
+	.page__sidebar .menu:first-child {
+		margin-top: 0;
+	}
+	.page__sidebar .menu:last-child {
+		margin-bottom: 0;
+	} */
+
+	.menu__group {
+		text-align: left;
+	}
+
+
+
+	/* Gutters. */
+	.scroll .menu {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	.table .menu.menu--vertical.menu--dropdown {
+		display: inline-flex;
+		margin: 0 calc((1.6rem/ 2) - 2px);
+		margin: 0 calc((var(--gutter)/ 2) - 2px);
+	}
+	.table .menu.menu--vertical.menu--dropdown:first-child {
+		margin-left: 0;
+	}
+	.table .menu.menu--vertical.menu--dropdown:last-child {
+		margin-right: 0;
+	}
+
+
+
+		.menu__title {
+			padding: 0 1.6rem;
+			padding: 0 var(--padding);
+		}
+
+
+
+		/* If the JavaScript hasn't loaded yet we don't want there to be any weird flashes of submenus. */
+		.menu:not(.js__menu):not([data-menu-behaviour="open"]) .menu__item .menu__group, 
+		.menu:not(.js__menu) > .menu__main-toggle + .menu__group {
+			clip: rect(0 0 0 0);
+			clip-path: inset(100%);
+			height: 1px;
+			overflow: hidden;
+			position: absolute;
+			white-space: nowrap;
+			width: 1px;
+		}
+
+
+
+		/* Hide / show the submenu group immediately following the parent toggle. */
+		.menu [aria-expanded=false] ~ .menu__group {
+			display: none;
+		}
+		.menu [aria-expanded=true] ~ .menu__group {
+			display: block;
+		}
+		.menu--horizontal > [aria-expanded=true] ~ .menu__group {
+			display: inline-flex;
+		}
+
+
+
+		/* Horizontal menus need the top-most group to be horizontal. */
+		.menu--horizontal > .menu__group {
+			display: inline-flex;
+			flex-wrap: nowrap;
+		}
+		/* Second level, this is the UL that needs to be stacked under the main item. */
+		.menu--horizontal > .menu__group > .menu__item > .menu__group {
+			box-shadow: 0px 1px 2px 0px rgba(11,11,11,0.5);
+			box-shadow: 0px 1px 2px 0px rgba(var(--menu-shadow),0.5);
+			position: absolute;
+			z-index: 5;
+		}
+		/* Shift horizontal sub groups left if they overshoot the edge of the window. */
+		.menu__group--boundary + .menu__group {
+			right: 0;
+		}
+
+		/* Vertical menus that are dropdowns need to not push content down on their open state. */
+		.menu--vertical .menu__main-toggle + .menu__group {
+			position: absolute;
+			top: 100%;
+			z-index: 3;
+
+			/* Apply the radius to the container to properly mask the shadow. */
+			border-radius: 0 0 0.3rem 0.3rem;
+			border-radius: 0 0 var(--button-radius) var(--button-radius);
+			box-shadow: 0px 1px 2px 0px rgba(11,11,11,0.5);
+			box-shadow: 0px 1px 2px 0px rgba(var(--menu-shadow),0.5);
+		}
+		.menu--vertical.menu--toggle-right .menu__main-toggle + .menu__group {
+			right: 0;
+		}
+
+		/* Sets the width on horizontal dropdowns and vertical ones the are popup 
+		   menus rather than in content flow. */
+		.menu--vertical .menu__main-toggle + .menu__group, 
+		.menu--horizontal > .menu__group > .menu__item > .menu__group {
+			width: 15em;
+		}
+		/* Position the main menu above the main toggle as a "jump up". */
+		.menu--jump-up .menu__main-toggle + .menu__group {
+			top: auto;
+			bottom: 100%;
+			z-index: 1;
+		}
+
+
+
+			.menu__item {
+				position: relative;
+			}
+			/* Display inline vertical jump up menus upwards, we position the "dropdowns" but flex the inline version. Could probably tidy this into one style later on. */
+			.menu--jump-up > .menu__group > .menu__item {
+				display: flex;
+				flex-direction: column-reverse;
+			}
+
+
+
+				/* This is either an A or an H tag. */
+				.menu__content {
+					background: 
+						linear-gradient(
+							rgba(5,152,214, 0.3), 
+							rgba(5,152,214, 0.3)),
+						rgb(0,44,62);
+					background: 
+						linear-gradient(
+							rgba(var(--menu), 0.3), 
+							rgba(var(--menu), 0.3)),
+						rgb(var(--midnight));
+					color: rgb(255,255,255);
+					color: rgb(var(--menu-text));
+					display: flex;
+					padding: 0.8rem 2rem;
+					text-decoration: none;
+				}
+				/* Second level. */
+				.menu__group .menu__group .menu__content {
+					background: 
+						linear-gradient(
+							rgba(5,152,214, 0.2), 
+							rgba(5,152,214, 0.2)),
+						rgb(0,44,62);
+					background: 
+						linear-gradient(
+							rgba(var(--menu), 0.2), 
+							rgba(var(--menu), 0.2)),
+						rgb(var(--midnight));
+				}
+				/* Third level. */
+				.menu__group .menu__group .menu__group .menu__content {
+					background: 
+						linear-gradient(
+							rgba(5,152,214, 0.1), 
+							rgba(5,152,214, 0.1)),
+						rgb(0,44,62);
+					background: 
+						linear-gradient(
+							rgba(var(--menu), 0.1), 
+							rgba(var(--menu), 0.1)),
+						rgb(var(--midnight));
+				}
+				.menu__content:not(a):not(button) {
+					font-weight: 700;
+				}
+
+
+
+				/* Corner radiuses. */
+
+				/* Vertical menu radius. */
+				.menu--vertical > .menu__group > li:first-child {
+					border-radius: 0.3rem 0.3rem 0 0;
+					border-radius: var(--button-radius) var(--button-radius) 0 0;
+					overflow: hidden;
+				}
+				.menu--vertical > .menu__group > li:last-child {
+					border-radius: 0 0 0.3rem 0.3rem;
+					border-radius: 0 0 var(--button-radius) var(--button-radius);
+					overflow: hidden;
+				}
+				/* If this is the only item. */
+				.menu--vertical > .menu__group > li:first-child:last-child {
+					border-radius: 0.3rem;
+					border-radius: var(--button-radius);
+				}
+				.menu--vertical:not(.menu--toggle-right) > [aria-expanded=true] + .menu__group {
+					border-top-left-radius: 0;
+				}
+				.menu--vertical.menu--toggle-right > [aria-expanded=true] + .menu__group {
+					border-top-right-radius: 0;
+				}
+
+				.page__sidebar .menu--vertical > .menu__group > li:first-child, 
+				.page__sidebar .menu--vertical > .menu__group > li:last-child {
+					border-radius: 0;
+				}
+				.menu--vertical.menu--jump-up > .menu__group > li:last-child {
+					border-bottom-left-radius: 0;
+				}
+				/* Can't overflow hidden because it kills the submenu visibility, so 
+				   we add the radius to the first and last menu items, and the 
+				   submenus using the vertical styling as above. */
+				.menu--horizontal > .menu__group > .menu__item:first-child > .menu__content {
+					border-radius: 0.3rem 0 0 0.3rem;
+					border-radius: var(--button-radius) 0 0 var(--button-radius);
+				}
+				.menu--horizontal > .menu__group > .menu__item:last-child > .menu__content {
+					border-radius: 0 0.3rem 0.3rem 0;
+					border-radius: 0 var(--button-radius) var(--button-radius) 0;
+				}
+				/* Add radius to top corner of horizontal submenu when opened. */
+				.menu--horizontal > .menu__group > .menu__item .menu__group {
+					border-radius: 0 0.3rem 0.3rem 0.3rem;
+					border-radius: 0 var(--button-radius) var(--button-radius) var(--button-radius);
+					overflow: hidden;
+				}
+				.menu--horizontal > .menu__group > .menu__item .menu__group--boundary + .menu__group {
+					border-radius: 0.3rem 0 0.3rem 0.3rem;
+					border-radius: var(--button-radius) 0 var(--button-radius) var(--button-radius);
+				}
+				/* Remove radius on corners for entire menu toggles. */
+				.menu--horizontal:not(.menu--toggle-right) > [aria-expanded=true] + .menu__group > .menu__item:first-child > .menu__content {
+					border-radius: 0;
+				}
+				.menu--horizontal.menu--toggle-right > [aria-expanded=true] + .menu__group > .menu__item:last-child > .menu__content {
+					border-radius: 0;
+				}
+
+
+
+				.menu .menu__group .menu__group .menu__content {
+					/* White with a 35% smurf overlay. */
+					color: rgba(166,218,241,1);
+
+					/* Because the text is smaller we increase the vertical padding a little to keep the menu items the same minimum height as the top levels. */
+					font-size: 1.4rem;
+					padding: 0.9rem 2rem 1rem 2rem;
+				}
+				.menu .menu__group .menu__group .menu__content > .icon:first-child {
+					flex: 0 0 auto;
+				}
+				/* Third level items. */
+				.menu .menu__group .menu__group .menu__group .menu__content {
+					color: rgba(166,218,241,0.75);
+				}
+
+				/* Indents. */
+				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__content {
+					padding-left: 3.2rem;
+				}
+				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__group .menu__content {
+					padding-left: 4.4rem;
+				}
+				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__content > .icon:first-child {
+					margin-left: 0.4rem;
+				}
+				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__group .menu__content > .icon:first-child {
+					margin-left: 1.6rem;
+				}
+
+
+
+				/* Only hover and focus on links, not titles. */
+				.menu form.menu__content:hover, 
+				.menu span.menu__content:hover, 
+				.menu a.menu__content:hover {
+					background: 
+						linear-gradient(
+							rgba(5,152,214, 0.4), 
+							rgba(5,152,214, 0.4)), 
+						rgb(0,44,62) !important;
+					background: 
+						linear-gradient(
+							rgba(var(--menu), 0.4), 
+							rgba(var(--menu), 0.4)), 
+						rgb(var(--midnight)) !important;
+					color: rgb(255,255,255) !important;
+					color: rgb(var(--menu-text)) !important;
+				}
+				.menu__form-button:focus, 
+				.menu a.menu__content:focus, 
+				.menu__form-button:focus-visible, 
+				.menu a.menu__content:focus-visible {
+					box-shadow: inset 0 0 0 4px rgb(0,115,165);
+					box-shadow: inset 0 0 0 4px rgb(var(--link-color));
+					outline: 0;
+				}
+				.menu__form-button:focus:not(:focus-visible), 
+				.menu a.menu__content:focus:not(:focus-visible) {
+					box-shadow: none;
+				}
+				.menu__form-button:focus-visible, 
+				.menu a.menu__content:focus-visible {
+					box-shadow: inset 0 0 0 4px rgb(0,115,165);
+					box-shadow: inset 0 0 0 4px rgb(var(--link-color));
+					outline: 0;
+				}
+
+				/* Active page link. */
+				.menu [aria-current] {
+					background: rgb(240,152,27) !important;
+					background: rgb(var(--tango)) !important;
+					color: rgb(0,31,43) !important;
+					color: rgb(var(--menu-current-text)) !important;
+				}
+				.menu .menu__content[aria-current]:hover {
+					background: 
+						linear-gradient(
+							rgba(255,255,255, 0.2), 
+							rgba(255,255,255, 0.2)),
+						rgb(240,152,27) !important;
+					background: 
+						linear-gradient(
+							rgba(255,255,255, 0.2), 
+							rgba(255,255,255, 0.2)),
+						rgb(var(--tango)) !important;
+					color: rgb(0,31,43) !important;
+					color: rgb(var(--menu-current-text)) !important;
+				}
+				.menu[data-menu-type="split"] [aria-current] + .button.menu__split-button {
+					color: rgb(0,31,43);
+					color: rgb(var(--menu-current-text));
+				}
+				.menu__current-parent {
+					box-shadow: inset 4px 0px 0px 0px rgb(240,152,27);
+					box-shadow: inset 4px 0px 0px 0px rgb(var(--tango));
+				}
+				.menu a.menu__content.menu__current-parent:focus, 
+				.menu a.menu__content.menu__current-parent:focus-visible {
+					box-shadow: inset 4px 0px 0px 0px rgb(240,152,27), inset 0 0 0 4px rgb(0,115,165);
+					box-shadow: inset 4px 0px 0px 0px rgb(var(--tango)), inset 0 0 0 4px rgb(var(--link-color));
+				}
+				.menu a.menu__content.menu__current-parent:not(:focus-visible) {
+					box-shadow: inset 4px 0px 0px 0px rgb(240,152,27);
+					box-shadow: inset 4px 0px 0px 0px rgb(var(--tango));
+				}
+
+					.menu__content .icon {
+						margin: 0.2rem 0.8rem 0 -0.8rem;
+					}
+					.menu__content .icon--nav {
+						flex: 0 0 1.6rem;
+						margin: 0.2rem -0.8rem 0 2rem;
+						transition: transform 0.2s;
+					}
+					.menu [aria-expanded="true"] .icon--nav {
+						transform: rotate(90deg);
+					}
+					.menu.menu--jump-up > .menu__group > .menu__item > .menu__content[aria-expanded="true"] .icon--nav, 
+					.menu.menu--jump-up > .menu__group > .menu__item > .menu__content + [aria-expanded="true"] .icon--nav {
+						transform: rotate(-90deg);
+					}
+
+					.menu .icon.icon--av {
+						border-radius: 0.3rem;
+						border-radius: var(--button-radius);
+						height: 3.2rem;
+						margin-bottom: -0.8rem;
+						margin-left: -1.6rem;
+						margin-top: -0.8rem;
+						width: 3.2rem;
+					}
+					.menu.menu--vertical .icon.icon--av {
+						margin-top: -0.6rem;
+					}
+					.menu__spacer {
+						width: 1.6rem;
+					}
+					/* Make the text take up as much room as it can so it pushes the arrow to the right edge. */
+					.menu__content .menu__text {
+						flex: 1 1 auto;
+					}
+
+				.menu--clone {
+					font-style: italic;
+				}
+
+	/* Main toggle button alignment. Also add this to vertical dropdowns, this is so the .menu isn't a block item that meanswe can't close menus because we might actually still be clicking on them. */
+	.menu--horizontal, 
+	.menu.menu--vertical.menu--dropdown {
+		display: flex;
+	}
+	.menu--horizontal.menu--toggle-right {
+		flex-direction: row-reverse;
+	}
+	.menu--vertical {
+		flex-direction: column;
+	}
+	
+	.menu.menu--vertical.menu--dropdown.menu--inline {
+		display: inline-flex;
+	}
+
+		/* Toggle button, is otherwise a standard button HTML. */
+		.menu .menu__main-toggle {
+			margin: 0;
+			align-self: flex-start;
+		}
+		.table .menu .menu__main-toggle {
+			white-space: nowrap;
+		}
+		.menu .menu__main-toggle[aria-expanded="true"] {
+			background: 
+				linear-gradient(
+					rgba(5,152,214, 0.3), 
+					rgba(5,152,214, 0.3)),
+				rgb(0,44,62);
+			background: 
+				linear-gradient(
+					rgba(var(--menu), 0.3), 
+					rgba(var(--menu), 0.3)),
+				rgb(var(--midnight));
+		}
+		.menu .menu__main-toggle[aria-expanded="true"]:hover {
+			background: 
+				linear-gradient(
+					rgba(5,152,214, 0.4), 
+					rgba(5,152,214, 0.4)),
+				rgb(0,44,62);
+			background: 
+				linear-gradient(
+					rgba(var(--menu), 0.4), 
+					rgba(var(--menu), 0.4)),
+				rgb(var(--midnight));
+		}
+		/* Align the button right. */
+		.menu.menu--toggle-right .menu__main-toggle {
+			align-self: flex-end;
+		}
+		/* This is to make the shadow on the menu appear behind the main toggle button. */
+		.menu--jump-up .menu__main-toggle {
+			z-index: 2;
+		}
+
+			.menu__main-toggle .icon {
+				transition: transform 0.2s;
+			}
+			.menu__main-toggle[aria-expanded="true"] .icon:not(.icon--av) {
+				transform: rotate(90deg);
+			}
+			.menu__main-toggle[aria-expanded="true"] .icon.s180 {
+				transform: rotate(180deg);
+			}
+			.menu__main-toggle .icon.icon--av {
+				opacity: 0.75;
+			}
+			.menu__main-toggle[aria-expanded="true"] .icon.icon--av {
+				opacity: 1;
+			}
+
+		/* Adjust the radius on the menus when the main toggle is open. */
+		.menu--horizontal .menu__main-toggle[aria-expanded="true"] {
+			border-radius: 0.3rem 0 0 0.3rem;
+			border-radius: var(--button-radius) 0 0 var(--button-radius);
+		}
+		.menu--horizontal.menu--toggle-right .menu__main-toggle[aria-expanded="true"] {
+			border-radius: 0 0.3rem 0.3rem 0;
+			border-radius: 0 var(--button-radius) var(--button-radius) 0;
+		}
+		.menu--vertical .menu__main-toggle[aria-expanded="true"] {
+			border-radius: 0.3rem 0.3rem 0 0;
+			border-radius: var(--button-radius) var(--button-radius) 0 0;
+		}
+		.menu--vertical:not(.menu--toggle-right):not(.menu--jump-up) .menu__main-toggle[aria-expanded="true"] + .menu__group > .menu__item:first-child {
+			border-top-left-radius: 0;
+		}
+		.menu--vertical.menu--toggle-right .menu__main-toggle[aria-expanded="true"] + .menu__group > .menu__item:first-child {
+			border-top-right-radius: 0;
+		}
+		.menu--jump-up .menu__main-toggle[aria-expanded="true"] {
+			border-radius: 0 0 0.3rem 0.3rem;
+			border-radius: 0 0 var(--button-radius) var(--button-radius);
+		}
+
+		.table .menu .menu__main-toggle {
+			padding: 0.2rem 1.4rem;
+		}
+		.table .menu .menu__main-toggle .button__text {
+			margin-left: 1.2rem;
+			margin-right: -0.4rem;
+		}
+
+		/* Addition for adding form posts with buttons to the menu. */
+		form.menu__content,
+		span.menu__content {
+			padding: 0;
+		}
+		.menu__form-button {
+			background: transparent;
+			border: none;
+			color: rgb(255,255,255);
+			color: rgb(var(--menu-text));
+			display: flex;
+			font-family: inherit;
+			font-size: inherit;
+			line-height: inherit;
+			padding: 0.8rem 2rem;
+			text-align: left;
+			width: 100%;
+		}
+		.menu__group .menu__group .menu__form-button {
+			padding-left: 0;
+		}
+
+
+
+/* Adjustments for menu split buttons.  */
+.menu[data-menu-type=split] .menu__item > .menu__content {
+	padding-right: 4.8rem;
+}
+	.menu[data-menu-type=split] .menu__item > .menu__split-button {
+		background: rgba(5,152,214, 0.2);
+		background: rgba(var(--smurf), 0.2);
+		margin: 0;
+		position: absolute;
+		top: 0.4rem;
+		right: 0.4rem;
+		padding: 0.4rem 1.6rem;
+	}
+	.menu--jump-up[data-menu-type=split] .menu__item > .menu__split-button {
+		bottom: 0.4rem;
+		top: auto;
+	}
+	.menu[data-menu-type=split] .menu__item > .menu__split-button:hover {
+		background: rgba(5,152,214, 0.5);
+		background: rgba(var(--smurf), 0.5);
+	}
+		.menu[data-menu-type=split] .menu__item > .menu__split-button .icon {
+			transition: transform 0.2s;
+		}
+
+	.menu[data-menu-type=split] .menu__item > [aria-current] + .menu__split-button {
+		background: rgba(255,255,255, 0.2);
+	}
+	.menu[data-menu-type=split] .menu__item > [aria-current] + .menu__split-button:hover {
+		background: rgba(255,255,255, 0.5);
+	}
+
+
+
+/* Breadcrumb trail */
+
+	.breadcrumb li {
+		display: inline;
+	}
+	/* Don't use a unicode character in the content attribute as some screen readers 
+	   now read out text added via CSS, instead create an arrow using the border trick. */
+	.breadcrumb li + li:before {
+		border: 0.4rem solid transparent;
+		border-left: 0.5rem solid rgba(50,68,74, 0.85);
+		border-left: 0.5rem solid rgba(var(--page-text), 0.85);
+		content: '';
+		display: inline-block;
+		margin: 0 0 0.1rem 0.2rem;
+	}
+		/* Keep this generic so we can use an aria-current value of page or location. */
+		.breadcrumb [aria-current] {
+			color: inherit;
+			text-decoration: none;
+		}
+
+
+
+/* Form container */
+
+	:root {
+		--form-background: rgb(var(--concrete));
+		--form-footer-border: rgba(var(--basalt),0.7);
+		--form-section-footer: var(--concrete);
+	}
+	.theme--light {
+		--form-background: rgb(var(--concrete));
+		--form-footer-border: rgba(var(--basalt),0.7);
+		--form-section-footer: var(--concrete);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--form-background: rgba(var(--jet), 1);
+			--form-footer-border: rgba(255,255,255,0.8);
+			--form-section-footer: var(--jet);
+		}
+	}
+	.theme--dark {
+		--form-background: rgba(var(--jet), 1);
+		--form-footer-border: rgba(255,255,255,0.8);
+		--form-section-footer: var(--jet);
+	}
+
+
+	.form {
+		background: rgb(218,224,226);
+		background: var(--form-background);
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		padding: 1.6rem;
+		padding: var(--padding);
+		/* Add 25% extra padding to the bottom to visually balance things out. */
+		padding-bottom: calc(1.6rem + calc(1.6rem / 2));
+		padding-bottom: calc(var(--padding) + calc(var(--padding) / 2));
+	}
+	.form--horizontal--old {
+		align-items: flex-end;
+		display: flex;
+		padding-bottom: 1.6rem;
+		padding-bottom: var(--padding);
+	}
+
+		.form__row {
+			position: relative;
+		}
+		.form__row ~ .form__row {
+			margin: 1.6rem 0 0 0;
+			margin: var(--gutter) 0 0 0;
+		}
+		.form--horizontal--old .form__row {
+			flex: 1 1 auto;
+			flex-flow: row wrap;
+			margin: 0 calc(1.6rem / 2);
+			margin: 0 calc(var(--gutter) / 2);
+		}
+
+		.form__row--footer {
+			text-align: center;
+		}
+		/* .form:not(.form--horizontal--old) .form__row--footer:before { */
+		.form__row--footer:before {
+			background: rgba(50,68,74,0.7);
+			background: var(--form-footer-border);
+			border-radius: 1px;
+			content: '';
+			display: block;
+			height: 2px;
+			margin-bottom: calc(1.6rem + 2px);
+			margin-bottom: calc(var(--gutter) + 2px);
+			opacity: 0.2;
+		}
+		/* Sets to content width. */
+		.form--horizontal--old .form__row--footer {
+			flex: 0 0 auto;
+		}
+
+		 /* This was something to do with the first input submitting the form. */
+		.form__row--footer--rtl {
+			direction: rtl;
+		}
+
+
+		.form--sections {
+			align-items: flex-start;
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			padding-bottom: 0;
+			position: relative;
+
+			/* This is used to offset to account for sticky headers, by default it's switched off. */
+			--scroll-margin-top: 0;
+		}
+			.form--sections .form__section-list {
+				flex: 0 1 18em;
+				padding: 0 calc(1.6rem * 1.5) 1.6rem 0;
+				padding: 0 calc(var(--gutter) * 1.5) var(--gutter) 0;
+				position: sticky;
+				top: 0;
+				top: var(--scroll-margin-top);
+			}
+			.form--sections .form__section-content {
+				flex: 1 1 30em;
+			}
+				.form--sections .fieldset {
+					scroll-margin-top: var(--scroll-margin-top);
+				}
+				.form--sections__menu-anchor {
+					clip: rect(0 0 0 0);
+					clip-path: inset(100%);
+					height: 1px;
+					overflow: hidden;
+					/* Add some padding since we're using overflow hidden so we don't cut off the focus style. */
+					padding: 4px;
+					position: absolute;
+					white-space: nowrap;
+					width: 1px;
+				}
+
+			@media only screen and (max-width: 75rem) {
+				.form--sections {
+					display: block;
+				}
+					.form--sections .form__section-list {
+						flex: 1 1 18em;
+						padding-right: 0;
+						position: static;
+					}
+						.form--sections__menu-anchor {
+							clip: auto;
+							clip-path: none;
+							height: auto;
+							overflow: hidden;
+							position: static;
+							white-space: wrap;
+							width: auto;
+						}
+			}
+
+				.form--sections .form__row--footer {
+					bottom: 0;
+					background: linear-gradient(
+						180deg, 
+						rgba(218,224,226,0) 0, 
+						rgba(218,224,226,1) 1.2rem, 
+						rgba(218,224,226,1) 0%);
+					background: linear-gradient(
+						180deg, 
+						rgba(var(--form-section-footer),0) 0, 
+						rgba(var(--form-section-footer),1) 1.2rem, 
+						rgba(var(--form-section-footer),1) 0%);
+					margin-left: calc((1.6rem / 2) - 1.6rem - 2px);
+					margin-left: calc((var(--gutter) / 2) - var(--gutter) - 2px);
+					margin-right: calc((1.6rem / 2) - 1.6rem - 2px);
+					margin-right: calc((var(--gutter) / 2) - var(--gutter) - 2px);
+					margin-top: 0rem;
+					padding-bottom: calc(1.6rem + calc(1.6rem / 2));
+					padding-bottom: calc(var(--padding) + calc(var(--padding) / 2));
+					padding-top: 1.6rem;
+					position: sticky;
+					z-index: 5;
+				}
+				/* Because we have to pull the footer out so it covers the form content when the footer is layered above we should reset the divider spacing. */
+				.form:not(.form--horizontal).form--sections .form__row--footer:before {
+					margin-left: calc((1.6rem / 2) + 2px);
+					margin-left: calc((var(--gutter) / 2) + 2px);
+					margin-right: calc((1.6rem / 2) + 2px);
+					margin-right: calc((var(--gutter) / 2) + 2px);
+				}
+
+	/* Horizontal form. */
+	.form--horizontal {
+		display: flex;
+		flex-flow: row wrap;
+		gap: 1.6rem;
+		gap: var(--gutter);
+		justify-content: space-between;
+		/* Adjust because on a vertical form the bottom margin is set larger due to optical trickery. */
+		padding-bottom: 1.6rem;
+		padding-bottom: var(--padding);
+		padding-top: 0;
+	}
+		/* Group the fields together and flex them separate fro mthe submit button. */
+		.form--horizontal .form__fields {
+			display: flex;
+			flex: 1 1 20em;
+			flex-flow: row wrap;
+			justify-content: flex-start;
+			/* gap: var(--gutter); */
+			column-gap: 1.6rem;
+			column-gap: var(--gutter);
+		}
+		/* Set the submit area to be no wider than the width of the content. */
+		.form--horizontal .form__row--footer {
+			flex: 0 1 max-content;
+			align-self: flex-end;
+		}
+		/* Hide the vertical form footer keyline. */
+		.form.form--horizontal .form__row--footer:before {
+			display: none;
+		}
+
+			/* Field group flex settings. */
+			/* By default each "row" can stretch or compress and needs to be no smaller than 15em. */
+			.form--horizontal .form__fields .form__row {
+				flex: 1 1 10em;
+				margin-top: 0;
+				padding-top: 1.6rem;
+				padding-top: var(--padding);
+			}
+			.form--horizontal .form__fields fieldset.form__row {
+				padding-top: 0;
+			}
+			.form--horizontal .form__fields.form__horizontal-fields .form__row {
+				flex: 1 1 15em;
+			}
+			/* Make "row" be no wider than its content, e.g. checkboxes because labels don't stretch. */
+			.form--horizontal .form__fields .form__row.form__row--content {
+				flex: 0 1 max-content;
+			}
+			/* Make "row" full width of the field group, e.g. a large search box like Cloud logs. */
+			.form--horizontal .form__fields .form__row.form__row--full-width {
+				flex: 1 1 100%;
+			}
+			.form__row--br {
+				flex-basis: 100%;
+				height: 0;
+			}
+
+		/* Remove the BR from between checkboxes / radios and set spacing. */
+		.form--horizontal .form__radbox ~ br {
+			display: none;
+		}
+		.form--horizontal .form__radbox-label:not(:last-child) {
+			padding-right: calc(1.6rem / 2);
+			padding-right: calc(var(--gutter) / 2);
+		}
+
+		/* For nested field groups (fieldsets) we need to adjust their minimum width. */
+		.form--horizontal .form__fields .form__fields .form__row {
+			flex-basis: 5em;
+		}
+
+
+
+/* Fieldset */
+
+	:root {
+		--form-fieldset: 
+			linear-gradient(
+				rgba(255,255,255, 0.35), 
+				rgba(255,255,255, 0.35)), 
+			rgb(var(--concrete));
+		--form-fieldset2: 
+			linear-gradient(
+				rgba(255,255,255, 0.7), 
+				rgba(255,255,255, 0.7)), 
+			rgb(var(--concrete));
+		--form-fieldset3: 
+			linear-gradient(
+				rgba(255,255,255, 1), 
+				rgba(255,255,255, 1)), 
+			rgb(var(--concrete));
+	}
+	.theme--light {
+		--form-fieldset: 
+			linear-gradient(
+				rgba(255,255,255, 0.35), 
+				rgba(255,255,255, 0.35)), 
+			rgb(var(--concrete));
+		--form-fieldset2: 
+			linear-gradient(
+				rgba(255,255,255, 0.7), 
+				rgba(255,255,255, 0.7)), 
+			rgb(var(--concrete));
+		--form-fieldset3: 
+			linear-gradient(
+				rgba(255,255,255, 1), 
+				rgba(255,255,255, 1)), 
+			rgb(var(--concrete));
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--form-fieldset: 
+				linear-gradient(
+					rgba(255,255,255, 0.035), 
+					rgba(255,255,255, 0.035)), 
+				rgb(var(--jet));
+			--form-fieldset2: 
+				linear-gradient(
+					rgba(255,255,255, 0.07), 
+					rgba(255,255,255, 0.07)), 
+				rgb(var(--jet));
+			--form-fieldset3: 
+				linear-gradient(
+					rgba(255,255,255, 0.15), 
+					rgba(255,255,255, 0.15)), 
+				rgb(var(--jet));
+		}
+	}
+	.theme--dark {
+		--form-fieldset: 
+			linear-gradient(
+				rgba(255,255,255, 0.035), 
+				rgba(255,255,255, 0.035)), 
+			rgb(var(--jet));
+		--form-fieldset2: 
+			linear-gradient(
+				rgba(255,255,255, 0.07), 
+				rgba(255,255,255, 0.07)), 
+			rgb(var(--jet));
+		--form-fieldset3: 
+			linear-gradient(
+				rgba(255,255,255, 0.15), 
+				rgba(255,255,255, 0.15)), 
+			rgb(var(--jet));
+	}
+
+
+
+	.form .fieldset.form__row {
+		background: linear-gradient(
+				rgba(255,255,255, 0.35), 
+				rgba(255,255,255, 0.35)), 
+			rgb(218,224,226);
+		background: var(--form-fieldset);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		padding: 0 calc(1.6rem / 2) 1.6rem calc(1.6rem / 2);
+		padding: 0 calc(var(--gutter) / 2) 1.6rem calc(var(--gutter) / 2);
+		position: relative;
+	}
+	.form .fieldset .fieldset.form__row {
+		background: linear-gradient(
+				rgba(255,255,255, 0.7), 
+				rgba(255,255,255, 0.7)), 
+			rgb(218,224,226);
+		background: var(--form-fieldset2);
+	}
+	.form .fieldset .fieldset .fieldset.form__row {
+		background: linear-gradient(
+				rgba(255,255,255, 1), 
+				rgba(255,255,255, 1)), 
+			rgb(218,224,226);
+		background: var(--form-fieldset3);
+	}
+	.form.form--horizontal > .fieldset {
+		margin-top: -1rem;
+		margin-bottom: -1rem;
+	}
+	.form.form--horizontal .fieldset .fieldset {
+		margin-top: 1rem;
+	}
+	.form:not(.form--horizontal) .fieldset.form__row {
+		margin-left: calc((1.6rem / 2) - 1.6rem);
+		margin-left: calc((var(--gutter) / 2) - var(--gutter));
+		margin-right: calc((1.6rem / 2) - 1.6rem);
+		margin-right: calc((var(--gutter) / 2) - var(--gutter));
+	}
+	.form:not(.form--horizontal) .fieldset .fieldset.form__row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.form.form--horizontal .fieldset .fieldset, 
+	.form.form--horizontal .fieldset.form__row .form__row {
+		display: inline-block;
+	}
+		.form .fieldset.form__row legend {
+			background: linear-gradient(
+				rgba(255,255,255, 0.35), 
+				rgba(255,255,255, 0.35)), 
+			rgb(218,224,226);
+			background: var(--form-fieldset);
+			border-radius: 0.3rem;
+			border-radius: var(--button-radius);
+			padding: calc(1.6rem / 4) 1.6rem 0 1.6rem;
+			padding: calc(var(--padding) / 4) var(--padding) 0 var(--padding);
+			margin-bottom: 1.6rem;
+			margin-top: 0;
+		}
+		.form.form--horizontal .fieldset.form__row legend {
+			font-size: 1.6rem;
+			padding: 0 calc(1.6rem / 2);
+			padding: 0 calc(var(--padding) / 2);
+		}
+
+		/* Native legends are tricky to style consistently as they do not get rendered as an item inside a fieldset. We need them for accessibility but we can then hide them (in an accessible way using .visually-hidden and then replicating the content of the legend into an element that's then hidden from the accessibility tree by using aria-hidden="true". This aria-hidden="true" element is what will be displayed for sighted users whilst still having the correct element in place for screen readers. Ideally, it would be nice to switch the order in the HTML so we could make use of the sibling selector but the legend has to be the first element inside the fieldset. */
+		.form legend.visually-hidden + .legend {
+			margin-top: 1rem;
+		}
+		
+
+	.fieldset--active {
+		box-shadow: 0 0 0 2px rgb(0,115,165);
+		box-shadow: 0 0 0 2px rgb(var(--link-color));
+	}
+		.fieldset--active legend {
+			box-shadow: 0 -2px 0 0 rgb(0,115,165);
+			box-shadow: 0 -2px 0 0 rgb(var(--link-color));
+		}
+
+	/* If using horizontal field layout make sure to take fieldsets out of the grid. */
+	@container form-horizontal-fields (min-width: 40em) {
+		@supports(display: contents) {
+			.form__horizontal-fields .fieldset.form__row {
+				display: unset;
+				grid-column: 1 / span 2;
+			}
+		}
+	}
+		
+
+		
+/* Step Through Form */
+
+	:root {
+		--step-line: rgba(var(--basalt), 0.2);
+	}
+	.form--step-through {
+		/* This is used to offset to account for sticky headers, by default it's switched off. */
+		--scroll-margin-top: 0;
+	}
+
+	.form--step-through .form__step__button,
+	.form--step-through .form__step__icon,
+	.form--step-through .form__row--step {
+		display: none;
+	}
+
+	.form--step-through-css .form__step {
+		padding-bottom: 3.2rem;
+		padding-left: 2.8rem;
+		margin-left: 1.2rem;
+		margin-right: 4.4rem;
+
+		/* Because it's a pain to do lookbacks in JS we set the default step style to 'completed'. */
+		border-left: solid 2px rgba(50,68,74, 0.2);
+		border-left: solid 2px var(--step-line);
+		border-left-style: dashed;
+		position: relative;
+
+		scroll-margin-top: var(--scroll-margin-top);
+	}
+	
+	.form--step-through-css .form__step--completed {
+		border-left-style: solid;
+	}
+	/* Class is added with JS as there's no nice way to do this in pure CSS. */
+	.form--step-through-css .form__step--last {
+		border-left-color: transparent;
+		padding-bottom: 1.6rem;
+		padding-bottom: var(--gutter);
+	}
+	.form__step:not(.form__step--active):not(.form__step--completed) {
+		padding-bottom: calc(1.6rem / 2);
+		padding-bottom: calc(var(--gutter) / 2);
+	}
+	.form__step:not(.form__step--active):not(.form__step--completed) .h3 {
+		font-size: 1em;
+		padding-top: 0.4rem;
+	}
+
+		.form--step-through-css .form__step legend.visually-hidden + .legend {
+			margin-top: 0;
+		}
+		/* This forces the row to clear the floated legend. */
+		.form--step-through-css .form__step .form__row {
+			clear: both;
+		}
+
+			/* Icons */
+			.form__step .form__step__icon {
+				border-radius: 0.3rem;
+				border-radius: var(--button-radius);
+				display: block;
+				position: absolute;
+				left: -1.3rem;
+				padding: 0.4rem;
+				top: 0.4rem;
+				transform: rotate(45deg);
+			}
+				.form__step .form__step__icon .icon {
+					transform: rotate(-45deg);
+					display: block;
+					top: 0;
+				}
+					.form__step .form__step__icon .icon--dot, 
+					.form__step .form__step__icon .icon--dot-outline, 
+					.form__step .form__step__icon .icon--tick {
+						display: none;
+					}
+
+			.form__step:not(.form__step--active):not(.form__step--completed) .form__step__icon {
+				background: rgb(255,255,255);
+			}
+				.form__step:not(.form__step--active):not(.form__step--completed) .form__step__icon .icon {
+					fill: rgba(50,68,74, 0.5);
+					fill: rgba(var(--basalt), 0.5);
+				}
+					.form__step:not(.form__step--active):not(.form__step--completed) .form__step__icon .icon--dot-outline {
+						display: block;
+					}
+
+			.form__step--active .form__step__icon {
+				background: rgb(240,152,27);
+				background: rgb(var(--tango));
+			}
+				.form__step--active .form__step__icon .icon {
+					fill: rgb(50,68,74);
+					fill: rgb(var(--basalt));
+				}
+					.form__step--active .form__step__icon .icon--dot {
+						display: block;
+					}
+
+			.form__step--completed .form__step__icon {
+				background: rgb(0,44,62);
+				background: rgb(var(--midnight));
+			}
+				.form__step--completed .form__step__icon .icon {
+					fill: rgb(255,255,255);
+				}
+					.form__step--completed .form__step__icon .icon--tick {
+						display: block;
+					}
+
+
+			.form--step-through-css .form__step .form__step_p {
+				margin-bottom: 1.6rem;
+			}
+
+			/* It's easier to hide/show the icons like this rather than with JavaScript, the tradeoff is that we need to add all of the icons to the page. */
+			.form--step-through-css .form__step .form__step_p {
+				display: none;
+			}
+			.form--step-through-css .form__step legend, 
+			.form--step-through-css .form__step--active .form__step_p {
+				display: block;
+			}
+
+			/* Hide the previous fields and only show the active ones. */
+			.form--step-through--hide-fields.form--step-through-css .form__step .form__row {
+				display: none;
+			}
+			.form--step-through--hide-fields.form--step-through-css .form__step--active .form__row {
+				display: block;
+			}
+
+
+			.form--step-through-css .form__step .button.form__step__button {
+				display: none;
+			}
+		.form--step-through-css .form__step--active .form__row {
+			display: block;
+		}
+			.form--step-through-css .form__step--active .button.form__step__button {
+				display: inline-block;
+			}
+
+		.form--step-through-css .form__step:not(.form__step--active):not(.form__step--completed) .form__row {
+			display: none;
+		}
+		.form--step-through-css .form__step--active .form__row {
+			display: block;
+		}
+
+
+		.form--step-through-css .form__step--todo .form__row {
+			display: none;
+		}
+
+		.form--step-through-css .form__row--step {
+			display: block;
+			margin: calc(1.6rem * 2) 0 0 0;
+			margin: calc(var(--gutter) * 2) 0 0 0;
+			text-align: center;
+		}
+
+		.form__step__noproceedmsg {
+			display: none;
+		}
+		.form__step__noproceedmsg[role=alert] {
+			display: block;
+			margin-bottom: 1.6rem;
+		}
+			.form__step__noproceedmsg .icon {
+				fill: rgb(155,18,0);
+				fill: rgb(var(--form-error));
+			}
+
+
+
+/* Form Steps */
+
+	:root {
+		--form-step-line: rgba(var(--basalt), 0.2);
+		--form-step-icon-complete-bk: rgb(var(--midnight));
+		--form-step-icon-incomplete-bk: rgb(255,255,255);
+		--form-step-icon-incomplete-fill: rgba(var(--basalt), 0.5);
+	}
+	.theme--light {
+		--form-step-line: rgba(var(--basalt), 0.2);
+		--form-step-icon-complete-bk: rgb(var(--midnight));
+		--form-step-icon-incomplete-bk: rgb(255,255,255);
+		--form-step-icon-incomplete-fill: rgba(var(--basalt), 0.5);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--form-step-line: rgba(255,255,255, 0.2);
+			--form-step-icon-complete-bk: rgb(var(--smurf));
+			--form-step-icon-incomplete-bk: rgb(var(--basalt));
+			--form-step-icon-incomplete-fill: rgba(255,255,255, 0.5);
+		}
+	}
+	.theme--dark {
+		--form-step-line: rgba(255,255,255, 0.2);
+		--form-step-icon-complete-bk: rgb(var(--smurf));
+		--form-step-icon-incomplete-bk: rgb(var(--basalt));
+		--form-step-icon-incomplete-fill: rgba(255,255,255, 0.5);
+	}
+
+	.form-steps {
+		/* This is used to offset to account for sticky headers, by default it's switched off. */
+		--scroll-margin-top: 0;
+	}
+
+			.form-steps__icon, 
+			.form-steps__controls, 
+			.form-steps .form-steps__controls .button {
+				display: none;
+			}
+			.form__row--footer.form-steps__controls {
+				display: block;
+			}
+				.form__row--footer.form-steps__controls .button:not(.form__step__button):not(.form__step__button-back) {
+					display: inline-block;
+				}
+
+		.js__form-steps .form-steps__step {
+			padding-bottom: 3.2rem;
+			padding-left: 2.8rem;
+			margin-left: 1.2rem;
+			margin-right: 4.4rem;
+			border-left: solid 2px rgba(50,68,74, 0.2);
+			border-left: solid 2px var(--form-step-line);
+			border-left-style: dashed;
+			position: relative;
+			scroll-margin-top: var(--scroll-margin-top);
+		}
+		/* Reduce the spacing between fieldsets when hide previous fields is active. */
+		.js__form-steps.form-steps--hide-previous-fields .form-steps__step {
+			padding-bottom: 1.6rem;
+			padding-bottom: var(--gutter);
+		}
+		.js__form-steps .form-steps__step--complete {
+			border-left-style: solid;
+		}
+		.js__form-steps .form-steps__step--active {}
+		.js__form-steps .form-steps__step--last {
+			border-left-color: transparent;
+			padding-bottom: 1.6rem;
+			padding-bottom: var(--gutter);
+		}
+			.js__form-steps .form-steps__step--complete .legend, 
+			.js__form-steps .form-steps__step--incomplete .legend {
+				font-size: 1.6rem;
+				padding-top: 0.4rem;
+			}
+			
+			.js__form-steps .form-steps__fields {
+				display: grid;
+				grid-template-rows: 1fr;
+				transition: visibility 0.03s ease-in-out, grid-template-rows 0.3s ease-in-out 0.03s;
+				visibility: visible;
+			}
+
+			/* We wrap the content we want to hide (fields, paragrahs) in .form-steps__fields 
+			   so that we can animate a single element to hide/show. */
+
+			/* Hide all elements after the icon in incomplete steps. */
+			.js__form-steps .form-steps__step--incomplete .form-steps__fields, 
+			/* Hide completed steps if this option is set in the HTML. */
+			.js__form-steps.form-steps--hide-previous-fields .form-steps__step--complete .form-steps__fields {
+				grid-template-rows: 0fr;
+				transition: grid-template-rows 0.3s ease-in-out, visibility 0.03s ease-in-out 0.3s;
+				visibility: hidden;
+			}
+				.js__form-steps .form-steps__inner {
+					overflow: hidden;
+					/* Overflow cuts off the 4px focus on fields so we give the field container a 4px padding and pull things back into line with a 4px negative margin. */
+					margin: -4px;
+					padding: 4px;
+				}
+
+			.js__form-steps legend.visually-hidden + .legend {
+				margin-top: 0;
+			}
+			.js__form-steps .form-steps__title a {
+				color: currentColor;
+				text-decoration: none;
+			}
+			.js__form-steps .form-steps__title a:hover {
+				text-decoration: underline;
+			}
+				/* Don't let JS listen to any clicks on markup inside the title links. */
+				.js__form-steps .form-steps__title a * {
+					pointer-events: none;
+				}
+
+			.js__form-steps .form-steps__icon {
+				border-radius: 0.3rem;
+				border-radius: var(--button-radius);
+				display: block;
+				position: absolute;
+				left: -1.3rem;
+				padding: 0.4rem;
+				top: 0.4rem;
+				transform: rotate(45deg);
+			}
+				.js__form-steps .form-steps__icon .icon {
+					transform: rotate(-45deg);
+					display: block;
+					top: 0;
+				}
+					.js__form-steps .form-steps__icon use {
+						display: none;
+					}
+
+					/* Completed */
+					.js__form-steps .form-steps__step--complete .form-steps__icon {
+						background: rgb(0,44,62);
+						background: var(--form-step-icon-complete-bk);
+						fill: rgb(255,255,255);
+					}
+					/* Active */
+					.js__form-steps .form-steps__step--active .form-steps__icon {
+						background: rgb(240,152,27);
+						background: rgb(var(--tango));
+						fill: rgb(50,68,74);
+						fill: rgb(var(--basalt));
+					}
+					/* Incompleted */
+					.js__form-steps .form-steps__step--incomplete .form-steps__icon {
+						background: rgb(255,255,255);
+						background: var(--form-step-icon-incomplete-bk);
+						fill: rgba(50,68,74, 0.5);
+						fill: var(--form-step-icon-incomplete-fill);
+					}
+						/* Icon glyphs */
+						.js__form-steps .form-steps__step--complete .icon--tick, 
+						.js__form-steps .form-steps__step--active .icon--dot, 
+						.js__form-steps .form-steps__step--incomplete .icon--dot-outline {
+							display: block;
+						}
+
+			.js__form-steps .form-steps__controls {
+				display: none;
+			}
+			.js__form-steps .form-steps__step--active .form-steps__controls {
+				display: block;
+				margin: calc(1.6rem * 2) 0 0 0;
+				margin: calc(var(--gutter) * 2) 0 0 0;
+				text-align: center;
+			}
+				/* Display buttons if they have href attributes or they are in the footer and not an a without an href. */
+				.js__form-steps .form-steps__controls .button[href], 
+				.js__form-steps .form__row--footer .button:not(a) {
+					display: inline-block;
+				}
+
+
+
+		.form-steps__error {
+			display: none;
+		}
+		.js__form-steps .form-steps__error[role=alert] {
+			display: block;
+			margin-bottom: 1.6rem;
+		}
+			.js__form-steps .form-steps__error .icon {
+				fill: rgb(155,18,0);
+				fill: rgb(var(--form-error));
+			}
+
+
+
+/* Field container */
+
+	:root {
+		--form-help: rgba(var(--basalt), 0.7);
+	}
+	.theme--light {
+		--form-help: rgba(var(--basalt), 0.7);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--form-help: rgba(255,255,255, 0.25);
+		}
+	}
+	.theme--dark {
+		--form-help: rgba(255,255,255, 0.25);
+	}
+
+
+
+	.form__horizontal-fields {
+		container-type: inline-size;
+		container-name: form-horizontal-fields;
+	}
+		.form__horizontal-fields__inner {
+			margin-bottom: 1.6rem;
+			margin-bottom: var(--gutter);
+		}
+	@container form-horizontal-fields (min-width: 40em) {
+		@supports(display: contents) {
+			.form__horizontal-fields .form__horizontal-fields__inner {
+				display: grid;
+				grid-template-columns: minmax(0, max-content) minmax(50%, 1fr);
+				gap: 1.6rem;
+				gap: var(--gutter);
+			}
+			.form__horizontal-fields .form__row {
+				display: contents;
+			}
+		}
+			.form--horizontal .form__horizontal-fields .form__row {
+				display: flex;
+				align-items: center;
+				gap: calc(1.6rem / 2);
+				gap: calc(var(--gutter) / 2);
+			}
+				.form--horizontal .form__horizontal-fields .form__row .form__label {
+					flex: 0 1 max-content;
+					white-space: nowrap;
+					margin-bottom: 0;
+				}
+				.form--horizontal .form__horizontal-fields .form__row .form__field {
+					flex: 1 1 auto;
+				}
+	}
+
+
+
+	/* Label. */
+	.form__label {
+		display: block;
+		font-weight: 500;
+		margin-bottom: 0.4rem;
+		position: relative;
+	}
+		.form__required {
+			font-size: 1.1rem;
+			font-weight: bold;
+			vertical-align: super;
+		}
+
+
+	/* Help toggle */
+	.button.form__help-toggle {
+		background: none !important;
+		box-shadow: none !important;
+		margin-left: calc((1.6rem /2) - 2px) !important;
+		margin-left: calc((var(--gutter) /2) - 2px) !important;
+		padding-bottom: 1.6rem;
+		position: absolute;
+		top: -1rem;
+	}
+	.button.form__help-toggle:hover {
+		background: none;
+		transform: translateY(0);
+	}
+	.button.form__help-toggle:focus {
+		box-shadow: none !important;
+	}
+		.form__help-toggle-icon {
+			background: rgba(50,68,74, 0.7);
+			background: var(--form-help);
+			border-radius: 0.3rem;
+			border-radius: var(--button-radius);
+			display: block;
+			height: 1.6rem;
+			margin: 0 0 0 -2rem;
+			pointer-events: none;
+			position: relative;
+			top: 0.4rem;
+			transition: all 0.3s cubic-bezier(0.175, 0.885, 0.320, 0.5);
+			width: 1.6rem;
+		}
+			.button.form__help-toggle .icon {
+				fill: rgb(255,255,255);
+				padding: 0.2rem;
+				pointer-events: none;
+				top: 0;
+				transition: inherit;
+				vertical-align: top;
+			}
+			/* Fix for icons in popups overruling the fill above. */
+			body .form .button.form__help-toggle .icon {
+				fill: rgb(255,255,255) !important;
+			}
+		.button.form__help-toggle:focus .form__help-toggle-icon, 
+		.button.form__help-toggle:focus-visible .form__help-toggle-icon {
+			box-shadow: 0 0 0 4px rgb(5,152,214);
+			box-shadow: 0 0 0 4px rgb(var(--smurf));
+		}
+		.button.form__help-toggle:focus:not(:focus-visible) .form__help-toggle-icon {
+			box-shadow: none;
+		}
+		.button.form__help-toggle[aria-expanded="true"] .form__help-toggle-icon {
+			transform: rotate(-45deg);
+		}
+		.button.form__help-toggle[aria-expanded="true"] .icon {
+			transform: rotate(45deg);
+		}
+
+		@container form-horizontal-fields (min-width: 40em) {
+			@supports(display: contents) {
+				.form__horizontal-fields .button.form__help-toggle {
+					/* By default we set the button to be positioned so it doesn't impact vertical spacing, we switch this off here. */
+					position: static;
+
+					/* Because it's no longer positioned it dickers with the margin, tweak it to match. */
+					margin: 0 calc(-1 * 1.6rem) calc(-1 * 1.6rem) calc((1.6rem / 2) - 0.6rem) !important;
+					margin: 0 calc(-1 * var(--gutter)) calc(-1 * var(--gutter)) calc((var(--gutter) / 2) - 0.6rem) !important;
+
+					/* Reduce the size of the button so we aren't overlapping the actual foed. */
+					padding: 0 1.4rem 2.4rem 2rem;
+				}
+					.form__horizontal-fields .form__help-toggle-icon {
+						top: 0.2rem;
+					}
+			}
+		}
+		
+
+	/* Help text */
+	.form__help-text {
+		background: rgba(50,68,74, 0.7);
+		background: var(--form-help);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		color: rgb(255,255,255);
+		display: block;
+		height: 0;
+		opacity: 0;
+		overflow: hidden;
+		padding: 0 0.8rem;
+		transition: all 0.3s cubic-bezier(0.175, 0.885, 0.320, 0.5);
+		transition-property: height, opacity;
+		visibility: hidden;
+	}
+	.form__help-text--open + .form__help-text, 
+	.form__help-text--open + span > .form__help-text {
+		height: auto;
+		margin-bottom: 0.8rem;
+		opacity: 1;
+		padding: 0.4rem 0.8rem;
+		visibility: visible;
+	}
+		.form__help-text a:not([class]) {
+			color: currentColor;
+		}
+		.form__help-text a:focus:not([class]), 
+		.form__help-text a:focus-visible:not([class]) {
+			background: rgb(255,255,255);
+			color: rgb(23,24,24);
+			color: rgb(var(--coal));
+		}
+		.form__help-text a:focus:not(:focus-visible):not([class]) {
+			background: none;
+			color: currentColor;
+		}
+
+
+	/* Error messages */
+	.form__error {
+		/* We hide this completely rather than use accessible hide to hide it 
+			from screen readers. */
+		display: none;
+		font-size: 1.4rem;
+		margin-top: 0.4rem;
+	}
+	[aria-invalid="true"] ~ .form__error,
+	.form__error--show {
+		display: block;
+	}
+	.form__error .icon {
+		fill: rgb(155,18,0);
+		fill: rgb(var(--form-error));
+	}
+/* Inline fields */
+
+	.form__inline {
+		margin-right: 0.8rem;
+		width: auto !important;
+	}
+
+
+
+/* Single line input */
+
+	:root {
+		--form-error: var(--cherry);
+		--form-field-background: rgb(255,255,255);
+		--form-field-border: rgba(var(--basalt),0.7);
+		--form-field-border-hover: rgba(var(--basalt),0.5);
+
+		--form-field-background-dark: 
+			linear-gradient(
+				rgba(255,255,255, 0.15), 
+				rgba(255,255,255, 0.15)), 
+			rgb(var(--coal));
+		--form-field-border-dark: rgba(255,255,255,0.4);
+		--form-field-border-hover-dark: rgba(255,255,255,0.2);
+	}
+	.theme--light {
+		--form-error: var(--cherry);
+		--form-field-background: rgb(255,255,255);
+		--form-field-border: rgba(var(--basalt),0.7);
+		--form-field-border-hover: rgba(var(--basalt),0.5);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--form-error: var(--cherry-on-dark);
+			--form-field-background: var(--form-field-background-dark);
+			--form-field-border: var(--form-field-border-dark);
+			--form-field-border-hover: var(--form-field-border-hover-dark);
+		}
+	}
+	.theme--dark {
+		--form-error: var(--cherry-on-dark);
+		--form-field-background: var(--form-field-background-dark);
+		--form-field-border: var(--form-field-border-dark);
+		--form-field-border-hover: var(--form-field-border-hover-dark);
+	}
+
+
+	/* Text field */
+	.form__text, 
+	.form input[type=text], 
+	.form input[type=date], 
+	.form input[type=email], 
+	.form input[type=number], 
+	.form input[type=password], 
+	.form input[type=search], 
+	.form input[type=tel], 
+	.form input[type=url] {
+		background: rgb(255,255,255);
+		background: var(--form-field-background);
+		border: solid 1px rgba(50,68,74,0.7);
+		border: solid 1px var(--form-field-border);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		color: inherit;
+		display: inline-block;
+		/* We deduct 1px to account for the border width. */
+		padding: 0.7rem;
+		width: 100%;
+	}
+	.form__text:hover, 
+	.form input[type=text]:hover, 
+	.form input[type=date]:hover, 
+	.form input[type=email]:hover, 
+	.form input[type=number]:hover, 
+	.form input[type=password]:hover, 
+	.form input[type=search]:hover, 
+	.form input[type=tel]:hover, 
+	.form input[type=url]:hover {
+		border-color: rgba(50,68,74,0.5);
+		border-color: var(--form-field-border-hover);
+	}
+	.form__text:focus, 
+	.form input[type=text]:focus, 
+	.form input[type=date]:focus, 
+	.form input[type=email]:focus, 
+	.form input[type=number]:focus, 
+	.form input[type=password]:focus, 
+	.form input[type=search]:focus, 
+	.form input[type=tel]:focus, 
+	.form input[type=url]:focus {
+		border-color: rgba(255,255,255, 0);
+		box-shadow: 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 4px rgb(var(--link-color));
+	}
+	.form__text[aria-invalid="true"], 
+	.form input[type=text][aria-invalid="true"], 
+	.form input[type=date][aria-invalid="true"], 
+	.form input[type=email][aria-invalid="true"], 
+	.form input[type=number][aria-invalid="true"], 
+	.form input[type=password][aria-invalid="true"], 
+	.form input[type=search][aria-invalid="true"], 
+	.form input[type=tel][aria-invalid="true"], 
+	.form input[type=url][aria-invalid="true"] {
+		border-color: rgb(255,255,255, 0);
+		box-shadow: 0 0 0 2px rgb(155,18,0);
+		box-shadow: 0 0 0 2px rgb(var(--form-error));
+	}
+	.form__text[aria-invalid="true"]:focus, 
+	.form input[type=text][aria-invalid="true"]:focus, 
+	.form input[type=date][aria-invalid="true"]:focus, 
+	.form input[type=email][aria-invalid="true"]:focus, 
+	.form input[type=number][aria-invalid="true"]:focus, 
+	.form input[type=password][aria-invalid="true"]:focus, 
+	.form input[type=search][aria-invalid="true"]:focus, 
+	.form input[type=tel][aria-invalid="true"]:focus, 
+	.form input[type=url][aria-invalid="true"]:focus {
+		border-color: rgb(255,255,255);
+		box-shadow: 0 0 0 2px rgb(155,18,0), 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 2px rgb(var(--form-error)), 0 0 0 4px rgb(var(--link-color));
+	}
+
+	.form__text--large {
+		max-width: 50rem;
+	}
+	.form__text--medium {
+		max-width: 25rem;
+	}
+	.form__text--small {
+		max-width: 14rem;
+	}
+	.form__text--tiny {
+		max-width: 6rem;
+	}
+
+
+
+/* Multi-suggest on textfield */
+
+.form__multilist {
+	display: block;
+	position: relative;
+}
+	.form__select.multilist__list {
+		display: none;
+		min-width: 100%;
+		overflow-y: auto;
+		position: absolute;
+		scrollbar-width: none; /* Firefox */
+		z-index: 1;
+	}
+	.js .form__multilist:focus-within .multilist__list {
+		display: block;
+	}
+	.multilist__list--empty {
+		display: none !important;
+	}
+	.multilist__list .hide {
+		display: none;
+	}
+
+
+
+/* Textarea */
+
+	/* Uses the CSS variables from single line inputs. */
+
+	.form__textarea {
+		background: rgb(255,255,255);
+		background: var(--form-field-background);
+		border: solid 1px rgba(50,68,74,0.7);
+		border: solid 1px var(--form-field-border);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		color: inherit;
+		display: inline-block;
+		/* We deduct 1px to account for the border width. */
+		padding: 0.7rem;
+		width: 100%;
+	}
+	.form__textarea:hover {
+		border-color: rgba(50,68,74,0.5);
+		border-color: var(--form-field-border-hover);
+	}
+	.form__textarea:focus {
+		border-color: rgba(255,255,255, 0);
+		box-shadow: 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 4px rgb(var(--link-color));
+	}
+	.form__textarea[aria-invalid="true"] {
+		border-color: rgb(255,255,255, 0);
+		box-shadow: 0 0 0 2px rgb(155,18,0);
+		box-shadow: 0 0 0 2px rgb(var(--form-error));
+	}
+	.form__textarea[aria-invalid="true"]:focus {
+		border-color: rgb(255,255,255);
+		box-shadow: 0 0 0 2px rgb(155,18,0), 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 2px rgb(var(--form-error)), 0 0 0 4px rgb(var(--link-color));
+	}
+
+
+
+/* Prefixed small amount of text to form inputs. Assumes that the .form__prefix has only two children: the prefix and the field. */
+
+	:root {
+		--form-pfix-text: rgb(255,255,255);
+		--form-pfix-warning: var(--basalt);
+	}
+	.theme--light {
+		--form-pfix-text: rgb(255,255,255);
+		--form-pfix-warning: var(--basalt);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--form-pfix-text: rgb(var(--coal));
+			--form-pfix-warning: var(--basalt);
+		}
+	}
+	.theme--dark {
+		--form-pfix-text: rgb(var(--coal));
+		--form-pfix-warning: var(--basalt);
+	}
+
+	/* TODO: once form__prefix is swapped in Cloud remove this duplicate class. */
+
+	.form__prefix, 
+	.form__pfix {
+		display: flex;
+	}
+		.form__prefix__text, 
+		.form__pfix__text {
+			background: rgba(50,68,74,0.7);
+			background: var(--form-field-border);
+			border-radius: 0.3rem 0 0 0.3rem;
+			border-radius: var(--button-radius) 0 0 var(--button-radius);
+			color: rgb(255,255,255);
+			color: var(--form-pfix-text);
+			padding: 0.8rem;
+		}
+		.form__prefix__text + *:not(:focus):not([aria-invalid="true"]), 
+		.form__pfix__text + *:not(:focus):not([aria-invalid="true"]) {
+			border-radius: 0 0.3rem 0.3rem 0;
+			border-radius: 0 var(--button-radius) var(--button-radius) 0;
+		}
+		.form__prefix--radbox .form__prefix__text, 
+		.form__pfix--radbox .form__pfix__text {
+			border-radius: 0.3rem;
+			border-radius: var(--button-radius);
+			margin: 0.3rem 0.8rem 0.3rem 0;
+			padding: 0.1rem 0.4rem;
+		}
+
+		/* pfix text positioning for postfix. */
+		.form__pfix--postfix .form__pfix__text {
+			border-radius: 0 0.3rem 0.3rem 0;
+			border-radius: 0 var(--button-radius) var(--button-radius) 0;
+			order: 1;
+		}
+		.form__pfix--postfix .form__pfix__text + *:not(:focus):not([aria-invalid="true"]) {
+			border-radius: 0.3rem 0 0 0.3rem;
+			border-radius: var(--button-radius) 0 0 var(--button-radius);
+		}
+		.form__pfix--postfix.form__pfix--radbox .form__pfix__text {
+			border-radius: 0.3rem;
+			border-radius: var(--button-radius);
+			margin-left: 0.8rem;
+			margin-right: 0;
+		}
+		/* Ordering the flex items causes the text to appear behind the input, this is apparent when the input is focussed or showing the error style. */
+		.form__pfix--postfix .form__pfix__text ~ * {
+			z-index: 1;
+		}
+
+		.form__pfix--warning:not(.form__pfix--postfix) .form__pfix__text + * {
+			border-left-color: rgb(240,152,27) !important;
+			border-left-color: rgb(var(--tango)) !important;
+		}
+		.form__pfix--warning.form__pfix--postfix .form__pfix__text + * {
+			border-right-color: rgb(240,152,27) !important;
+			border-right-color: rgb(var(--tango)) !important;
+		}
+
+		.form__pfix--warning .form__pfix__text {
+			background: rgb(240,152,27);
+			background: rgb(var(--tango));
+			color: rgb(50,68,74);
+			color: rgb(var(--form-pfix-warning));
+		}
+		.form__pfix--warning:not(.form__pfix--radbox) .form__pfix__text {
+			border: 1px solid rgba(50,68,74,0.7);
+			border: 1px solid var(--form-field-border);
+		}
+		.form__pfix--warning:not(.form__pfix--postfix):not(.form__pfix--radbox) .form__pfix__text {
+			border-right: none;
+		}
+		.form__pfix--warning.form__pfix--postfix:not(.form__pfix--radbox) .form__pfix__text {
+			border-left: none;
+		}
+
+	.form__pfix:has([aria-invalid="true"]) ~ .form__error {
+		display: block;
+	}
+
+
+	
+/* Checkbox */
+
+	.form__radbox {
+		background: none;
+		opacity: 0.00001;
+		position: absolute;
+	}
+	.form__radbox + .form__radbox-label, 
+	.form__large-radios .form__radbox ~ .form__large-radios__content .form__radbox-label {
+		cursor: pointer;
+		display: inline-block;
+		min-height: 2.6rem;
+		padding: 0.4rem 0 0.4rem 3.4rem;
+		position: relative;
+	}
+	.form__radbox + .form__radbox-label:before, 
+	.form__large-radios .form__radbox ~ .form__large-radios__content .form__radbox-label:before {
+		background: rgb(255,255,255);
+		background: var(--form-field-background);
+		border: solid 1px rgba(50,68,74,0.7);
+		border: solid 1px var(--form-field-border);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		content: '';
+		height: 2.6rem;
+		position: absolute;
+		left: 0;
+		width: 2.6rem;
+	}
+	.form__radbox[type="checkbox"]:checked + .form__radbox-label:after, 
+	.form__large-radios .form__radbox[type="checkbox"]:checked ~ .form__large-radios__content .form__radbox-label:after {
+		border: 0.3rem solid rgb(50,68,74);
+		border: 0.3rem solid rgb(var(--page-text));
+		border-top: 0;
+		border-left: 0;
+		content: '';
+		height: 1.2rem;
+		left: 1rem;
+		position: absolute;
+		width: 0.7rem;
+		top: 0.9rem;
+		transform: rotate(40deg);
+	}
+
+	/* TODO: add style for radio checked. */
+
+	.form__radbox:hover + label:before {
+		border-color: rgba(50,68,74,0.5);
+		border-color: var(--form-field-border-hover);
+	}
+
+	.form__radbox:focus + label:before, 
+	.form__radbox:focus-visible + label:before {
+		border-color: rgba(255,255,255, 0);
+		box-shadow: 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 4px rgb(var(--link-color));
+	}
+	.form__radbox:focus:not(:focus-visible) + label:before {
+		border-color: rgba(50,68,74,0.7);
+		border-color: var(--form-field-border);
+		box-shadow: none;
+	}
+
+	.form__radbox[aria-invalid="true"] + label:before {
+		border-color: rgb(255,255,255, 0);
+		box-shadow: 0 0 0 2px rgb(155,18,0);
+		box-shadow: 0 0 0 2px rgb(var(--form-error));
+	}
+
+	.form__radbox[aria-invalid="true"]:focus + label:before, 
+	.form__radbox[aria-invalid="true"]:focus-visible + label:before {
+		border-color: rgb(255,255,255);
+		box-shadow: 0 0 0 2px rgb(155,18,0), 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 2px rgb(var(--form-error)), 0 0 0 4px rgb(var(--link-color));
+	}
+	.form__radbox[aria-invalid="true"]:focus:not(:focus-visible) + label:before {
+		border-color: rgb(255,255,255, 0);
+		box-shadow: 0 0 0 2px rgb(155,18,0);
+		box-shadow: 0 0 0 2px rgb(var(--form-error));
+	}
+
+	/* Disabled. */
+	.form__radbox[disabled="disabled"] + .form__radbox-label:before, 
+	.form__large-radios .form__radbox[disabled="disabled"] ~ .form__large-radios__content .form__radbox-label:before {
+		opacity: 0.5;
+	}
+	.form__radbox[disabled="disabled"] + .form__radbox-label:after, 
+	.form__large-radios .form__radbox[disabled="disabled"] ~ .form__large-radios__content .form__radbox-label:after {
+		border-right: solid 1px rgba(50,68,74,0.7);
+		border-right: solid 1px var(--form-field-border);
+		content: '';
+		height: 3.67rem;
+		left: 1.2rem;
+		position: absolute;
+		width: 0.1rem;
+		top: -0.1rem;
+		transform: rotate(45deg);
+		opacity: 0.5;
+	}
+	.form__radbox[disabled="disabled"] + .form__radbox-label, 
+	.form__large-radios .form__radbox[disabled="disabled"] ~ .form__large-radios__content .form__radbox-label {
+		cursor: not-allowed;
+	}
+
+
+	.form__radbox-label .form__help-toggle {
+		top: -0.4rem;
+	}
+	.form__radbox-label.form__help-text--open ~ .form__help-text {
+		margin-bottom: 0;
+	}
+	.form__radbox-label ~ .form__help-text + br {
+		display: none;
+	}
+
+
+	
+/* Radio button */
+
+	.form__radbox[type="radio"] + .form__radbox-label:before, 
+	.form__large-radios .form__radbox[type="radio"] ~ .form__large-radios__content .form__radbox-label:before {
+		border-radius: 50%;
+	}
+
+	.form__radbox[type="radio"]:checked + .form__radbox-label:after, 
+	.form__large-radios .form__radbox[type="radio"]:checked ~ .form__large-radios__content .form__radbox-label:after {
+		background: rgb(50,68,74);
+		background: rgb(var(--page-text));
+		border-radius: 50%;
+		content: '';
+		height: 1rem;
+		left: 0.8rem;
+		position: absolute;
+		width: 1rem;
+		top: 1.2rem;
+	}
+
+
+
+/* Large radio group */
+
+	:root {
+		--large-radios-min-width: 40rem;
+
+		--large-radios-bk: rgba(var(--basalt), 0.5);
+		--large-radios-text: 255,255,255;
+
+		--large-radios-stripe: rgb(var(--tango));
+		--large-radios-stripe-disabled: rgba(var(--basalt),0.3);
+	}
+	.theme--light {
+		--large-radios-bk: rgba(var(--basalt), 1);
+		--large-radios-text: 255,255,255;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--large-radios-bk: rgba(var(--concrete), 0.4);
+			--large-radios-text: 255,255,255;
+		}
+	}
+	.theme--dark {
+		--large-radios-bk: rgba(var(--concrete), 0.4);
+		--large-radios-text: 255,255,255;
+	}
+
+	.form__large-radios {
+		display: grid;
+		grid-gap: 1.6rem;
+		grid-gap: var(--padding);
+		/* This can be overridden with an inline var attached to the main section. */
+		grid-template-columns: repeat( auto-fit, minmax(40rem, 1fr) );
+		grid-template-columns: repeat( auto-fit, minmax(var(--large-radios-min-width), 1fr) );
+	}
+	.form__large-radios--column {
+		grid-template-columns: 1fr !important;
+	}
+		.form__large-radios__item {
+			border: solid 1px rgba(50,68,74,0.7);
+			border: solid 1px var(--form-field-border);
+			border-radius: 0.3rem;
+			border-radius: var(--button-radius);
+			background: rgb(255,255,255);
+			background: var(--form-field-background);
+			color: inherit;
+			display: flex;
+			padding: 1.6rem;
+			padding: var(--padding);
+			flex-direction: column;
+			justify-content: space-between;
+			position: relative;
+		}
+		/* In a month's time this should be supported in the latest version of Firefox, works in Webkit browsers. */
+		.form__large-radios__item:has(.form__radbox[disabled="disabled"]),
+		.form__large-radios__item:not(:has(.form__radbox)) {
+			opacity: 0.65;
+		}
+			/* The positionesd to full width/height label that makes everythig clickable, we visually hide its content because positioning pulls it out of alignment. We repeat the label visually later on for sighted users. */
+			.form__large-radios__label {
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				cursor: pointer;
+			}
+			.form__large-radios .form__radbox[disabled="disabled"] + .form__large-radios__label {
+				cursor: default;
+			}
+			.form__large-radios .form__radbox:checked + .form__large-radios__label {
+				background: rgba(50,68,74, 0.5);
+				background: var(--large-radios-bk);
+			}
+
+			.form__large-radios .form__radbox:checked ~ .form__large-radios__content, 
+			.form__large-radios .form__radbox:checked ~ .form__large-radios__content a {
+				color: rgb(255,255,255);
+				color: rgb(var(--large-radios-text));
+			}
+			
+			.form__large-radios__item .form__large-radios__content {
+				pointer-events: none;
+				position: relative;
+				z-index: 2;
+			}
+			/* Account for radio button spacing. */
+			.form__large-radios__item .form__radbox ~ .form__large-radios__content {
+				padding-left: 3.4rem;
+			}
+			.form__large-radios__content + .form__large-radios__content {
+				padding-top: 1.6rem;
+				padding-top: var(--padding);
+			}
+				.form__large-radios__content .form__radbox-label {
+					margin-bottom: 0.4em;
+				}
+				/* Account for radio button spacing. */
+				.form__radbox ~ .form__large-radios__content .form__radbox-label {
+					margin-left: -3.4rem;
+				}
+
+				/* Focus styles for the fake radios. */
+				.form__large-radios .form__radbox:focus ~ .form__large-radios__content .form__radbox-label:before, 
+				.form__large-radios .form__radbox:focus-visible ~ .form__large-radios__content .form__radbox-label:before {
+					border-color: rgba(255,255,255, 0);
+					box-shadow: 0 0 0 4px rgb(0,115,165);
+					box-shadow: 0 0 0 4px rgb(var(--link-color));
+				}
+				.form__large-radios .form__radbox:focus:not(:focus-visible) ~ .form__large-radios__content .form__radbox-label:before {
+					border-color: rgba(50,68,74,0.7);
+					border-color: var(--form-field-border);
+					box-shadow: none;
+				}
+
+				/* Make sure to pull any interactive contnet elements in front of the clickable label. */
+				.form__large-radios__item a, 
+				.form__large-radios__item .button {
+					position: relative;
+					z-index: 3;
+					pointer-events: visible;
+				}
+
+				.form__large-radios .highlight-stripe {
+					background: rgba(50,68,74,0.3);
+					background: var(--large-radios-stripe-disabled);
+					margin-left: calc(1.6rem * -1);
+					margin-left: calc(var(--padding) * -1);
+					margin-right: calc(1.6rem * -1);
+					margin-right: calc(var(--padding) * -1);
+					padding: calc(1.6rem / 2);
+					padding: calc(var(--padding) / 2);
+				}
+				/* If there's a selectable radio button paint the highlight stripe orange. */
+				.form__large-radios .form__radbox:not([disabled="disabled"]) ~ .form__large-radios__content .highlight-stripe {
+					background: rgb(240,152,27);
+					background: var(--large-radios-stripe);
+				}
+				/* Account for radio button spacing. */
+				.form__large-radios .form__radbox ~ .form__large-radios__content .highlight-stripe {
+					margin-left: calc((3.4rem + 1.6rem) * -1);
+					margin-left: calc((3.4rem + var(--padding)) * -1);
+				}
+				.form__large-radios .form__radbox:checked ~ .form__large-radios__content .highlight-stripe {
+					color: rgb(50,68,74);
+					color: rgb(var(--page-text));
+				}
+/* Select dropdowns */
+
+	:root {
+		--form-select-arrow: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
+		
+		--form-select-arrow-dark: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%23FFF' fill-rule='evenodd'/%3E%3C/svg%3E");
+	}
+	.theme--light {
+		--form-select-arrow: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--form-select-arrow: var(--form-select-arrow-dark);
+		}
+	}
+	.theme--dark {
+		--form-select-arrow: var(--form-select-arrow-dark);
+	}
+
+
+	.form__select {
+		background-color: rgb(255,255,255);
+		background-color: var(--form-field-background);
+		border: solid 1px rgba(50,68,74,0.7);
+		border: solid 1px var(--form-field-border);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		color: inherit;
+		display: inline-block;
+		/* We deduct 1px to account for the border width. */
+		padding: 0.7rem 3.2rem 0.7rem 0.7rem;
+		width: 100%;
+	}
+	.form__select--content-width {
+		width: auto;
+	}
+	.form__select:not([multiple]) {
+		/* Add the arrow inline because if this breaks that would be fairly catastrophic. */
+		background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
+		background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
+		background-image: var(--form-select-arrow);
+		background-repeat: no-repeat, repeat;
+		background-position: right 0.8rem top 50%, 0 0;
+	}
+	/* Remove the arrow in IE. */
+	.form__select::-ms-expand {
+		display: none;
+	}
+	.form__select:hover {
+		border-color: rgba(50,68,74,0.5);
+		border-color: var(--form-field-border-hover);
+	}
+	.form__select:focus {
+		border-color: rgba(255,255,255, 0);
+		box-shadow: 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 4px rgb(var(--link-color));
+	}
+	.form__select[aria-invalid="true"] {
+		border-color: rgb(255,255,255);
+		box-shadow: 0 0 0 2px rgb(155,18,0);
+		box-shadow: 0 0 0 2px rgb(var(--form-error));
+	}
+	.form__select[aria-invalid="true"]:focus {
+		box-shadow: 0 0 0 2px rgb(155,18,0), 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 2px rgb(var(--form-error)), 0 0 0 4px rgb(var(--link-color));
+	}
+
+
+	.page__header .form__select, 
+	.page__footer .form__select {
+		background-color: linear-gradient(
+				rgba(255,255,255, 0.15), 
+				rgba(255,255,255, 0.15)), 
+			rgb(23,24,24);
+		background-color: var(--form-field-background-dark);
+		border: solid 1px rgba(255,255,255,0.4);
+		border: solid 1px var(--form-field-border-dark);
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		color: inherit;
+	}
+	.page__header .form__select:hover, 
+	.page__footer .form__select:hover, {
+		border-color: rgba(255,255,255,0.2);
+		border-color: var(--form-field-border-hover-dark);
+	}
+	.page__header .form__select:not([multiple]), 
+	.page__footer .form__select:not([multiple]) {
+		background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%23FFF' fill-rule='evenodd'/%3E%3C/svg%3E");
+		background-image: var(--form-select-arrow-dark);
+	}
+		.page__header .form__select option, 
+		.page__footer .form__select option {
+			color: rgb(50,68,74);
+			color: rgb(var(--page-text));
+		}
+
+
+		
+/* Play / Pause Toggle */
+
+	/* Because a toggle will only work with JavaScript we hide the toggle until it's been inited. */
+	.toggle--play-pause:not(.js__toggle--play-pause) {
+		display: none;
+	}
+
+	.button.toggle--play-pause, 
+	.button.toggle--play-pause:hover {
+		background: none;
+		box-shadow: 0 0 0 1px rgb(0,103,41) inset !important;
+		box-shadow: 0 0 0 1px rgb(var(--frog)) inset !important;
+		color: rgb(0,103,41);
+		color: rgb(var(--frog));
+	}
+	.button.toggle--play-pause:hover {
+		box-shadow: 0 0 0 2px rgb(0,103,41) inset !important;
+		box-shadow: 0 0 0 2px rgb(var(--frog)) inset !important;
+	}
+	.button.toggle--play-pause[data-toggled], 
+	.button.toggle--play-pause[data-toggled]:hover {
+		background: rgb(0,103,41);
+		background: rgb(var(--frog));
+		color: rgb(255,255,255);
+	}
+	.button.toggle--play-pause[data-toggled]:hover {
+		opacity: 0.9;
+	}
+	.button.toggle--play-pause:focus, 
+	.button.toggle--play-pause:focus-visible {
+		box-shadow: 0 0 0 4px rgb(5,152,214), 0 0 0 1px rgb(0,103,41) inset !important;
+		box-shadow: 0 0 0 4px rgb(var(--smurf)), 0 0 0 1px rgb(var(--frog)) inset !important;
+	}
+	.button.toggle--play-pause:focus:not(:focus-visible), 
+	.button.toggle--play-pause:focus:not(:focus-visible) {
+		box-shadow: none;
+	}
+
+		.button.toggle--play-pause .icon {
+			fill: rgb(0,103,41);
+			fill: rgb(var(--frog));
+		}
+		.button.toggle--play-pause[data-toggled] .icon {
+			fill: rgb(255,255,255);
+		}
+
+			.toggle--play-pause .toggle__pause-icon, 
+			.toggle--play-pause[data-toggled] .toggle__play-icon {
+				display: none;
+			}
+			.toggle--play-pause .toggle__play-icon, 
+			.toggle--play-pause[data-toggled] .toggle__pause-icon {
+				display: block;
+			}
+
+
+
+/* Switch toggle */
+
+	:root {
+		--switch: rgba(var(--basalt),0.5);
+		--switch-hover: rgba(var(--basalt),0.4);
+	}
+	.theme--light {
+		--switch: rgba(var(--basalt),0.5);
+		--switch-hover: rgba(var(--basalt),0.4);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--switch: rgba(255,255,255,0.3);
+			--switch-hover: rgba(255,255,255,0.2);
+		}
+	}
+	.theme--dark {
+		--switch: rgba(255,255,255,0.3);
+		--switch-hover: rgba(255,255,255,0.2);
+	}
+
+	.form__switch {
+		background: none;
+		border: none;
+		font-size: inherit;
+		line-height: inherit;
+		padding: 0.4rem 0 0.4rem 5rem;
+		position: relative;
+	}
+	.form__switch:hover {
+		background: none;
+	}
+	.form__switch:focus {
+		box-shadow: none;
+	}
+
+	/* Main pill. */
+	.form__switch:before {
+		background: rgba(50,68,74,0.5);
+		background: var(--switch);
+		border-radius: 2em;
+		content: '';
+		height: 2.6rem;
+		left: 0;
+		position: absolute;
+		top: 0.4rem;
+		width: 4.2rem;
+	}
+	/* If there's no BUTTON text it will need a minimum height. */
+	.form__switch[aria-labelledby] {
+		min-height: 3.2rem;
+	}
+	.form__switch:hover:before {
+		background: rgba(50,68,74,0.4);
+		background: var(--switch-hover);
+	}
+		.form__switch__dot {
+			background: rgb(236,239,240);
+			background: var(--page-background);
+			border-radius: 2em;
+			content: '';
+			height: 1.8rem;
+			left: 0.4rem;
+			pointer-events: none;
+			position:absolute;
+			top: 0.8rem;
+			transform: translateX(0);
+			transition: all 0.2s ease-in-out;
+			width: 1.8rem;
+		}
+
+	.form__switch[aria-pressed="true"]:before {
+		background: rgb(0,103,41);
+		background: rgb(var(--frog));
+	}
+		.form__switch[aria-pressed="true"] .form__switch__dot {
+			transform: translateX(1.6rem);
+		}
+		.form__switch[aria-pressed="true"] .form__switch__dot:after {
+			border: 0.3rem solid rgb(0,103,41);
+			border: 0.3rem solid rgb(var(--frog));
+			border-top: 0;
+			border-left: 0;
+			content: '';
+			height: 1rem;
+			left: 0.65rem;
+			position: absolute;
+			width: 0.6rem;
+			top: 0.3rem;
+			transform: rotate(40deg);
+		}
+		
+	.form__switch:focus {
+		outline: none;
+	}
+	.form__switch:focus:before, 
+	.form__switch:focus-visible:before {
+		box-shadow: 0 0 0 4px rgb(5,152,214);
+		box-shadow: 0 0 0 4px rgb(var(--smurf));
+	}
+	.form__switch:focus:not(:focus-visible):before {
+		box-shadow: none;
+	}
+
+	.form__switch[aria-invalid="true"]:before {
+		box-shadow: 0 0 0 2px rgb(155,18,0);
+		box-shadow: 0 0 0 2px rgb(var(--form-error));
+	}
+	.form__switch[aria-invalid="true"]:focus:before {
+		box-shadow: 0 0 0 2px rgb(155,18,0), 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 2px rgb(var(--form-error)), 0 0 0 4px rgb(var(--link-color));
+	}
+
+
+
+/* Nested Fields */
+
+	.form__child-fields__group {
+		display: block;
+		margin-left: 3.4rem;
+	}
+	.js__form__child-fields .form__child-fields__group {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.3s ease-in-out, visibility 0.03s ease-in-out 0.3s;
+		visibility: hidden;
+	}
+	.js__form__child-fields .form__child-fields__group[aria-expanded="true"] {
+		grid-template-rows: 1fr;
+		transition: visibility 0.03s ease-in-out, grid-template-rows 0.3s ease-in-out 0.03s;
+		visibility: visible;
+	}
+		.js__form__child-fields .form__child-fields__inner {
+			overflow: hidden;
+		}
+
+
+
+/* Linked fieldsets */
+	.fieldset-group {
+		/* This is used to offset to account for sticky headers, by default it's switched off. */
+		--scroll-margin-top: 0;
+	}
+	.fieldset-group .fieldset {
+		scroll-margin-top: var(--scroll-margin-top);
+	}
+
+	.form:not(.form--horizontal) .fieldset-group .fieldset.form__row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	
+	/* Linked fieldsets */
+	.js__fieldset-group .fieldset[aria-expanded=false] {
+		display: none;
+		/* opacity: 0.5; */
+	}
+	.js__fieldset-group .fieldset[aria-expanded=true] {
+		display: block;
+		/* opacity: 1; */
+	}
+
+
+
+/* File upload */
+
+	:root {
+		--file-upload-background: rgb(255,255,255);
+		--file-upload-border: rgb(var(--smurf));
+	}
+	.theme--light {
+		--file-upload-background: rgb(255,255,255);
+		--file-upload-border: rgb(var(--smurf));
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--file-upload-background: rgb(var(--coal));
+			--file-upload-border: rgb(var(--smurf));
+		}
+	}
+	.theme--dark {
+		--file-upload-background: rgb(var(--coal));
+		--file-upload-border: rgb(var(--smurf));
+	}
+
+	/* We only style this if the user has JavaScript enabled. */
+	.js .form__file {
+		opacity: 0;
+		position: absolute;
+	}
+	.js .form__file__button {
+		margin-left: 0.4rem;
+		margin-right: 0.4rem;
+	}
+	.js .form__file__name {
+		display: block;
+		padding-top: calc(1.6rem / 4);
+		padding-top: calc(var(--padding) / 4);
+	}
+		.js .form__file__name span {
+			display: block;
+		}
+
+	.js .form__file__drag {
+		background: rgb(255,255,255);
+		background: var(--file-upload-background);
+		border: 1px dashed rgb(5,152,214);
+		border: 1px dashed var(--file-upload-border);
+		border-radius: 0.3rem;
+		border-radius: var(--block-radius);
+		display: inline-block;
+		padding: calc(1.6rem + 1px);
+		padding: calc(var(--padding) + 1px);
+	}
+	.js .form__file__drag-active ~ .form__file__drag {
+		border: 2px dashed rgb(5,152,214);
+		border: 2px dashed var(--file-upload-border);
+		padding: 1.6rem;
+		padding: var(--padding);
+	}
+	.js .form__file:focus ~ .form__file__drag {
+		box-shadow: 0 0 0 4px rgb(5,152,214);
+		box-shadow: 0 0 0 4px rgb(var(--smurf));
+	}
+	.js .form__file[aria-invalid="true"] ~ .form__file__drag {
+		box-shadow: 0 0 0 2px rgb(155,18,0);
+		box-shadow: 0 0 0 2px rgb(var(--form-error));
+	}
+	.js .form__file[aria-invalid="true"]:focus ~ .form__file__drag {
+		box-shadow: 0 0 0 2px rgb(155,18,0), 0 0 0 4px rgb(0,115,165);
+		box-shadow: 0 0 0 2px rgb(var(--form-error)), 0 0 0 4px rgb(var(--link-color));
+	}
+		.js .form__file__drag * {
+			pointer-events: none;
+		}
+
+
+
+/* Loading spinner */
+
+	.loader {
+		background: rgba(240,152,27, 1);
+		background: rgba(var(--tango), 1);
+		display: block;
+		margin: 1.6rem auto;
+		margin: var(--gutter) auto;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.loader--circle {
+		border-radius: 50%;
+		height: 4rem;
+		padding: 0.3rem;
+		width: 4rem;
+	}
+		.loader--circle .loader__fish, 
+		.theme--light .loader--circle .loader__fish {
+			animation: fish-circle 1s linear infinite;
+			background: url(../images/loader-circle.svg) no-repeat center center;
+			display: block;
+			height: 100%;
+			width: 100%;
+		}
+		@keyframes fish-circle {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(-360deg); }
+		}
+
+	.loader--line {
+		border-radius: 0.3rem;
+		border-radius: var(--button-radius);
+		height: 1.6rem;
+		margin: 1.6rem auto;
+		margin: var(--gutter) auto;
+		overflow: hidden;
+		width: 100%;
+	}
+		.loader--line .loader__fish, 
+		.theme--light .loader--line .loader__fish {
+			animation: fish-line 6s linear infinite;
+			background: url(../images/loader-line.svg) repeat left top;
+			background-size: 6.7rem 1.6rem;
+			bottom: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 200%;
+		}
+
+		@keyframes fish-line {
+			0% { transform: translateX(0); }
+			100% { transform: translateX(50%); }
+		}
+
+
+
+/* Icons */
+
+	:root {
+		--icon-colour: var(--onyx);
+	}
+	.theme--light {
+		--icon-colour: var(--onyx);
+	}
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--icon-colour: 255,255,255;
+		}
+	}
+	.theme--dark {
+		--icon-colour: 255,255,255;
+	}
+
+
+
+	.icon {
+		display: inline-block;
+		height: 1.6rem;
+		position: relative;
+		top: 0.2rem;
+		width: 1.6rem;
+	}
+
+	/* This will be applies to icons in buttons on their own and with text. */
+	.button .icon {
+		margin-left: -8px;
+		margin-right: -8px;
+
+		/* This is used to tell JS to ignore clicks on the icon and bubble up to the button. */
+		pointer-events: none;
+
+		/* top: 0.2rem; */
+	}
+	.button--small .icon {
+		margin-left: 0px;
+		margin-right: 3px;
+	}
+	/* For small icon only buttons. */
+	.button--small .button__text .icon {
+		margin-left: -0.2rem;
+		margin-right: -0.2rem;
+	}
+	/* Covers historical usage where we have a label on small buttons with icons and text that are not wrapped in a span. */
+	.button--small .button__text .icon:last-child {
+		margin-right: 0.4rem;
+	}
+	.button--small .button__text .icon + .button__small-text {
+		margin-left: 0.4rem;
+	}
+
+	.button .icon + .button__text {
+		margin-left: 20px;
+	}
+
+
+
+	.button .icon, 
+	.menu__content .icon {
+		fill: currentColor;
+	}
+
+	.icon--90deg {
+		transform: rotate(90deg);
+	}
+	.icon--180deg {
+		transform: rotate(180deg);
+	}
+	.icon--270deg {
+		transform: rotate(270deg);
+	}
+	
+
+	
+/* Animation */
+
+	.anim--rotate-anticlockwise {
+		animation: anim-rotate-anticlockwise 2s linear infinite;
+	}
+	@keyframes anim-rotate-anticlockwise {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(-360deg); }
+	}
+	@media (prefers-reduced-motion) {
+		.anim {
+			animation: none;
+		}
+	}
+
+
+	
+/* Cloud specific */
+
+	/* Specific styling for the search log form. */
+	.form--search-logs.form--horizontal .form__app {
+		flex: 1 0 12em;
+		min-width: 12em;
+	}
+	.form--search-logs.form--horizontal .form__date-range {
+		flex: 0 0 auto;
+	}
+	.form--search-logs.form--horizontal .form__date {
+		flex: 0 0 9em;
+		width: 9em;
+	}
+			.form--search-logs.form--horizontal fieldset.form__row legend {
+				margin-bottom: 0.8rem;
+			}
+	/* 1360px / 16 */
+	@media only screen and (max-width: 85em) {
+		.form--search-logs.form--horizontal {
+			display: block;
+		}
+			.form--search-logs.form--horizontal > .form__row + .form__row {
+				margin: 1.6rem 0 0 0;
+				margin: var(--gutter) 0 0 0;
+			}
+	}
+
+
+	
