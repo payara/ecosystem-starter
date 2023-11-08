@@ -5694,26 +5694,39 @@
 /* Select dropdowns */
 
 	:root {
-		--form-select-arrow: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
-		
-		--form-select-arrow-dark: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%23FFF' fill-rule='evenodd'/%3E%3C/svg%3E");
+		--form-select-background: 
+			linear-gradient(45deg, transparent 50%, currentColor 50%),
+			linear-gradient(135deg, currentColor 50%, transparent 50%),
+			var(--form-field-background);
+
+		/* Setup the dark theme select background in the default because we reuse this in headers and footers where the background is permanently dark. */
+		--form-select-background-dark: 
+			linear-gradient(45deg, transparent 50%, currentColor 50%),
+			linear-gradient(135deg, currentColor 50%, transparent 50%),
+			linear-gradient(
+				rgba(255,255,255, 0.15), 
+				rgba(255,255,255, 0.15)), 
+			rgb(var(--coal));
 	}
 	.theme--light {
-		--form-select-arrow: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
+		--form-select-background: 
+			linear-gradient(45deg, transparent 50%, currentColor 50%),
+			linear-gradient(135deg, currentColor 50%, transparent 50%),
+			var(--form-field-background);
 	}
 	@media (prefers-color-scheme: dark) {
 		:root {
-			--form-select-arrow: var(--form-select-arrow-dark);
+			--form-select-background: var(--form-select-background-dark);
 		}
 	}
 	.theme--dark {
-		--form-select-arrow: var(--form-select-arrow-dark);
+		--form-select-background: var(--form-select-background-dark);
 	}
 
 
 	.form__select {
-		background-color: rgb(255,255,255);
-		background-color: var(--form-field-background);
+		background: rgb(255,255,255);
+		background: var(--form-field-background);
 		border: solid 1px rgba(50,68,74,0.7);
 		border: solid 1px var(--form-field-border);
 		border-radius: 0.3rem;
@@ -5728,12 +5741,21 @@
 		width: auto;
 	}
 	.form__select:not([multiple]) {
-		/* Add the arrow inline because if this breaks that would be fairly catastrophic. */
-		background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
-		background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%2332444A' fill-rule='evenodd'/%3E%3C/svg%3E");
-		background-image: var(--form-select-arrow);
-		background-repeat: no-repeat, repeat;
-		background-position: right 0.8rem top 50%, 0 0;
+		background: linear-gradient(45deg, transparent 50%, currentColor 50%),
+			linear-gradient(135deg, currentColor 50%, transparent 50%),
+			rgb(255,255,255);
+		background: var(--form-select-background);
+		background-position:
+			calc(100% - 2rem) calc(2rem - 0.2rem),
+			calc(100% - 1.5rem) calc(2rem - 0.2rem),
+			100% 100%,
+			100% 100%;
+		background-size:
+			0.5rem 0.5rem,
+			0.5rem 0.5rem,
+			auto,
+			auto;
+		background-repeat: no-repeat;
 	}
 	/* Remove the arrow in IE. */
 	.form__select::-ms-expand {
@@ -5761,15 +5783,13 @@
 
 	.page__header .form__select, 
 	.page__footer .form__select {
-		background-color: linear-gradient(
+		background: linear-gradient(
 				rgba(255,255,255, 0.15), 
 				rgba(255,255,255, 0.15)), 
 			rgb(23,24,24);
-		background-color: var(--form-field-background-dark);
+		background: var(--form-field-background-dark);
 		border: solid 1px rgba(255,255,255,0.4);
 		border: solid 1px var(--form-field-border-dark);
-		border-radius: 0.3rem;
-		border-radius: var(--button-radius);
 		color: inherit;
 	}
 	.page__header .form__select:hover, 
@@ -5779,13 +5799,28 @@
 	}
 	.page__header .form__select:not([multiple]), 
 	.page__footer .form__select:not([multiple]) {
-		background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.721 11.4497c-.3905.3906-1.0236.3906-1.4141 0L2.357 6.5c-.3905-.3905-.3905-1.0237 0-1.4142l.7071-.7071c.3905-.3905 1.0237-.3905 1.4142 0L8.014 7.9136l3.5356-3.535c.3905-.3904 1.0237-.3904 1.4142 0l.7071.7072c.3905.3905.3905 1.0237 0 1.4142l-4.2417 4.2417-.708.708Z' fill='%23FFF' fill-rule='evenodd'/%3E%3C/svg%3E");
-		background-image: var(--form-select-arrow-dark);
+		background: linear-gradient(45deg, transparent 50%, currentColor 50%),
+			linear-gradient(135deg, currentColor 50%, transparent 50%),
+			linear-gradient(
+				rgba(255,255,255, 0.15), 
+				rgba(255,255,255, 0.15)), 
+			rgb(23,24,24);
+		background: var(--form-select-background-dark);
+		background-position:
+			calc(100% - 2rem) calc(2rem - 0.2rem),
+			calc(100% - 1.5rem) calc(2rem - 0.2rem),
+			100% 100%,
+			100% 100%;
+		background-size:
+			0.5rem 0.5rem,
+			0.5rem 0.5rem,
+			auto,
+			auto;
+		background-repeat: no-repeat;
 	}
 		.page__header .form__select option, 
 		.page__footer .form__select option {
-			color: rgb(50,68,74);
-			color: rgb(var(--page-text));
+			/* color: rgb(var(--page-text)); */
 		}
 
 

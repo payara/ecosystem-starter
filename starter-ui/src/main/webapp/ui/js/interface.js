@@ -1,4 +1,4 @@
-/*! Payara Pattern Library version: 0.50.2 */
+/*! Payara Pattern Library version: 0.51.2 */
 /*! DO NOT MODIFY THIS FILE, CHANGES WILL BE OVERWRITTEN! */
 
 // Always set a top level class to indicate if we have JS available.
@@ -1507,8 +1507,24 @@ var form_steps = (function() {
 		// Add the event listener only once.
 		if (!event_listener) {
 			document.addEventListener('click', __action);
-			// We only ever want to add one event listener.
 			event_listener = true;
+		}
+	};
+
+
+
+	let __focus_field = (f) => {
+		// Grab the first input that isn't a hidden field,
+		// Wait the length of time the fieldset animation is set to (300ms) and focus this field.
+		// Because our focus styles are set on focus-visible we need to 
+		// trick the browser into applying focus-visible withcontentEditable.
+		let first_field = f.querySelector('input:not([type=hidden]), textarea, select, button');
+		if (first_field) {
+			setTimeout(() => {
+				first_field.contentEditable = true;
+				first_field.focus();
+				first_field.contentEditable = false;
+			}, 300);
 		}
 	};
 	
@@ -1517,7 +1533,7 @@ var form_steps = (function() {
 	// Called by the listener.
 	let __action = (e) => {
 
-		// If either a next or previoous button was clicked...
+		// If either a next or previous button was clicked...
 		if (e.target.closest('.form__step__button') || e.target.closest('.form__step__button-back') || e.target.closest('.form-steps__title a')) {
 
 			// Check for any fields in the current step that are marked as aria-invalid.
@@ -1547,6 +1563,13 @@ var form_steps = (function() {
 				// Move the "active" class to the new step.
 				e.target.closest('.form-steps').querySelector('.form-steps__step--active').classList.remove('form-steps__step--active');
 				e.target.closest('.form-steps').querySelector(e.target.getAttribute('href')).classList.add('form-steps__step--active');
+
+				// Set the first field that isn't a hidden field to focus.
+				// Because we're not setting up a specific keyup eventListener we just check the x/y coords of the interaction, 
+				// if they're 0 then assume it's a keypress.
+				if ((e.x+e.y) === 0) {
+					__focus_field(e.target.closest('.form-steps').querySelector(e.target.getAttribute('href')));
+				}
 
 				// Reset the steps that are complete and incomplete.
 				let steps = e.target.closest('.form-steps').querySelectorAll('.form-steps__step');
