@@ -4,23 +4,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Generate Payara Application</title>
-        <link rel="icon" href="favicon.ico" sizes="any" /><!-- 32×32 -->
-        <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="apple-touch-icon.png" /><!-- 180×180 -->
-        <link rel="manifest" href="manifest.webmanifest" />
-        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-        <!-- <link rel="stylesheet" href="assets/styles.css"> -->
-        <link rel="stylesheet" href="ui/css/payara.css" />
-		<link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all" />
-		<link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font" />
+        <link rel="icon" href="favicon.ico" sizes="any">
+        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="manifest" href="manifest.webmanifest">
+        <link rel="stylesheet" href="ui/css/payara.min.css">
+		<link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
+		<link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
     </head>
     <body class="page page--sticky-header theme--light">
 		<header class="page__header">
 			<div class="cards card--no-pad js__main-menu">
 				<div class="card--content-width">
 					<a href="/" class="logo">
-						<img src="ui/images/logo.svg" alt="Payara" class="logo__full" />
+						<img src="ui/images/logo.svg" alt="Payara" class="logo__full">
 					</a>
 				</div>
 				<div class="card--content-width text-align--right">
@@ -75,7 +72,7 @@
                                 </div>
                             </div>
                         </div>
-					</div><!-- .hero -->
+					</div>
 
                     <div class="cards--max-width cards--max-width--medium">
                         <div>
@@ -97,10 +94,10 @@
                                             <div class="form-steps__fields">
                                                 <div class="form-steps__inner">
                                                     <p class="form__row">
-                                                        <span class="form__label" for="profile">Build</span>
+                                                        <span class="form__label">Build</span>
                                                         <input class="form__radbox" type="radio" name="build" id="maven" value="maven" checked>
                                                         <label class="form__radbox-label" for="maven">Maven</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="radio" name="build" id="gradle" value="gradle">
                                                         <label class="form__radbox-label" for="gradle">Gradle</label>
                                                     </p>
@@ -191,10 +188,10 @@
                                                         <span class="form__label">Jakarta EE Profile</span>
                                                         <input class="form__radbox" type="radio" name="profile" id="full" value="full">
                                                         <label class="form__radbox-label" for="full">Platform</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="radio" name="profile" id="web" value="web">
                                                         <label class="form__radbox-label" for="web">Web Profile</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="radio" name="profile" id="core" value="core">
                                                         <label class="form__radbox-label" for="core">Core Profile</label>
                                                     </p>
@@ -231,13 +228,13 @@
                                                     <p class="form__row">
                                                         <input class="form__radbox" type="checkbox" id="mpConfig" name="mpConfig" value="false">
                                                         <label class="form__radbox-label" for="mpConfig">MicroProfile Config</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="checkbox" id="mpOpenAPI" name="mpOpenAPI" value="false">
                                                         <label class="form__radbox-label" for="mpOpenAPI">MicroProfile Open API</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="checkbox" id="mpFaultTolerance" name="mpFaultTolerance" value="false">
                                                         <label class="form__radbox-label" for="mpFaultTolerance">MicroProfile Fault Tolerance</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="checkbox" id="mpMetrics" name="mpMetrics" value="false">
                                                         <label class="form__radbox-label" for="mpMetrics">MicroProfile Metrics</label>
                                                     </p>
@@ -275,7 +272,7 @@
                                                         <span class="form__label">Platform</span>
                                                         <input class="form__radbox" type="radio" name="platform" id="server" value="server" checked>
                                                         <label class="form__radbox-label" for="server">Payara Server</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="radio" name="platform" id="micro" value="micro">
                                                         <label class="form__radbox-label" for="micro">Payara Micro</label>
                                                     </p>
@@ -321,13 +318,13 @@
                                                         <span class="form__label">Login</span>
                                                         <input class="form__radbox" type="radio" name="auth" id="none" value="none" checked>
                                                         <label class="form__radbox-label" for="none">None</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="radio" name="auth" id="formAuthFileRealm" value="formAuthFileRealm">
                                                         <label class="form__radbox-label" for="formAuthFileRealm">Form Authentication - File Realm</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="radio" name="auth" id="formAuthDB" value="formAuthDB">
                                                         <label class="form__radbox-label" for="formAuthDB">Form Authentication - Database</label>
-                                                        <br />
+                                                        <br>
                                                         <input class="form__radbox" type="radio" name="auth" id="formAuthLDAP" value="formAuthLDAP">
                                                         <label class="form__radbox-label" for="formAuthLDAP">Form Authentication - LDAP</label>
                                                     </p>
@@ -344,28 +341,30 @@
                                         </fieldset>
 
                                         <p class="form__row form__row--footer">
-                                            <button type="submit" class="button xxgenerate-button">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-download"></use>
-                                                </svg>
-                                                <span class="button__text">Generate</span>
-                                            </button>
-                                        </p>
+                                            <span class="form__progress loader loader--line" id="loadingBar" style="display: none;">
+                                                <span class="loader__fish"></span>
+                                            </span>
 
-                                        <div id="loadingBar" style="display: none;">
-                                            <div id="loadingBarFill" style="width: 0%;"></div>
-                                        </div>
+                                            <span>
+                                                <button type="submit" class="button">
+                                                    <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                        <use href="ui/images/icons.svg#icon-download"></use>
+                                                    </svg>
+                                                    <span class="button__text">Generate</span>
+                                                </button>
+                                            </span>
+                                        </p>
 
                                     </form>
 
                                 </div>
                             </div>
                         </div>
-                    </div><!-- .cards--max-width -->
+                    </div>
 
-                </div><!-- .page__content-inner -->
-            </main><!-- .page__content -->
-        </div><!-- .page__main -->
+                </div>
+            </main>
+        </div>
 
 		<footer class="page__footer">
 			<div class="cards card--no-pad">
@@ -419,10 +418,8 @@
 			</div>
 		</footer>
 
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
         <script src="assets/main.js"></script>
-
-		<script src="ui/js/interface.js"></script>
+		<script src="ui/js/interface.min.js"></script>
         <script>
             menu_wrap.init();
             form_steps.init();
