@@ -94,14 +94,14 @@ function updateLabelsForBuildSystem() {
 }
 
 // Close all accordion sections
-function closeAllAccordions() {
-    accordionTitles.forEach(title => {
-        const contentId = title.getAttribute('data-toggle');
-        const content = document.getElementById(contentId);
-        content.style.maxHeight = null;
-        title.classList.remove('active');
-    });
-}
+// function closeAllAccordions() {
+//     accordionTitles.forEach(title => {
+//         const contentId = title.getAttribute('data-toggle');
+//         const content = document.getElementById(contentId);
+//         content.style.maxHeight = null;
+//         title.classList.remove('active');
+//     });
+// }
 
 // Open the first accordion by default
 // const defaultAccordion = document.getElementById('project-details');
@@ -129,21 +129,21 @@ formInputs.forEach((input, index) => {
 
             // If it's not the last input field, move focus to the next input
             if (index < formInputs.length - 1) {
-                const configurationKey = input.name;
+                // const configurationKey = input.name;
                 
-                // Check if the input's name exists in the map
-                if (configurationKey in inputToConfigurationMap) {
-                    const configurationAccordionTitle = document.querySelector(`[data-toggle="${inputToConfigurationMap[configurationKey]}"]`);
-                    if (configurationAccordionTitle) {
-                        closeAllAccordions();
-                        const configurationContent = document.getElementById(inputToConfigurationMap[configurationKey]);
-                        configurationContent.style.maxHeight = configurationContent.scrollHeight + 'px';
-                        configurationAccordionTitle.classList.add('active');
-                    }
-                    // updateAccordionIcons();
-                }
+                // // Check if the input's name exists in the map
+                // if (configurationKey in inputToConfigurationMap) {
+                //     const configurationAccordionTitle = document.querySelector(`[data-toggle="${inputToConfigurationMap[configurationKey]}"]`);
+                //     if (configurationAccordionTitle) {
+                //         // closeAllAccordions();
+                //         const configurationContent = document.getElementById(inputToConfigurationMap[configurationKey]);
+                //         configurationContent.style.maxHeight = configurationContent.scrollHeight + 'px';
+                //         configurationAccordionTitle.classList.add('active');
+                //     }
+                //     // updateAccordionIcons();
+                // }
 
-                formInputs[index + 1].focus();
+                // formInputs[index + 1].focus();
             } else {
                 form.submit();
             }
