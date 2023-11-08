@@ -1,81 +1,3 @@
-
-// JavaScript to handle accordion toggling
-// const accordionTitles = document.querySelectorAll('.accordion-title');
-// const prevButtons = document.querySelectorAll('.previous-button');
-// const nextButtons = document.querySelectorAll('.next-button');
-
-
-// accordionTitles.forEach(title => {
-//     title.addEventListener('click', () => {
-//         const contentId = title.getAttribute('data-toggle');
-//         const content = document.getElementById(contentId);
-
-//         if (content.style.maxHeight) {
-//             content.style.maxHeight = null;
-//             title.classList.remove('active');
-//         } else {
-//             closeAllAccordions();
-//             content.style.maxHeight = content.scrollHeight + 'px';
-//             title.classList.add('active');
-//         }
-
-//         updateAccordionIcons();
-//     });
-// });
-
-// function updateAccordionIcons() {
-//     const activeIndex = Array.from(accordionTitles).findIndex((title) =>
-//         title.classList.contains('active')
-//     );
-
-//     accordionTitles.forEach((title, index) => {
-//         const icon = title.querySelector('.bi');
-//         if (index === activeIndex) {
-//             icon.classList.remove('bi-circle', 'bi-circle-fill');
-//             icon.classList.add('bi-circle-half');
-//         } else if (index < activeIndex) {
-//             icon.classList.remove('bi-circle-half', 'bi-circle');
-//             icon.classList.add('bi-circle-fill');
-//         } else {
-//             icon.classList.remove('bi-circle-half', 'bi-circle-fill');
-//             icon.classList.add('bi-circle');
-//         }
-//     });
-// }
-
-// Call the function to set initial icon states
-
-
-// prevButtons.forEach(button => {
-//     button.addEventListener('click', () => {
-//         const prevContentId = button.getAttribute('data-previous');
-//         const prevContent = document.getElementById(prevContentId);
-
-//         if (prevContent) {
-//             closeAllAccordions();
-//             prevContent.style.maxHeight = prevContent.scrollHeight + 'px';
-//             const prevTitle = prevContent.previousElementSibling;
-//             prevTitle.classList.add('active');
-//         }
-//     });
-// });
-
-// nextButtons.forEach(button => {
-//     button.addEventListener('click', () => {
-//         const nextContentId = button.getAttribute('data-next');
-//         const nextContent = document.getElementById(nextContentId);
-
-//         if (nextContent) {
-//             closeAllAccordions();
-//             nextContent.style.maxHeight = nextContent.scrollHeight + 'px';
-//             const nextTitle = nextContent.previousElementSibling;
-//             nextTitle.classList.add('active');
-            
-//             updateLabelsForBuildSystem();
-//         }
-//     });
-// });
-
 const buildInputs = document.querySelectorAll('input[name="build"]');
 buildInputs.forEach(input => {
     input.addEventListener('click', updateLabelsForBuildSystem);
@@ -93,24 +15,6 @@ function updateLabelsForBuildSystem() {
     }
 }
 
-// Close all accordion sections
-// function closeAllAccordions() {
-//     accordionTitles.forEach(title => {
-//         const contentId = title.getAttribute('data-toggle');
-//         const content = document.getElementById(contentId);
-//         content.style.maxHeight = null;
-//         title.classList.remove('active');
-//     });
-// }
-
-// Open the first accordion by default
-// const defaultAccordion = document.getElementById('project-details');
-// const defaultAccordionTitle = defaultAccordion.previousElementSibling;
-// defaultAccordion.style.maxHeight = defaultAccordion.scrollHeight + 'px';
-// defaultAccordionTitle.classList.add('active');
-// updateAccordionIcons();
-
-
 // Get all the input fields in the form
 const formInputs = document.querySelectorAll('form input, form select');
 const form = document.getElementById('appForm');
@@ -126,27 +30,6 @@ formInputs.forEach((input, index) => {
     input.addEventListener('keydown', function (event) {
         if (event.keyCode === 13) {
             event.preventDefault(); // Prevent the default Enter key behavior
-
-            // If it's not the last input field, move focus to the next input
-            if (index < formInputs.length - 1) {
-                // const configurationKey = input.name;
-                
-                // // Check if the input's name exists in the map
-                // if (configurationKey in inputToConfigurationMap) {
-                //     const configurationAccordionTitle = document.querySelector(`[data-toggle="${inputToConfigurationMap[configurationKey]}"]`);
-                //     if (configurationAccordionTitle) {
-                //         // closeAllAccordions();
-                //         const configurationContent = document.getElementById(inputToConfigurationMap[configurationKey]);
-                //         configurationContent.style.maxHeight = configurationContent.scrollHeight + 'px';
-                //         configurationAccordionTitle.classList.add('active');
-                //     }
-                //     // updateAccordionIcons();
-                // }
-
-                // formInputs[index + 1].focus();
-            } else {
-                form.submit();
-            }
         }
     });
 });
@@ -157,8 +40,6 @@ form.addEventListener('submit', function (event) {
 
     document.getElementById('loadingBar').style.display = 'block';
     document.getElementById('loadingBar').scrollIntoView({ behavior: 'smooth' });
-    const loadingBarFill = document.getElementById('loadingBarFill');
-    loadingBarFill.style.width = '0%';
 
     const form = event.target;
     const formData = new FormData(form);
