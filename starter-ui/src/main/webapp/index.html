@@ -1,239 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Generate Payara Application</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/styles.css">
-
+        <link rel="icon" href="favicon.ico" sizes="any">
+        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="manifest" href="manifest.webmanifest">
+        <link rel="stylesheet" href="ui/css/payara.min.css">
+		<link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
+		<link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
     </head>
-    <body>
-        <div class="header">
-            <img class="logo" src="assets/payara-logo.svg" alt="Payara Logo">
-            <div class="logo-text">STARTER</div>
+    <body class="page page--sticky-header theme--light">
+		<header class="page__header">
+			<div class="cards card--no-pad js__main-menu">
+				<div class="card--content-width">
+					<a href="/" class="logo">
+						<img src="ui/images/logo.svg" alt="Payara" class="logo__full">
+					</a>
+				</div>
+				<div class="card--content-width text-align--right">
+					<nav class="menu menu--horizontal">
+						<ul class="menu__group">
+
+							<li class="menu__item">
+								<a href="https://www.payara.fish/enterprise/" class="menu__content">
+									<span class="menu__text">Enterprise</span>
+								</a>
+							</li>
+							<li class="menu__item">
+								<a href="https://www.payara.fish/products/payara-cloud/" class="menu__content">
+									<span class="menu__text">Payara Cloud</span>
+								</a>
+							</li>
+							<li class="menu__item">
+								<a href="https://www.payara.fish/learn/resources/" class="menu__content">
+									<span class="menu__text">Learn</span>
+								</a>
+							</li>
+							<li class="menu__item">
+								<a href="https://blog.payara.fish/" class="menu__content">
+									<span class="menu__text">Blog</span>
+								</a>
+							</li>
+							<li class="menu__item">
+								<a href="https://www.payara.fish/about/community/" class="menu__content">
+									<span class="menu__text">Community</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+
+        <div class="page__main">
+            <main class="page__content">
+                <div class="page__content-inner">
+
+					<div class="hero">
+						<div class="cards--max-width cards--max-width--medium">
+                            <div>
+                                <div class="cards card--no-pad">
+                                    <div>
+                                        <h1 class="h1">Payara Starter</h1>
+                                        <p>Payara Starter is a source code generator to create new Payara Server or Payara Micro projects. It allows you to quickly and easily start with Payara Platform!</p>
+                                        <p>Take advantage of customisation options: select your chosen JDK versions, Jakarta EE profiles, build tools, Docker support, and more. Payara Starter will also streamline your project by integrating with popular IDEs.</p>
+                                        <h2>Simply select your options, and click &lsquo;Generate&rsquo; - and Payara Platform is ready to use.</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+
+                    <div class="cards--max-width cards--max-width--medium">
+                        <div>
+                            <div class="cards">
+                                <div>
+
+                                    <form class="form form-steps form-steps--hide-previous-fields form-steps--clickable-legends" data-step-error="Please correct the errors in this step before moving forward." style="--scroll-margin-top: 1.6rem" id="appForm">
+
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Project Details</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Details</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">
+                                                    <p class="form__row">
+                                                        <span class="form__label">Build</span>
+                                                        <input class="form__radbox" type="radio" name="build" id="maven" value="maven" checked>
+                                                        <label class="form__radbox-label" for="maven">Maven</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="build" id="gradle" value="gradle">
+                                                        <label class="form__radbox-label" for="gradle">Gradle</label>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="groupId">Group ID</label>
+                                                        <input type="text" name="groupId" id="groupId" value="fish.payara" class="form__text">
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="artifactId">Artifact ID</label>
+                                                        <input type="text" name="artifactId" id="artifactId" value="hello-world" class="form__text">
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="version">Version</label>
+                                                        <input type="text" name="version" id="version" value="0.1-SNAPSHOT" class="form__text">
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: Project Configuration</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Project Configuration</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Configuration</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="package">Package</label>
+                                                        <input type="text" name="package" id="package" value="fish.payara" class="form__text">
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <input class="form__radbox" type="checkbox" id="includeTests" name="includeTests" value="true">
+                                                        <label class="form__radbox-label" for="includeTests">Include Tests</label>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="javaVersion">Java Version</label>
+                                                        <select class="form__select" name="javaVersion" id="javaVersion"></select>
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Details</span></span>
+                                                        </a>
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: Jakarta EE</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Jakarta EE</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Jakarta EE</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">      
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="jakartaEEVersion">Jakarta EE version</label>
+                                                        <select class="form__select" name="jakartaEEVersion" id="jakartaEEVersion">
+                                                        </select>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <span class="form__label">Jakarta EE Profile</span>
+                                                        <input class="form__radbox" type="radio" name="profile" id="full" value="full">
+                                                        <label class="form__radbox-label" for="full">Platform</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="profile" id="web" value="web">
+                                                        <label class="form__radbox-label" for="web">Web Profile</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="profile" id="core" value="core">
+                                                        <label class="form__radbox-label" for="core">Core Profile</label>
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Configuration</span></span>
+                                                        </a>
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: MicroProfile</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">MicroProfile</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">MicroProfile</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner"> 
+                                                    <p class="form__row">
+                                                        <input class="form__radbox" type="checkbox" id="mpConfig" name="mpConfig" value="false">
+                                                        <label class="form__radbox-label" for="mpConfig">MicroProfile Config</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="checkbox" id="mpOpenAPI" name="mpOpenAPI" value="false">
+                                                        <label class="form__radbox-label" for="mpOpenAPI">MicroProfile Open API</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="checkbox" id="mpFaultTolerance" name="mpFaultTolerance" value="false">
+                                                        <label class="form__radbox-label" for="mpFaultTolerance">MicroProfile Fault Tolerance</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="checkbox" id="mpMetrics" name="mpMetrics" value="false">
+                                                        <label class="form__radbox-label" for="mpMetrics">MicroProfile Metrics</label>
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Jakarta EE</span></span>
+                                                        </a>
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: Payara Platform</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Payara Platform</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Payara Platform</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">
+                                                    <p class="form__row">
+                                                        <span class="form__label">Platform</span>
+                                                        <input class="form__radbox" type="radio" name="platform" id="server" value="server" checked>
+                                                        <label class="form__radbox-label" for="server">Payara Server</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="platform" id="micro" value="micro">
+                                                        <label class="form__radbox-label" for="micro">Payara Micro</label>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="payaraVersion">Payara Platform version:</label>
+                                                        <select class="form__select" name="payaraVersion" id="payaraVersion"></select>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <input class="form__radbox" type="checkbox" id="docker" name="docker" value="false">
+                                                        <label class="form__radbox-label" for="docker">Docker</label>
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: MicroProfile</span></span>
+                                                        </a>
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: Advanced Configuration</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Advanced Configuration</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Advanced Configuration</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">
+                                                    <p class="form__row">
+                                                        <span class="form__label">Login</span>
+                                                        <input class="form__radbox" type="radio" name="auth" id="none" value="none" checked>
+                                                        <label class="form__radbox-label" for="none">None</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="auth" id="formAuthFileRealm" value="formAuthFileRealm">
+                                                        <label class="form__radbox-label" for="formAuthFileRealm">Form Authentication - File Realm</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="auth" id="formAuthDB" value="formAuthDB">
+                                                        <label class="form__radbox-label" for="formAuthDB">Form Authentication - Database</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="auth" id="formAuthLDAP" value="formAuthLDAP">
+                                                        <label class="form__radbox-label" for="formAuthLDAP">Form Authentication - LDAP</label>
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <p class="form__row form__row--footer">
+                                            <span class="form__progress loader loader--line" id="loadingBar" style="display: none;">
+                                                <span class="loader__fish"></span>
+                                            </span>
+
+                                            <span>
+                                                <button type="submit" class="button">
+                                                    <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                        <use href="ui/images/icons.svg#icon-download"></use>
+                                                    </svg>
+                                                    <span class="button__text">Generate</span>
+                                                </button>
+                                            </span>
+                                        </p>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
         </div>
-        <form id="appForm">
-            <div class="accordion">
-                <!-- Project Information Section -->
-                <div class="accordion-section">
-                    <div class="accordion-title" data-toggle="project-details">
-                        <i class="bi current-icon bi-circle-half"></i> Project Details <i class="bi next-icon"></i>
-                    </div>
-                    <div class="accordion-content" id="project-details">
-                        <div class="accordion-sub-content">
-                            <label for="profile">Build:</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="build" id="maven" value="maven" checked>
-                                <label class="form-check-label" for="maven">Maven</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="build" id="gradle" value="gradle">
-                                <label class="form-check-label" for="gradle">Gradle</label>
-                            </div>
-                             
-                            <label for="groupId">Group ID:</label>
-                            <input type="text" name="groupId" id="groupId" value="fish.payara"><br><br>
 
-                            <label for="artifactId">Artifact ID:</label>
-                            <input type="text" name="artifactId" id="artifactId" value="hello-world"><br><br>
+		<footer class="page__footer">
+			<div class="cards card--no-pad">
+				<div class="text-align--left">
+					<theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
+				</div>
+				<div class="card--content-width buttons--light text-align--right"> 
+					<span>Follow Us: </span>
+					<a href="https://twitter.com/Payara_Fish" class="button button--ghost">
+						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+							<use href="ui/images/icons.svg#icon-twitter"></use>
+						</svg>
+						<span class="visually-hidden">Twitter</span>
+					</a>
+					<a href="https://www.facebook.com/PayaraFish" class="button button--ghost">
+						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+							<use href="ui/images/icons.svg#icon-facebook"></use>
+						</svg>
+						<span class="visually-hidden">Facebook</span>
+					</a>
+					<a href="https://www.linkedin.com/company/payara" class="button button--ghost">
+						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+							<use href="ui/images/icons.svg#icon-linkedin"></use>
+						</svg>
+						<span class="visually-hidden">LinkedIn</span>
+					</a>
+					<a href="https://www.youtube.com/user/payarafish" class="button button--ghost">
+						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+							<use href="ui/images/icons.svg#icon-youtube"></use>
+						</svg>
+						<span class="visually-hidden">YouTube</span>
+					</a>
+					<a href="https://www.instagram.com/payaraculture" class="button button--ghost">
+						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+							<use href="ui/images/icons.svg#icon-instagram"></use>
+						</svg>
+						<span class="visually-hidden">Instagram</span>
+					</a>
+					<a href="https://www.meetup.com/payara-global-meetup/" class="button button--ghost">
+						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+							<use href="ui/images/icons.svg#icon-meetup"></use>
+						</svg>
+						<span class="visually-hidden">Meetup</span>
+					</a>
+				</div>
+				<div class="card--content-width">
+					<a href="https://www.payara.fish/about/contact-us/" class="button">
+						<span class="button__text">Contact Us</span>
+					</a>
+				</div>
+			</div>
+		</footer>
 
-                            <label for="version">Version:</label>
-                            <input type="text" name="version" id="version" value="0.1-SNAPSHOT"><br><br>
-                        </div>
-
-                        <button type="button" class="next-button" data-next="project-configuration">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="space"></div>
-
-                <!-- Project Configuration Section -->
-                <div class="accordion-section">
-                    <div class="accordion-title" data-toggle="project-configuration">
-                        <i class="bi previous-icon bi-circle"></i> Project Configuration <i class="bi next-icon"></i>
-                    </div>
-                    <div class="accordion-content" id="project-configuration">
-
-                        <div class="accordion-sub-content"> 
-                            <label for="package">Package:</label>
-                            <input type="text" name="package" id="package" value="fish.payara"><br><br>
-
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="includeTests" name="includeTests" value="true">
-                                <label class="form-check-label" for="includeTests">Include Tests</label>
-                            </div><br><br>
-
-                            <label for="javaVersion">Java Version:</label>
-                            <select name="javaVersion" id="javaVersion"></select><br><br>
-                        </div>
-                        <button type="button" class="previous-button" data-previous="project-details">
-                            Previous <i class="bi bi-arrow-left"></i>
-                        </button>
-                        <button type="button" class="next-button" data-next="jakarta-configuration">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-
-                    </div>
-                </div>
-                <div class="space"></div>
-                <!-- Jakarta Settings Section -->
-                <div class="accordion-section">
-                    <div class="accordion-title" data-toggle="jakarta-configuration">
-                        <i class="bi previous-icon bi-circle"></i> Jakarta EE <i class="bi next-icon"></i>
-                    </div>
-                    <div class="accordion-content" id="jakarta-configuration">
-
-                        <div class="accordion-sub-content"> 
-                            <label for="jakartaEEVersion">Jakarta EE version:</label>
-                            <select name="jakartaEEVersion" id="jakartaEEVersion">
-                            </select><br><br>
-
-                            <label for="profile">Jakarta EE Profile:</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="profile" id="full" value="full">
-                                <label class="form-check-label" for="full">Platform</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="profile" id="web" value="web">
-                                <label class="form-check-label" for="web">Web Profile</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="profile" id="core" value="core">
-                                <label class="form-check-label" for="core">Core Profile</label>
-                            </div><br><br>
-
-                        </div>
-                         <button type="button" class="previous-button" data-previous="project-configuration">
-                            Previous <i class="bi bi-arrow-left"></i>
-                        </button>
-                        <button type="button" class="next-button" data-next="microprofile-configuration">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-
-                    </div>
-                </div>
-                <div class="space"></div>
-                <!-- MicroProfile Settings Section -->
-                <div class="accordion-section">
-                    <div class="accordion-title" data-toggle="microprofile-configuration">
-                        <i class="bi previous-icon bi-circle"></i> MicroProfile<i class="bi next-icon"></i>
-                    </div>
-                    <div class="accordion-content" id="microprofile-configuration">
-
-                        <div class="accordion-sub-content">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="mpConfig" name="mpConfig" value="false">
-                                <label class="form-check-label" for="mpConfig">MicroProfile Config</label>
-                            </div><br><br>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="mpOpenAPI" name="mpOpenAPI" value="false">
-                                <label class="form-check-label" for="mpOpenAPI">MicroProfile Open API</label>
-                            </div><br><br>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="mpFaultTolerance" name="mpFaultTolerance" value="false">
-                                <label class="form-check-label" for="mpFaultTolerance">MicroProfile Fault Tolerance</label>
-                            </div><br><br>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="mpMetrics" name="mpMetrics" value="false">
-                                <label class="form-check-label" for="mpMetrics">MicroProfile Metrics</label>
-                            </div><br><br>
-                        </div>
-                        <button type="button" class="previous-button" data-previous="jakarta-configuration">
-                            Previous <i class="bi bi-arrow-left"></i>
-                        </button>
-                        <button type="button" class="next-button" data-next="payara-configuration">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-
-                    </div>
-                </div>
-                <div class="space"></div>
-                <!-- Payara Settings Section -->
-                <div class="accordion-section">
-                    <div class="accordion-title" data-toggle="payara-configuration">
-                        <i class="bi previous-icon bi-circle"></i> Payara Platform
-                    </div>
-                    <div class="accordion-content accordion-content-last" id="payara-configuration">
-
-                        <div class="accordion-sub-content"> 
-                            <label for="platform">Platform:</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="platform" id="server" value="server" checked>
-                                <label class="form-check-label" for="server">Payara Server</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="platform" id="micro" value="micro">
-                                <label class="form-check-label" for="micro">Payara Micro</label>
-                            </div><br><br>
-
-                            <label for="payaraVersion">Payara Platform version:</label>
-                            <select name="payaraVersion" id="payaraVersion"></select><br><br>
-
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="docker" name="docker" value="false">
-                                <label class="form-check-label" for="docker">Docker</label>
-                            </div><br><br>
-                        </div>
-                         <button type="button" class="previous-button" data-previous="microprofile-configuration">
-                            Previous <i class="bi bi-arrow-left"></i>
-                        </button>
-                        <button type="button" class="next-button" data-next="advanced-configuration">
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
-
-                    </div>
-                </div>
-                
-                <div class="space"></div>
-                <!-- Advance Settings Section -->
-                <div class="accordion-section">
-                    <div class="accordion-title" data-toggle="advanced-configuration">
-                        <i class="bi previous-icon bi-circle"></i> Advanced Configuration
-                    </div>
-                    <div class="accordion-content accordion-content-last" id="advanced-configuration">
-
-                        <div class="accordion-sub-content"> 
-
-                            <label for="profile">Login:</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="auth" id="none" value="none" checked>
-                                <label class="form-check-label" for="none">None</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="auth" id="formAuthFileRealm" value="formAuthFileRealm">
-                                <label class="form-check-label" for="formAuthFileRealm">Form Authentication - File Realm</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="auth" id="formAuthDB" value="formAuthDB">
-                                <label class="form-check-label" for="formAuthDB">Form Authentication - Database</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="auth" id="formAuthLDAP" value="formAuthLDAP">
-                                <label class="form-check-label" for="formAuthLDAP">Form Authentication - LDAP</label>
-                            </div>
-                        </div>
-                        <button type="button" class="previous-button" data-previous="payara-configuration">
-                            Previous <i class="bi bi-arrow-left"></i>
-                        </button>
-
-                    </div>
-                </div>
-                
-
-                <button type="submit" class="generate-button">
-                    Generate <i class="bi bi-download"></i>
-                </button>
-            </div>
-            <div id="loadingBar" style="display: none;">
-                <div id="loadingBarFill" style="width: 0%;"></div>
-            </div>
-        </form>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="assets/main.js"></script>
+		<script src="ui/js/interface.min.js"></script>
+        <script>
+            menu_wrap.init();
+            form_steps.init();
+        </script>
 
     </body>
 </html>

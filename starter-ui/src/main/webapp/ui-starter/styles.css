@@ -1,0 +1,35 @@
+--root {
+	--background: linear-gradient(180deg,rgba(5,152,214,0) 0,rgba(5,152,214,0) 50%,rgb(5,152,214) 100%),
+		linear-gradient(90deg,rgba(240,152,27,0) 0,rgba(240,152,27,0.5) 100%),
+		linear-gradient(0deg,rgba(0,44,62,0.25) 0,rgba(0,44,62,0.75) 50%,rgb(0,44,62) 100%),
+		url(payara-background.jpg);
+}
+.theme--light {
+	--background: linear-gradient(180deg,rgba(5,152,214,0) 0,rgba(5,152,214,0) 50%,rgb(5,152,214) 100%),
+		linear-gradient(90deg,rgba(240,152,27,0) 0,rgba(240,152,27,0.5) 100%),
+		linear-gradient(0deg,rgba(0,44,62,0.25) 0,rgba(0,44,62,0.75) 50%,rgb(0,44,62) 100%),
+		url(payara-background.jpg);
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: linear-gradient(180deg,rgba(5,152,214,0) 0,rgba(5,152,214,0) 50%,rgb(0,44,62) 100%),
+			linear-gradient(90deg,rgba(240,152,27,0) 0,rgba(240,152,27,0.5) 100%),
+			linear-gradient(0deg,rgba(0,44,62,0.25) 0,rgba(0,44,62,0.75) 50%,rgb(0,44,62) 100%),
+			url(payara-background.jpg);
+	}
+}
+.theme--dark {
+	--background: linear-gradient(180deg,rgba(5,152,214,0) 0,rgba(5,152,214,0) 50%,rgb(0,44,62) 100%),
+		linear-gradient(90deg,rgba(240,152,27,0) 0,rgba(240,152,27,0.5) 100%),
+		linear-gradient(0deg,rgba(0,44,62,0.25) 0,rgba(0,44,62,0.75) 50%,rgb(0,44,62) 100%),
+		url(payara-background.jpg);
+}
+
+.hero {
+	background-image: var(--background);
+	background-position: right top;
+	background-size: cover;
+	color: rgb(255,255,255);
+	overflow: hidden;
+	padding-bottom: var(--gutter);
+}
