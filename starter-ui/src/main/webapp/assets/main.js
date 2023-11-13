@@ -197,3 +197,35 @@ function addJavaVersionOption(value, text) {
 
 // Trigger the change event initially to set the default options
 jakartaEEVersionSelect.dispatchEvent(new Event('change'));
+
+// MP Select ALL
+const selectAllMP = document.getElementById('selectAllMP');
+const mpConfig = document.getElementById('mpConfig');
+const mpOpenAPI = document.getElementById('mpOpenAPI');
+const mpFaultTolerance = document.getElementById('mpFaultTolerance');
+const mpMetrics = document.getElementById('mpMetrics');
+
+selectAllMP.addEventListener('change', function () {
+    const isChecked = selectAllMP.checked;
+    mpConfig.checked = isChecked;
+    mpOpenAPI.checked = isChecked;
+    mpFaultTolerance.checked = isChecked;
+    mpMetrics.checked = isChecked;
+});
+
+// Handle individual checkboxes
+mpConfig.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
+
+mpOpenAPI.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
+
+mpFaultTolerance.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
+
+mpMetrics.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
