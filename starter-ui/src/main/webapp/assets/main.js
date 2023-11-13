@@ -9,10 +9,24 @@ function updateLabelsForBuildSystem() {
     if (buildSystem === 'maven') {
         document.querySelector('label[for="groupId"]').textContent = 'Group ID:';
         document.querySelector('label[for="artifactId"]').textContent = 'Artifact ID:';
+        showIncludeTests(); // Show and enable Include Tests checkbox
     } else if (buildSystem === 'gradle') {
         document.querySelector('label[for="groupId"]').textContent = 'Group:';
         document.querySelector('label[for="artifactId"]').textContent = 'Project Name:';
+        hideAndDeselectIncludeTests(); // Hide and deselect Include Tests checkbox
     }
+}
+
+function showIncludeTests() {
+    const includeTestsCheckbox = document.getElementById('includeTests');
+    includeTestsCheckbox.style.display = 'block'; // Show the checkbox
+    includeTestsCheckbox.disabled = false; // Enable the checkbox
+}
+
+function hideAndDeselectIncludeTests() {
+    const includeTestsCheckbox = document.getElementById('includeTests');
+    includeTestsCheckbox.style.display = 'none'; // Hide the checkbox
+    includeTestsCheckbox.checked = false; // Deselect the checkbox
 }
 
 // Get all the input fields in the form
