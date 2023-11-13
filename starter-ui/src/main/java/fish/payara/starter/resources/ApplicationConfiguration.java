@@ -55,7 +55,7 @@ public class ApplicationConfiguration {
     private String packageName = "fish.payara";
 
     @JsonbProperty(JAKARTA_EE_VERSION)
-    private int jakartaEEVersion = 10;
+    private String jakartaEEVersion = "10";
 
     @JsonbProperty(PROFILE)
     private String profile = "full";
@@ -157,11 +157,11 @@ public class ApplicationConfiguration {
         this.packageName = packageName;
     }
 
-    public int getJakartaEEVersion() {
+    public String getJakartaEEVersion() {
         return jakartaEEVersion;
     }
 
-    public void setJakartaEEVersion(int jakartaEEVersion) {
+    public void setJakartaEEVersion(String jakartaEEVersion) {
         this.jakartaEEVersion = jakartaEEVersion;
     }
 
