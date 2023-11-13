@@ -9,10 +9,24 @@ function updateLabelsForBuildSystem() {
     if (buildSystem === 'maven') {
         document.querySelector('label[for="groupId"]').textContent = 'Group ID:';
         document.querySelector('label[for="artifactId"]').textContent = 'Artifact ID:';
+        showIncludeTests(); // Show and enable Include Tests checkbox
     } else if (buildSystem === 'gradle') {
         document.querySelector('label[for="groupId"]').textContent = 'Group:';
         document.querySelector('label[for="artifactId"]').textContent = 'Project Name:';
+        hideAndDeselectIncludeTests(); // Hide and deselect Include Tests checkbox
     }
+}
+
+function showIncludeTests() {
+    const includeTestsCheckbox = document.getElementById('includeTests');
+    includeTestsCheckbox.style.display = 'block'; // Show the checkbox
+    includeTestsCheckbox.disabled = false; // Enable the checkbox
+}
+
+function hideAndDeselectIncludeTests() {
+    const includeTestsCheckbox = document.getElementById('includeTests');
+    includeTestsCheckbox.style.display = 'none'; // Hide the checkbox
+    includeTestsCheckbox.checked = false; // Deselect the checkbox
 }
 
 // Get all the input fields in the form
@@ -197,3 +211,35 @@ function addJavaVersionOption(value, text) {
 
 // Trigger the change event initially to set the default options
 jakartaEEVersionSelect.dispatchEvent(new Event('change'));
+
+// MP Select ALL
+const selectAllMP = document.getElementById('selectAllMP');
+const mpConfig = document.getElementById('mpConfig');
+const mpOpenAPI = document.getElementById('mpOpenAPI');
+const mpFaultTolerance = document.getElementById('mpFaultTolerance');
+const mpMetrics = document.getElementById('mpMetrics');
+
+selectAllMP.addEventListener('change', function () {
+    const isChecked = selectAllMP.checked;
+    mpConfig.checked = isChecked;
+    mpOpenAPI.checked = isChecked;
+    mpFaultTolerance.checked = isChecked;
+    mpMetrics.checked = isChecked;
+});
+
+// Handle individual checkboxes
+mpConfig.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
+
+mpOpenAPI.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
+
+mpFaultTolerance.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
+
+mpMetrics.addEventListener('change', function () {
+    selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
+});
