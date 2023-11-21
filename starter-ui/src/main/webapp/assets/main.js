@@ -176,10 +176,13 @@ function populatePayaraVersionsDropdown(jakartaEEVersion) {
 
 const jakartaEEVersionSelect = document.getElementById('jakartaEEVersion');
 const javaVersionSelect = document.getElementById('javaVersion');
+const webProfileRadioButton = document.getElementById('web');
+const coreProfileRadioButton = document.getElementById('core');
 
 // Attach an event listener to the jakartaEEVersion select element
 jakartaEEVersionSelect.addEventListener('change', function (event) {
     const selectedValue = event.target.value;
+    const selectedVersion = parseFloat(selectedValue);
 
     // Call the function to populate the Payara version dropdown with the selected Jakarta EE version
     populatePayaraVersionsDropdown(selectedValue);
@@ -198,6 +201,17 @@ jakartaEEVersionSelect.addEventListener('change', function (event) {
     } else {
         addJavaVersionOption('17', 'Java SE 17');
         addJavaVersionOption('11', 'Java SE 11');
+    }
+
+    // Disable the Core Profile radio button for versions below 10
+    if (selectedVersion < 10) {
+        if(coreProfileRadioButton.checked) {
+            webProfileRadioButton.checked = true;
+        }
+        coreProfileRadioButton.disabled = true;
+        coreProfileRadioButton.checked = false;
+    } else {
+        coreProfileRadioButton.disabled = false;
     }
 });
 
