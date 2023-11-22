@@ -5,6 +5,8 @@
 package fish.payara.starter.resources;
 
 import jakarta.json.bind.annotation.JsonbProperty;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -28,6 +30,7 @@ public class ApplicationConfiguration {
     public static final String MP_FAULT_TOLERANCE = "mpFaultTolerance";
     public static final String MP_METRICS = "mpMetrics";
     public static final String PAYARA_VERSION = "payaraVersion";
+    public static final String PAYARA_API_VERSION = "payaraApiVersion";
     public static final String AUTO_BIND_HTTP = "autoBindHttp";
     public static final String ADD_CONCURRENT_API = "addConcurrentApi";
     public static final String ADD_RESOURCE_API = "addResourceApi";
@@ -38,6 +41,12 @@ public class ApplicationConfiguration {
     public static final String DEPLOY_WAR = "deployWar";
     public static final String CONTEXT_ROOT = "contextRoot";
     public static final String AUTH = "auth";
+
+    private static final Map<String, String> PAYARA_VERSION_MAP = new HashMap<>();
+    static {
+        PAYARA_VERSION_MAP.put("6.2023.10", "6.8.0");
+        PAYARA_VERSION_MAP.put("6.2023.11", "6.9.0");
+    }
 
     @JsonbProperty(BUILD)
     private String build = "maven";
@@ -86,6 +95,9 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(PAYARA_VERSION)
     private String payaraVersion;
+    
+    @JsonbProperty(PAYARA_API_VERSION)
+    private String payaraApiVersion;
 
     @JsonbProperty(AUTO_BIND_HTTP)
     private boolean autoBindHttp = true;
@@ -195,6 +207,14 @@ public class ApplicationConfiguration {
 
     public void setPayaraVersion(String payaraVersion) {
         this.payaraVersion = payaraVersion;
+    }
+
+    public String getPayaraApiVersion() {
+        return PAYARA_VERSION_MAP.getOrDefault(payaraVersion, payaraVersion);
+    }
+
+    public void setPayaraApiVersion(String payaraApiVersion) {
+        this.payaraApiVersion = payaraApiVersion;
     }
 
     public boolean isAutoBindHttp() {
