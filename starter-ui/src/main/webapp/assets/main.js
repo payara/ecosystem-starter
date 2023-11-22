@@ -257,3 +257,39 @@ mpFaultTolerance.addEventListener('change', function () {
 mpMetrics.addEventListener('change', function () {
     selectAllMP.checked = mpConfig.checked && mpOpenAPI.checked && mpFaultTolerance.checked && mpMetrics.checked;
 });
+
+const platformRadioButton = document.getElementById('full');
+const webRadioButton = document.getElementById('web');
+const coreRadioButton = document.getElementById('core');
+
+const noneAuthCheckbox = document.getElementById('noneAuth');
+const fileRealmCheckbox = document.getElementById('formAuthFileRealm');
+const databaseCheckbox = document.getElementById('formAuthDB');
+const ldapCheckbox = document.getElementById('formAuthLDAP');
+
+coreRadioButton.addEventListener('change', function(event) {
+    if (event.target.checked) {
+        // Disable Form Authentication checkboxes for the Core Profile
+        fileRealmCheckbox.disabled = true;
+        databaseCheckbox.disabled = true;
+        ldapCheckbox.disabled = true;
+
+        fileRealmCheckbox.checked = false;
+        databaseCheckbox.checked = false;
+        ldapCheckbox.checked = false;
+        noneAuthCheckbox.checked = true;
+    }
+});
+
+platformRadioButton.addEventListener('change', toggleFormAuthCheckboxes);
+webRadioButton.addEventListener('change', toggleFormAuthCheckboxes);
+
+// Function to toggle Form Authentication checkboxes for Platform and Web profiles
+function toggleFormAuthCheckboxes(event) {
+    if (platformRadioButton.checked || webRadioButton.checked) {
+        // Enable Form Authentication checkboxes for Platform or Web Profile
+        fileRealmCheckbox.disabled = false;
+        databaseCheckbox.disabled = false;
+        ldapCheckbox.disabled = false;
+    }
+}
