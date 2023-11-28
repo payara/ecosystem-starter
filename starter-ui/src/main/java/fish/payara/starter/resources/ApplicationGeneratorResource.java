@@ -1,3 +1,41 @@
+/*
+ *
+ * Copyright (c) 2023 Payara Foundation and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://github.com/payara/Payara/blob/master/LICENSE.txt
+ * See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at glassfish/legal/LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * The Payara Foundation designates this particular file as subject to the "Classpath"
+ * exception as provided by the Payara Foundation in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
+ */
 package fish.payara.starter.resources;
 
 import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID;
@@ -13,6 +51,7 @@ import static fish.payara.starter.resources.ApplicationConfiguration.MP_FAULT_TO
 import static fish.payara.starter.resources.ApplicationConfiguration.MP_METRICS;
 import static fish.payara.starter.resources.ApplicationConfiguration.MP_OPEN_API;
 import static fish.payara.starter.resources.ApplicationConfiguration.PACKAGE;
+import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_API_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PLATFORM;
 import static fish.payara.starter.resources.ApplicationConfiguration.PROFILE;
@@ -104,6 +143,7 @@ public class ApplicationGeneratorResource {
         properties.put(JAVA_VERSION, appProperties.getJavaVersion());
         properties.put(PLATFORM, appProperties.getPlatform());
         properties.put(PAYARA_VERSION, appProperties.getPayaraVersion());
+        properties.put(PAYARA_API_VERSION, appProperties.getPayaraApiVersion());
         properties.put(INCLUDE_TESTS, appProperties.isIncludeTests());
         properties.put(DOCKER, appProperties.isDocker());
         properties.put(MP_CONFIG, appProperties.isMpConfig());

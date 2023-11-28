@@ -77,7 +77,10 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <validationRegex>^(server|micro)$</validationRegex>
         </requiredProperty>
         <requiredProperty key="payaraVersion">
-            <defaultValue>6.2023.8</defaultValue>
+            <defaultValue>6.2023.11</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="payaraApiVersion">
+            <defaultValue>6.9.0</defaultValue>
         </requiredProperty>
         <requiredProperty key="autoBindHttp">
             <defaultValue>true</defaultValue>
