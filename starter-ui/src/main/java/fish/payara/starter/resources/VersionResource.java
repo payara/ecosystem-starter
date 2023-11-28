@@ -74,8 +74,8 @@ public class VersionResource {
             List<String> versions = extractVersions(versionData)
                     .stream()
                     .filter(version -> !version.contains("Alpha") && !version.contains("Beta"))
-                    .sorted(Collections.reverseOrder())
                     .collect(Collectors.toList());
+            Collections.reverse(versions);
             lastFetchedTime = System.currentTimeMillis();
             cachedVersions = versions;
         }
