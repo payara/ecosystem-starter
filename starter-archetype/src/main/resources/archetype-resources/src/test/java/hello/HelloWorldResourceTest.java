@@ -12,6 +12,7 @@ import ${eePackage}.ws.rs.client.Client;
 import ${eePackage}.ws.rs.client.ClientBuilder;
 import ${eePackage}.ws.rs.core.MediaType;
 import ${eePackage}.ws.rs.core.Response;
+import java.io.File;
 import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +25,9 @@ public class HelloWorldResourceTest {
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class)
                 .addClass(HelloWorldResource.class)
-                .addClass(RestConfiguration.class);
+                .addClass(RestConfiguration.class)<% if (mpConfig) { %>
+                .addAsResource(new File("src/main/resources/META-INF/microprofile-config.properties"))<% } %>
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"));
     }
     
     @ArquillianResource
