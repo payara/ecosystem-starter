@@ -20,15 +20,12 @@ import ${eePackage}.security.enterprise.identitystore.LdapIdentityStoreDefinitio
     hashAlgorithmParameters = {
         "${'${applicationConfig.hashAlgorithmParameters}'}"
     }
-)
-<% } %>
-<% if (formAuthLDAP) { %>
+)<% } %><% if (formAuthLDAP) { %>
 @LdapIdentityStoreDefinition(
     url = "ldap://localhost:33389/",
     callerBaseDn = "ou=caller,dc=jsr375,dc=net",
     groupSearchBase = "ou=group,dc=jsr375,dc=net"
-)
-<% } %>
+)<% } %>
 @FormAuthenticationMechanismDefinition(
     loginToContinue = @LoginToContinue(
         loginPage="/login.xhtml",
