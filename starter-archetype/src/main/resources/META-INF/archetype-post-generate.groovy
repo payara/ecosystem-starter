@@ -79,8 +79,17 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     if (build.equals("maven")) {
         FileUtils.forceDelete(new File(outputDirectory, "build.gradle"))
         FileUtils.forceDelete(new File(outputDirectory, "settings.gradle"))
+        FileUtils.forceDelete(new File(outputDirectory, "gradlew"))
+        FileUtils.forceDelete(new File(outputDirectory, "gradlew.bat"))
+        FileUtils.forceDelete(new File(outputDirectory, "gradle/wrapper/gradle-wrapper.jar"))
+        FileUtils.forceDelete(new File(outputDirectory, "gradle/wrapper/gradle-wrapper.properties"))
+        FileUtils.forceDelete(new File(outputDirectory, "gradle"))
     } else {
         FileUtils.forceDelete(new File(outputDirectory, "pom.xml"))
+        FileUtils.forceDelete(new File(outputDirectory, "mvnw"))
+        FileUtils.forceDelete(new File(outputDirectory, "mvnw.cmd"))
+        FileUtils.forceDelete(new File(outputDirectory, ".mvn/wrapper/maven-wrapper.properties"))
+        FileUtils.forceDelete(new File(outputDirectory, ".mvn"))
     }
     if (platform.equals("micro")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/test/resources"))
@@ -147,7 +156,18 @@ private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOp
 }
 
 private boolean shouldProcessFile(File file) {
-    !file.name.endsWith("pom.xml") && !file.name.endsWith("arquillian.xml")
+    def excludedFileNames = [
+        "pom.xml",
+        "arquillian.xml",
+        "mvnw",
+        "mvnw.cmd",
+        "maven-wrapper.properties",
+        "gradlew",
+        "gradlew.bat",
+        "gradle-wrapper.jar",
+        "gradle-wrapper.properties"
+    ]
+    !excludedFileNames.any { fileName -> file.path.endsWith(fileName) }
 }
 
 private void processFile(File file, SimpleTemplateEngine engine, Map binding) {
