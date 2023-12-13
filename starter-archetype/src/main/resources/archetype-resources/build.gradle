@@ -1,41 +1,38 @@
 #if (${jakartaEEVersion} == '10')
-#set ($eeApiVersion = "10.0.0")
+    #set ($eeApiVersion = "10.0.0")
 #elseif (${jakartaEEVersion} == '9.1')
-#set ($eeApiVersion = "9.1.0")
+    #set ($eeApiVersion = "9.1.0")
 #elseif (${jakartaEEVersion} == '9')
-#set ($eeApiVersion = "9.0.0")
+    #set ($eeApiVersion = "9.0.0")
 #else
-#set ($eeApiVersion = "8.0.0")
+    #set ($eeApiVersion = "8.0.0")
 #end
 #if (${profile} == 'core')
-#set ($eeArtifactId = "jakarta.jakartaee-core-api")
+    #set ($eeArtifactId = "jakarta.jakartaee-core-api")
 #elseif (${profile} == 'web')
-#set ($eeArtifactId = "jakarta.jakartaee-web-api")
+    #set ($eeArtifactId = "jakarta.jakartaee-web-api")
 #else
-#set ($eeArtifactId = "jakarta.jakartaee-api")
+    #set ($eeArtifactId = "jakarta.jakartaee-api")
 #end
 #set ($payaraUrlPrefix = "https://repo1.maven.org/maven2/fish/payara/distributions")
 #if (${jakartaEEVersion} == '8')
-#set ($payaraHome = "payara5")
-#if (${profile} == 'web')
-#set ($payaraUrl = "${payaraUrlPrefix}/payara-web/${payaraVersion}/payara-web-${payaraVersion}.zip")
+    #set ($payaraHome = "payara5")
 #else
-#set ($payaraUrl = "${payaraUrlPrefix}/payara/${payaraVersion}/payara-${payaraVersion}.zip")
-#end
-#else
-#set ($payaraHome = "payara6")
-#if (${profile} == 'web')
-#set ($payaraUrl = "${payaraUrlPrefix}/payara-web/${payaraVersion}/payara-web-${payaraVersion}.zip")
-#else
-#set ($payaraUrl = "${payaraUrlPrefix}/payara/${payaraVersion}/payara-${payaraVersion}.zip")
-#end
+    #set ($payaraHome = "payara6")
 #end
 #if (!${payaraVersion})
-#if (${jakartaEEVersion} == '8')
-#set ($payaraVersion = "5.2022.5")
-#else
-#set ($payaraVersion = "6.2023.8")
+    #if (${jakartaEEVersion} == '8')
+        #set ($payaraVersion = "5.2022.5")
+        #set ($microprofileVersion = "4.0")
+    #else
+        #set ($payaraVersion = "6.2023.8")
+        #set ($microprofileVersion = "5.0")
+    #end
 #end
+#if (${profile} == 'full')
+    #set ($payaraUrl = "${payaraUrlPrefix}/payara/${payaraVersion}/payara-${payaraVersion}.zip")
+#else
+    #set ($payaraUrl = "${payaraUrlPrefix}/payara-web/${payaraVersion}/payara-web-${payaraVersion}.zip")
 #end
 #if (${jakartaEEVersion} == '8')
 #set ($microprofileVersion = "4.0")
@@ -45,7 +42,9 @@
 plugins {
     id 'java'
     id 'war'
+#if (${platform} == 'micro')
     id "fish.payara.micro-gradle-plugin" version "2.0.1"
+#end
 }
 
 group = '${groupId}'
@@ -59,7 +58,7 @@ sourceCompatibility = JavaVersion.VERSION_${javaVersion}
 targetCompatibility = JavaVersion.VERSION_${javaVersion}
 #end
 
-#if ((${platform} == 'micro'))
+#if (${platform} == 'micro')
 payaraMicro {
     payaraVersion = '${payaraVersion}'
     #if (${deployWar} == "true")deployWar = true #end

@@ -1,15 +1,15 @@
 package ${package}.secured;
 
 import ${eePackage}.annotation.security.DeclareRoles;
-import ${eePackage}.enterprise.context.ApplicationScoped;
-import ${eePackage}.inject.Named;
+import ${eePackage}.enterprise.context.ApplicationScoped;<% if (formAuthDB) { %>
+import ${eePackage}.inject.Named;<% } %>
 import ${eePackage}.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
 import ${eePackage}.security.enterprise.authentication.mechanism.http.LoginToContinue;<% if (formAuthDB) { %>
 import ${eePackage}.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
-import ${eePackage}.security.enterprise.identitystore.Pbkdf2PasswordHash;<% } %><% if (formAuthLDAP) { %>
-import ${eePackage}.security.enterprise.identitystore.LdapIdentityStoreDefinition;<% } %>
+import ${eePackage}.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map;<% } %><% if (formAuthLDAP) { %>
+import ${eePackage}.security.enterprise.identitystore.LdapIdentityStoreDefinition;<% } %>
 
 <% if (formAuthDB) { %>
 @DatabaseIdentityStoreDefinition(
@@ -20,15 +20,12 @@ import java.util.Map;
     hashAlgorithmParameters = {
         "${'${applicationConfig.hashAlgorithmParameters}'}"
     }
-)
-<% } %>
-<% if (formAuthLDAP) { %>
+)<% } %><% if (formAuthLDAP) { %>
 @LdapIdentityStoreDefinition(
     url = "ldap://localhost:33389/",
     callerBaseDn = "ou=caller,dc=jsr375,dc=net",
     groupSearchBase = "ou=group,dc=jsr375,dc=net"
-)
-<% } %>
+)<% } %>
 @FormAuthenticationMechanismDefinition(
     loginToContinue = @LoginToContinue(
         loginPage="/login.xhtml",
@@ -36,8 +33,8 @@ import java.util.Map;
     )
 )
 @DeclareRoles({ "user", "admin" })
-@ApplicationScoped
-@Named
+@ApplicationScoped<% if (formAuthDB) { %>
+@Named<% } %>
 public class ApplicationConfig {
 <% if (formAuthDB) { %>
     public String[] getHashAlgorithmParameters() {
