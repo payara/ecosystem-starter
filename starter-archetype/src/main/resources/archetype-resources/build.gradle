@@ -34,6 +34,11 @@
 #else
     #set ($payaraUrl = "${payaraUrlPrefix}/payara-web/${payaraVersion}/payara-web-${payaraVersion}.zip")
 #end
+#if (${jakartaEEVersion} == '8')
+#set ($microprofileVersion = "4.0")
+#else
+#set ($microprofileVersion = "5.0")
+#end
 plugins {
     id 'java'
     id 'war'
@@ -66,11 +71,25 @@ payaraMicro {
 
 dependencies {
     providedCompile 'jakarta.platform:${eeArtifactId}:${eeApiVersion}'
-    #if (${addMicroprofileApi} == "true")providedCompile 'org.eclipse.microprofile:microprofile:${microprofileVersion}'#end
-    #if (${addPayaraApi} == "true")providedCompile 'fish.payara.api:payara-api:${payaraVersion}'#end
+#if (${addMicroprofileApi} == "true")
+    providedCompile 'org.eclipse.microprofile:microprofile:${microprofileVersion}'
+#end
+#if (${payaraApiVersion} == ${payaraVersion})
+#if (${addPayaraApi} == "true")
+    providedCompile 'fish.payara.api:payara-api:${payaraVersion}'
+#end
+#else 
+#if (${addPayaraApi} == "true")
+    providedCompile 'fish.payara.api:payara-api:${payaraApiVersion}'
+#end
+#end
 }
 
 repositories {
+    maven {
+        url 'https://nexus.dev.payara.fish/repository/payara-artifacts'
+        name 'payara-nexus-artifacts'
+    }
     mavenCentral()
 }
 

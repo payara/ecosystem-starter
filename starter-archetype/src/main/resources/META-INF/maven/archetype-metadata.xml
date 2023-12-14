@@ -166,6 +166,13 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <directory></directory>
             <includes>
                 <include>.gitignore</include>
+                <include>mvnw</include>
+                <include>mvnw.cmd</include>
+                <include>.mvn/wrapper/maven-wrapper.properties</include>
+                <include>gradlew</include>
+                <include>gradlew.bat</include>
+                <include>gradle/wrapper/gradle-wrapper.jar</include>
+                <include>gradle/wrapper/gradle-wrapper.properties</include>
             </includes>
         </fileSet>
         <fileSet filtered="true" packaged="true">
