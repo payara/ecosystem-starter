@@ -74,15 +74,6 @@ dependencies {
 #if (${addMicroprofileApi} == "true")
     providedCompile 'org.eclipse.microprofile:microprofile:${microprofileVersion}'
 #end
-#if (${payaraApiVersion} == ${payaraVersion})
-#if (${addPayaraApi} == "true")
-    providedCompile 'fish.payara.api:payara-api:${payaraVersion}'
-#end
-#else 
-#if (${addPayaraApi} == "true")
-    providedCompile 'fish.payara.api:payara-api:${payaraApiVersion}'
-#end
-#end
 }
 
 repositories {

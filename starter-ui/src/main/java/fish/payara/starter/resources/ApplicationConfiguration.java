@@ -64,7 +64,6 @@ public class ApplicationConfiguration {
     public static final String MP_FAULT_TOLERANCE = "mpFaultTolerance";
     public static final String MP_METRICS = "mpMetrics";
     public static final String PAYARA_VERSION = "payaraVersion";
-    public static final String PAYARA_API_VERSION = "payaraApiVersion";
     public static final String AUTO_BIND_HTTP = "autoBindHttp";
     public static final String ADD_CONCURRENT_API = "addConcurrentApi";
     public static final String ADD_RESOURCE_API = "addResourceApi";
@@ -76,11 +75,7 @@ public class ApplicationConfiguration {
     public static final String CONTEXT_ROOT = "contextRoot";
     public static final String AUTH = "auth";
 
-    private static final Map<String, String> PAYARA_VERSION_MAP = new HashMap<>();
-    static {
-        PAYARA_VERSION_MAP.put("6.2023.10", "6.8.0");
-        PAYARA_VERSION_MAP.put("6.2023.11", "6.9.0");
-    }
+    public static final String PAYARA_VERSION_6_2023_11 = "6.2023.11";
 
     @JsonbProperty(BUILD)
     private String build = "maven";
@@ -130,9 +125,6 @@ public class ApplicationConfiguration {
     @JsonbProperty(PAYARA_VERSION)
     private String payaraVersion;
     
-    @JsonbProperty(PAYARA_API_VERSION)
-    private String payaraApiVersion;
-
     @JsonbProperty(AUTO_BIND_HTTP)
     private boolean autoBindHttp = true;
 
@@ -243,14 +235,6 @@ public class ApplicationConfiguration {
         this.payaraVersion = payaraVersion;
     }
 
-    public String getPayaraApiVersion() {
-        return PAYARA_VERSION_MAP.getOrDefault(payaraVersion, payaraVersion);
-    }
-
-    public void setPayaraApiVersion(String payaraApiVersion) {
-        this.payaraApiVersion = payaraApiVersion;
-    }
-
     public boolean isAutoBindHttp() {
         return autoBindHttp;
     }
@@ -300,7 +284,11 @@ public class ApplicationConfiguration {
     }
 
     public boolean isAddPayaraApi() {
-        return addPayaraApi;
+        if (addPayaraApi) {
+            return compareVersions(payaraVersion, PAYARA_VERSION_6_2023_11) > 0;
+        } else {
+            return false;
+        }
     }
 
     public void setAddPayaraApi(boolean addPayaraApi) {
@@ -377,6 +365,24 @@ public class ApplicationConfiguration {
 
     public void setAuth(String auth) {
         this.auth = auth;
+    }
+    
+    public static int compareVersions(String version1, String version2) {
+        String[] v1Components = version1.split("\\.");
+        String[] v2Components = version2.split("\\.");
+
+        int minLength = Math.min(v1Components.length, v2Components.length);
+
+        for (int i = 0; i < minLength; i++) {
+            int v1Part = Integer.parseInt(v1Components[i]);
+            int v2Part = Integer.parseInt(v2Components[i]);
+
+            if (v1Part != v2Part) {
+                return Integer.compare(v1Part, v2Part);
+            }
+        }
+
+        return Integer.compare(v1Components.length, v2Components.length);
     }
 
 }
