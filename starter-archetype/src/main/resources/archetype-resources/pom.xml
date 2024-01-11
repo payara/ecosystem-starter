@@ -128,11 +128,6 @@
             <groupId>fish.payara.api</groupId>
             <artifactId>payara-api</artifactId>
             <scope>provided</scope>
-#if (${payaraApiVersion} == ${payaraVersion})
-            <version>${payara.version}</version>
-#else 
-            <version>${payaraApiVersion}</version>
-#end
         </dependency>
 #end
 #if (${auth} == "formAuthLDAP")
