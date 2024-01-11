@@ -70,7 +70,7 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
         </requiredProperty>
         <requiredProperty key="javaVersion">
             <defaultValue>17</defaultValue>
-            <validationRegex>^(8|11|17)$</validationRegex>
+            <validationRegex>^(8|11|17|21)$</validationRegex>
         </requiredProperty>
         <requiredProperty key="platform">
             <defaultValue>server</defaultValue>

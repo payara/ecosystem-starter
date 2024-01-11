@@ -91,7 +91,7 @@ form.addEventListener('submit', function (event) {
     event.preventDefault();
 
     document.getElementById('loadingBar').style.display = 'block';
-    document.getElementById('loadingBar').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('loadingBar').scrollIntoView({behavior: 'smooth'});
 
     const form = event.target;
     const formData = new FormData(form);
@@ -159,11 +159,18 @@ const jakartaVersions = {
 };
 
 const javaVersions = {
+    "21": "Java SE 21",
     "17": "Java SE 17",
     "11": "Java SE 11",
     "8": "Java SE 8"
 };
 
+
+const payaraVersionSelect = document.getElementById('payaraVersion');
+const jakartaEEVersionSelect = document.getElementById('jakartaEEVersion');
+const javaVersionSelect = document.getElementById('javaVersion');
+const webProfileRadioButton = document.getElementById('web');
+const coreProfileRadioButton = document.getElementById('core');
 
 // Function to populate a select element with options
 function populateSelect(selectId, optionOrder, optionMap) {
@@ -195,55 +202,34 @@ function populatePayaraVersionsDropdown(jakartaEEVersion) {
                 }
             })
             .then(versions => {
-                const payaraVersion = document.getElementById('payaraVersion');
-                payaraVersion.innerHTML = ''; // Clear existing options
+                payaraVersionSelect.innerHTML = ''; // Clear existing options
 
                 // Add an option for each version
                 versions.forEach(version => {
                     const option = document.createElement('option');
                     option.value = version;
                     option.text = version;
-                    payaraVersion.appendChild(option);
+                    payaraVersionSelect.appendChild(option);
                 });
+                listJavaVersionOption();
             })
             .catch(error => {
                 console.error('Error:', error);
             });
 }
 
-
-const jakartaEEVersionSelect = document.getElementById('jakartaEEVersion');
-const javaVersionSelect = document.getElementById('javaVersion');
-const webProfileRadioButton = document.getElementById('web');
-const coreProfileRadioButton = document.getElementById('core');
-
 // Attach an event listener to the jakartaEEVersion select element
 jakartaEEVersionSelect.addEventListener('change', function (event) {
+    
     const selectedValue = event.target.value;
     const selectedVersion = parseFloat(selectedValue);
 
     // Call the function to populate the Payara version dropdown with the selected Jakarta EE version
     populatePayaraVersionsDropdown(selectedValue);
 
-    // Get the "Java Version" options select element
-    const javaVersionOptions = javaVersionSelect.querySelectorAll('option');
-    // Clear existing options
-    javaVersionOptions.forEach(option => {
-        option.remove();
-    });
-
-    // Add options based on the selected Jakarta EE Version
-    if (selectedValue === '8') {
-        addJavaVersionOption('11', 'Java SE 11');
-        addJavaVersionOption('8', 'Java SE 8');
-    } else {
-        addJavaVersionOption('17', 'Java SE 17');
-        addJavaVersionOption('11', 'Java SE 11');
-    }
-
     // Disable the Core Profile radio button for versions below 10
     if (selectedVersion < 10) {
-        if(coreProfileRadioButton.checked) {
+        if (coreProfileRadioButton.checked) {
             webProfileRadioButton.checked = true;
         }
         coreProfileRadioButton.disabled = true;
@@ -252,6 +238,53 @@ jakartaEEVersionSelect.addEventListener('change', function (event) {
         coreProfileRadioButton.disabled = false;
     }
 });
+
+// Attach an event listener to the payaraVersion select element
+payaraVersionSelect.addEventListener('change', function (event) {
+    listJavaVersionOption();
+});
+
+// List Java Version options based on the selected Jakarta EE Version and Payara Version
+function listJavaVersionOption() {
+    const jakartaEEVersion = jakartaEEVersionSelect.value;
+    const payaraVersion = payaraVersionSelect.value;
+
+    // Get the "Java Version" options select element
+    const javaVersionOptions = javaVersionSelect.querySelectorAll('option');
+    // Clear existing options
+    javaVersionOptions.forEach(option => {
+        option.remove();
+    });
+    // Add options based on the selected Jakarta EE Version
+    if (jakartaEEVersion === '8') {
+        addJavaVersionOption('11', 'Java SE 11');
+        addJavaVersionOption('8', 'Java SE 8');
+    } else {
+        if (compareVersion(payaraVersion, '6.2023.11') > 0) {
+            // Payara version is greater than '6.2023.11'
+            addJavaVersionOption('21', 'Java SE 21');
+        }
+        addJavaVersionOption('17', 'Java SE 17');
+        addJavaVersionOption('11', 'Java SE 11');
+    }
+}
+
+// Function to compare two version strings
+function compareVersion(version1, version2) {
+    const v1 = version1.split('.').map(Number);
+    const v2 = version2.split('.').map(Number);
+
+    for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
+        const num1 = v1[i] || 0;
+        const num2 = v2[i] || 0;
+
+        if (num1 !== num2) {
+            return num1 - num2;
+        }
+    }
+
+    return 0;
+}
 
 // Function to add an option to the "Java Version" select element
 function addJavaVersionOption(value, text) {
@@ -305,7 +338,7 @@ const fileRealmCheckbox = document.getElementById('formAuthFileRealm');
 const databaseCheckbox = document.getElementById('formAuthDB');
 const ldapCheckbox = document.getElementById('formAuthLDAP');
 
-coreRadioButton.addEventListener('change', function(event) {
+coreRadioButton.addEventListener('change', function (event) {
     if (event.target.checked) {
         // Disable Form Authentication checkboxes for the Core Profile
         fileRealmCheckbox.disabled = true;

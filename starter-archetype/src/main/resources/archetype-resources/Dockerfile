@@ -6,7 +6,13 @@
 #end
 #end
 #if (${platform} == 'server')
-#if (${javaVersion} == '17')
+#if (${javaVersion} == '21')
+#if (${profile} == 'full')
+#set ($baseImage = "payara/server-full:${payaraVersion}-jdk21")
+#else
+#set ($baseImage = "payara/server-web:${payaraVersion}-jdk21")
+#end
+#elseif (${javaVersion} == '17')
 #if (${profile} == 'full')
 #set ($baseImage = "payara/server-full:${payaraVersion}-jdk17")
 #else
@@ -26,7 +32,9 @@
 #end
 #end
 #elseif (${platform} == 'micro')
-#if (${javaVersion} == '17')
+#if (${javaVersion} == '21')
+#set ($baseImage = "payara/micro:${payaraVersion}-jdk21")
+#elseif (${javaVersion} == '17')
 #set ($baseImage = "payara/micro:${payaraVersion}-jdk17")
 #elseif (${javaVersion} == '11')
 #set ($baseImage = "payara/micro:${payaraVersion}-jdk11")
