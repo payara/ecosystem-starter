@@ -35,7 +35,7 @@ private void validateInput(String profile, String jakartaEEVersion, String javaV
     }
 
     if (!isValidJavaVersion(javaVersion)) {
-        throwAndDelete("Failed, valid Java SE versions are 8, 11, and 17", outputDirectory);
+        throwAndDelete("Failed, valid Java SE versions are 8, 11, 17, and 21", outputDirectory);
     }
 
     if (!isValidPlatform(platform)) {
@@ -60,7 +60,7 @@ private boolean isValidProfile(String profile) {
 }
 
 private boolean isValidJavaVersion(String version) {
-    return version.equals("8") || version.equals("11") || version.equals("17");
+    return version.equals("8") || version.equals("11") || version.equals("17") || version.equals("21");
 }
 
 private boolean isValidPlatform(String platform) {
