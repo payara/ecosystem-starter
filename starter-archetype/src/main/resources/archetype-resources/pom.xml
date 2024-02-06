@@ -85,6 +85,7 @@
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>${eeArtifactId}</artifactId>
+            <version>${jakartaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
 #if (${addConcurrentApi} == "true")
