@@ -43,9 +43,11 @@ public class HelloWorldResource {
                 .build();
     }
 
-    <% if (mpFaultTolerance) { %>public String fallbackMethod() {
-        // Fallback logic when the getData method fails or exceeds retries
-        return "Fallback data";
+    <% if (mpFaultTolerance) { %>public Response fallbackMethod(@QueryParam("name") String name) {
+        // Fallback logic when the hello method fails or exceeds retries
+        return Response
+                .ok("Fallback data")
+                .build();
     }<% } %>
-        
+
 }
