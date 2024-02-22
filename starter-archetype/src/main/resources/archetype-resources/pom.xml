@@ -193,7 +193,11 @@
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
                 <artifactId>payara-micro-maven-plugin</artifactId>
+#if (${javaVersion} == '8')
                 <version>2.0</version>
+#else
+                <version>2.2</version>
+#end
                 <configuration>
                     <payaraVersion>${payara.version}</payaraVersion>
 #if (${deployWar} == "true")
