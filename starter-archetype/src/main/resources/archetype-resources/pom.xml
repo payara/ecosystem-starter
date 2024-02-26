@@ -24,7 +24,7 @@
     #if (${jakartaEEVersion} == '8')
         #set ($payaraVersion = "5.2022.5")
     #else
-        #set ($payaraVersion = "6.2023.8")
+        #set ($payaraVersion = "6.2024.2")
     #end
 #end
 #if (${profile} == 'full')
@@ -193,7 +193,11 @@
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
                 <artifactId>payara-micro-maven-plugin</artifactId>
+#if (${javaVersion} == '8')
                 <version>2.0</version>
+#else
+                <version>2.2</version>
+#end
                 <configuration>
                     <payaraVersion>${payara.version}</payaraVersion>
 #if (${deployWar} == "true")

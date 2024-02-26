@@ -2,7 +2,7 @@
 #if (${jakartaEEVersion} == '8')
 #set ($payaraVersion = "5.2022.5")
 #else
-#set ($payaraVersion = "6.2023.8")
+#set ($payaraVersion = "6.2024.2")
 #end
 #end
 #if (${platform} == 'server')
