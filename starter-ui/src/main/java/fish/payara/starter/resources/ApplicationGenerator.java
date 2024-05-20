@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2024 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-2024 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,6 +38,9 @@
  */
 package fish.payara.starter.resources;
 
+import fish.payara.starter.application.domain.ERModel;
+import fish.payara.starter.application.generator.ApplicationGenerator;
+import fish.payara.starter.application.generator.ERDiagramParser;
 import static fish.payara.starter.resources.ApplicationConfiguration.ADD_PAYARA_API;
 import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID;
 import static fish.payara.starter.resources.ApplicationConfiguration.AUTH;

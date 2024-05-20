@@ -46,15 +46,29 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="manifest" href="manifest.webmanifest">
         <link rel="stylesheet" href="ui/css/payara.min.css">
-		<link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
-		<link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
+        <link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
+        <link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/xml/xml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/css/css.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/mermaid/mermaid.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MGV5FR6D');</script>
+        <script>(function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({'gtm.start':
+                            new Date().getTime(), event: 'gtm.js'});
+                var f = d.getElementsByTagName(s)[0],
+                        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-MGV5FR6D');</script>
         <!-- End Google Tag Manager -->
 
     </head>
@@ -62,57 +76,57 @@
 
         <!-- Google Tag Manager (noscript) -->
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGV5FR6D"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+                          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
 
-		<header class="page__header">
-			<div class="cards card--no-pad js__main-menu">
-				<div class="card--content-width">
-					<a href="/" class="logo">
-						<img src="ui/images/logo.svg" alt="Payara" class="logo__full">
-					</a>
-				</div>
-				<div class="card--content-width text-align--right">
-					<nav class="menu menu--horizontal">
-						<ul class="menu__group">
+        <header class="page__header">
+            <div class="cards card--no-pad js__main-menu">
+                <div class="card--content-width">
+                    <a href="/" class="logo">
+                        <img src="ui/images/logo.svg" alt="Payara" class="logo__full">
+                    </a>
+                </div>
+                <div class="card--content-width text-align--right">
+                    <nav class="menu menu--horizontal">
+                        <ul class="menu__group">
 
-							<li class="menu__item">
-								<a href="https://www.payara.fish/enterprise/" class="menu__content">
-									<span class="menu__text">Enterprise</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://www.payara.fish/products/payara-cloud/" class="menu__content">
-									<span class="menu__text">Payara Cloud</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://www.payara.fish/learn/resources/" class="menu__content">
-									<span class="menu__text">Learn</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://blog.payara.fish/" class="menu__content">
-									<span class="menu__text">Blog</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://www.payara.fish/about/community/" class="menu__content">
-									<span class="menu__text">Community</span>
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</header>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/enterprise/" class="menu__content">
+                                    <span class="menu__text">Enterprise</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/products/payara-cloud/" class="menu__content">
+                                    <span class="menu__text">Payara Cloud</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/learn/resources/" class="menu__content">
+                                    <span class="menu__text">Learn</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://blog.payara.fish/" class="menu__content">
+                                    <span class="menu__text">Blog</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/about/community/" class="menu__content">
+                                    <span class="menu__text">Community</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
 
         <div class="page__main">
             <main class="page__content">
                 <div class="page__content-inner">
 
-					<div class="hero">
-						<div class="cards--max-width cards--max-width--medium">
+                    <div class="hero">
+                        <div class="cards--max-width cards--max-width--medium">
                             <div>
                                 <div class="cards card--no-pad">
                                     <div>
@@ -124,7 +138,7 @@
                                 </div>
                             </div>
                         </div>
-					</div>
+                    </div>
 
                     <div class="cards--max-width cards--max-width--medium">
                         <div>
@@ -138,9 +152,9 @@
                                             <div class="legend h3 form-steps__title" aria-hidden="true">Project Details</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -168,7 +182,7 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: Project Configuration</span></span>
                                                         </a>
@@ -182,9 +196,9 @@
                                             <div class="legend h3 form-steps__title" aria-hidden="true">Project Configuration</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -204,13 +218,13 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Previous<span class="visually-hidden">: Project Details</span></span>
                                                         </a>
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: Jakarta EE</span></span>
                                                         </a>
@@ -224,9 +238,9 @@
                                             <div class="legend h3 form-steps__title" aria-hidden="true">Jakarta EE</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -250,13 +264,13 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Previous<span class="visually-hidden">: Project Configuration</span></span>
                                                         </a>
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: MicroProfile</span></span>
                                                         </a>
@@ -270,9 +284,9 @@
                                             <div class="legend h3 form-steps__title" aria-hidden="true">MicroProfile</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -296,13 +310,13 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Previous<span class="visually-hidden">: Jakarta EE</span></span>
                                                         </a>
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: Payara Platform</span></span>
                                                         </a>
@@ -316,9 +330,9 @@
                                             <div class="legend h3 form-steps__title" aria-hidden="true">Payara Platform</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -338,13 +352,13 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Previous<span class="visually-hidden">: MicroProfile</span></span>
                                                         </a>
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: Deployment Options</span></span>
                                                         </a>
@@ -392,13 +406,90 @@
                                         </fieldset>
 
                                         <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Advanced Configuration</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Advanced Configuration</div>
+                                            <legend class="visually-hidden form-steps__title">Data Model Configuration</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Data Model Configuration</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
+                                                        <select name="mermaidErDiagramList" id="mermaidErDiagramList" class="form__select" ></select>
+                                                        <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <button type="button" class="button button--ghost" onclick="openMermaidPreview()">
+                                                            <span class="button__text">Live Preview</span>
+                                                        </button>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <span class="form__label">Generate Code For:</span>
+
+                                                        <!-- JPA Checkbox and Textfield -->
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked>
+                                                        <label class="form__radbox-label" for="generateJpa">JPA</label>
+
+                                                        <label class="form__label" for="jpaSubpackage">Package</label>
+                                                        <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA">
+                                                    </div>
+                                                    </br>
+                                                    <!-- Repository Checkbox and Textfield -->
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked>
+                                                        <label class="form__radbox-label" for="generateRepository">Repository</label>
+
+                                                        <label class="form__label" for="repositorySubpackage">Package</label>
+                                                        <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository">
+                                                    </div>
+                                                    </br>
+                                                    <!-- REST Checkbox and Textfield -->
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked>
+                                                        <label class="form__radbox-label" for="generateRest">REST</label>
+
+                                                        <label class="form__label" for="restSubpackage">Package</label>
+                                                        <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST">
+                                                    </div>
+                                                    </br>
+                                                    <!-- HTML Checkbox -->
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked>
+                                                        <label class="form__radbox-label" for="generateWeb">Web</label>
+                                                    </div>
+                                                    </p>
+
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                        </a>
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Security Configuration</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Security Configuration</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                <use href="ui/images/icons.svg#icon-tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -420,9 +511,9 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Data Model Configuration</span></span>
                                                         </a>
                                                     </p>
                                                 </div>
@@ -439,7 +530,7 @@
                                             <span>
                                                 <button type="submit" class="button">
                                                     <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                        <use href="ui/images/icons.svg#icon-download"></use>
+                                                    <use href="ui/images/icons.svg#icon-download"></use>
                                                     </svg>
                                                     <span class="button__text">Generate</span>
                                                 </button>
@@ -457,64 +548,350 @@
             </main>
         </div>
 
-		<footer class="page__footer">
-			<div class="cards card--no-pad">
-				<div class="text-align--left">
-					<theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
-				</div>
-				<div class="card--content-width buttons--light text-align--right"> 
-					<span>Follow Us: </span>
-					<a href="https://twitter.com/Payara_Fish" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-twitter"></use>
-						</svg>
-						<span class="visually-hidden">Twitter</span>
-					</a>
-					<a href="https://www.facebook.com/PayaraFish" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-facebook"></use>
-						</svg>
-						<span class="visually-hidden">Facebook</span>
-					</a>
-					<a href="https://www.linkedin.com/company/payara" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-linkedin"></use>
-						</svg>
-						<span class="visually-hidden">LinkedIn</span>
-					</a>
-					<a href="https://www.youtube.com/user/payarafish" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-youtube"></use>
-						</svg>
-						<span class="visually-hidden">YouTube</span>
-					</a>
-					<a href="https://www.instagram.com/payaraculture" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-instagram"></use>
-						</svg>
-						<span class="visually-hidden">Instagram</span>
-					</a>
-					<a href="https://www.meetup.com/payara-global-meetup/" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-meetup"></use>
-						</svg>
-						<span class="visually-hidden">Meetup</span>
-					</a>
-				</div>
-				<div class="card--content-width">
-					<a href="https://www.payara.fish/about/contact-us/" class="button">
-						<span class="button__text">Contact Us</span>
-					</a>
-				</div>
-			</div>
-		</footer>
+        <footer class="page__footer">
+            <div class="cards card--no-pad">
+                <div class="text-align--left">
+                    <theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
+                </div>
+                <div class="card--content-width buttons--light text-align--right"> 
+                    <span>Follow Us: </span>
+                    <a href="https://twitter.com/Payara_Fish" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-twitter"></use>
+                        </svg>
+                        <span class="visually-hidden">Twitter</span>
+                    </a>
+                    <a href="https://www.facebook.com/PayaraFish" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-facebook"></use>
+                        </svg>
+                        <span class="visually-hidden">Facebook</span>
+                    </a>
+                    <a href="https://www.linkedin.com/company/payara" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-linkedin"></use>
+                        </svg>
+                        <span class="visually-hidden">LinkedIn</span>
+                    </a>
+                    <a href="https://www.youtube.com/user/payarafish" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-youtube"></use>
+                        </svg>
+                        <span class="visually-hidden">YouTube</span>
+                    </a>
+                    <a href="https://www.instagram.com/payaraculture" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-instagram"></use>
+                        </svg>
+                        <span class="visually-hidden">Instagram</span>
+                    </a>
+                    <a href="https://www.meetup.com/payara-global-meetup/" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-meetup"></use>
+                        </svg>
+                        <span class="visually-hidden">Meetup</span>
+                    </a>
+                </div>
+                <div class="card--content-width">
+                    <a href="https://www.payara.fish/about/contact-us/" class="button">
+                        <span class="button__text">Contact Us</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+        <!-- HTML structure for the modal dialog -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <div class="half">
+                    <div class="inline-elements">
+                        <h2>Source</h2>
+                        <select name="mermaidErDiagramListPreview" id="mermaidErDiagramListPreview" class="form__select"></select>
+                    </div>  <textarea id="sourceCode"></textarea>
+                    <div id="graphDiv"></div>
+                </div>
+                <div class="half">
+                    <h2>Live Preview</h2>
+                    <div id="livePreview" class="livePreview"></div>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+        </div>
+
+        <!-- CSS for styling the modal dialog -->
+        <style>
+            .modal {
+                display: none; 
+                position: fixed;
+                z-index: 10;
+                left: 0;
+                top: 0;
+                width: 98%;
+                height: 98%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.5);
+                margin-top: 1%;
+                margin-left: 1%;
+            }
+            
+            .modal-content {
+                display: flex;
+                flex-direction: row;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 10px;
+                border: 1px solid #888;
+                width: 99%;
+                height: 99%;
+            }
+
+            .half {
+                width: 50%;
+                padding: 10px;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            #livePreview {
+                border: 1px solid #ccc;
+                height: 90%;
+            }
+
+            #sourceCode {
+                border: 1px solid #ccc;
+                height: 90%;
+                overflow-y: scroll;
+                width: 100%;
+            }
+
+            .inline-elements {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .inline-elements h2 {
+                margin: 0;
+                margin-right: 10px;
+            }
+
+            .inline-elements select {
+                margin: 0;
+            }
+            
+            .CodeMirror {
+                height: 90%;
+                font-size: small;
+                border: 1px solid #ccc;
+                margin-top: 15px;
+            }
+        </style>
+        <script type="module">
+//        https://chatgpt.com/share/99102a26-a8ac-45c5-8d5b-76fc118cd602
+        const erDiagrams = [
+            'Customer Relationship Management',
+            'Employee Management',
+            'Event Management',
+            'Healthcare System',
+            'Inventory System',
+            'Library Management System',
+            'Product Catalog',
+            'Sales Tracking',
+            'School Management'
+        ];
+    
+    var erDiagramContent = {};
+    
+    
+    // Function to fetch ER diagram content from the server
+    function fetchErDiagramContent(diagramId) {
+        return fetch(`erDiagram/${diagramId}.mmd`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // This line fetches the text content
+            })
+            .catch(error => {
+                console.error('Error fetching diagram:', error);
+                return null;
+            });
+    }
+
+    // Function to populate the select elements with ER diagrams
+    async function populateErDiagrams() {
+        const previewSelect = document.getElementById('mermaidErDiagramListPreview');
+        const erDiagramSelect = document.getElementById('mermaidErDiagramList');
+        const erDiagram = document.getElementById('erDiagram');
+        
+        previewSelect.addEventListener('change', function() {
+            erDiagramSelect.value = this.value;
+        });
+        erDiagramSelect.addEventListener('change', function() {
+            previewSelect.value = this.value;
+        });
+         $('#mermaidErDiagramList,#mermaidErDiagramListPreview').change(async function() {
+            const selectedDiagramId = $(this).val();
+            const selectedDiagramContent = erDiagramContent[selectedDiagramId];
+            if (!selectedDiagramContent) {
+                const content = await fetchErDiagramContent(selectedDiagramId);
+                if (content) {
+                    erDiagramContent[selectedDiagramId] = content;
+                }
+            }
+            editor.setValue(erDiagramContent[selectedDiagramId]);
+            erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
+        });
+       
+
+        // Clear existing options
+        previewSelect.innerHTML = '';
+        erDiagramSelect.innerHTML = '';
+        const option = document.createElement('option');
+        previewSelect.appendChild(option);
+        erDiagramSelect.appendChild(option.cloneNode(true));
+        for (const diagram of erDiagrams) {
+                const option = document.createElement('option');
+                option.value = diagram;
+                option.textContent = diagram;
+                previewSelect.appendChild(option);
+                erDiagramSelect.appendChild(option.cloneNode(true));
+        }
+    }
+    
+               
+    document.addEventListener('DOMContentLoaded', populateErDiagrams);
+    
+    
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+            function updateMermaidDiagram() {
+                var erDiagram = editor.getValue();
+                mermaid.render('graphDiv', erDiagram).then(({ svg, bindFunctions }) => {
+                    var element = document.querySelector('#graphDiv');
+                    document.querySelector('div.livePreview').innerHTML = svg;
+                    bindFunctions?.(element);
+                });
+            }
+
+            var editor = CodeMirror.fromTextArea(document.getElementById("sourceCode"), {
+                lineNumbers: true,
+                mode: "mermaid",
+                theme: "default"
+            });
+            editor.on("change", updateMermaidDiagram);
+
+            // Function to close the modal
+            function closeModal() {
+                document.getElementById("previewModal").style.display = "none";
+                
+            erDiagram.innerHTML = editor.getValue();
+            }
+            // Get the modal
+            var modal = document.getElementById("previewModal");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal 
+            // You need to call this function when the user wants to preview the Mermaid diagram
+            function openModal() {
+                modal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+                erDiagram.innerHTML = editor.getValue();
+            };
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    erDiagram.innerHTML = editor.getValue();
+                }
+            };
+        </script>
+        <script>
+            // Function to open the modal and populate live preview and source code
+            function openMermaidPreview() {
+                document.getElementById("previewModal").style.display = "block";
+            }
+
+        </script>
 
         <script src="assets/main.js"></script>
-		<script src="ui/js/interface.min.js"></script>
+        <script src="ui/js/interface.min.js"></script>
         <script>
-            menu_wrap.init();
-            form_steps.init();
+                  menu_wrap.init();
+                  form_steps.init();
         </script>
+
+        <script>
+            function handleCheckboxDependencies() {
+                const jpaCheckbox = document.getElementById('generateJpa');
+                const repositoryCheckbox = document.getElementById('generateRepository');
+                const restCheckbox = document.getElementById('generateRest');
+                const htmlCheckbox = document.getElementById('generateWeb');
+
+                repositoryCheckbox.addEventListener('change', function () {
+                    if (repositoryCheckbox.checked) {
+                        jpaCheckbox.checked = true;
+                    }
+                });
+
+                restCheckbox.addEventListener('change', function () {
+                    if (restCheckbox.checked) {
+                        jpaCheckbox.checked = true;
+                        repositoryCheckbox.checked = true;
+                    }
+                });
+
+                htmlCheckbox.addEventListener('change', function () {
+                    if (htmlCheckbox.checked) {
+                        jpaCheckbox.checked = true;
+                        repositoryCheckbox.checked = true;
+                        restCheckbox.checked = true;
+                    }
+                });
+
+                jpaCheckbox.addEventListener('change', function () {
+                    if (!jpaCheckbox.checked) {
+                        repositoryCheckbox.checked = false;
+                        restCheckbox.checked = false;
+                        htmlCheckbox.checked = false;
+                    }
+                });
+
+                repositoryCheckbox.addEventListener('change', function () {
+                    if (!repositoryCheckbox.checked) {
+                        restCheckbox.checked = false;
+                        htmlCheckbox.checked = false;
+                    }
+                });
+
+                restCheckbox.addEventListener('change', function () {
+                    if (!restCheckbox.checked) {
+                        htmlCheckbox.checked = false;
+                    }
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', handleCheckboxDependencies);
+        </script>
+        <style>
+          
+        </style>
 
     </body>
 </html>
