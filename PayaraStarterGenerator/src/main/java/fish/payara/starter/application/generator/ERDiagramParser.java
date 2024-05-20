@@ -31,9 +31,9 @@ import java.util.List;
 
 public class ERDiagramParser {
 
-    private final static Pattern RELATIONSHIP_PATTERN = Pattern.compile("^(\\w+)\\s*(\\|\\|--o\\{)\\s*(\\w+)\\s*:\\s*(.+?)\\s*%%\\{(.+?)\\}%%");
-    private final static Pattern ENTITY_PATTERN = Pattern.compile("^(\\w+)\\s*\\{\\s*%%\\{(.+?)\\}%%");
-    private final static Pattern ATTRIBUTE_PATTERN = Pattern.compile("^\\s*(\\w+)\\s+(\\w+)(?:\\s+(PK|FK))?\\s*%%\\{(.+?)\\}%%");
+    private final static Pattern RELATIONSHIP_PATTERN = Pattern.compile("^(\\w+)\\s*(\\|\\|--o\\{)\\s*(\\w+)\\s*:\\s*(.+?)(?:\\s*%%\\{(.+?)\\}%%)?");
+    private final static Pattern ENTITY_PATTERN = Pattern.compile("^(\\w+)\\s*\\{\\s*(?:%%\\{(.+?)\\}%%)?");
+    private final static Pattern ATTRIBUTE_PATTERN = Pattern.compile("^\\s*(\\w+)\\s+(\\w+)(?:\\s+(PK|FK))?(?:\\s*%%\\{(.+?)\\}%%)?");
 
     public ERModel parse(String mermaidCode) {
         ERModel erModel = new ERModel();
@@ -50,14 +50,14 @@ public class ERDiagramParser {
                     String relationshipType = matcher.group(2);
                     String secondEntity = matcher.group(3);
                     String relationshipDetail = matcher.group(4).trim();
-                    String metadata = matcher.group(5).trim();
+                    String metadata = matcher.group(5);
                     erModel.addRelationship(new Relationship(titleCase(firstEntity), titleCase(secondEntity), relationshipType, relationshipDetail, parseKeyValuePairs(metadata)));
                 }
             } else if (ENTITY_PATTERN.matcher(line).find()) {
                 Matcher matcher = ENTITY_PATTERN.matcher(line);
                 if (matcher.find()) {
                     String entityName = matcher.group(1);
-                    String entityMetadata = matcher.group(2).trim();
+                    String entityMetadata = matcher.group(2);
                     Entity entity = new Entity(titleCase(entityName), parseKeyValuePairs(entityMetadata));
                     while (i < lines.length - 1) {
                         line = lines[++i].trim();
@@ -71,7 +71,7 @@ public class ERDiagramParser {
                             String keyType = attrMatcher.group(3);
                             boolean isPrimaryKey = "PK".equals(keyType);
                             boolean isForeignKey = "FK".equals(keyType);
-                            String attrMetadata = attrMatcher.group(4).trim();
+                            String attrMetadata = attrMatcher.group(4);
                             if (!isForeignKey) {
                                 type = getWrapperType(mapToJavaType(type));
                                 Attribute attribute = new Attribute(name, type, isPrimaryKey, parseKeyValuePairs(attrMetadata));
@@ -111,12 +111,14 @@ public class ERDiagramParser {
     }
     private List<KeyValue> parseKeyValuePairs(String metadata) {
         List<KeyValue> keyValues = new ArrayList<>();
+        if(metadata != null) {
         Pattern keyValuePattern = Pattern.compile("([\\w-]+)\\[(.+?)\\]");
-        Matcher matcher = keyValuePattern.matcher(metadata);
+        Matcher matcher = keyValuePattern.matcher(metadata.trim());
         while (matcher.find()) {
             String key = matcher.group(1);
             String value = matcher.group(2);
             keyValues.add(new KeyValue(key, value));
+        }
         }
         return keyValues;
     }
