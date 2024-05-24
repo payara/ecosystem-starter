@@ -1,28 +1,27 @@
 erDiagram
-    SALE ||--o{ PRODUCT : includes	%%{ SALE[products],PRODUCT[sales] }%%
-    SALE {				%%{ icon[cash-register],title[Sale],description[Represents sales transactions in the sales tracking system.] }%%
-        int saleID PK			%%{ required[true] }%%
-        datetime saleDateTime		%%{ required[true] }%%
-        float totalAmount		%%{ display[true],required[true] }%%
+    SALE ||--o{ PRODUCT : includes  %%{ SALE[products],PRODUCT[sales] }%%
+    SALE {                          %%{ icon[cash-register],title[Sale],description[Represents sales transactions in the sales tracking system.] }%%
+        int saleID PK               %%{ required[true] }%%
+        datetime saleDateTime       %%{ required[true] }%%
+        float totalAmount           %%{ display[true],required[true],tooltip[Total amount of the sale] }%%
     }
-    PRODUCT {				%%{ icon[box],title[Product],description[Represents products sold in sales transactions.] }%%
-        int productID PK		%%{ required[true] }%%
-        string productName		%%{ display[true],required[true] }%%
-        float price			%%{ required[true] }%%
-        int quantity			%%{ required[true] }%%
+    PRODUCT {                       %%{ icon[box],title[Product],description[Represents products sold in sales transactions.] }%%
+        int productID PK            %%{ required[true] }%%
+        string productName          %%{ display[true],required[true],tooltip[Name of the product] }%%
+        float price                 %%{ required[true],tooltip[Price of the product] }%%
+        int quantity                %%{ required[true],tooltip[Quantity of the product sold] }%%
     }
-    CUSTOMER ||--o{ SALE : makes	%%{ CUSTOMER[sales],SALE[customer] }%%
-    CUSTOMER {				%%{ icon[people],title[Customer],description[Represents customers making purchases in sales transactions.] }%%
-        int customerID PK		%%{ display[true],required[true] }%%
-        string name			%%{ required[true] }%%
+    CUSTOMER ||--o{ SALE : makes   %%{ CUSTOMER[sales],SALE[customer] }%%
+    CUSTOMER {                     %%{ icon[people],title[Customer],description[Represents customers making purchases in sales transactions.] }%%
+        int customerID PK          %%{ display[true],required[true] }%%
+        string name                %%{ required[true],tooltip[Name of the customer] }%%
         string email
         string address
     }
-    EMPLOYEE ||--o{ SALE : records	%%{ EMPLOYEE[sales],SALE[employee] }%%
-    EMPLOYEE {				%%{ icon[person],title[Employee],description[Represents employees recording sales transactions in the sales tracking system.] }%%
-        int employeeID PK		%%{ required[true] }%%
-        string name			%%{ display[true],required[true] }%%
-        string department				
+    EMPLOYEE ||--o{ SALE : records %%{ EMPLOYEE[sales],SALE[employee] }%%
+    EMPLOYEE {                     %%{ icon[person],title[Employee],description[Represents employees recording sales transactions in the sales tracking system.] }%%
+        int employeeID PK          %%{ required[true] }%%
+        string name                %%{ display[true],required[true],tooltip[Name of the employee] }%%
+        string department
     }
 %%{ icon[chart-line],title[Sales Tracking],home-page-description[Represents a sales tracking system monitoring sales transactions.],about-us-page-description[This system tracks sales, products, customers, and employees.],menu[home, sales, products, customers, employees, about us, contact us] }%%
-

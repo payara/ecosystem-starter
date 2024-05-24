@@ -148,8 +148,8 @@
                                     <form class="form form-steps form-steps--hide-previous-fields form-steps--clickable-legends" data-step-error="Please correct the errors in this step before moving forward." style="--scroll-margin-top: 1.6rem" id="appForm">
 
                                         <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Project Details</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Details</div>
+                                            <legend class="visually-hidden form-steps__title">Project Des</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Des</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                 <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
@@ -192,8 +192,8 @@
                                         </fieldset>
 
                                         <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Project Configuration</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Configuration</div>
+                                            <legend class="visually-hidden form-steps__title">Project Config</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Config</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                 <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
@@ -696,19 +696,40 @@
                 border: 1px solid #ccc;
                 margin-top: 15px;
             }
+            
+            .livePreview svg {
+                height: inherit;
+            }
+            
+            .CodeMirror .cm-comment {
+            color: #ff0000; /* Change this to your desired color */
+        }
         </style>
         <script type="module">
 //        https://chatgpt.com/share/99102a26-a8ac-45c5-8d5b-76fc118cd602
         const erDiagrams = [
+            'Auction Management System',
             'Customer Relationship Management',
             'Employee Management',
+            'Energy Management System',
             'Event Management',
+            'Flight Reservation System',
             'Healthcare System',
+            'Insurance Claim Management System',
             'Inventory System',
+            'Laboratory Information Management System',
+            'Law Firm Management System',
+            'Legal Case Management System',
             'Library Management System',
+            'Membership Management System',
+            'Music Streaming Platform',
             'Product Catalog',
+            'Property Management System',
+            'Recruitment Management System',
             'Sales Tracking',
-            'School Management'
+            'School Management',
+            'Video Streaming Platform',
+            'Waste Management System'
         ];
     
     var erDiagramContent = {};
@@ -889,9 +910,5 @@
 
             document.addEventListener('DOMContentLoaded', handleCheckboxDependencies);
         </script>
-        <style>
-          
-        </style>
-
     </body>
 </html>

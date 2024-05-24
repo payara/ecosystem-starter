@@ -78,7 +78,12 @@ public class Entity {
     }
 
     public String getDisplayName() {
-        return attributes.stream().filter(a -> Boolean.valueOf(a.getProperty("display"))).map(a -> a.getName()).findFirst().orElse(null);
+        String displayName = attributes.stream().filter(a -> Boolean.valueOf(a.getProperty("display"))).map(a -> a.getName()).findFirst().orElse(null);
+        if(displayName == null) {
+            displayName = attributes.stream().filter(a -> !a.isPrimaryKey()).map(a -> a.getName()).findFirst().orElse(null);
+
+        }
+        return displayName;
     }
 
     public void addAttribute(Attribute attribute) {

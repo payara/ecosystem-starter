@@ -171,6 +171,11 @@
                 <artifactId>payara-micro-maven-plugin</artifactId>
                 <version>2.3</version>
             </plugin>
+            <plugin>
+                <groupId>fish.payara.maven.plugins</groupId>
+                <artifactId>payara-cloud-maven-plugin</artifactId>
+                <version>1.0-Alpha1</version>
+            </plugin>
         </plugins>
     </build>
 </project>

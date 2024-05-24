@@ -1,0 +1,46 @@
+erDiagram
+    LAB_TECHNICIAN ||--o{ SAMPLE : collects		%%{ LAB_TECHNICIAN[samples],SAMPLE[technician] }%%
+    LAB_TECHNICIAN {					%%{ icon[person],title[Laboratory Information Management System],description[A system for managing laboratory operations and data. Track samples, tests, and results efficiently.],menu[Home, Samples, Tests, About Us, Contact Us] }%%
+        int technicianId PK				%%{ htmllabel[Technician ID],required[true] }%%
+        string name					%%{ display[true],required[true],tooltip[Technician's name] }%%
+        string email					%%{ tooltip[Technician's email address] }%%
+    }
+    SAMPLE ||--o{ TEST : undergoes                      %%{ SAMPLE[tests],TEST[sample] }%%
+    SAMPLE {						%%{ icon[test-tube],title[Sample],description[Manage laboratory samples and associated tests.],menu[My Samples, Tests, About Us, Contact Us] }%%
+        int sampleId PK					%%{ display[true] }%%
+        string type					%%{ tooltip[Type of sample] }%%
+        date collectionDate				%%{ tooltip[Date of sample collection] }%%
+    }
+    TEST {						%%{ icon[flask],title[Test],description[Conduct laboratory tests and record test results.],menu[Tests, Samples, About Us, Contact Us] }%%		
+        int testId PK					
+        string name					%%{ display[true],required[true],tooltip[Test name] }%%
+        string method					%%{ tooltip[Test method] }%%
+        string equipment				%%{ tooltip[Test equipment] }%%
+    }
+    PATIENT ||--o{ SAMPLE : provides                    %%{ PATIENT[samples],SAMPLE[patient] }%%
+    PATIENT {						%%{ icon[patient],title[Patient],description[Manage patient information and sample provision.],menu[Patients, Samples, About Us, Contact Us] }%%      
+        int patientId PK					
+        string name					%%{ display[true],required[true],tooltip[Patient's name] }%%
+        string dob					%%{ tooltip[Date of birth] }%%
+        string gender					%%{ tooltip[Patient's gender] }%%
+    }
+    RESULT {						%%{ icon[check-circle],title[Result],description[Record and manage laboratory test results.],menu[Results, Tests, About Us, Contact Us] }%%      
+        int resultId PK					
+        string value					%%{ display[true],required[true],tooltip[Test result value] }%%
+        string unit					%%{ tooltip[Measurement unit] }%%
+        date dateRecorded				%%{ tooltip[Date of result recording] }%%
+    }
+    LAB_ANALYST ||--o{ TEST : analyzes                  %%{ LAB_ANALYST[tests],TEST[analyst] }%%
+    LAB_ANALYST {					%%{ icon[scientist],title[Lab Analyst],description[Analyze laboratory tests and interpret results.],menu[Analysts, Tests, About Us, Contact Us] }%%      
+        int analystId PK					
+        string name					%%{ display[true],required[true],tooltip[Analyst's name] }%%
+        string department				%%{ tooltip[Analyst's department] }%%
+    }
+    LAB_MANAGER ||--o{ SAMPLE : supervises		%%{ LAB_MANAGER[samples],SAMPLE[manager] }%%
+    LAB_MANAGER {					%%{ icon[manager],title[Lab Manager],description[Supervise laboratory operations and sample management.],menu[Managers, Samples, About Us, Contact Us] }%%      
+        int managerId PK					
+        string name					%%{ display[true],required[true],tooltip[Manager's name] }%%
+        string department				%%{ tooltip[Manager's department] }%%
+    }
+%%{ icon[flask],title[Laboratory Information Management System],home-page-description[A system for managing laboratory operations and data. Track samples, tests, and results efficiently.],about-us-page-description[Explore our laboratory information management system and streamline your laboratory processes. Connect with technicians, analysts, and managers seamlessly.],menu[Home, Samples, Tests, About Us, Contact Us] }%%	
+

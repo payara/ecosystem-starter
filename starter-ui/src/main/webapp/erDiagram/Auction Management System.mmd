@@ -1,0 +1,42 @@
+erDiagram
+    AUCTION ||--o{ ITEM : contains	%%{ AUCTION[items],ITEM[auction] }%%
+    AUCTION {						%%{ icon[auction],title[Auction Management System],description[Manage auctions and bidding processes efficiently. Track auction details, items, and bids.],menu[Home, Auctions, Items, Bidders, Reports, About Us, Contact Us] }%%      
+        int auctionId PK					
+        string name					%%{ display[true],required[true],tooltip[Auction name] }%%
+        date startDate					%%{ tooltip[Auction start date] }%%
+        date endDate					%%{ tooltip[Auction end date] }%%
+        string status					%%{ tooltip[Auction status] }%%
+    }
+    ITEM {							%%{ icon[item],title[Item],description[Manage auction items and product listings.],menu[Items, Auctions, Bidders, Reports, About Us, Contact Us] }%%      
+        int itemId PK					
+        string name					%%{ display[true],required[true],tooltip[Item name] }%%
+        string description				%%{ tooltip[Item description] }%%
+        float startingPrice				%%{ tooltip[Starting price] }%%
+        string category				%%{ tooltip[Item category] }%%
+    }
+    BIDDER ||--o{ BID : places			%%{ BIDDER[bids],BID[bidder] }%%
+    BIDDER {						%%{ icon[bidder],title[Bidder],description[Manage bidder information and bidding activity.],menu[Bidders, Auctions, Items, Reports, About Us, Contact Us] }%%      
+        int bidderId PK					
+        string name					%%{ display[true],required[true],tooltip[Bidder's name] }%%
+        string email					%%{ tooltip[Bidder's email address] }%%
+        string phone					%%{ tooltip[Bidder's phone number] }%%
+    }
+    BID {							%%{ icon[bid],title[Bid],description[Track bidding activity and auction bids.],menu[Bids, Auctions, Items, Bidders, Reports, About Us, Contact Us] }%%      
+        int bidId PK					
+        float amount					%%{ display[true],required[true],tooltip[Bid amount] }%%
+        date bidTime					%%{ tooltip[Bid time] }%%
+    }
+    PAYMENT ||--o{ BID : makes			%%{ PAYMENT[bids],BID[payments] }%%
+    PAYMENT {						%%{ icon[payment],title[Payment],description[Manage payment transactions for bids.],menu[Payments, Bids, Auctions, Items, Bidders, Reports, About Us, Contact Us] }%%      
+        int paymentId PK					
+        float amount					%%{ display[true],required[true],tooltip[Payment amount] }%%
+        date paymentDate				%%{ tooltip[Payment date] }%%
+        string method					%%{ tooltip[Payment method] }%%
+    }
+    SHIPPING ||--o{ ITEM : delivers		%%{ SHIPPING[items],ITEM[shipping] }%%
+    SHIPPING {						%%{ icon[shipping],title[Shipping],description[Manage shipping and delivery for auction items.],menu[Shipping, Items, Auctions, Bidders, Reports, About Us, Contact Us] }%%      
+        int shippingId PK					
+        date deliveryDate				%%{ display[true],required[true],tooltip[Delivery date] }%%
+        string trackingNumber			%%{ tooltip[Tracking number] }%%
+    }
+%%{ icon[auction],title[Auction Management System],home-page-description[Manage auctions and bidding processes efficiently. Track auction details, items, and bids.],about-us-page-description[Explore our auction management system and streamline your auction operations. Manage items, bidders, and bids seamlessly.],menu[Home, Auctions, Items, Bidders, Reports, About Us, Contact Us] }%%	

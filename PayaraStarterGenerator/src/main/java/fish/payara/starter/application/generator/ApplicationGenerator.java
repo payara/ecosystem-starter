@@ -71,33 +71,57 @@ public class ApplicationGenerator {
 
     public static void main(String[] args) {
         String mermaidCode = "erDiagram\n" +
-"    SALE ||--o{ PRODUCT : includes	%%{ SALE[products],PRODUCT[sales] }%%\n" +
-"    SALE {					%%{ icon[cash-register],title[Sale],description[Represents sales transactions in the sales tracking system.] }%%\n" +
-"        int saleID PK				%%{ htmltype[number],display[true],required[true] }%%\n" +
-"        datetime saleDateTime			%%{ htmltype[text],display[true],required[true] }%%\n" +
-"        float totalAmount				%%{ htmltype[text],display[true],required[true] }%%\n" +
+"    USER ||--o{ JOB_APPLICATION : applies		%%{ USER[applications],JOB_APPLICATION[user] }%%\n" +
+"    USER {					%%{ icon[person],title[Recruitment Management System],description[A system for managing recruitment processes. Post job openings, receive applications, and manage candidates efficiently.],menu[Home, Jobs, Candidates, About Us, Contact Us] }%%\n" +
+"        string userId	PK                    %%{ htmllabel[User ID],required[true] }%%\n" +
+"        string username		%%{ display[true],required[true],tooltip[Username for login] }%%\n" +
+"        string email		%%{ tooltip[User's email address] }%%\n" +
 "    }\n" +
-"    PRODUCT {					%%{ icon[box],title[Product],description[Represents products sold in sales transactions.] }%%\n" +
-"        int productID PK				%%{ htmltype[number],display[true],required[true] }%%\n" +
-"        string productName				%%{ htmltype[text],display[true],required[true] }%%\n" +
-"        float price					%%{ htmltype[text],display[true],required[true] }%%\n" +
-"        int quantity					%%{ htmltype[number],display[true],required[true] }%%\n" +
+"    JOB_APPLICATION ||--|{ JOB : applies_for		%%{ JOB_APPLICATION[job],JOB[applications] }%%\n" +
+"    JOB_APPLICATION {					%%{ icon[file-text],title[Job Application],description[Track job applications submitted by candidates.],menu[My Applications, Jobs, About Us, Contact Us] }%%\n" +
+"        int applicationId PK			%%{ display[true] }%%\n" +
+"        string status			%%{ tooltip[Application status] }%%\n" +
+"        string resume			%%{ tooltip[Link to candidate's resume] }%%\n" +
 "    }\n" +
-"    CUSTOMER ||--o{ SALE : makes	%%{ CUSTOMER[sales],SALE[customer] }%%\n" +
-"    CUSTOMER {					%%{ icon[people],title[Customer],description[Represents customers making purchases in sales transactions.] }%%\n" +
-"        int customerID PK				%%{ htmltype[number],display[true],required[true] }%%\n" +
-"        string name					%%{ htmltype[text],display[true],required[true] }%%\n" +
-"        string email				%%{ htmltype[text] }%%\n" +
-"        string address				%%{ htmltype[text] }%%\n" +
+"    JOB {					%%{ icon[briefcase],title[Job],description[Manage job openings and applications.],menu[Jobs, Candidates, About Us, Contact Us] }%%		\n" +
+"        int jobId PK					\n" +
+"        string title			%%{ display[true],required[true],tooltip[Job title] }%%\n" +
+"        string description			%%{ tooltip[Job description] }%%\n" +
+"        date startDate			%%{ tooltip[Start date of employment] }%%\n" +
+"        date endDate			%%{ tooltip[End date of employment] }%%\n" +
 "    }\n" +
-"    EMPLOYEE ||--o{ SALE : records	%%{ EMPLOYEE[sales],SALE[employee] }%%\n" +
-"    EMPLOYEE {					%%{ icon[person],title[Employee],description[Represents employees recording sales transactions in the sales tracking system.] }%%\n" +
-"        int employeeID PK				%%{ htmltype[number],display[true],required[true] }%%\n" +
-"        string name					%%{ htmltype[text],display[true],required[true] }%%\n" +
-"        string department				%%{ htmltype[text],display[true] }%%\n" +
+"    CANDIDATE ||--o{ JOB_APPLICATION : submits		%%{ CANDIDATE[applications],JOB_APPLICATION[candidate] }%%\n" +
+"    CANDIDATE {					%%{ icon[person],title[Candidate],description[Manage candidate profiles and applications.],menu[Candidates, Jobs, About Us, Contact Us] }%%      \n" +
+"        int candidateId PK					\n" +
+"        string name			%%{ display[true],required[true],tooltip[Candidate's name] }%%\n" +
+"        string email			%%{ tooltip[Candidate's email address] }%%\n" +
+"        string phone			%%{ tooltip[Candidate's phone number] }%%\n" +
 "    }\n" +
-"%%{ icon[chart-line],title[Sales Tracking],home-page-description[Represents a sales tracking system monitoring sales transactions.],about-us-page-description[This system tracks sales, products, customers, and employees.],menu[home, sales, products, customers, employees, about us, contact us] }%%\n" +
-"\n" +
+"    INTERVIEW ||--|{ CANDIDATE : schedules		%%{ INTERVIEW[candidate],CANDIDATE[interviews] }%%\n" +
+"    INTERVIEW {						%%{ icon[calendar],title[Interview],description[Schedule and manage interviews with candidates.],menu[Interviews, Candidates, About Us, Contact Us] }%%      \n" +
+"        int interviewId PK					\n" +
+"        date date			%%{ display[true],tooltip[Interview date] }%%\n" +
+"        string location			%%{ tooltip[Interview location] }%%\n" +
+"    }\n" +
+"    RECRUITER ||--o{ INTERVIEW : schedules		%%{ RECRUITER[interviews],INTERVIEW[recruiter] }%%\n" +
+"    RECRUITER {						%%{ icon[person],title[Recruiter],description[Manage recruiter profiles and interview schedules.],menu[Recruiters, Interviews, About Us, Contact Us] }%%      \n" +
+"        int recruiterId PK					\n" +
+"        string name			%%{ display[true],required[true],tooltip[Recruiter's name] }%%\n" +
+"        string department			%%{ tooltip[Recruiter's department] }%%\n" +
+"    }\n" +
+"    OFFER ||--o{ CANDIDATE : extends		%%{ OFFER[candidate],CANDIDATE[offer] }%%\n" +
+"    OFFER {						%%{ icon[document],title[Job Offer],description[Create and manage job offers extended to candidates.],menu[Offers, Candidates, About Us, Contact Us] }%%      \n" +
+"        int offerId PK					\n" +
+"        string status			%%{ tooltip[Offer status] }%%\n" +
+"        float salary			%%{ tooltip[Offered salary] }%%\n" +
+"    }\n" +
+"    FEEDBACK ||--|{ INTERVIEW : provides		%%{ FEEDBACK[interview],INTERVIEW[feedback] }%%\n" +
+"    FEEDBACK {						%%{ icon[comment],title[Interview Feedback],description[Provide feedback on candidate interviews.],menu[Feedback, Interviews, About Us, Contact Us] }%%      \n" +
+"        int feedbackId PK					\n" +
+"        string comments			%%{ display[true],tooltip[Interviewer's comments] }%%\n" +
+"        int rating			%%{ tooltip[Interview rating] }%%\n" +
+"    }\n" +
+"%%{ icon[briefcase],title[Recruitment Management System],home-page-description[A system for managing recruitment processes. Post job openings, receive applications, and manage candidates efficiently.],about-us-page-description[Explore our recruitment management system and streamline your hiring process. Connect with talented candidates and make informed decisions.],menu[Home, Jobs, Candidates, About Us, Contact Us] }%%	\n" +
 "";
 
         ERDiagramParser parser = new ERDiagramParser();
@@ -109,7 +133,7 @@ public class ApplicationGenerator {
         String controllerLayer = "resource";
         ApplicationGenerator generator = new ApplicationGenerator(erModel, _package, domainLayer, repositoryLayer, controllerLayer);
         try {
-            generator.generate(new File("C:\\Users\\Gaurav Gupta\\Documents\\NetBeansProjects\\mavenproject14"), true, true, true, true); // Output directory
+            generator.generate(new File("D:\\HelloWorld"), true, true, true, true); // Output directory
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -232,6 +256,9 @@ public class ApplicationGenerator {
             String pkName = entity.getPrimaryKeyName();
             String pkType = entity.getPrimaryKeyType();
             dataModel.put("pkName", firstLower(pkName));
+//            System.out.println("getIntrospectionPrefix " + getIntrospectionPrefix(isBoolean(pkType)));
+//            System.out.println("pkType " + pkType);
+//            System.out.println("pkName " + pkName);
             dataModel.put("pkGetter", getMethodName(getIntrospectionPrefix(isBoolean(pkType)), pkName));
             dataModel.put("pkSetter", getMethodName("set", pkName));
             dataModel.put("pkType", pkType);

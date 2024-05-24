@@ -1,0 +1,21 @@
+erDiagram
+    USER ||--o{ VIDEO : watches		%%{ USER[watchHistory],VIDEO[viewers] }%%
+    USER {					%%{ icon[people],title[Video Streaming Platform],description[A platform for users to watch and stream videos],menu[Home, Explore, My Library, Settings, Help] }%%
+        long userId	PK                      %%{ htmllabel[User ID],required[true] }%%
+        string username				%%{ display[true],required[true],tooltip[Username of the user] }%%
+        string email				%%{ required[true],tooltip[Email address of the user] }%%
+    }
+    VIDEO ||--|{ CATEGORY : belongs_to		%%{ VIDEO[category],CATEGORY[videos] }%%
+    VIDEO {					%%{ icon[video-camera],title[Video],description[Individual videos available for streaming] }%%
+        int videoId PK				%%{ tooltip[Unique identifier for the video] }%%
+        string title				%%{ display[true],required[true],tooltip[Title of the video] }%%
+        string description			%%{ tooltip[Description of the video] }%%
+        string duration				%%{ tooltip[Duration of the video] }%%
+        string format				%%{ tooltip[Format of the video] }%%
+    }
+    CATEGORY {					%%{ icon[folder-open],title[Category],description[Categories to organize videos] }%%		
+        int categoryId PK					
+        string name				%%{ display[true],required[true],tooltip[Name of the category] }%%
+        string description			%%{ tooltip[Description of the category] }%%
+    }
+%%{ icon[pin-map],title[abc],home-page-description[xyz],about-us-page-description[xyz],menu[home, services, about us, contact us] }%%	

@@ -1,0 +1,39 @@
+erDiagram
+    WASTE_PROVIDER ||--o{ WASTE_COLLECTION : "provides"	%%{ WASTE_PROVIDER[collection],WASTE_COLLECTION[provider] }%%
+    WASTE_PROVIDER {						%%{ icon[waste-provider],title[Waste Provider],description[Manage waste provider information and services.],menu[Providers, Collections, Customers, Reports, About Us, Contact Us] }%%      
+        int providerId PK					
+        string name					%%{ display[true],required[true],tooltip[Provider name] }%%
+        string address					%%{ tooltip[Provider address] }%%
+        string contactNumber				%%{ tooltip[Provider contact number] }%%
+        string email					%%{ tooltip[Provider email] }%%
+        string website					%%{ tooltip[Provider website] }%%
+    }
+    WASTE_COLLECTION {						%%{ icon[waste-collection],title[Waste Collection],description[Manage waste collection services and schedules.],menu[Collections, Providers, Customers, Reports, About Us, Contact Us] }%%      
+        int collectionId PK					
+        string type					%%{ display[true],required[true],tooltip[Collection type] }%%
+        string schedule					%%{ tooltip[Collection schedule] }%%
+        string frequency				%%{ tooltip[Collection frequency] }%%
+        float cost					%%{ tooltip[Collection cost] }%%
+    }
+    CUSTOMER ||--o{ WASTE_COLLECTION : "subscribes to"	%%{ CUSTOMER[collection],WASTE_COLLECTION[customer] }%%
+    CUSTOMER {						%%{ icon[customer],title[Customer],description[Manage customer information and waste collection subscriptions.],menu[Customers, Collections, Providers, Reports, About Us, Contact Us] }%%      
+        int customerId PK					
+        string name					%%{ display[true],required[true],tooltip[Customer name] }%%
+        string address					%%{ tooltip[Customer address] }%%
+        string contactNumber				%%{ tooltip[Customer contact number] }%%
+        string email					%%{ tooltip[Customer email] }%%
+    }
+    WASTE_DISPOSAL ||--o{ WASTE_COLLECTION : "handled by"	%%{ WASTE_DISPOSAL[collection],WASTE_COLLECTION[disposal] }%%
+    WASTE_DISPOSAL {						%%{ icon[waste-disposal],title[Waste Disposal],description[Manage waste disposal methods and facilities.],menu[Disposal, Collections, Providers, Reports, About Us, Contact Us] }%%      
+        int disposalId PK					
+        string method					%%{ display[true],required[true],tooltip[Disposal method] }%%
+        string facility					%%{ tooltip[Disposal facility] }%%
+        string location					%%{ tooltip[Disposal location] }%%
+    }
+    WASTE_CATEGORY ||--o{ WASTE_COLLECTION : "classified by"	%%{ WASTE_CATEGORY[collection],WASTE_COLLECTION[category] }%%
+    WASTE_CATEGORY {						%%{ icon[waste-category],title[Waste Category],description[Manage waste categories and classification.],menu[Categories, Collections, Providers, Reports, About Us, Contact Us] }%%      
+        int categoryId PK					
+        string name					%%{ display[true],required[true],tooltip[Category name] }%%
+        string description				%%{ tooltip[Category description] }%%
+    }
+%%{ icon[waste-management],title[Waste Management System],home-page-description[Efficiently manage waste collection and disposal services. Track provider details, customer subscriptions, and disposal methods.],about-us-page-description[Explore our waste management system and contribute to a cleaner environment. Manage waste collection, disposal, and customer subscriptions seamlessly.],menu[Home, Collections, Providers, Customers, Reports, About Us, Contact Us] }%%	

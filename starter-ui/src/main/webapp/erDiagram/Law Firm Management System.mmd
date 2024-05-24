@@ -1,0 +1,54 @@
+erDiagram
+    LAWYER ||--o{ CASE : handles	%%{ LAWYER[cases],CASE[lawyer] }%%
+    LAWYER {						%%{ icon[lawyer],title[Law Firm Management System],description[Manage cases and legal matters efficiently. Track lawyers, clients, and case details.],menu[Home, Cases, Lawyers, Clients, Reports, About Us, Contact Us] }%%      
+        int lawyerId PK					
+        string name					%%{ display[true],required[true],tooltip[Lawyer's name] }%%
+        string email					%%{ tooltip[Lawyer's email address] }%%
+        string specialization				%%{ tooltip[Lawyer's specialization] }%%
+        string phone					%%{ tooltip[Lawyer's phone number] }%%
+    }
+    CLIENT ||--o{ CASE : hires		%%{ CLIENT[cases],CASE[client] }%%
+    CLIENT {						%%{ icon[client],title[Client],description[Manage client information and legal matters.],menu[Clients, Cases, Lawyers, Reports, About Us, Contact Us] }%%      
+        int clientId PK					
+        string name					%%{ display[true],required[true],tooltip[Client's name] }%%
+        string email					%%{ tooltip[Client's email address] }%%
+        string phone					%%{ tooltip[Client's phone number] }%%
+        string address					%%{ tooltip[Client's address] }%%
+    }
+    CASE {						%%{ icon[case],title[Case],description[Track case details and legal proceedings.],menu[Cases, Lawyers, Clients, Reports, About Us, Contact Us] }%%      
+        int caseId PK					
+        string name					%%{ display[true],required[true],tooltip[Case name] }%%
+        date startDate					%%{ tooltip[Case start date] }%%
+        date endDate					%%{ tooltip[Case end date] }%%
+        string status					%%{ tooltip[Case status] }%%
+    }
+    DOCUMENT ||--o{ CASE : relates		%%{ DOCUMENT[cases],CASE[documents] }%%
+    DOCUMENT {						%%{ icon[document],title[Document],description[Manage legal documents and case-related files.],menu[Documents, Cases, Lawyers, Clients, Reports, About Us, Contact Us] }%%      
+        int documentId PK					
+        string name					%%{ display[true],required[true],tooltip[Document name] }%%
+        string type					%%{ tooltip[Document type] }%%
+        date uploadDate				%%{ tooltip[Upload date] }%%
+    }
+    BILLING ||--o{ CLIENT : invoices	%%{ BILLING[clients],CLIENT[billing] }%%
+    BILLING {						%%{ icon[invoice],title[Billing],description[Generate and manage client invoices.],menu[Billing, Clients, Cases, Lawyers, Reports, About Us, Contact Us] }%%      
+        int billingId PK					
+        float amount					%%{ display[true],required[true],tooltip[Billing amount] }%%
+        date dueDate					%%{ tooltip[Due date] }%%
+        string status					%%{ tooltip[Billing status] }%%
+    }
+    PAYMENT ||--o{ BILLING : pays		%%{ PAYMENT[billings],BILLING[payments] }%%
+    PAYMENT {						%%{ icon[payment],title[Payment],description[Manage client payments and billing transactions.],menu[Payments, Billing, Clients, Cases, Lawyers, Reports, About Us, Contact Us] }%%      
+        int paymentId PK					
+        float amount					%%{ display[true],required[true],tooltip[Payment amount] }%%
+        date paymentDate				%%{ tooltip[Payment date] }%%
+        string method					%%{ tooltip[Payment method] }%%
+    }
+    MEETING ||--o{ CASE : schedules		%%{ MEETING[cases],CASE[meetings] }%%
+    MEETING {						%%{ icon[meeting],title[Meeting],description[Schedule meetings and appointments for case discussions.],menu[Meetings, Cases, Lawyers, Clients, Reports, About Us, Contact Us] }%%      
+        int meetingId PK					
+        string title					%%{ display[true],required[true],tooltip[Meeting title] }%%
+        date dateTime					%%{ tooltip[Meeting date and time] }%%
+        string location					%%{ tooltip[Meeting location] }%%
+    }
+%%{ icon[case],title[Law Firm Management System],home-page-description[Manage cases and legal matters efficiently. Track lawyers, clients, and case details.],about-us-page-description[Explore our law firm management system and optimize your legal practice. Manage cases, clients, and documents seamlessly.],menu[Home, Cases, Lawyers, Clients, Reports, About Us, Contact Us] }%%	
+
