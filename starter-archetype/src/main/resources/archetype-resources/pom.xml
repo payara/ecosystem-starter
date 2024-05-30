@@ -54,7 +54,7 @@
         <jakartaee-api.version>${eeApiVersion}</jakartaee-api.version>
         <payara.version>${payaraVersion}</payara.version>
 #if ((${platform} == 'server'))
-        <cargo.version>1.10.7</cargo.version>
+        <cargo.version>1.10.13</cargo.version>
         <payara.url>${payaraUrl}</payara.url>
         <payara.home>${payaraHome}</payara.home>
 #end
