@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2023 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2024 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -57,16 +57,12 @@ import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_VERS
 import static fish.payara.starter.resources.ApplicationConfiguration.PLATFORM;
 import static fish.payara.starter.resources.ApplicationConfiguration.PROFILE;
 import static fish.payara.starter.resources.ApplicationConfiguration.VERSION;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.StreamingOutput;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedExecutorDefinition;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -74,16 +70,25 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.apache.maven.cli.MavenCli;
 
-@Path("starter")
-public class ApplicationGeneratorResource {
+/**
+ *
+ * @author Gaurav Gupta
+ */
+@ManagedExecutorDefinition(
+        name = "java:comp/DefaultManagedExecutorService",
+        maxAsync = 5
+)
+@ApplicationScoped
+public class ApplicationGenerator {
 
-    private static final Logger LOGGER = Logger.getLogger(ApplicationGeneratorResource.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ApplicationGenerator.class.getName());
     private static final String WORKING_DIR_PREFIX = "payara-starter-";
     private static final String ARCHETYPE_GROUP_ID = "fish.payara.starter";
     private static final String ARCHETYPE_ARTIFACT_ID = "payara-starter-archetype";
@@ -91,30 +96,32 @@ public class ApplicationGeneratorResource {
     private static final String MAVEN_ARCHETYPE_CMD = "archetype:generate";
     private static final String ZIP_EXTENSION = ".zip";
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response generate(ApplicationConfiguration appProperties) {
-        File applicationDir = null;
-        try {
-            File workingDirectory = Files.createTempDirectory(WORKING_DIR_PREFIX).toFile();
-            workingDirectory.deleteOnExit();
-            LOGGER.log(Level.INFO, "Executing Maven Archetype from working directory: {0}", new Object[]{workingDirectory.getAbsolutePath()});
-            Properties properties = buildMavenProperties(appProperties);
-            invokeMavenArchetype(ARCHETYPE_GROUP_ID, ARCHETYPE_ARTIFACT_ID, ARCHETYPE_VERSION,
-                    properties, workingDirectory);
+    @Resource(name = "java:comp/DefaultManagedExecutorService")
+    private ManagedExecutorService executorService;
 
-            LOGGER.info("Creating a compressed application bundle.");
-            applicationDir = new File(workingDirectory, appProperties.getArtifactId());
-            File zipFile = zipDirectory(applicationDir, workingDirectory);
-            return buildResponse(zipFile, appProperties.getArtifactId());
-        } catch (IOException ie) {
-            throw new RuntimeException("Failed to generate application.", ie);
-        } finally {
-            if (applicationDir != null) {
-                deleteDirectory(applicationDir);
+    public Future<File> generate(ApplicationConfiguration appProperties) {
+        System.out.println("executorService " + executorService);
+        return executorService.submit(() -> {
+            File applicationDir = null;
+            try {
+                File workingDirectory = Files.createTempDirectory(WORKING_DIR_PREFIX).toFile();
+                workingDirectory.deleteOnExit();
+                LOGGER.log(Level.INFO, "Executing Maven Archetype from working directory: {0}", new Object[]{workingDirectory.getAbsolutePath()});
+                Properties properties = buildMavenProperties(appProperties);
+                invokeMavenArchetype(ARCHETYPE_GROUP_ID, ARCHETYPE_ARTIFACT_ID, ARCHETYPE_VERSION,
+                        properties, workingDirectory);
+
+                LOGGER.info("Creating a compressed application bundle.");
+                applicationDir = new File(workingDirectory, appProperties.getArtifactId());
+                return zipDirectory(applicationDir, workingDirectory);
+            } catch (IOException ie) {
+                throw new RuntimeException("Failed to generate application.", ie);
+            } finally {
+                if (applicationDir != null) {
+                    deleteDirectory(applicationDir);
+                }
             }
-        }
+        });
     }
 
     // Utility method to delete a directory and its contents
@@ -156,7 +163,7 @@ public class ApplicationGeneratorResource {
         return properties;
     }
 
-    public void invokeMavenArchetype(String archetypeGroupId, String archetypeArtifactId,
+    private void invokeMavenArchetype(String archetypeGroupId, String archetypeArtifactId,
             String archetypeVersion, Properties properties, File workingDirectory) {
         System.setProperty(MavenCli.MULTIMODULE_PROJECT_DIRECTORY, workingDirectory.getAbsolutePath());
 
@@ -210,28 +217,6 @@ public class ApplicationGeneratorResource {
                 }
             }
         }
-    }
-
-    private Response buildResponse(File zipFile, String artifactId) throws FileNotFoundException {
-        StreamingOutput streamingOutput = output -> {
-            try (FileInputStream fis = new FileInputStream(zipFile)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = fis.read(buffer)) != -1) {
-                    output.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to stream zip file.", e);
-            } finally {
-                zipFile.delete();
-                zipFile.getParentFile().delete();
-            }
-        };
-
-        return Response.ok(streamingOutput)
-                .header("Content-Disposition", "attachment; filename=\"" + artifactId + ".zip\"")
-                .header("Content-Type", "application/octet-stream")
-                .build();
     }
 
 }
