@@ -54,7 +54,7 @@
         <jakartaee-api.version>${eeApiVersion}</jakartaee-api.version>
         <payara.version>${payaraVersion}</payara.version>
 #if ((${platform} == 'server'))
-        <cargo.version>1.10.7</cargo.version>
+        <cargo.version>1.10.13</cargo.version>
         <payara.url>${payaraUrl}</payara.url>
         <payara.home>${payaraHome}</payara.home>
 #end
@@ -73,7 +73,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.7.0.Final</version>
+                <version>1.8.0.Final</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -150,7 +150,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>1.7.0.Final</version>
+            <version>1.8.0.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -178,12 +178,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.13.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -234,14 +234,14 @@
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
                 <artifactId>payara-cloud-maven-plugin</artifactId>
-                <version>1.0-Alpha1</version>
+                <version>1.0-Alpha2</version>
             </plugin>
 #end
 #if (${includeTests} == "true")
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.5</version>
                 <configuration>
                     <systemPropertyVariables>
 #if ((${platform} == 'server'))
@@ -257,7 +257,7 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.43.4</version>
+                <version>0.44.0</version>
                 <executions>
                     <execution>
                         <id>build-image</id>
@@ -280,7 +280,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.7.1</version>
+                <version>1.9.0</version>
                 <executions>
                     <execution>
                         <id>swagger-ui</id>
