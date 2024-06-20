@@ -20,13 +20,14 @@ package fish.payara.starter.application.domain;
  * @author Gaurav Gupta
  */
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ERModel {
 
     private final List<Entity> entities = new ArrayList<>();
     private final List<Relationship> relationships = new ArrayList<>();
-    private List<KeyValue> property;
+    private List<KeyValue> property = Collections.EMPTY_LIST;
 
     public void addEntity(Entity entity) {
         entities.add(entity);

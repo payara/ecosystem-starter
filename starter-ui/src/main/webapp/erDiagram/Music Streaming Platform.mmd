@@ -1,16 +1,16 @@
 erDiagram					
     USER ||--o{ PLAYLIST : creates		%%{ USER[playlists],PLAYLIST[user] }%%
-    USER {					%%{ icon[person],title[Music Streaming Platform],description[A platform for streaming music online. Discover new tracks, create playlists, and enjoy your favorite tunes.],menu[Home, Discover, Playlists, About Us, Contact Us] }%%
+    USER {					%%{ icon[person],title[Music Streaming Platform],description[A platform for streaming music online. Discover new tracks, create playlists, and enjoy your favorite tunes.] }%%
         string userId	PK                    %%{ htmllabel[User ID],required[true] }%%
         string username		%%{ display[true],required[true],tooltip[Username for login] }%%
         string email		%%{ tooltip[User's email address] }%%
     }
     PLAYLIST ||--|{ SONG : contains		%%{ PLAYLIST[songs],SONG[playlist] }%%
-    PLAYLIST {					%%{ icon[music-note],title[Playlist],description[Create and manage your playlists. Add your favorite songs and organize them your way.],menu[My Playlists, Discover, About Us, Contact Us] }%%
+    PLAYLIST {					%%{ icon[music-note],title[Playlist],description[Create and manage your playlists. Add your favorite songs and organize them your way.] }%%
         int playlistId PK			%%{ display[true] }%%
         string title			%%{ tooltip[Playlist title] }%%
     }
-    SONG {					%%{ icon[music],title[Song],description[Individual songs available for streaming. Listen to your favorite tracks anytime, anywhere.],menu[Songs, Playlists, About Us, Contact Us] }%%		
+    SONG {					%%{ icon[music],title[Song],description[Individual songs available for streaming. Listen to your favorite tracks anytime, anywhere.] }%%		
         string songId PK					
         string title			%%{ display[true],required[true],tooltip[Song title] }%%
         string artist			%%{ tooltip[Artist name] }%%

@@ -58,7 +58,7 @@ public class Entity {
     }
 
     public String getTitleCasePluralizeName() {
-        return pluralize(titleCase(name));
+        return getProperty("title", pluralize(titleCase(name)));
     }
 
     public List<Attribute> getAttributes() {
@@ -117,11 +117,11 @@ public class Entity {
     }
 
     public String getTitle() {
-        return getProperty("title", name);
+        return getProperty("title", titleCase(name));
     }
 
     public String getDescription() {
-        return getProperty("description", name);
+        return getProperty("description", "");
     }
 
     @Override

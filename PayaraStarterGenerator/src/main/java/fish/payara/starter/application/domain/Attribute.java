@@ -113,6 +113,23 @@ public class Attribute {
         }
         return null;
     }
+    
+        public String getProperty(String key, String defaultValue) {
+        for (KeyValue keyValue : property) {
+            if (keyValue.getKey().equals(key)) {
+                return keyValue.getValue() == null ? defaultValue : keyValue.getValue();
+            }
+        }
+        return defaultValue;
+    }
+    
+    public String getToolTipText() {
+        return getProperty("tooltip", "");
+    }
+
+    public boolean isToolTip() {
+        return !getToolTipText().trim().isEmpty();
+    }
 
     public List<String> getImports() {
         return _import;

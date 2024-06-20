@@ -39,7 +39,7 @@
 package fish.payara.starter.resources;
 
 import fish.payara.starter.application.domain.ERModel;
-import fish.payara.starter.application.generator.ApplicationGenerator;
+import fish.payara.starter.application.generator.CRUDAppGenerator;
 import fish.payara.starter.application.generator.ERDiagramParser;
 import static fish.payara.starter.resources.ApplicationConfiguration.ADD_PAYARA_API;
 import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID;
@@ -116,6 +116,26 @@ public class ApplicationGenerator {
 
                 LOGGER.info("Creating a compressed application bundle.");
                 applicationDir = new File(workingDirectory, appProperties.getArtifactId());
+                if (appProperties.getErDiagram() != null) {
+                    ERDiagramParser parser = new ERDiagramParser();
+                    ERModel erModel = parser.parse(appProperties.getErDiagram());
+
+                    CRUDAppGenerator generator = new CRUDAppGenerator(erModel,
+                            appProperties.getPackageName(),
+                            appProperties.getJpaSubpackage(),
+                            appProperties.getRepositorySubpackage(),
+                            appProperties.getRestSubpackage()
+                    );
+                    try {
+                        generator.generate(applicationDir,
+                                appProperties.isGenerateJPA(),
+                                appProperties.isGenerateRepository(),
+                                appProperties.isGenerateRest(),
+                                appProperties.isGenerateWeb());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return zipDirectory(applicationDir, workingDirectory);
             } catch (IOException ie) {
                 throw new RuntimeException("Failed to generate application.", ie);

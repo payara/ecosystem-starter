@@ -14,8 +14,9 @@
     the License.
 -->
 <div class="container mt-5">
-    <h1 class="mb-4">${entityNameTitleCase} Management</h1>
-    <button class="btn btn-success mb-4" id="new${entityNameTitleCase}Button">Add ${entityNameTitleCase}</button>
+    <h1 class="mb-4">${entity.getTitle()}</h1>
+    <p>${entity.getDescription()}</p>
+    <button class="btn btn-success mb-4" id="new${entityNameTitleCase}Button">Add ${entity.getTitle()}</button>
     
     <!-- ${entityNameTitleCase} Table -->
     <table id="${entityNameLowerCasePluralize}Table" class="table table-bordered">
@@ -37,7 +38,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="${entityNameLowerCase}ModalLabel">Add ${entityNameTitleCase}</h5>
+                <h5 class="modal-title" id="${entityNameLowerCase}ModalLabel">Add ${entity.getTitle()}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -143,7 +144,7 @@
         $('#new${entityNameTitleCase}Button').on('click', function () {
             $('#${entityNameLowerCase}Form')[0].reset();
             $('#${entity.getPrimaryKeyName()}').prop('disabled', false);
-            $('#${entityNameLowerCase}ModalLabel').text('Add ${entityNameTitleCase}');
+            $('#${entityNameLowerCase}ModalLabel').text('Add ${entity.getTitle()}');
             $('#saveButton').show();
             $('#updateButton').hide();
             $('#${entityNameLowerCase}Modal').modal('show');
@@ -235,7 +236,7 @@
                     $('#${attribute.name}').val(${entityNameLowerCase}.${attribute.name})<#if attribute.isPrimaryKey()>.prop('disabled', true)</#if>;
                         </#if>
                     </#list>
-                    $('#${entityNameLowerCase}ModalLabel').text('Edit ${entityNameTitleCase}');
+                    $('#${entityNameLowerCase}ModalLabel').text('Edit ${entity.getTitle()}');
                     $('#saveButton').hide();
                     $('#updateButton').show();
                     $('#${entityNameLowerCase}Modal').modal('show');

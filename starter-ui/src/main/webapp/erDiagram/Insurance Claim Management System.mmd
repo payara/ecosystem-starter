@@ -1,48 +1,48 @@
 erDiagram
     POLICYHOLDER ||--o{ POLICY : owns		%%{ POLICYHOLDER[policies],POLICY[holder] }%%
-    POLICYHOLDER {					%%{ icon[person],title[Insurance Claim Management System],description[A system for managing insurance policies and claims. Track policyholders, policies, and claims efficiently.],menu[Home, Policies, Claims, About Us, Contact Us] }%%
+    POLICYHOLDER {					%%{ icon[person],title[Insurance Claim Management System],description[A system for managing insurance policies and claims. Track policyholders, policies, and claims efficiently.] }%%
         int policyholderId PK			%%{ htmllabel[Policyholder ID],required[true] }%%
         string name				%%{ display[true],required[true],tooltip[Policyholder's name] }%%
         string email				%%{ tooltip[Policyholder's email address] }%%
     }
     POLICY ||--o{ CLAIM : covers		%%{ POLICY[claims],CLAIM[policy] }%%
-    POLICY {					%%{ icon[shield-check],title[Policy],description[Manage insurance policies and associated claims.],menu[Policies, Claims, About Us, Contact Us] }%%
+    POLICY {					%%{ icon[shield-check],title[Policy],description[Manage insurance policies and associated claims.] }%%
         int policyId PK				%%{ display[true] }%%
         string type				%%{ tooltip[Type of insurance policy] }%%
         date startDate				%%{ tooltip[Start date of policy coverage] }%%
         date endDate				%%{ tooltip[End date of policy coverage] }%%
     }
     CLAIM ||--o{ DOCUMENT : includes		%%{ CLAIM[documents],DOCUMENT[claim] }%%
-    CLAIM {						%%{ icon[file-text],title[Claim],description[Process and manage insurance claims submitted by policyholders.],menu[My Claims, Policies, About Us, Contact Us] }%%
+    CLAIM {						%%{ icon[file-text],title[Claim],description[Process and manage insurance claims submitted by policyholders.] }%%
         int claimId PK				%%{ display[true] }%%
         string status				%%{ tooltip[Claim status] }%%
         date dateOfLoss				%%{ tooltip[Date of loss or incident] }%%
     }
-    DOCUMENT {					%%{ icon[file],title[Document],description[View and manage documents related to insurance claims.],menu[Documents, Claims, About Us, Contact Us] }%%      
+    DOCUMENT {					%%{ icon[file],title[Document],description[View and manage documents related to insurance claims.] }%%      
         int documentId PK					
         string type				%%{ display[true],required[true],tooltip[Type of document] }%%
         string url				%%{ tooltip[Document URL] }%%
     }
     INSURER ||--o{ CLAIM : processes		%%{ INSURER[claims],CLAIM[insurer] }%%
-    INSURER {						%%{ icon[person],title[Insurer],description[Manage insurer profiles and claim processing.],menu[Insurers, Claims, About Us, Contact Us] }%%      
+    INSURER {						%%{ icon[person],title[Insurer],description[Manage insurer profiles and claim processing.] }%%      
         int insurerId PK					
         string name				%%{ display[true],required[true],tooltip[Insurer's name] }%%
         string email				%%{ tooltip[Insurer's email address] }%%
     }
     PAYMENT ||--o{ CLAIM : processes		%%{ PAYMENT[claims],CLAIM[payment] }%%
-    PAYMENT {						%%{ icon[cash],title[Payment],description[Manage payments related to insurance claims.],menu[Payments, Claims, About Us, Contact Us] }%%      
+    PAYMENT {						%%{ icon[cash],title[Payment],description[Manage payments related to insurance claims.] }%%      
         int paymentId PK					
         float amount				%%{ display[true],tooltip[Payment amount] }%%
         date date				%%{ tooltip[Payment date] }%%
     }
     ADJUSTER ||--|{ CLAIM : assesses		%%{ ADJUSTER[claims],CLAIM[adjuster] }%%
-    ADJUSTER {						%%{ icon[worker],title[Claims Adjuster],description[Assess and evaluate insurance claims.],menu[Adjusters, Claims, About Us, Contact Us] }%%      
+    ADJUSTER {						%%{ icon[worker],title[Claims Adjuster],description[Assess and evaluate insurance claims.] }%%      
         int adjusterId PK					
         string name				%%{ display[true],required[true],tooltip[Adjuster's name] }%%
         string department			%%{ tooltip[Adjuster's department] }%%
     }
     WITNESS ||--o{ CLAIM : provides		%%{ WITNESS[claims],CLAIM[witness] }%%
-    WITNESS {						%%{ icon[eye],title[Witness],description[Provide witness testimony for insurance claims.],menu[Witnesses, Claims, About Us, Contact Us] }%%      
+    WITNESS {						%%{ icon[eye],title[Witness],description[Provide witness testimony for insurance claims.] }%%      
         int witnessId PK					
         string name				%%{ display[true],required[true],tooltip[Witness's name] }%%
         string statement			%%{ tooltip[Witness statement] }%%

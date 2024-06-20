@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ApplicationGenerator {
+public class CRUDAppGenerator {
 
     private final String _package;
     private final String domainLayer;
@@ -52,7 +52,7 @@ public class ApplicationGenerator {
     private final ERModel model;
     private static final boolean IS_LOCAL = false; // Change this flag for local vs. production
 
-    public ApplicationGenerator(ERModel model, String _package, String domainLayer, String repositoryLayer, String controllerLayer) {
+    public CRUDAppGenerator(ERModel model, String _package, String domainLayer, String repositoryLayer, String controllerLayer) {
         this._package = _package;
         this.model = model;
         if (domainLayer == null || domainLayer.trim().isEmpty()) {
@@ -131,7 +131,7 @@ public class ApplicationGenerator {
         String domainLayer = "domain";
         String repositoryLayer = "service";
         String controllerLayer = "resource";
-        ApplicationGenerator generator = new ApplicationGenerator(erModel, _package, domainLayer, repositoryLayer, controllerLayer);
+        CRUDAppGenerator generator = new CRUDAppGenerator(erModel, _package, domainLayer, repositoryLayer, controllerLayer);
         try {
             generator.generate(new File("D:\\HelloWorld"), true, true, true, true); // Output directory
         } catch (IOException e) {

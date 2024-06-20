@@ -1,50 +1,50 @@
 erDiagram
     MEMBER ||--o{ MEMBERSHIP : registers		%%{ MEMBER[memberships],MEMBERSHIP[member] }%%
-    MEMBER {						%%{ icon[person],title[Membership Management System],description[A system for managing membership registrations and benefits. Track members, subscriptions, and privileges efficiently.],menu[Home, Memberships, Benefits, About Us, Contact Us] }%%
+    MEMBER {						%%{ icon[person],title[Membership Management System],description[A system for managing membership registrations and benefits. Track members, subscriptions, and privileges efficiently.] }%%
         int memberId PK					%%{ htmllabel[Member ID],required[true] }%%
         string name					%%{ display[true],required[true],tooltip[Member's name] }%%
         string email					%%{ tooltip[Member's email address] }%%
         date joinDate					%%{ tooltip[Date of membership registration] }%%
     }
     MEMBERSHIP ||--o{ SUBSCRIPTION : includes           %%{ MEMBERSHIP[subscriptions],SUBSCRIPTION[membership] }%%
-    MEMBERSHIP {					%%{ icon[card],title[Membership],description[Manage membership subscriptions and benefits.],menu[Memberships, Benefits, About Us, Contact Us] }%%
+    MEMBERSHIP {					%%{ icon[card],title[Membership],description[Manage membership subscriptions and benefits.] }%%
         int membershipId PK				%%{ display[true] }%%
         string type					%%{ tooltip[Type of membership] }%%
         date startDate					%%{ tooltip[Start date of membership] }%%
         date endDate					%%{ tooltip[End date of membership] }%%
     }
-    SUBSCRIPTION {					%%{ icon[subscription],title[Subscription],description[View and manage subscription details.],menu[Subscriptions, Memberships, About Us, Contact Us] }%%		
+    SUBSCRIPTION {					%%{ icon[subscription],title[Subscription],description[View and manage subscription details.] }%%		
         int subscriptionId PK					
         float price					%%{ display[true],tooltip[Subscription price] }%%
         string status					%%{ tooltip[Subscription status] }%%
     }
     BENEFIT ||--o{ MEMBERSHIP : offers                  %%{ BENEFIT[memberships],MEMBERSHIP[benefits] }%%
-    BENEFIT {						%%{ icon[star],title[Benefit],description[Manage membership benefits and privileges.],menu[Benefits, Memberships, About Us, Contact Us] }%%      
+    BENEFIT {						%%{ icon[star],title[Benefit],description[Manage membership benefits and privileges.] }%%      
         int benefitId PK					
         string name					%%{ display[true],required[true],tooltip[Benefit name] }%%
         string description				%%{ tooltip[Benefit description] }%%
     }
     EVENT ||--o{ MEMBERSHIP : hosts                     %%{ EVENT[memberships],MEMBERSHIP[event] }%%
-    EVENT {						%%{ icon[event],title[Event],description[Organize and manage events for members.],menu[Events, Memberships, About Us, Contact Us] }%%      
+    EVENT {						%%{ icon[event],title[Event],description[Organize and manage events for members.] }%%      
         int eventId PK					
         string name					%%{ display[true],required[true],tooltip[Event name] }%%
         date date					%%{ tooltip[Event date] }%%
         string location                                 %%{ tooltip[Event location] }%%
     }
     NOTIFICATION ||--o{ MEMBER : sends                  %%{ NOTIFICATION[members],MEMBER[notifications] }%%
-    NOTIFICATION {					%%{ icon[notification],title[Notification],description[Send notifications to members.],menu[Notifications, Memberships, About Us, Contact Us] }%%      
+    NOTIFICATION {					%%{ icon[notification],title[Notification],description[Send notifications to members.] }%%      
         int notificationId PK					
         string content                                  %%{ display[true],required[true],tooltip[Notification content] }%%
         date sentDate                                   %%{ tooltip[Date of notification sent] }%%
     }
     PAYMENT ||--o{ MEMBERSHIP : processes               %%{ PAYMENT[memberships],MEMBERSHIP[payment] }%%
-    PAYMENT {						%%{ icon[cash],title[Payment],description[Process payments related to memberships.],menu[Payments, Memberships, About Us, Contact Us] }%%      
+    PAYMENT {						%%{ icon[cash],title[Payment],description[Process payments related to memberships.] }%%      
         int paymentId PK					
         float amount					%%{ display[true],tooltip[Payment amount] }%%
         date paymentDate				%%{ tooltip[Date of payment] }%%
     }
     ADMIN ||--o{ MEMBERSHIP : manages                   %%{ ADMIN[memberships],MEMBERSHIP[admin] }%%
-    ADMIN {						%%{ icon[admin],title[Admin],description[Manage membership system administration and settings.],menu[Admin, Memberships, About Us, Contact Us] }%%      
+    ADMIN {						%%{ icon[admin],title[Admin],description[Manage membership system administration and settings.] }%%      
         int adminId PK					
         string name					%%{ display[true],required[true],tooltip[Admin's name] }%%
         string role					%%{ tooltip[Admin's role] }%%
