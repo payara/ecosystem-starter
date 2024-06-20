@@ -1,0 +1,14 @@
+erDiagram
+    CATEGORY ||--o{ PRODUCT : contains	%%{ CATEGORY[products],PRODUCT[category] }%%
+    CATEGORY {				%%{ icon[folder-open],title[Category],description[Represents product categories in the product catalog.] }%%
+        int categoryID PK		%%{ required[true] }%%
+        string categoryName		%%{ display[true],required[true] }%%
+        string description
+    }
+    PRODUCT {				%%{ icon[box],title[Product],description[Represents products in the product catalog.] }%%
+        int productID PK		%%{ required[true] }%%
+        string productName		%%{ display[true],required[true] }%%
+        float price			%%{ required[true] }%%
+        int stockQuantity		%%{ required[true] }%%
+    }
+%%{ icon[store],title[Product Catalog],home-page-description[Represents a product catalog showcasing various products.],about-us-page-description[This system manages product categories and products within the catalog.],menu[home, products, categories, about us, contact us] }%%

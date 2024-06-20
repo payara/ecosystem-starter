@@ -6,3 +6,6 @@
 /starter-archetype/payara-starter-archetype.iml
 /starter-archetype/src/main/resources/archetype-resources/.gradle
 /starter-ui/payara-starter-ui.iml
+/PayaraStarterGenerator/target/
+starter-ui/nb-configuration.xml
+starter-ui/nb-configuration.xml

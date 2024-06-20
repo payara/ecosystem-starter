@@ -1,0 +1,20 @@
+erDiagram
+    EMPLOYEE ||--o{ DEPARTMENT : belongs_to             %%{ EMPLOYEE[department],DEPARTMENT[employees] }%%
+    EMPLOYEE {                                          %%{ icon[person],title[Employee],description[Represents employees in the employee management system.] }%%
+        int employeeID PK				%%{ required[true] }%%
+        string name					%%{ display[true],required[true] }%%
+        string position                                 %%{ required[true] }%%
+        datetime hireDate				%%{ required[true] }%%
+    }
+    DEPARTMENT {					%%{ icon[briefcase],title[Department],description[Represents departments in the organization.] }%%
+        int departmentID PK				%%{ required[true] }%%
+        string name					%%{ display[true],required[true] }%%
+        string location				
+    }
+    MANAGER ||--o{ DEPARTMENT : manages                 %%{ MANAGER[manages],DEPARTMENT[manager] }%%
+    MANAGER {                                           %%{ icon[users],title[Manager],description[Represents managers overseeing departments in the organization.] }%%
+        int managerID PK				%%{ required[true] }%%
+        string name					%%{ display[true],required[true] }%%
+    }
+%%{ icon[id-badge],title[Employee Management],home-page-description[Represents an employee management system managing employees and departments.],about-us-page-description[This system tracks employees, departments, and managers within the organization.],menu[home, employees, departments, managers, about us, contact us] }%%
+

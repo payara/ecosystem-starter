@@ -1,0 +1,13 @@
+erDiagram
+    PRODUCT ||--o{ INVENTORY : contains         %%{ PRODUCT[inventory],INVENTORY[product] }%%
+    PRODUCT {					%%{ icon[box],title[Product],description[Represents products in the inventory system.] }%%
+        int productID PK			%%{ required[true] }%%
+        string name				%%{ display[true],required[true] }%%
+        float price				%%{ required[true] }%%
+    }
+    INVENTORY {                                 %%{ icon[warehouse],title[Inventory],description[Represents inventory items in the inventory system.] }%%
+        int inventoryID PK			%%{ required[true] }%%
+        int quantity				%%{ display[true],required[true] }%%
+        string location				
+    }
+%%{ icon[boxes],title[Inventory System],home-page-description[Represents an inventory system managing products and inventory items.],about-us-page-description[This system tracks product inventory and manages stock levels.],menu[home, products, inventory, about us, contact us] }%%
