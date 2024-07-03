@@ -56,7 +56,8 @@ targetCompatibility = JavaVersion.VERSION_${javaVersion}
 #if (${platform} == 'micro')
 payaraMicro {
     payaraVersion = '${payaraVersion}'
-    #if (${deployWar} == "true")deployWar = true #end
+    #if (${deployWar} == "true")deployWar = true
+    #end
     useUberJar = false
     daemon = false
     commandLineOptions = [port: 8080]
