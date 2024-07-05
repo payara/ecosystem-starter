@@ -25,28 +25,6 @@ updates:
       - dependency-name: "fish.payara.*"
         update-types: ["version-update:semver-major"]
 
-      # Ignore major version updates for individual dependencies within the org.eclipse.persistence group
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.core"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.jpa"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.jpa.spql"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.moxy"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.sdo"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.dbws"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.oracle"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.antlr"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.asm"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor"
-        update-types: ["version-update:semver-major"]
-
       # Ignore major version updates for org.glassfish and related dependencies
       - dependency-name: "org.glassfish:jakarta.enterprise.concurrent"
         update-types: ["version-update:semver-major"]
