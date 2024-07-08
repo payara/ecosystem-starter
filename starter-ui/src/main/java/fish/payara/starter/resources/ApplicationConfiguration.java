@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2023-24 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-2024 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -39,8 +39,6 @@
 package fish.payara.starter.resources;
 
 import jakarta.json.bind.annotation.JsonbProperty;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -158,6 +156,16 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(AUTH)
     private String auth = "none";
+    
+    
+    private String erDiagram = null;
+    private boolean generateJPA = true;
+    private boolean generateRepository = true;
+    private boolean generateRest = true;
+    private boolean generateWeb = true;
+    private String jpaSubpackage = "domain";
+    private String repositorySubpackage = "service";
+    private String restSubpackage = "resource";
 
     public String getBuild() {
         return build;
@@ -377,6 +385,70 @@ public class ApplicationConfiguration {
 
     public void setAuth(String auth) {
         this.auth = auth;
+    }
+
+    public String getErDiagram() {
+        return erDiagram;
+    }
+
+    public void setErDiagram(String erDiagram) {
+        this.erDiagram = erDiagram;
+    }
+
+    public boolean isGenerateJPA() {
+        return generateJPA;
+    }
+
+    public void setGenerateJPA(boolean generateJPA) {
+        this.generateJPA = generateJPA;
+    }
+
+    public boolean isGenerateRepository() {
+        return generateRepository;
+    }
+
+    public void setGenerateRepository(boolean generateRepository) {
+        this.generateRepository = generateRepository;
+    }
+
+    public boolean isGenerateRest() {
+        return generateRest;
+    }
+
+    public void setGenerateRest(boolean generateRest) {
+        this.generateRest = generateRest;
+    }
+
+    public boolean isGenerateWeb() {
+        return generateWeb;
+    }
+
+    public void setGenerateWeb(boolean generateWeb) {
+        this.generateWeb = generateWeb;
+    }
+
+    public String getJpaSubpackage() {
+        return jpaSubpackage;
+    }
+
+    public void setJpaSubpackage(String jpaSubpackage) {
+        this.jpaSubpackage = jpaSubpackage;
+    }
+
+    public String getRepositorySubpackage() {
+        return repositorySubpackage;
+    }
+
+    public void setRepositorySubpackage(String repositorySubpackage) {
+        this.repositorySubpackage = repositorySubpackage;
+    }
+
+    public String getRestSubpackage() {
+        return restSubpackage;
+    }
+
+    public void setRestSubpackage(String restSubpackage) {
+        this.restSubpackage = restSubpackage;
     }
     
     public static int compareVersions(String version1, String version2) {

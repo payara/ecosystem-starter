@@ -1,0 +1,52 @@
+erDiagram
+    USER ||--o{ JOB_APPLICATION : applies		%%{ USER[applications],JOB_APPLICATION[user] }%%
+    USER {					%%{ icon[person],title[User],description[A system for managing recruitment processes. Post job openings, receive applications, and manage candidates efficiently.] }%%
+        string userId	PK                    %%{ htmllabel[User ID],required[true] }%%
+        string username		%%{ display[true],required[true],tooltip[Username for login] }%%
+        string email		%%{ tooltip[User's email address] }%%
+    }
+    JOB_APPLICATION ||--|{ JOB : applies_for		%%{ JOB_APPLICATION[job],JOB[applications] }%%
+    JOB_APPLICATION {					%%{ icon[file-text],title[Job Application],description[Track job applications submitted by candidates.] }%%
+        int applicationId PK			%%{ display[true] }%%
+        string status			%%{ tooltip[Application status] }%%
+        string resume			%%{ tooltip[Link to candidate's resume] }%%
+    }
+    JOB {					%%{ icon[briefcase],title[Job],description[Manage job openings and applications.] }%%		
+        int jobId PK					
+        string title			%%{ display[true],required[true],tooltip[Job title] }%%
+        string description			%%{ tooltip[Job description] }%%
+        date startDate			%%{ tooltip[Start date of employment] }%%
+        date endDate			%%{ tooltip[End date of employment] }%%
+    }
+    CANDIDATE ||--o{ JOB_APPLICATION : submits		%%{ CANDIDATE[applications],JOB_APPLICATION[candidate] }%%
+    CANDIDATE {					%%{ icon[person],title[Candidate],description[Manage candidate profiles and applications.] }%%      
+        int candidateId PK					
+        string name			%%{ display[true],required[true],tooltip[Candidate's name] }%%
+        string email			%%{ tooltip[Candidate's email address] }%%
+        string phone			%%{ tooltip[Candidate's phone number] }%%
+    }
+    INTERVIEW ||--|{ CANDIDATE : schedules		%%{ INTERVIEW[candidate],CANDIDATE[interviews] }%%
+    INTERVIEW {						%%{ icon[calendar],title[Interview],description[Schedule and manage interviews with candidates.] }%%      
+        int interviewId PK					
+        date date			%%{ display[true],tooltip[Interview date] }%%
+        string location			%%{ tooltip[Interview location] }%%
+    }
+    RECRUITER ||--o{ INTERVIEW : schedules		%%{ RECRUITER[interviews],INTERVIEW[recruiter] }%%
+    RECRUITER {						%%{ icon[person],title[Recruiter],description[Manage recruiter profiles and interview schedules.] }%%      
+        int recruiterId PK					
+        string name			%%{ display[true],required[true],tooltip[Recruiter's name] }%%
+        string department			%%{ tooltip[Recruiter's department] }%%
+    }
+    OFFER ||--o{ CANDIDATE : extends		%%{ OFFER[candidate],CANDIDATE[offer] }%%
+    OFFER {						%%{ icon[document],title[Job Offer],description[Create and manage job offers extended to candidates.] }%%      
+        int offerId PK					
+        string status			%%{ tooltip[Offer status] }%%
+        float salary			%%{ tooltip[Offered salary] }%%
+    }
+    FEEDBACK ||--|{ INTERVIEW : provides		%%{ FEEDBACK[interview],INTERVIEW[feedback] }%%
+    FEEDBACK {						%%{ icon[comment],title[Interview Feedback],description[Provide feedback on candidate interviews.] }%%      
+        int feedbackId PK					
+        string comments			%%{ display[true],tooltip[Interviewer's comments] }%%
+        int rating			%%{ tooltip[Interview rating] }%%
+    }
+%%{ icon[briefcase],title[Recruitment Management System],home-page-description[A system for managing recruitment processes. Post job openings, receive applications, and manage candidates efficiently.],about-us-page-description[Explore our recruitment management system and streamline your hiring process. Connect with talented candidates and make informed decisions.],menu[Home, Jobs, Candidates, About Us, Contact Us] }%%	
