@@ -2,7 +2,7 @@ package fish.payara.starter;
 
 import dev.langchain4j.service.SystemMessage;
 
-public interface ERDiagramDescriptionChat {
+public interface ERDiagramEnhanceChat {
 
     @SystemMessage("""
 You are an API server that responds in a Mermaid erDiagram format.
@@ -10,42 +10,8 @@ Don't say anything else. Respond only with the erDiagram.
 
 Entity Relationship Diagrams
 An entity–relationship model (or ER model) describes interrelated things of interest in a specific domain of knowledge. A basic ER model is composed of entity types (which classify the things of interest) and specifies relationships that can exist between entities (instances of those entity types). 
-Comments can be added using %%{ comments here }%%
-So after Defining relation add comment with variable name for JPA Entities of that relation seprated by comma.
-1- Add comment after erDiagram ends with application's bootstrap icon,title, website home-page description,about-us page description(5-10 lines), Top bar menu options(e.g Home, Product, Serices, contact us, about us, ) to show on final website of application.
-    1(a) -Add Top bar menu options only to global comment after erDiagram ends not After Defining Entity 
-    1(b) -Add website home-page description,about-us page description(5-10 lines) only to global comment after erDiagram ends not After Defining Entity 
-2- After Defining Entity 
+1- After Defining Entity 
    Each must have one primary key PK attribute
-   Add comment relate to bootstrap icon (e.g people, person, cart, cash, house), entity title and entity description to show on final website of application.
-3- After Defining Attribute:
-3(a) Add htmllabel if variable name is not descriptive itself. Add it only if attribute is not slef descriptive.
-    Valid Example:      string custNumber       %%{ htmllabel[Customer Number] }%%
-    Valid Example:      date dob                %%{ htmllabel[Date of Birth] }%%)
-    HTML label should not be the same as the attribute name by spliting with space; it should provide more meaning and description.              
-    Invalid Example:    date appointmentDate    %%{ htmllabel[Appointment Date] }%% - Not required for appointmentDate as it is self descriptive 
-    Invalid Example:    string phoneNumber      %%{ htmllabel[Phone Number] }%% - Not required for phoneNumber as it is self descriptive 
-    Invalid Example:    string doctorId PK      %%{ htmllabel[Doctor ID] }%% - Not required for doctorId as it is self descriptive 
-3(b) Each entity must have only one label or name field. Add a 'display[true]' property to the comment that will serve as the label for the entity.
-    Do not add the 'display[true]' property to more than one attribute.
-    Look for attributes that start or end with 'name' and add the 'display[true]' property to one of them.
-    If no attribute is found that starts or ends with 'name', then decide which other attribute can represent the label.
-3(c) Add 'required[true]' property if attribute is required for entity.
-     Do not add to more than 50% of attribute in entity.
-     Do not add to Primary key PK.
-     Invalid Example: string doctorId PK    %%{ required[true] }%%
-3(d) Add 'tooltip[description of attribute]' to attribute to show it on html input UI which will help end user.
-     tooltip must be added to all attributes except FK or PK primary key.              
-
-Example:
-CUSTOMER {		%%{ icon[people],title[abc],description[xyz] }%%
-     string name	%%{ display[true],required[true] }%%
-     long custNumber PK	%%{ htmllabel[Customer Number],required[true] }%%
-}
-4- After Defining relation add comment with variable name for JPA Entities of that relation.
-Example:
-CUSTOMER ||--o{ ORDER : places		%%{ CUSTOMER[orders],ORDER[customer] }%%
-In this Example, CUSTOMER and ORDER entity have relatationship where as comment defines variable name in JPA Entity classes, suggest varaible name related to label which is places in this example.
 
 Note that practitioners of ER modelling almost always refer to entity types simply as entities. For example the CUSTOMER entity type would be referred to simply as the CUSTOMER entity. This is so common it would be inadvisable to do anything else, but technically an entity is an abstract instance of an entity type, and this is what an ER diagram shows - abstract instances, and the relationships between them. This is why entities are always named using singular nouns.
 
@@ -57,25 +23,23 @@ ER diagrams can be used for various purposes, ranging from abstract logical mode
 
 Code:
 erDiagram					
-    CUSTOMER ||--o{ ORDER : places		%%{ CUSTOMER[orders],ORDER[customer] }%%
-    CUSTOMER {					%%{ icon[people],title[abc],description[xyz] }%%
-        long custNumber	PK                      %%{ htmllabel[Customer Number],required[true] }%%
-        string name				%%{ display[true],required[true],tooltip[description of attribute] }%%
-        string sector				%%{ tooltip[description of attribute] }%%
+    CUSTOMER ||--o{ ORDER : places		
+    CUSTOMER {					
+        long custNumber	PK                      
+        string name				
+        string sector				
     }
-    ORDER ||--|{ LINE-ITEM : contains		%%{ ORDER[items],LINE-ITEM[order] }%%
-    ORDER {					%%{ icon[cart],title[abc],description[xyz] }%%
-        int orderNumber PK			%%{ display[true] }%%
-        string deliveryAddress                  %%{ tooltip[description of attribute] }%%			
+    ORDER ||--|{ LINE-ITEM : contains		
+    ORDER {					
+        int orderNumber PK			
+        string deliveryAddress                  			
     }
-    LINE-ITEM {					%%{ icon[folder],title[abc],description[xyz] }%%		
+    LINE-ITEM {							
         string productCode PK					
-        string productName			%%{ display[true],required[true],tooltip[description of attribute] }%%
-        int quantity				%%{ tooltip[description of attribute] }%%
-        float pricePerUnit			%%{ tooltip[description of attribute] }%%
+        string productName			
+        int quantity				
+        float pricePerUnit			
     }
-%%{ icon[person],title[abc],home-page-description[xyz],about-us-page-description[xyz],menu[home, services, about us, contact us] }%%	
-
 
 When including attributes on ER diagrams, you must decide whether to include foreign keys as attributes. This probably depends on how closely you are trying to represent relational table structures. If your diagram is a logical model which is not meant to imply a relational implementation, then it is better to leave these out because the associative relationships already convey the way that entities are associated. For example, a JSON data structure can implement a one-to-many relationship without the need for foreign key properties, using arrays. Similarly an object-oriented programming language may use pointers or references to collections. Even for models that are intended for relational implementation, you might decide that inclusion of foreign key attributes duplicates information already portrayed by the relationships, and does not add meaning to entities. Ultimately, it's your choice.
 
@@ -154,19 +118,19 @@ Attributes can be defined for entities by specifying the entity name followed by
 
 Code:
 erDiagram	
-    CAR ||--o{ NAMED-DRIVER : allows		%%{ CAR[drivers],Driver[vehicle] }%%
-    CAR {					%%{ icon[car-front],title[abc],description[xyz] }%%
-        string registrationNumber		%%{ display[true] }%%
-        string make				%%{ tooltip[description of attribute] }%%
-        string model				%%{ tooltip[description of attribute] }%%
+    CAR ||--o{ NAMED-DRIVER : allows		
+    CAR {					
+        string registrationNumber		
+        string make				
+        string model				
     }
-    PERSON ||--o{ NAMED-DRIVER : is		%%{ Person[drivers],Driver[owner] }%%
-    PERSON {					%%{ icon[people],title[abc],description[xyz] }%%
-        string firstName			%%{ display[true] }%%
-        string lastName				%%{ tooltip[description of attribute] }%%
-        int age					%%{ tooltip[description of attribute] }%%
+    PERSON ||--o{ NAMED-DRIVER : is		
+    PERSON {					
+        string firstName			
+        string lastName				
+        int age					
     }
-%%{ icon[pin-map],title[abc],home-page-description[xyz],about-us-page-description[xyz],menu[home, services, about us, contact us] }%%	
+	
 
 
 The type values must begin with an alphabetic character and may contain digits, hyphens, underscores, parentheses and square brackets. The name values follow a similar format to type, but may start with an asterisk as another option to indicate an attribute is a primary key. Other than that, there are no restrictions, and there is no implicit set of valid data types.
@@ -191,26 +155,26 @@ Attributes may also have a key or comment defined. Keys can be PK, FK or UK, for
 
 Code:
 erDiagram
-    CAR ||--o{ NAMED-DRIVER : allows				%%{ CAR[drivers],Driver[vehicle] }%%
-    CAR {							%%{ icon[car-front],title[abc],description[xyz] }%%
-        string registrationNumber				%%{ display[true] }%%
+    CAR ||--o{ NAMED-DRIVER : allows				
+    CAR {							
+        string registrationNumber				
         string make						
         string model						
         string[] parts						
     }
-    PERSON ||--o{ NAMED-DRIVER : is				%%{ Person[drivers],Driver[owner] }%%
-    PERSON {							%%{ icon[people],title[abc],description[xyz] }%%
+    PERSON ||--o{ NAMED-DRIVER : is				
+    PERSON {							
         string driversLicense PK "The license #"		
-        string(99) firstName "Only 99 characters are allowed"	%%{ display[true] }%%
+        string(99) firstName "Only 99 characters are allowed"	
         string lastName						
         string phone UK						
         int age							
     }
-    NAMED-DRIVER {						%%{ icon[person],title[abc],description[xyz] }%%
+    NAMED-DRIVER {						
         string carRegistrationNumber PK, FK			
-        string driverLicence FK         			%%{ display[true] }%%
+        string driverLicence FK         			
     }
-%%{ icon[pin-map],title[abc],home-page-description[xyz],about-us-page-description[xyz],menu[home, services, about us, contact us] }%%	
+	
 
 
 The user will provide you with a prompt of er diagram context they have. Based on the given prompt containing application usecase,

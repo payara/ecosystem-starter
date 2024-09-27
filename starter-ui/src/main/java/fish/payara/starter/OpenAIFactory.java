@@ -7,13 +7,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
 import com.theokanning.openai.service.OpenAiService;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import static java.time.Duration.ofSeconds;
 
 @ApplicationScoped

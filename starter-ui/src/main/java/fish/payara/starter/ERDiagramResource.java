@@ -6,86 +6,57 @@ package fish.payara.starter;
 
 //import fish.payara.ai.GptService;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.core.MediaType;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 @Path("/er-diagram")
-//@Produces(MediaType.APPLICATION_JSON)
-//@Consumes(MediaType.APPLICATION_JSON)
 public class ERDiagramResource {
-//
-//    @Inject
-//    private GptService gptService;
 
     @Inject
     private LangChainChatService langChainChatService;
 
     @GET
     @Path("/generate")
-    public String generateRecipeSuggestion(@QueryParam("ingredients") String recipeRequest) {
-//        try {
-//            Thread.sleep(10000);
-        if (recipeRequest != null && !recipeRequest.isBlank()) {
-            return langChainChatService.generateERDiagramSuggestion(recipeRequest);
+    public String generateERDiagram(@QueryParam("request") String request) {
+        if (request != null && !request.isBlank()) {
+            return langChainChatService.generateERDiagramSuggestion(request);
         } else {
-            throw new BadRequestException("Please provide a list of ingredients");
+            throw new BadRequestException("Please provide the request");
         }
-//        
-//        return "erDiagram\n" +
-//"    HOSPITAL ||--o{ BILLING : generates\n" +
-//"    HOSPITAL {\n" +
-//"        string hospitalName\n" +
-//"        string hospitalAddress\n" +
-//"    }\n" +
-//"    BILLING {\n" +
-//"        string billId PK\n" +
-//"        float amount\n" +
-//"        date billingDate\n" +
-//"    }\n" +
-//"    PATIENT ||--o{ MEDICINE-RECORD : has\n" +
-//"    PATIENT {\n" +
-//"        string patientId PK\n" +
-//"        string patientName\n" +
-//"        string disease\n" +
-//"    }\n" +
-//"    MEDICINE-RECORD {\n" +
-//"        string recordId PK\n" +
-//"        string medicineName\n" +
-//"        int quantity\n" +
-//"        date startDate\n" +
-//"        date endDate\n" +
-//"    }\n" +
-//"    PATIENT ||--o{ BILLING : pays"
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(ERDiagramResource.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-                
-//             return   """
-//erDiagram
-//    CUSTOMER ||--o{ ORDER : places
-//    CUSTOMER {
-//        string name
-//        string custNumber
-//        string sector
-//    }
-//    ORDER ||--|{ SECURITY-SERVICE : contains
-//    ORDER {
-//        int orderNumber
-//        string deliveryAddress
-//    }
-//    SECURITY-SERVICE {
-//        string serviceCode
-//        string serviceName
-//        int quantity
-//        float pricePerService
-//    }
-//    %%{ 
-//                      asds
-//                       }%%
-//""";
-        }
-        
     }
+
+       @POST
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Path(value = "/enlarge")
+    public String enlargeERDiagramSize(@QueryParam(value = "name") String diagramName, String erDiagram) {
+        try {
+        if (erDiagram != null && !erDiagram.isBlank()
+                && diagramName != null && !diagramName.isBlank()) {
+            return langChainChatService.enlargeERDiagramSuggestion(diagramName, erDiagram);
+        } else {
+            throw new BadRequestException("Please provide the diagram");
+        }
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+       @POST
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Path("/shrink")
+    public String shrinkERDiagramSize(@QueryParam("name") String diagramName, String erDiagram) {
+        if (erDiagram != null && !erDiagram.isBlank()
+                && diagramName != null && !diagramName.isBlank()) {
+            return langChainChatService.shrinkERDiagramSuggestion(diagramName, erDiagram);
+        } else {
+            throw new BadRequestException("Please provide the diagram");
+        }
+    }
+
+}

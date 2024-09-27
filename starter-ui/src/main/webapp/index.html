@@ -56,9 +56,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/mermaid/mermaid.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
-<link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
+        <link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
         <!-- Google Tag Manager -->
         <script>(function (w, d, s, l, i) {
                 w[l] = w[l] || [];
@@ -368,15 +368,15 @@
                                                 </div>
                                             </div>
                                         </fieldset>
-                                        
+
                                         <fieldset class="form-steps__step">
                                             <legend class="visually-hidden form-steps__title">Deployment Options</legend>
                                             <div class="legend h3 form-steps__title" aria-hidden="true">Deployment Options</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -625,6 +625,8 @@
                 <div class="half">
                     <div class="inline-elements">
                         <h2 id="headerAI"  style="white-space: nowrap;">Live Preview</h2>
+                        <button type="button" class="button button--ghost" id="enlargeERDiagram">+</button>
+                        <button type="button" class="button button--ghost" id="shrinkERDiagram">-</button>
                         <span class="form__progress loader loader--line" id="loadingBarAI" style="display: none;">
                             <span class="loader__fish"></span>
                         </span>
@@ -638,7 +640,7 @@
         <!-- CSS for styling the modal dialog -->
         <style>
             .modal {
-                display: none; 
+                display: none;
                 position: fixed;
                 z-index: 10;
                 left: 0;
@@ -650,7 +652,7 @@
                 margin-top: 1%;
                 margin-left: 1%;
             }
-            
+
             .modal-content {
                 display: flex;
                 flex-direction: row;
@@ -707,166 +709,161 @@
             .inline-elements select {
                 margin: 0;
             }
-            
+
             .CodeMirror {
                 height: 90%;
                 font-size: small;
                 border: 1px solid #ccc;
                 margin-top: 15px;
             }
-            
+
             .livePreview svg {
                 height: inherit;
             }
-            
+
             .CodeMirror .cm-comment {
-            color: #ff0000; /* Change this to your desired color */
-        }
+                color: #ff0000; /* Change this to your desired color */
+            }
         </style>
         <script type="module">
 //        https://chatgpt.com/share/99102a26-a8ac-45c5-8d5b-76fc118cd602
-        const erDiagrams = [
-            'Auction Management System',
-            'Customer Relationship Management',
-            'Employee Management',
-            'Energy Management System',
-            'Event Management',
-            'Flight Reservation System',
-            'Healthcare System',
-            'Insurance Claim Management System',
-            'Inventory System',
-            'Laboratory Information Management System',
-            'Law Firm Management System',
-            'Legal Case Management System',
-            'Library Management System',
-            'Membership Management System',
-            'Music Streaming Platform',
-            'Product Catalog',
-            'Property Management System',
-            'Recruitment Management System',
-            'Sales Tracking',
-            'School Management',
-            'Video Streaming Platform',
-            'Waste Management System'
-        ];
-    
-    var erDiagramContent = {};
-    
-    
-    // Function to fetch ER diagram content from the server
-    function fetchErDiagramContent(diagramId) {
-        showAILoadingBar();
-        return fetch(`erDiagram/${diagramId}.mmd`)
-            .then(response => {
-                hideAILoadingBar();
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text(); // This line fetches the text content
-            })
-            .catch(error => {
-                hideAILoadingBar();
-                console.error('Error fetching diagram:', error);
-                return null;
-            });
-    }
+            const erDiagrams = [
+                'Auction Management System',
+                'Customer Relationship Management',
+                'Employee Management',
+                'Energy Management System',
+                'Event Management',
+                'Flight Reservation System',
+                'Healthcare System',
+                'Insurance Claim Management System',
+                'Inventory System',
+                'Laboratory Information Management System',
+                'Law Firm Management System',
+                'Legal Case Management System',
+                'Library Management System',
+                'Membership Management System',
+                'Music Streaming Platform',
+                'Product Catalog',
+                'Property Management System',
+                'Recruitment Management System',
+                'Sales Tracking',
+                'School Management',
+                'Video Streaming Platform',
+                'Waste Management System'
+            ];
 
-    // Function to populate the select elements with ER diagrams
-    async function populateErDiagrams() {
-        const previewSelect = document.getElementById('mermaidErDiagramListPreview');
-        const erDiagramSelect = document.getElementById('mermaidErDiagramList');
-        const erDiagram = document.getElementById('erDiagram');
-        
-        previewSelect.addEventListener('change', function() {
-            erDiagramSelect.value = this.value;
-        });
-        erDiagramSelect.addEventListener('change', function() {
-            previewSelect.value = this.value;
-        });
-         $('#mermaidErDiagramList').change(async function() {
-            const selectedDiagramId = $(this).val();
-            const selectedDiagramContent = erDiagramContent[selectedDiagramId];
-            if (!selectedDiagramContent) {
-                const content = await fetchErDiagramContent(selectedDiagramId);
-                if (content) {
-                    erDiagramContent[selectedDiagramId] = content;
-                }
-            }
-            editor.setValue(erDiagramContent[selectedDiagramId]);
-            erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
-        });
-       
+            var erDiagramContent = {};
+            var editor;
+            var erDiagram;
 
-        // Clear existing options
-        previewSelect.innerHTML = '';
-        erDiagramSelect.innerHTML = '';
-        const option = document.createElement('option');
-        previewSelect.appendChild(option);
-        erDiagramSelect.appendChild(option.cloneNode(true));
-        for (const diagram of erDiagrams) {
-                const option = document.createElement('option');
-                option.value = diagram;
-                option.textContent = diagram;
-                previewSelect.appendChild(option);
-                erDiagramSelect.appendChild(option.cloneNode(true));
-        }
-        
-       $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
-           if (e.key === 'Enter') {
-               const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                if (erDiagrams.includes(selectedDiagramId)) {
-                    if (!erDiagramContent[selectedDiagramId]) {
-                         const content = await fetchErDiagramContent(selectedDiagramId);
-                        if (content) {
-                            erDiagramContent[selectedDiagramId] = content;
-                        }
-                    }
-                    editor.setValue(erDiagramContent[selectedDiagramId]);
-                    erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
-                    
-                } else {
-                    const content = await fetchCustomErDiagramContent(selectedDiagramId);
-                    erDiagramContent[selectedDiagramId] = content;
-                    prependOptionToMermaidErDiagramList(selectedDiagramId);
-                    if (content) {
-                        editor.setValue(content);
-                        erDiagram.innerHTML = content;
-                    }
-                }
-           }
-       });
-       function prependOptionToMermaidErDiagramList(val) {
-            var selectElement = document.getElementById('mermaidErDiagramList');
-            var newOption = document.createElement('option');
-            newOption.value = val;
-            newOption.text = val;
-            if (selectElement.children.length > 1) {
-              selectElement.insertBefore(newOption, selectElement.children[1]);
-            } else {
-              selectElement.appendChild(newOption);
-            }
-            newOption.selected = true;
-      }
-        function fetchCustomErDiagramContent(customDiagram) {
-            showAILoadingBar();
-            return fetch(`resources/er-diagram/generate?ingredients=${customDiagram}`)
-                .then(response => {
+
+            // register button press event for button id enlargeERDiagram
+
+            document.getElementById('enlargeERDiagram').addEventListener('click', enlargeERDiagram);
+            document.getElementById('shrinkERDiagram').addEventListener('click', shrinkERDiagram);
+
+
+            async function enlargeERDiagram() {
+                showAILoadingBar();
+                debugger;
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
+                const erDiagramData = encodeURIComponent(editor.getValue());
+
+                try {
+                    const response = await fetch(`resources/er-diagram/enlarge?name=${encodedDiagramId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain' // Set the content type to plain text
+                        },
+                        body: erDiagramData // Pass the diagram data as the body of the request
+                    });
                     hideAILoadingBar();
+
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    return response.text();
-                })
-                .catch(error => {
+
+                    var content = await response.text();
+                    content = content.replace(/```mermaid|```/g, '').trim();
+
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                    }
+                } catch (error) {
                     hideAILoadingBar();
                     console.error('Error fetching custom diagram:', error);
-                    return null;
+                    // Optionally handle the error, e.g., show a message to the user
+                }
+
+            }
+            async function shrinkERDiagram() {
+                showAILoadingBar();
+                debugger;
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
+                const erDiagramData = encodeURIComponent(editor.getValue());
+
+                try {
+                    const response = await fetch(`resources/er-diagram/shrink?name=${encodedDiagramId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain' // Set the content type to plain text
+                        },
+                        body: erDiagramData // Pass the diagram data as the body of the request
+                    });
+                    hideAILoadingBar();
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    var content = await response.text();
+                    content = content.replace(/```mermaid|```/g, '').trim();
+
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                    }
+                } catch (error) {
+                    hideAILoadingBar();
+                    console.error('Error fetching custom diagram:', error);
+                    // Optionally handle the error, e.g., show a message to the user
+                }
+            }
+            // Function to fetch ER diagram content from the server
+            function fetchErDiagramContent(diagramId) {
+                showAILoadingBar();
+                return fetch(`erDiagram/${diagramId}.mmd`)
+                        .then(response => {
+                            hideAILoadingBar();
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text(); // This line fetches the text content
+                        })
+                        .catch(error => {
+                            hideAILoadingBar();
+                            console.error('Error fetching diagram:', error);
+                            return null;
+                        });
+            }
+
+            // Function to populate the select elements with ER diagrams
+            async function populateErDiagrams() {
+                const previewSelect = document.getElementById('mermaidErDiagramListPreview');
+                const erDiagramSelect = document.getElementById('mermaidErDiagramList');
+                const erDiagram = document.getElementById('erDiagram');
+
+                previewSelect.addEventListener('change', function () {
+                    erDiagramSelect.value = this.value;
                 });
-        }
-        $('#mermaidErDiagramListPreview')
-                .editableSelect()
-                .on('select.editable-select', async function (e, li) {
-                    const selectedDiagramId = li[0].getAttribute("value");
+                erDiagramSelect.addEventListener('change', function () {
+                    previewSelect.value = this.value;
+                });
+                $('#mermaidErDiagramList').change(async function () {
+                    const selectedDiagramId = $(this).val();
                     const selectedDiagramContent = erDiagramContent[selectedDiagramId];
                     if (!selectedDiagramContent) {
                         const content = await fetchErDiagramContent(selectedDiagramId);
@@ -876,26 +873,112 @@
                     }
                     editor.setValue(erDiagramContent[selectedDiagramId]);
                     erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
-                    
-                    
-                    const selectElement = document.getElementById('mermaidErDiagramList');
-                    for (let i = 0; i < selectElement.options.length; i++) {
-                        if (selectElement.options[i].value === selectedDiagramId) {
-                            selectElement.options[i].selected = true;
-                            break; 
+                });
+
+
+                // Clear existing options
+                previewSelect.innerHTML = '';
+                erDiagramSelect.innerHTML = '';
+                const option = document.createElement('option');
+                previewSelect.appendChild(option);
+                erDiagramSelect.appendChild(option.cloneNode(true));
+                for (const diagram of erDiagrams) {
+                    const option = document.createElement('option');
+                    option.value = diagram;
+                    option.textContent = diagram;
+                    previewSelect.appendChild(option);
+                    erDiagramSelect.appendChild(option.cloneNode(true));
+                }
+
+                $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
+                    if (e.key === 'Enter') {
+                        debugger;
+                        const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                        if (erDiagrams.includes(selectedDiagramId)) {
+                            if (!erDiagramContent[selectedDiagramId]) {
+                                const content = await fetchErDiagramContent(selectedDiagramId);
+                                if (content) {
+                                    erDiagramContent[selectedDiagramId] = content;
+                                }
+                            }
+                            editor.setValue(erDiagramContent[selectedDiagramId]);
+                            erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
+
+                        } else {
+                            const content = await fetchCustomErDiagramContent(selectedDiagramId);
+                            erDiagramContent[selectedDiagramId] = content;
+                            prependOptionToMermaidErDiagramList(selectedDiagramId);
+                            if (content) {
+                                editor.setValue(content);
+                                erDiagram.innerHTML = content;
+                            }
                         }
                     }
                 });
-    }
-    
-               
-    document.addEventListener('DOMContentLoaded', populateErDiagrams);
-    
-    
+
+                function prependOptionToMermaidErDiagramList(val) {
+                    var selectElement = document.getElementById('mermaidErDiagramList');
+                    var newOption = document.createElement('option');
+                    newOption.value = val;
+                    newOption.text = val;
+                    if (selectElement.children.length > 1) {
+                        selectElement.insertBefore(newOption, selectElement.children[1]);
+                    } else {
+                        selectElement.appendChild(newOption);
+                    }
+                    newOption.selected = true;
+                }
+                function fetchCustomErDiagramContent(customDiagram) {
+                    showAILoadingBar();
+                    const encodedDiagram = encodeURIComponent(customDiagram);
+                    return fetch(`resources/er-diagram/generate?request=${encodedDiagram}`)
+                            .then(response => {
+                                hideAILoadingBar();
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.text();
+                            })
+                            .catch(error => {
+                                hideAILoadingBar();
+                                console.error('Error fetching custom diagram:', error);
+                                return null;
+                            });
+                }
+                $('#mermaidErDiagramListPreview')
+                        .editableSelect()
+                        .on('select.editable-select', async function (e, li) {
+                            const selectedDiagramId = li[0].getAttribute("value");
+                            const selectedDiagramContent = erDiagramContent[selectedDiagramId];
+                            if (!selectedDiagramContent) {
+                                const content = await fetchErDiagramContent(selectedDiagramId);
+                                if (content) {
+                                    erDiagramContent[selectedDiagramId] = content;
+                                }
+                            }
+                            editor.setValue(erDiagramContent[selectedDiagramId]);
+                            erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
+
+
+                            const selectElement = document.getElementById('mermaidErDiagramList');
+                            for (let i = 0; i < selectElement.options.length; i++) {
+                                if (selectElement.options[i].value === selectedDiagramId) {
+                                    selectElement.options[i].selected = true;
+                                    break;
+                                }
+                            }
+                        });
+            }
+
+            document.addEventListener('DOMContentLoaded', populateErDiagrams);
+
+
             import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
             function updateMermaidDiagram() {
-                var erDiagram = editor.getValue();
+                console.info('Updating diagram with new content.'); // Debug log for updating diagram
+                debugger;
+                erDiagram = editor.getValue();
                 mermaid.render('graphDiv', erDiagram).then(({ svg, bindFunctions }) => {
                     var element = document.querySelector('#graphDiv');
                     document.querySelector('div.livePreview').innerHTML = svg;
@@ -903,7 +986,8 @@
                 });
             }
 
-            var editor = CodeMirror.fromTextArea(document.getElementById("sourceCode"), {
+            debugger;
+            editor = CodeMirror.fromTextArea(document.getElementById("sourceCode"), {
                 lineNumbers: true,
                 mode: "mermaid",
                 theme: "default"
@@ -913,8 +997,8 @@
             // Function to close the modal
             function closeModal() {
                 document.getElementById("previewModal").style.display = "none";
-                
-            erDiagram.innerHTML = editor.getValue();
+                debugger;
+                erDiagram.innerHTML = editor.getValue();
             }
             // Get the modal
             var modal = document.getElementById("previewModal");
@@ -939,15 +1023,7 @@
                     erDiagram.innerHTML = editor.getValue();
                 }
             };
-            function showAILoadingBar() {
-                document.getElementById('loadingBarAI').style.display = 'block';
-                document.getElementById('headerAI').innerHTML = 'Loading Preview';
-            }
 
-            function hideAILoadingBar() {
-                document.getElementById('loadingBarAI').style.display = 'none';
-                document.getElementById('headerAI').innerHTML = 'Live Preview';
-            }
         </script>
         <script>
             // Function to open the modal and populate live preview and source code
@@ -960,8 +1036,8 @@
         <script src="assets/main.js"></script>
         <script src="ui/js/interface.min.js"></script>
         <script>
-                  menu_wrap.init();
-                  form_steps.init();
+            menu_wrap.init();
+            form_steps.init();
         </script>
 
         <script>
@@ -1015,6 +1091,19 @@
             }
 
             document.addEventListener('DOMContentLoaded', handleCheckboxDependencies);
+        </script>
+
+        <script>
+
+            function showAILoadingBar() {
+                document.getElementById('loadingBarAI').style.display = 'block';
+                document.getElementById('headerAI').innerHTML = 'Loading Preview';
+            }
+
+            function hideAILoadingBar() {
+                document.getElementById('loadingBarAI').style.display = 'none';
+                document.getElementById('headerAI').innerHTML = 'Live Preview';
+            }
         </script>
     </body>
 </html>
