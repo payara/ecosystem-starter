@@ -1,0 +1,39 @@
+erDiagram
+    PROPERTY_MANAGER ||--o{ PROPERTY : manages          %%{ PROPERTY_MANAGER[properties],PROPERTY[manager] }%%
+    PROPERTY_MANAGER {					%%{ icon[manager],title[Property Management System],description[Manage properties and rental units efficiently. Track property managers, tenants, and maintenance tasks.] }%%      
+        int managerId PK					
+        string name					%%{ display[true],required[true],tooltip[Manager's name] }%%
+        string email					%%{ tooltip[Manager's email address] }%%
+    }
+    PROPERTY ||--o{ TENANT : rents                      %%{ PROPERTY[tenants],TENANT[property] }%%
+    PROPERTY {						%%{ icon[property],title[Property],description[Manage property details and rental units.] }%%      
+        int propertyId PK					
+        string name					%%{ display[true],required[true],tooltip[Property name] }%%
+        string address					%%{ tooltip[Property address] }%%
+        float rent					%%{ tooltip[Monthly rent amount] }%%
+    }
+    TENANT {						%%{ icon[tenant],title[Tenant],description[Manage tenant information and leases.] }%%      
+        int tenantId PK					
+        string name					%%{ display[true],required[true],tooltip[Tenant's name] }%%
+        string email					%%{ tooltip[Tenant's email address] }%%
+        string phone					%%{ tooltip[Tenant's phone number] }%%
+    }
+    MAINTENANCE_TASK ||--o{ PROPERTY : assigned         %%{ MAINTENANCE_TASK[properties],PROPERTY[maintenanceTasks] }%%
+    MAINTENANCE_TASK {					%%{ icon[maintenance],title[Maintenance Task],description[Schedule and track property maintenance tasks.] }%%      
+        int taskId PK					
+        string description				%%{ display[true],required[true],tooltip[Task description] }%%
+        date dueDate					%%{ tooltip[Due date] }%%
+    }
+    PAYMENT ||--o{ TENANT : pays                        %%{ PAYMENT[tenants],TENANT[payments] }%%
+    PAYMENT {						%%{ icon[payment],title[Payment],description[Manage tenant payments and rent collection.] }%%      
+        int paymentId PK					
+        float amount					%%{ display[true],required[true],tooltip[Payment amount] }%%
+        date paymentDate				%%{ tooltip[Payment date] }%%
+    }
+    LEASE ||--o{ TENANT : signs                         %%{ LEASE[tenants],TENANT[lease] }%%
+    LEASE {						%%{ icon[lease],title[Lease],description[Manage lease agreements and terms.] }%%      
+        int leaseId PK					
+        date startDate					%%{ display[true],required[true],tooltip[Lease start date] }%%
+        date endDate					%%{ tooltip[Lease end date] }%%
+    }
+%%{ icon[property],title[Property Management System],home-page-description[Manage properties and rental units efficiently. Track property managers, tenants, and maintenance tasks.],about-us-page-description[Explore our property management system and streamline your property operations. Manage leases, payments, and maintenance seamlessly.],menu[Home, Properties, Tenants, Maintenance, Reports, About Us, Contact Us] }%%	
