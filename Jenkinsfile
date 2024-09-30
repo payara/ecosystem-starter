@@ -21,8 +21,7 @@ pipeline {
                 script {
                     sh '''
                     echo *#*#*#*#*#*#*#*#*#*#*#*#  Building SRC  *#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
-                    mvn -B -V -ff -e clean install --strict-checksums \
-                        -Djavadoc.skip -Dsource.skip
+                    mvn -B -V -ff -e clean install --strict-checksums
                     echo *#*#*#*#*#*#*#*#*#*#*#*#    Built SRC   *#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
                     '''
                 }
