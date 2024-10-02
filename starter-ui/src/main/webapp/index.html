@@ -47,6 +47,7 @@
         <link rel="manifest" href="manifest.webmanifest">
         <link rel="stylesheet" href="ui/css/payara.min.css">
         <link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
+        <link rel="stylesheet" href="ui-starter/hubspot.css" type="text/css" media="all">
         <link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
@@ -59,27 +60,30 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
         <link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
-        <!-- Google Tag Manager -->
-        <script>(function (w, d, s, l, i) {
-                w[l] = w[l] || [];
-                w[l].push({'gtm.start':
-                            new Date().getTime(), event: 'gtm.js'});
-                var f = d.getElementsByTagName(s)[0],
-                        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-                j.async = true;
-                j.src =
-                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'GTM-MGV5FR6D');</script>
-        <!-- End Google Tag Manager -->
+
+        <!-- Google Tag Manager with HubSpot cookie constent check. -->
+        <script>
+            var _hsq = window._hsq = window._hsq || [];
+            _hsq.push(['addPrivacyConsentListener', function(consent) {
+
+                if (consent.allowed || consent.categories.analytics) {
+
+                    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','GTM-MGV5FR6D');
+                }
+            }]);
+        </script>
+        <!-- End Google Tag Manager with HubSpot cookie constent check -->
 
     </head>
     <body class="page page--sticky-header theme--light">
 
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGV5FR6D"
-                          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGV5FR6D" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
 
         <header class="page__header">
             <div class="cards card--no-pad js__main-menu">
@@ -563,8 +567,14 @@
 
         <footer class="page__footer">
             <div class="cards card--no-pad">
-                <div class="text-align--left">
+                <div class="buttons--light text-align--left">
                     <theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
+                    <button type="button" class="button button--ghost" id="hs_show_banner_button" onclick="(function(){
+                        var _hsp = window._hsp = window._hsp || [];
+                        _hsp.push(['showBanner']);
+                    })()">
+                        Cookies
+                    </button>
                 </div>
                 <div class="card--content-width buttons--light text-align--right"> 
                     <span>Follow Us: </span>
@@ -1105,5 +1115,9 @@
                 document.getElementById('headerAI').innerHTML = 'Live Preview';
             }
         </script>
+
+		<!-- Start of HubSpot Embed Code -->
+		<script type="text/javascript" id="hs-script-loader" async defer src="https://js.hs-scripts.com/334594.js"></script>
+		<!-- End of HubSpot Embed Code -->
     </body>
 </html>

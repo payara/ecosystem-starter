@@ -1,0 +1,131 @@
+/* Banner. */
+body div#hs-eu-cookie-confirmation {
+	background: rgb(var(--midnight)) !important;
+	border: none !important;
+	box-shadow: none !important;
+	color: #fff !important;
+	font-size: 1em !important;
+	font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
+	line-height: 1.5 !important;
+}
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner {
+	background: none !important;
+	margin: auto !important;
+	max-width: 100rem !important;
+	padding: 40px 3rem !important;
+}
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner div#hs-en-cookie-confirmation-buttons-area {
+	margin: 2.4rem 0 0 0 !important;
+	justify-content: center !important;
+}
+
+
+/* Buttons. */
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-confirmation-button, 
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-decline-button, 
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-cookie-settings-button,
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-accept-all, 
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-save-settings  {
+	background: transparent !important;
+	border: none !important;
+	border-radius: var(--button-radius) !important;
+	direction: ltr !important;
+	display: inline-block !important;
+	font-family: inherit !important;
+	font-size: 100% !important;
+	font-weight: 400 !important;
+	line-height: 1.5 !important;
+	margin: calc((var(--gutter) /2) - 2px) !important;
+	outline: 0 !important;
+	padding: 0.8rem 2rem !important;
+	text-align: center !important;
+	text-decoration: none !important;
+}
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-decline-button, 
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-cookie-settings-button {
+	box-shadow: 0 0 0 1px rgb(255,255,255) inset !important;
+	color: rgb(255,255,255) !important;
+}
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-confirmation-button {
+	background: rgb(255,255,255) !important;
+	color: var(--button-bk) !important;
+}
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-accept-all, 
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-save-settings {
+	background: var(--button-bk) !important;
+	color: #fff !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-decline-button:hover, 
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-cookie-settings-button:hover {
+	box-shadow: 0 0 0 2px rgb(255,255,255) inset !important;
+}
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-decline-button:focus, 
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-cookie-settings-button:focus,
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-confirmation-button:focus {
+	box-shadow: 0 0 0 4px rgb(var(--smurf)) !important;
+}
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-confirmation-button:hover {
+	background: rgba(255,255,255,0.9) !important;
+}
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-accept-all:hover, 
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-save-settings:hover {
+	background: var(--button-bk-hover) !important;
+}
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-accept-all:focus, 
+body.page #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-save-settings:focus {
+	box-shadow: 0 0 0 4px rgb(var(--smurf)) !important;
+}
+
+
+/* Modal. */
+body.page #hs-modal #hs-modal-content {
+	background: var(--page-background) !important;
+	font-size: 1em !important;
+	font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-label {
+	background: color-mix(in srgb, currentColor 2%, transparent) !important;
+	border-color: color-mix(in srgb, currentColor 20%, transparent) !important;
+	color: rgb(var(--page-text)) !important;
+	padding: 12px !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-label.hs-active {
+	background: color-mix(in srgb, currentColor 4%, transparent) !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-row .hs-category-label span {
+	color: rgb(var(--page-text)) !important;
+	font-size: 1em !important;
+	font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
+	line-height: 1.5 !important;
+}
+
+body #hs-modal #hs-modal-content #hs-modal-body {
+	line-height: 1.5 !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-description,
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-fill {
+	border-color: color-mix(in srgb, currentColor 20%, transparent) !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-description {
+	background: color-mix(in srgb, currentColor 4%, transparent) !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-description .hs-category-description-header h3,
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-description .hs-category-description-text p {
+	color: rgb(var(--page-text)) !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-footer #hs-modal-footer-container {
+	margin: 9px -6px 0 0 !important;
+}
+
+
+/* Modal slider. */
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-toggle .slider {
+	background: color-mix(in srgb, currentColor 30%, transparent) !important;
+}
+body #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-category-toggle .slider:before {
+	background: rgba(255, 255, 255, 0.5) !important;
+}
+body.page #hs-modal #hs-modal-content #hs-modal-body #hs-modal-body-container .hs-always-active-label {
+	color: color-mix(in srgb, currentColor 50%, transparent) !important;
+}
