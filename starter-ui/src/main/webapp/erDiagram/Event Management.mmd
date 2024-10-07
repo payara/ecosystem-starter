@@ -1,0 +1,28 @@
+erDiagram
+    EVENT ||--o{ ATTENDEE : hosts               %%{ EVENT[attendees],ATTENDEE[event] }%%
+    EVENT {					%%{ icon[calendar],title[Event],description[Represents events organized by the event management system.] }%%
+        int eventID PK				%%{ required[true] }%%
+        string eventName			%%{ display[true],required[true] }%%
+        datetime eventDateTime			%%{ required[true] }%%
+        string location				%%{ required[true] }%%
+    }
+    ATTENDEE {					%%{ icon[person],title[Attendee],description[Represents attendees participating in events.] }%%
+        int attendeeID PK			%%{ required[true] }%%
+        string name				%%{ display[true],required[true] }%%
+        string email
+        string organization
+    }
+    ORGANIZER ||--o{ EVENT : organizes          %%{ ORGANIZER[organizes],EVENT[organizer] }%%
+    ORGANIZER {					%%{ icon[people],title[Organizer],description[Represents organizers managing events.] }%%
+        int organizerID PK			%%{ required[true] }%%
+        string name				%%{ display[true],required[true] }%%
+        string company
+    }
+    VENUE ||--o{ EVENT : hosts                  %%{ VENUE[events],EVENT[venue] }%%
+    VENUE {					%%{ icon[map-marker-alt],title[Venue],description[Represents venues where events are hosted.] }%%
+        int venueID PK				%%{ required[true] }%%
+        string name				%%{ display[true],required[true] }%%
+        string location				%%{ required[true] }%%
+        int capacity				%%{ required[true] }%%
+    }
+%%{ icon[calendar-alt],title[Event Management],home-page-description[Represents an event management system organizing various events.],about-us-page-description[This system manages events, attendees, organizers, and venues.],menu[home, events, organizers, venues, about us, contact us] }%%
