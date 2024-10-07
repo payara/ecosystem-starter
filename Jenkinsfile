@@ -10,18 +10,6 @@ pipeline {
     }
     stages {
 
-        stage('Checkout Payara-Starter') {
-            steps {
-                script {
-                    checkout changelog: false, poll: true, scm: [$class: 'GitSCM',
-                    branches: [[name: "master"]],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [], 
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[credentialsId: 'payara-devops-github-personal-access-token-as-username-password', url:"https://github.com/payara/ecosystem-starter.git"]]]
-                }
-            }
-        }
         stage('Build Payara-Starter') {
             environment {
                 JAVA_HOME = tool("zulu-17")

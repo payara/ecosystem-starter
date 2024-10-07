@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-payara-micro:dev</actionName>
+            <displayName>payara-micro:dev</displayName>
+            <goals>
+                <goal>payara-micro:dev</goal>
+            </goals>
+        </action>
+    </actions>
