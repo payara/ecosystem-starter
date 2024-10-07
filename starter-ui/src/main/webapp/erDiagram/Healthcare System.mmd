@@ -1,0 +1,30 @@
+erDiagram
+    PATIENT ||--o{ APPOINTMENT : has                    %%{ PATIENT[appointments],APPOINTMENT[patient] }%%
+    PATIENT {                                           %%{ icon[person],title[Patient],description[Represents patients in the healthcare system.] }%%
+        string patientID PK				%%{ required[true] }%%
+        string name					%%{ display[true],required[true] }%%
+        string address	
+        string insuranceProvider
+    }
+    APPOINTMENT ||--|{ DOCTOR : attends                 %%{ APPOINTMENT[doctor],DOCTOR[appointments] }%%
+    APPOINTMENT {					%%{ icon[calendar],title[Appointment],description[Represents appointments made by patients.] }%%
+        int appointmentID PK				%%{ required[true] }%%
+        datetime appointmentDateTime			%%{ display[true],required[true] }%%
+        string reason	
+        string status	
+    }
+    DOCTOR {                                            %%{ icon[stethoscope],title[Doctor],description[Represents doctors in the healthcare system.] }%%
+        string doctorID PK				%%{ required[true] }%%
+        string name					%%{ display[true],required[true] }%%
+        string specialization
+        string department	
+    }
+    PRESCRIPTION ||--|{ APPOINTMENT : issues            %%{ PRESCRIPTION[appointment],APPOINTMENT[prescription] }%%
+    PRESCRIPTION {					%%{ icon[file-prescription],title[Prescription],description[Represents prescriptions issued by doctors.] }%%
+        int prescriptionID PK				%%{ required[true] }%%
+        string medicationName				%%{ display[true],required[true] }%%
+        string dosage	
+        string instructions
+    }
+%%{ icon[clinic-medical],title[Healthcare System],home-page-description[Represents a healthcare system providing medical services.],about-us-page-description[This system manages patients, appointments, doctors, and prescriptions.],menu[home, appointments, doctors, prescriptions, about us, contact us] }%%
+

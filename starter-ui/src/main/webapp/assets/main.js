@@ -68,7 +68,7 @@ function hideAndDeselectIncludeTests() {
 }
 
 // Get all the input fields in the form
-const formInputs = document.querySelectorAll('form input, form select');
+const formInputs = document.querySelectorAll('form input, form select, form textarea');
 const form = document.getElementById('appForm');
 
 const inputToConfigurationMap = {
@@ -118,7 +118,7 @@ form.addEventListener('submit', function (event) {
         },
         body: JSON.stringify(jsonObject),
     };
-
+debugger;
     fetch('resources/starter', requestOptions)
             .then(response => {
                 if (response.status === 200) {
