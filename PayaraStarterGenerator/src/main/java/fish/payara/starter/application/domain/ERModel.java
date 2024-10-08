@@ -19,15 +19,24 @@ package fish.payara.starter.application.domain;
  *
  * @author Gaurav Gupta
  */
+import static fish.payara.starter.application.domain.Constant.aboutUsPageDescription_default;
+import static fish.payara.starter.application.domain.Constant.homePageDescription_default;
+import static fish.payara.starter.application.domain.Constant.icon_default;
+import static fish.payara.starter.application.domain.Constant.longTitle_default;
+import static fish.payara.starter.application.domain.Constant.title_default;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import jakarta.json.bind.annotation.JsonbTransient;
+
 
 public class ERModel {
 
-    private final List<Entity> entities = new ArrayList<>();
-    private final List<Relationship> relationships = new ArrayList<>();
-    private List<KeyValue> property = Collections.EMPTY_LIST;
+    private List<Entity> entities = new ArrayList<>();
+    private List<Relationship> relationships = new ArrayList<>();
+    
+
+    public ERModel() {
+    }
 
     public void addEntity(Entity entity) {
         entities.add(entity);
@@ -54,41 +63,79 @@ public class ERModel {
         return relationships;
     }
 
-    public List<KeyValue> getProperty() {
-        return property;
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
     }
 
-    public void setProperty(List<KeyValue> property) {
-        this.property = property;
+    public void setRelationships(List<Relationship> relationships) {
+        this.relationships = relationships;
     }
+    
 
-    public String getProperty(String key, String defaultValue) {
-        for (KeyValue keyValue : property) {
-            if (keyValue.getKey().equals(key)) {
-                return keyValue.getValue() == null ? defaultValue : keyValue.getValue();
-            }
-        }
-        return defaultValue;
-    }
-
+    private String icon;
+    private String title;
+    private String longTitle;
+    private String homePageDescription;
+    private String aboutUsPageDescription;
+    private List<String> topBarMenuOptions = new ArrayList<>();
+    
+    
+    @JsonbTransient
     public String getIcon() {
-        return getProperty("icon", "circle");
+        return icon == null ? icon_default : icon;
     }
 
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    @JsonbTransient
     public String getTitle() {
-        return getProperty("title", "Jakarta EE Sample");
+        return title == null ? title_default : title;
     }
 
+    @JsonbTransient
+    public String getTitle(String defaultValue) {
+        return title != null ? title : defaultValue;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @JsonbTransient
     public String getLongTitle() {
-        return getProperty("long-title", getProperty("title", "EE Sample"));
+        return longTitle == null ? longTitle_default : longTitle;
     }
 
-    public String getDescription() {
-        return getProperty("home-page-description", "Unlock the full potential of your application by harnessing the power of Jakarta EE");
+    public void setLongTitle(String longTitle) {
+        this.longTitle = longTitle;
     }
 
-    public String getAboutUsDescription() {
-        return getProperty("about-us-page-description", "Welcome to our About Us page, where innovation meets reliability with Payara Jakarta EE. As a team passionate about delivering unparalleled solutions, we specialize in harnessing the power of Jakarta EE to create robust, scalable, and secure applications. With a deep understanding of enterprise-grade development, we are committed to crafting tailored solutions that drive business growth and exceed client expectations. Backed by years of experience and a dedication to staying at the forefront of technology, we take pride in our ability to transform ideas into reality, empowering businesses to thrive in the digital landscape. Discover more about our journey, expertise, and the vision that propels us forward.");
+    @JsonbTransient
+    public String getHomePageDescription() {
+        return homePageDescription == null ? homePageDescription_default : homePageDescription;
+    }
+
+    public void setHomePageDescription(String homePageDescription) {
+        this.homePageDescription = homePageDescription;
+    }
+
+    @JsonbTransient
+    public String getAboutUsPageDescription() {
+        return aboutUsPageDescription == null ? aboutUsPageDescription_default : aboutUsPageDescription;
+    }
+
+    public void setAboutUsPageDescription(String aboutUsPageDescription) {
+        this.aboutUsPageDescription = aboutUsPageDescription;
+    }
+
+    public List<String> getTopBarMenuOptions() {
+        return topBarMenuOptions;
+    }
+
+    public void setTopBarMenuOptions(List<String> topBarMenuOptions) {
+        this.topBarMenuOptions = topBarMenuOptions;
     }
 
     @Override

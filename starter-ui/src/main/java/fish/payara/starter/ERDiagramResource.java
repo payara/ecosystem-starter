@@ -58,5 +58,17 @@ public class ERDiagramResource {
             throw new BadRequestException("Please provide the diagram");
         }
     }
+    
+           @POST
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Path("/update")
+    public String updateERDiagramSize(@QueryParam("request") String userRequest, String erDiagram) {
+        if (erDiagram != null && !erDiagram.isBlank()
+                && userRequest != null && !userRequest.isBlank()) {
+            return langChainChatService.updateERDiagramSuggestion(userRequest, erDiagram);
+        } else {
+            throw new BadRequestException("Please provide the diagram");
+        }
+    }
 
 }

@@ -4,7 +4,7 @@
     <parent>
         <groupId>fish.payara.starter</groupId>
         <artifactId>payara-starter-parent</artifactId>
-        <version>1.0-beta8</version>
+        <version>1.0-beta9</version>
     </parent>
     <artifactId>payara-starter-generator</artifactId>
     <name>Payara Starter Generator</name>
@@ -15,6 +15,12 @@
             <artifactId>freemarker</artifactId>
             <version>2.3.31</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     

@@ -537,7 +537,7 @@
                                                     <span class="button__text">Generate</span>
                                                 </button>
                                             </span>
-                                            <span>
+<!--                                            <span>
                                                 <button type="submit" class="button">
                                                     <i class="bi bi-github"></i>
                                                     <span class="button__text">Save to Github</span>
@@ -548,7 +548,7 @@
                                                     <i class="bi bi-cloud"></i>
                                                     <span class="button__text">Deploy to Payara Cloud</span>
                                                 </button>
-                                            </span>
+                                            </span>-->
                                         </p>
 
                                     </form>
@@ -615,30 +615,59 @@
         <!-- HTML structure for the modal dialog -->
         <div id="previewModal" class="modal">
             <div class="modal-content">
-                <div class="half">
-                    <div class="inline-elements">
+                <div class="half" id="diagramSource">
+                    <div class="inline-elements"  id="diagramSourceTopTool">
                         <h2>Source</h2>
                         <select name="mermaidErDiagramListPreview" id="mermaidErDiagramListPreview" class="form__select"></select>
-                    </div>  <textarea id="sourceCode"></textarea>
+                    </div>
+                    <textarea id="sourceCode"></textarea>
                     <div id="graphDiv"></div>
+                    <div class="inline-elements" id="diagramSourceBottomTool">
+                        <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" /> 
+                    </div>
                 </div>
-                <div class="half">
-                    <div class="inline-elements">
+                <div class="half" id="diagramView">
+                    <div class="inline-elements"  id="diagramSourceTopTool">
                         <h2 id="headerAI"  style="white-space: nowrap;">Live Preview</h2>
-                        <button type="button" class="button button--ghost" id="enlargeERDiagram">+</button>
-                        <button type="button" class="button button--ghost" id="shrinkERDiagram">-</button>
                         <span class="form__progress loader loader--line" id="loadingBarAI" style="display: none;">
                             <span class="loader__fish"></span>
                         </span>
                     </div> 
                     <div id="livePreview" class="livePreview"></div>
+                    <div class="inline-elements" id="diagramViewBottomTool">
+                        <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" /> 
+                        <button type="button" class="button button--ghost" id="updateERDiagram" ><i class="bi bi-chat"></i></button>
+                        <button type="button" class="button button--ghost" id="prevERDiagram" disabled><i class="bi bi-arrow-left"></i></button>
+                        <button type="button" class="button button--ghost" id="nextERDiagram" disabled><i class="bi bi-arrow-right"></i></button>
+                        <button type="button" class="button button--ghost" id="enlargeERDiagram">+</button>
+                        <button type="button" class="button button--ghost" id="shrinkERDiagram">-</button>
+                        <button type="button" class="button button--ghost" id="fullscreenDiagram" onclick="toggleDiagramView()"><i class="bi bi-fullscreen"></i></button>
+                    </div>
                 </div>
                 <span class="close">&times;</span>
             </div>
         </div>
-
+        <script>
+                function toggleDiagramView() {
+                    debugger;
+                    const diagramView = document.getElementById('diagramView');
+                    const diagramSource = document.getElementById('diagramSource');
+                    const makeFullscreen = diagramView.style.width !== '100%';
+                    diagramView.style.width = makeFullscreen ?  '100%' : '50%';
+                    diagramSource.style.width = makeFullscreen ? '0%' : '50%';
+                    document.getElementById('queryBox').style.display = makeFullscreen ? 'none' : 'inline';
+                    document.getElementById('queryBoxHidden').style.display = makeFullscreen ?  'inline' : 'none';
+                    diagramSource.style.display = makeFullscreen ? 'none' : 'inline';
+                }
+        </script>
         <!-- CSS for styling the modal dialog -->
         <style>
+            button:disabled i {
+                color: #aaa;
+            }
+            button:disabled {
+    box-shadow: 0 0 0 1px #aaa inset !important;
+}
             .modal {
                 display: none;
                 position: fixed;
@@ -685,7 +714,8 @@
 
             #livePreview {
                 border: 1px solid #ccc;
-                height: 90%;
+                height: 82%;
+                margin-bottom: 10px;
             }
 
             #sourceCode {
@@ -711,12 +741,13 @@
             }
 
             .CodeMirror {
-                height: 90%;
+                height: 82%;
                 font-size: small;
                 border: 1px solid #ccc;
-                margin-top: 15px;
+                margin-top: 11px;
+                margin-bottom: 9px;
             }
-
+            
             .livePreview svg {
                 height: inherit;
             }
@@ -755,17 +786,64 @@
             var erDiagramContent = {};
             var editor;
             var erDiagram;
-
+            var erDiagramChat = [];
+            var erDiagramChatIndex = 0;
 
             // register button press event for button id enlargeERDiagram
 
+            document.getElementById('prevERDiagram').addEventListener('click', prevERDiagram);
+            document.getElementById('nextERDiagram').addEventListener('click', nextERDiagram);
             document.getElementById('enlargeERDiagram').addEventListener('click', enlargeERDiagram);
             document.getElementById('shrinkERDiagram').addEventListener('click', shrinkERDiagram);
+//            document.getElementById('updateERDiagram').addEventListener('click', updateERDiagram);
+            $('#queryBox').on('keypress', async function (e) {
+                    if (e.key === 'Enter') {
+                        updateERDiagram();
+                    }
+                });
 
 
+            async function prevERDiagram() {
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex, erDiagramChat.length - 1));
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex-1, erDiagramChat.length - 1));
+                    var content = erDiagramChat[erDiagramChatIndex]["erd"];
+                      var action = erDiagramChat[erDiagramChatIndex]["action"];
+                   if(action) {
+                        document.getElementById('queryBox').value = action;
+                   }
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                    }
+                    updateButtonStates();
+            }
+
+            async function nextERDiagram() {
+                     const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex, erDiagramChat.length - 1)); 
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex+1, erDiagramChat.length - 1)); 
+                   var content = erDiagramChat[erDiagramChatIndex]["erd"];
+                   var action = erDiagramChat[erDiagramChatIndex]["action"];
+                   if(action) {
+                        document.getElementById('queryBox').value = action;
+                   }
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                    }
+                    updateButtonStates();
+            }
+            
+                function updateButtonStates() {
+                    const nextButton = document.getElementById('nextERDiagram');
+                    const prevButton = document.getElementById('prevERDiagram');
+                    nextButton.disabled = erDiagramChatIndex >= erDiagramChat.length - 1;
+                    prevButton.disabled = erDiagramChatIndex <= 0;
+                }
+            
             async function enlargeERDiagram() {
                 showAILoadingBar();
-                debugger;
                 const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
                 const encodedDiagramId = encodeURIComponent(selectedDiagramId);
                 const erDiagramData = encodeURIComponent(editor.getValue());
@@ -774,9 +852,9 @@
                     const response = await fetch(`resources/er-diagram/enlarge?name=${encodedDiagramId}`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'text/plain' // Set the content type to plain text
+                            'Content-Type': 'text/plain'
                         },
-                        body: erDiagramData // Pass the diagram data as the body of the request
+                        body: erDiagramData
                     });
                     hideAILoadingBar();
 
@@ -790,17 +868,18 @@
                     erDiagramContent[selectedDiagramId] = content;
                     if (content) {
                         editor.setValue(content);
+                        erDiagramChat.push({"erd": content});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                    updateButtonStates();
                     }
                 } catch (error) {
                     hideAILoadingBar();
                     console.error('Error fetching custom diagram:', error);
-                    // Optionally handle the error, e.g., show a message to the user
                 }
 
             }
             async function shrinkERDiagram() {
                 showAILoadingBar();
-                debugger;
                 const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
                 const encodedDiagramId = encodeURIComponent(selectedDiagramId);
                 const erDiagramData = encodeURIComponent(editor.getValue());
@@ -809,9 +888,9 @@
                     const response = await fetch(`resources/er-diagram/shrink?name=${encodedDiagramId}`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'text/plain' // Set the content type to plain text
+                            'Content-Type': 'text/plain'
                         },
-                        body: erDiagramData // Pass the diagram data as the body of the request
+                        body: erDiagramData
                     });
                     hideAILoadingBar();
 
@@ -825,11 +904,51 @@
                     erDiagramContent[selectedDiagramId] = content;
                     if (content) {
                         editor.setValue(content);
+                        erDiagramChat.push({"erd": content});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                        updateButtonStates();
                     }
                 } catch (error) {
                     hideAILoadingBar();
-                    console.error('Error fetching custom diagram:', error);
-                    // Optionally handle the error, e.g., show a message to the user
+                    console.error('Error fetching diagram:', error);
+                }
+            }
+            
+            async function updateERDiagram() {
+                showAILoadingBar();
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
+                const queryBox = document.getElementById('queryBox').value.trim();
+                const encodedQueryBox = encodeURIComponent(queryBox);
+                const erDiagramData = encodeURIComponent(editor.getValue());
+
+                try {
+                    const response = await fetch(`resources/er-diagram/update?request=${encodedQueryBox}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        body: erDiagramData
+                    });
+                    hideAILoadingBar();
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    var content = await response.text();
+                    content = content.replace(/```mermaid|```/g, '').trim();
+
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                        erDiagramChat.push({"erd": content, "action": queryBox});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                        updateButtonStates();
+                    }
+                } catch (error) {
+                    hideAILoadingBar();
+                    console.error('Error fetching diagram:', error);
                 }
             }
             // Function to fetch ER diagram content from the server
@@ -873,6 +992,11 @@
                     }
                     editor.setValue(erDiagramContent[selectedDiagramId]);
                     erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
+                    
+                    erDiagramChat = [];
+                    erDiagramChat.push({"erd": content});
+                    erDiagramChatIndex = erDiagramChat.length - 1;
+                    updateButtonStates();
                 });
 
 
@@ -904,6 +1028,11 @@
                             editor.setValue(erDiagramContent[selectedDiagramId]);
                             erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
 
+                            erDiagramChat = [];
+                            erDiagramChat.push({"erd": content});
+                            erDiagramChatIndex = erDiagramChat.length - 1;
+                            updateButtonStates();
+
                         } else {
                             const content = await fetchCustomErDiagramContent(selectedDiagramId);
                             erDiagramContent[selectedDiagramId] = content;
@@ -911,8 +1040,14 @@
                             if (content) {
                                 editor.setValue(content);
                                 erDiagram.innerHTML = content;
+                                
+                                erDiagramChat = [];
+                                erDiagramChat.push({"erd": content});
+                                erDiagramChatIndex = erDiagramChat.length - 1;
+                                updateButtonStates();
                             }
                         }
+                        
                     }
                 });
 
@@ -976,8 +1111,7 @@
             import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
             function updateMermaidDiagram() {
-                console.info('Updating diagram with new content.'); // Debug log for updating diagram
-                debugger;
+                console.info('Updating diagram with new content.');
                 erDiagram = editor.getValue();
                 mermaid.render('graphDiv', erDiagram).then(({ svg, bindFunctions }) => {
                     var element = document.querySelector('#graphDiv');
@@ -986,7 +1120,6 @@
                 });
             }
 
-            debugger;
             editor = CodeMirror.fromTextArea(document.getElementById("sourceCode"), {
                 lineNumbers: true,
                 mode: "mermaid",
@@ -994,20 +1127,14 @@
             });
             editor.on("change", updateMermaidDiagram);
 
-            // Function to close the modal
             function closeModal() {
                 document.getElementById("previewModal").style.display = "none";
                 debugger;
                 erDiagram.innerHTML = editor.getValue();
             }
-            // Get the modal
             var modal = document.getElementById("previewModal");
-
-            // Get the <span> element that closes the modal
             var span = document.getElementsByClassName("close")[0];
 
-            // When the user clicks the button, open the modal 
-            // You need to call this function when the user wants to preview the Mermaid diagram
             function openModal() {
                 modal.style.display = "block";
             }

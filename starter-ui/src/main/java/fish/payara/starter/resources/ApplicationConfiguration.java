@@ -73,6 +73,7 @@ public class ApplicationConfiguration {
     public static final String DEPLOY_WAR = "deployWar";
     public static final String CONTEXT_ROOT = "contextRoot";
     public static final String AUTH = "auth";
+    public static final String ENTITIES = "entities";
 
     public static final String PAYARA_VERSION_6_2023_11 = "6.2023.11";
 
