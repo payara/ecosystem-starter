@@ -15,5 +15,5 @@
 -->
 <div>
     <h2>${model.getLongTitle()}</h2>
-    <p>${model.getDescription()}</p>
+    <p>${model.getHomePageDescription()}</p>
 </div>

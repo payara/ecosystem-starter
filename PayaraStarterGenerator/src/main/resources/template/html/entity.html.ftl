@@ -143,12 +143,12 @@
         // Open modal for new ${entityNameLowerCase}
         $('#new${entityNameTitleCase}Button').on('click', function () {
             $('#${entityNameLowerCase}Form')[0].reset();
-            $('#${entity.getPrimaryKeyName()}').prop('disabled', false);
+            $('#${entity.getPrimaryKeyName()}').closest('.form-group').hide();
             $('#${entityNameLowerCase}ModalLabel').text('Add ${entity.getTitle()}');
             $('#saveButton').show();
             $('#updateButton').hide();
             $('#${entityNameLowerCase}Modal').modal('show');
-<#list entity.attributes as attribute>
+    <#list entity.attributes as attribute>
         <#if attribute.relation??>
             <#if attribute.multi>
             <#else>
@@ -171,7 +171,9 @@
                     },
                         </#if>
                     <#else>
-                    ${attribute.name}: $('#${attribute.name}').val(),
+                    <#if entity.getPrimaryKeyName() != attribute.name>
+                        ${attribute.name}: $('#${attribute.name}').val(),
+                    </#if>
                     </#if>
                 </#list>
             };
@@ -225,15 +227,13 @@
                 contentType: 'application/json',
                 success: function (${entityNameLowerCase}) {
                     <#list entity.attributes as attribute>
-                    </#list>
-                    <#list entity.attributes as attribute>
                         <#if attribute.relation??>
                             <#if attribute.multi>
                             <#else>
                     $('#${attribute.name}Select').val(${entityNameLowerCase}.${attribute.name}.${attribute.relation.getPrimaryKeyName()});
                             </#if>
                         <#else>
-                    $('#${attribute.name}').val(${entityNameLowerCase}.${attribute.name})<#if attribute.isPrimaryKey()>.prop('disabled', true)</#if>;
+                    $('#${attribute.name}').val(${entityNameLowerCase}.${attribute.name})<#if attribute.isPrimaryKey()>.prop('disabled', true).closest('.form-group').show()</#if>;
                         </#if>
                     </#list>
                     $('#${entityNameLowerCase}ModalLabel').text('Edit ${entity.getTitle()}');

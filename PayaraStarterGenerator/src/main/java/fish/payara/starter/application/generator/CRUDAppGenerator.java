@@ -21,7 +21,7 @@ import fish.payara.starter.application.domain.ERModel;
 import fish.payara.starter.application.domain.Attribute;
 import static fish.payara.starter.application.util.AttributeType.isBoolean;
 import static fish.payara.starter.application.util.AttributeType.isPrimitive;
-import static fish.payara.starter.application.util.JPAUtil.SQL_RESERVED_KEYWORDS;
+import static fish.payara.starter.application.util.JPAUtil.ALL_RESERVED_KEYWORDS;
 import static fish.payara.starter.application.util.JavaUtil.getIntrospectionPrefix;
 import static fish.payara.starter.application.util.JavaUtil.getMethodName;
 import static fish.payara.starter.application.util.StringHelper.firstLower;
@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class CRUDAppGenerator {
-
+    
     private final String _package;
     private final String domainLayer;
     private final String repositoryLayer;
@@ -151,7 +151,7 @@ public class CRUDAppGenerator {
                 generateJPAClass(_package, model, entity, java);
             }
             Map<String, Object> dataModel = new HashMap<>();
-            dataModel.put("appPU", model.getProperty("title", "app") + "PU");
+            dataModel.put("appPU", model.getTitle("app") + "PU");
             generate("template/descriptor", "persistence.xml.ftl", "persistence.xml", dataModel, metainf);
 
             if (generateRepository) {
@@ -187,10 +187,10 @@ public class CRUDAppGenerator {
     private void generateFrontend(Entity entity, File outputDir) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("entity", entity);
-        dataModel.put("entityNameLowerCase", entity.name.toLowerCase());
-        dataModel.put("entityNameTitleCase", titleCase(entity.name));
-        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.name)));
-        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.name.toLowerCase()));
+        dataModel.put("entityNameLowerCase", entity.getName().toLowerCase());
+        dataModel.put("entityNameTitleCase", titleCase(entity.getName()));
+        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getName())));
+        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getName().toLowerCase()));
         generate("template/html", "entity.html.ftl", dataModel.get("entityNameLowerCase") + ".html", dataModel, outputDir);
     }
 
@@ -393,7 +393,7 @@ public class CRUDAppGenerator {
     }
 
     private String escapeReservedKeyword(String name) {
-        return SQL_RESERVED_KEYWORDS.contains(name.toUpperCase()) ? "\\\"" + name + "\\\"" : name;
+        return ALL_RESERVED_KEYWORDS.contains(name.toUpperCase()) ? "\\\"" + name + "\\\"" : name;
     }
 
     private void generateJPAClass(String _package, ERModel model, Entity entity, File outputDir) throws IOException {
@@ -492,15 +492,13 @@ public class CRUDAppGenerator {
         String relationshipType = relationship.getRelationshipType();
         String firstEntity = relationship.getFirstEntity();
         String secondEntity = relationship.getSecondEntity();
-        Entity firstEntityObj = model.getEntity(firstEntity);
-        Entity secondEntityObj = model.getEntity(secondEntity);
 
         if (isFirstEntity) {
             switch (relationshipType) {
                 case "||--||": // Exactly one to exactly one
                 case "||--o|": // Exactly one to zero or one
                 case "|o--||": // Zero or one to exactly one
-                    entity.getAttributes().add(new Attribute(secondEntity.toLowerCase(), secondEntityObj, false, relationship.getProperty()));
+                    entity.getAttributes().add(new Attribute(secondEntity.toLowerCase(), false, secondEntity));
                     sbfunc.append("    public ").append(secondEntity).append(" get").append(secondEntity).append("() {\n");
                     sbfunc.append("        return ").append(secondEntity.toLowerCase()).append(";\n");
                     sbfunc.append("    }\n\n");
@@ -527,7 +525,7 @@ public class CRUDAppGenerator {
                     break;
                 case "}|--||": // One or more to exactly one
                 case "}o--||": // Zero or more to exactly one
-                    entity.getAttributes().add(new Attribute(secondEntity.toLowerCase(), secondEntityObj, false, relationship.getProperty()));
+                    entity.getAttributes().add(new Attribute(secondEntity.toLowerCase(), false, secondEntity));
                     sbfunc.append("    public ").append(secondEntity).append(" get").append(secondEntity).append("() {\n");
                     sbfunc.append("        return ").append(secondEntity.toLowerCase()).append(";\n");
                     sbfunc.append("    }\n\n");
@@ -575,7 +573,7 @@ public class CRUDAppGenerator {
                     break;
                 case "||--|{": // Exactly one to one or more
                 case "||--o{": // Exactly one to zero or more
-                    entity.getAttributes().add(new Attribute(firstEntity.toLowerCase(), firstEntityObj, false, relationship.getProperty()));
+                    entity.getAttributes().add(new Attribute(firstEntity.toLowerCase(), false, firstEntity));
                     sbfunc.append("    public ").append(firstEntity).append(" get").append(firstEntity).append("() {\n");
                     sbfunc.append("        return ").append(firstEntity.toLowerCase()).append(";\n");
                     sbfunc.append("    }\n\n");

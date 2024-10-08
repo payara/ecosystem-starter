@@ -16,9 +16,12 @@
 package fish.payara.starter.application.domain;
 
 import fish.payara.starter.application.util.AttributeType;
+import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE;
+import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE_TIME;
 import static fish.payara.starter.application.util.StringHelper.pluralize;
 import static fish.payara.starter.application.util.StringHelper.startCase;
 import static fish.payara.starter.application.util.StringHelper.titleCase;
+import jakarta.json.bind.annotation.JsonbTransient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,51 +31,55 @@ import java.util.List;
  */
 public class Attribute {
 
-    private final String name;
-    private final String type;
-    private boolean isPrimaryKey;
+    private String name;
+    private String type;
+    private boolean primaryKey;
     private boolean required;
-    private List<String> _import = new ArrayList<>();
-    private Entity relation;
     private boolean multi;
+    private String tooltip;
+    private Boolean display;
+    private String htmlLabel;
 
-    private final List<KeyValue> property;
-
-    public Attribute(String name, String type, boolean isPrimaryKey, List<KeyValue> property) {
-        this.name = name;
-        this.type = type;
-        this.isPrimaryKey = isPrimaryKey;
-        this.property = property;
+    public Attribute() {
     }
 
-    public Attribute(String name, Entity relation, boolean multi, List<KeyValue> property) {
+    public Attribute(String name, String type, boolean isPrimaryKey) {
         this.name = name;
-        this.type = relation.getName();
-        this.relation = relation;
+        this.type = type;
+        this.primaryKey = isPrimaryKey;
+    }
+
+    public Attribute(String name, boolean multi, String relation) {
+        this.name = name;
+        this.type = relation;
         this.multi = multi;
-        this.property = property;
     }
 
     public String getName() {
         return name;
     }
 
+    @JsonbTransient
     public String getStartCaseName() {
         return startCase(name);
     }
 
+    @JsonbTransient
     public String getLowerCaseName() {
         return name.toLowerCase();
     }
 
+    @JsonbTransient
     public String getTitleCaseName() {
         return titleCase(name);
     }
 
+    @JsonbTransient
     public String getLowerCasePluralizeName() {
         return pluralize(name.toLowerCase());
     }
 
+    @JsonbTransient
     public String getTitleCasePluralizeName() {
         return pluralize(titleCase(name));
     }
@@ -81,71 +88,90 @@ public class Attribute {
         return type;
     }
 
+    @JsonbTransient
     public boolean isNumber() {
         return AttributeType.isNumber(type);
     }
 
     public boolean isPrimaryKey() {
-        return isPrimaryKey;
+        return primaryKey;
     }
 
+    @JsonbTransient
     public boolean isRequired() {
         return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 
     public boolean isMulti() {
         return multi;
     }
 
-    public Entity getRelation() {
-        return relation;
-    }
-
-    public List<KeyValue> getProperty() {
-        return property;
-    }
-
-    public String getProperty(String key) {
-        for (KeyValue keyValue : property) {
-            if (keyValue.getKey().equals(key)) {
-                return keyValue.getValue();
-            }
-        }
-        return null;
-    }
-    
-        public String getProperty(String key, String defaultValue) {
-        for (KeyValue keyValue : property) {
-            if (keyValue.getKey().equals(key)) {
-                return keyValue.getValue() == null ? defaultValue : keyValue.getValue();
-            }
-        }
-        return defaultValue;
-    }
-    
+    @JsonbTransient
     public String getToolTipText() {
-        return getProperty("tooltip", "");
+        return tooltip;
     }
 
+    @JsonbTransient
     public boolean isToolTip() {
-        return !getToolTipText().trim().isEmpty();
+        return getToolTipText() != null && !getToolTipText().trim().isEmpty();
     }
 
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+    }
+
+    @JsonbTransient
+    public String getHtmlLabel() {
+        return htmlLabel;
+    }
+
+    public void setHtmlLabel(String htmllabel) {
+        this.htmlLabel = htmllabel;
+    }
+
+    @JsonbTransient
+    public Boolean isDisplay() {
+        return display;
+    }
+
+    public void setDisplay(Boolean display) {
+        this.display = display;
+    }
+
+    @JsonbTransient
     public List<String> getImports() {
+        List<String> _import = new ArrayList<>();
+        if (type.equals("LocalDate")) {
+            _import.add(LOCAL_DATE);
+        } else if (type.equals("LocalDateTime")) {
+            _import.add(LOCAL_DATE_TIME);
+        }
         return _import;
     }
 
-    public boolean addImport(String e) {
-        return _import.add(e);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean removeImport(String o) {
-        return _import.remove(o);
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setPrimaryKey(boolean isPrimaryKey) {
+        this.primaryKey = isPrimaryKey;
+    }
+
+    public void setMulti(boolean multi) {
+        this.multi = multi;
     }
 
     @Override
     public String toString() {
-        return "\n\t\tAttribute{name=" + name + ", type=" + type + ", isPrimaryKey=" + isPrimaryKey + ", property=" + property + '}';
+        return "\n\t\tAttribute{name=" + name + ", type=" + type + ", isPrimaryKey=" + primaryKey + '}';
     }
 
 }
