@@ -1,52 +1,52 @@
 erDiagram
-    MEMBER ||--o{ MEMBERSHIP : registers		%%{ MEMBER[memberships],MEMBERSHIP[member] }%%
-    MEMBER {						%%{ icon[person],title[Membership Management System],description[A system for managing membership registrations and benefits. Track members, subscriptions, and privileges efficiently.] }%%
-        int memberId PK					%%{ htmllabel[Member ID],required[true] }%%
-        string name					%%{ display[true],required[true],tooltip[Member's name] }%%
-        string email					%%{ tooltip[Member's email address] }%%
-        date joinDate					%%{ tooltip[Date of membership registration] }%%
+    MEMBER ||--o{ MEMBERSHIP : registers
+    MEMBER {
+        int memberId PK
+        string name
+        string email
+        date joinDate
     }
-    MEMBERSHIP ||--o{ SUBSCRIPTION : includes           %%{ MEMBERSHIP[subscriptions],SUBSCRIPTION[membership] }%%
-    MEMBERSHIP {					%%{ icon[card],title[Membership],description[Manage membership subscriptions and benefits.] }%%
-        int membershipId PK				%%{ display[true] }%%
-        string type					%%{ tooltip[Type of membership] }%%
-        date startDate					%%{ tooltip[Start date of membership] }%%
-        date endDate					%%{ tooltip[End date of membership] }%%
+    MEMBERSHIP ||--o{ SUBSCRIPTION : includes
+    MEMBERSHIP {
+        int membershipId PK
+        string type
+        date startDate
+        date endDate
     }
-    SUBSCRIPTION {					%%{ icon[subscription],title[Subscription],description[View and manage subscription details.] }%%		
+    SUBSCRIPTION {		
         int subscriptionId PK					
-        float price					%%{ display[true],tooltip[Subscription price] }%%
-        string status					%%{ tooltip[Subscription status] }%%
+        float price
+        string status
     }
-    BENEFIT ||--o{ MEMBERSHIP : offers                  %%{ BENEFIT[memberships],MEMBERSHIP[benefits] }%%
-    BENEFIT {						%%{ icon[star],title[Benefit],description[Manage membership benefits and privileges.] }%%      
+    BENEFIT ||--o{ MEMBERSHIP : offers
+    BENEFIT {      
         int benefitId PK					
-        string name					%%{ display[true],required[true],tooltip[Benefit name] }%%
-        string description				%%{ tooltip[Benefit description] }%%
+        string name
+        string description
     }
-    EVENT ||--o{ MEMBERSHIP : hosts                     %%{ EVENT[memberships],MEMBERSHIP[event] }%%
-    EVENT {						%%{ icon[event],title[Event],description[Organize and manage events for members.] }%%      
+    EVENT ||--o{ MEMBERSHIP : hosts
+    EVENT {      
         int eventId PK					
-        string name					%%{ display[true],required[true],tooltip[Event name] }%%
-        date date					%%{ tooltip[Event date] }%%
-        string location                                 %%{ tooltip[Event location] }%%
+        string name
+        date date
+        string location
     }
-    NOTIFICATION ||--o{ MEMBER : sends                  %%{ NOTIFICATION[members],MEMBER[notifications] }%%
-    NOTIFICATION {					%%{ icon[notification],title[Notification],description[Send notifications to members.] }%%      
+    NOTIFICATION ||--o{ MEMBER : sends
+    NOTIFICATION {      
         int notificationId PK					
-        string content                                  %%{ display[true],required[true],tooltip[Notification content] }%%
-        date sentDate                                   %%{ tooltip[Date of notification sent] }%%
+        string content
+        date sentDate
     }
-    PAYMENT ||--o{ MEMBERSHIP : processes               %%{ PAYMENT[memberships],MEMBERSHIP[payment] }%%
-    PAYMENT {						%%{ icon[cash],title[Payment],description[Process payments related to memberships.] }%%      
+    PAYMENT ||--o{ MEMBERSHIP : processes
+    PAYMENT {      
         int paymentId PK					
-        float amount					%%{ display[true],tooltip[Payment amount] }%%
-        date paymentDate				%%{ tooltip[Date of payment] }%%
+        float amount
+        date paymentDate
     }
-    ADMIN ||--o{ MEMBERSHIP : manages                   %%{ ADMIN[memberships],MEMBERSHIP[admin] }%%
-    ADMIN {						%%{ icon[admin],title[Admin],description[Manage membership system administration and settings.] }%%      
+    ADMIN ||--o{ MEMBERSHIP : manages
+    ADMIN {      
         int adminId PK					
-        string name					%%{ display[true],required[true],tooltip[Admin's name] }%%
-        string role					%%{ tooltip[Admin's role] }%%
+        string name
+        string role
     }
 %%{ icon[card],title[Membership Management System],home-page-description[A system for managing membership registrations and benefits. Track members, subscriptions, and privileges efficiently.],about-us-page-description[Explore our membership management system and discover exclusive benefits for our members. Connect with other members and stay updated with our events and notifications.],menu[Home, Memberships, Benefits, About Us, Contact

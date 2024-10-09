@@ -1,19 +1,18 @@
 erDiagram					
-    USER ||--o{ PLAYLIST : creates		%%{ USER[playlists],PLAYLIST[user] }%%
-    USER {					%%{ icon[person],title[Music Streaming Platform],description[A platform for streaming music online. Discover new tracks, create playlists, and enjoy your favorite tunes.] }%%
-        string userId	PK                    %%{ htmllabel[User ID],required[true] }%%
-        string username		%%{ display[true],required[true],tooltip[Username for login] }%%
-        string email		%%{ tooltip[User's email address] }%%
+    USER ||--o{ PLAYLIST : creates
+    USER {
+        string userId	PK
+        string username
+        string email
     }
-    PLAYLIST ||--|{ SONG : contains		%%{ PLAYLIST[songs],SONG[playlist] }%%
-    PLAYLIST {					%%{ icon[music-note],title[Playlist],description[Create and manage your playlists. Add your favorite songs and organize them your way.] }%%
-        int playlistId PK			%%{ display[true] }%%
-        string title			%%{ tooltip[Playlist title] }%%
+    PLAYLIST ||--|{ SONG : contains
+    PLAYLIST {
+        int playlistId PK
+        string title
     }
-    SONG {					%%{ icon[music],title[Song],description[Individual songs available for streaming. Listen to your favorite tracks anytime, anywhere.] }%%		
+    SONG {		
         string songId PK					
-        string title			%%{ display[true],required[true],tooltip[Song title] }%%
-        string artist			%%{ tooltip[Artist name] }%%
-        string genre			%%{ tooltip[Genre of the song] }%%
-    }
-%%{ icon[music],title[Music Streaming Platform],home-page-description[A platform for streaming music online. Discover new tracks, create playlists, and enjoy your favorite tunes.],about-us-page-description[Explore our music streaming platform and enjoy a wide range of songs from various genres. Connect with fellow music enthusiasts and share your favorite playlists.],menu[Home, Discover, Playlists, About Us, Contact Us] }%%	
+        string title
+        string artist
+        string genre
+    }	
