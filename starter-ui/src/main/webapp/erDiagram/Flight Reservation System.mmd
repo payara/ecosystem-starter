@@ -1,41 +1,40 @@
 erDiagram
-    AIRLINE ||--o{ FLIGHT : "operates"                  %%{ AIRLINE[flights],FLIGHT[airline] }%%
-    AIRLINE {						%%{ icon[airline],title[Airline],description[Manage airline information and flight operations.] }%%      
+    AIRLINE ||--o{ FLIGHT : "operates"
+    AIRLINE {      
         int airlineId PK					
-        string name					%%{ display[true],required[true],tooltip[Airline name] }%%
-        string country					%%{ tooltip[Country of origin] }%%
-        string headquarters				%%{ tooltip[Headquarters location] }%%
-        string website					%%{ tooltip[Airline website] }%%
+        string name
+        string country
+        string headquarters
+        string website
     }
-    FLIGHT ||--o{ RESERVATION : "reserved on"           %%{ FLIGHT[reservations],RESERVATION[flight] }%%
-    FLIGHT {						%%{ icon[flight],title[Flight],description[Manage flight schedules and details.] }%%      
+    FLIGHT ||--o{ RESERVATION : "reserved on"
+    FLIGHT {      
         int flightId PK					
-        string flightNumber				%%{ display[true],required[true],tooltip[Flight number] }%%
-        string origin					%%{ tooltip[Flight origin] }%%
-        string destination				%%{ tooltip[Flight destination] }%%
-        date departureDate				%%{ tooltip[Departure date] }%%
-        date arrivalDate				%%{ tooltip[Arrival date] }%%
-        float price					%%{ tooltip[Flight price] }%%
+        string flightNumber
+        string origin
+        string destination
+        date departureDate
+        date arrivalDate
+        float price
     }
-    PASSENGER ||--o{ RESERVATION : "books"              %%{ PASSENGER[reservations],RESERVATION[passenger] }%%
-    PASSENGER {						%%{ icon[passenger],title[Passenger],description[Manage passenger information and bookings.] }%%      
+    PASSENGER ||--o{ RESERVATION : "books"
+    PASSENGER {      
         int passengerId PK					
-        string name					%%{ display[true],required[true],tooltip[Passenger's name] }%%
-        string email					%%{ tooltip[Passenger's email address] }%%
-        string phone					%%{ tooltip[Passenger's phone number] }%%
-        string nationality				%%{ tooltip[Passenger's nationality] }%%
+        string name
+        string email
+        string phone
+        string nationality
     }
-    RESERVATION {					%%{ icon[reservations],title[Reservation],description[Manage flight reservations and booking details.] }%%      
+    RESERVATION {      
         int reservationId PK					
-        date bookingDate				%%{ display[true],required[true],tooltip[Booking date] }%%
-        string status					%%{ tooltip[Reservation status] }%%
+        date bookingDate
+        string status
     }
-    PAYMENT ||--o{ RESERVATION : "confirms"             %%{ PAYMENT[reservations],RESERVATION[payments] }%%
-    PAYMENT {						%%{ icon[payment],title[Payment],description[Manage payment transactions for flight reservations.] }%%      
+    PAYMENT ||--o{ RESERVATION : "confirms"
+    PAYMENT {      
         int paymentId PK					
-        float amount					%%{ display[true],required[true],tooltip[Payment amount] }%%
-        date paymentDate				%%{ tooltip[Payment date] }%%
-        string method					%%{ tooltip[Payment method] }%%
-    }
-%%{ icon[flight],title[Flight Reservation System],home-page-description[Manage flight schedules and reservations efficiently. Track flight details and passenger reservations.],about-us-page-description[Explore our flight reservation system and book flights with ease. Manage reservations, passengers, and payments seamlessly.],menu[Home, Flights, Reservations, Passengers, Reports, About Us, Contact Us] }%%	
+        float amount
+        date paymentDate
+        string method
+    }	
 

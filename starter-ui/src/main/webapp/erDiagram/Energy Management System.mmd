@@ -1,44 +1,43 @@
 erDiagram
-    UTILITY ||--o{ METER : owns                 %%{ UTILITY[meters],METER[utility] }%%
-    UTILITY {					%%{ icon[lightning-bolt],title[Energy Management System],description[A system for managing energy consumption and utilities. Track meters, usage, and billing efficiently.] }%%
-        int utilityId PK			%%{ htmllabel[Utility ID] }%%
-        string name				%%{ display[true],required[true],tooltip[Utility name] }%%
-        string location                         %%{ tooltip[Utility location] }%%
+    UTILITY ||--o{ METER : owns
+    UTILITY {
+        int utilityId PK
+        string name
+        string location
     }
-    METER ||--o{ USAGE : records		%%{ METER[usage],USAGE[meter] }%%
-    METER {					%%{ icon[meter],title[Meter],description[Manage energy meters and track usage data.] }%%
-        int meterId PK				%%{ display[true] }%%
-        string type				%%{ tooltip[Meter type] }%%
-        string serialNumber			%%{ tooltip[Meter serial number] }%%
+    METER ||--o{ USAGE : records
+    METER {
+        int meterId PK
+        string type
+        string serialNumber
     }
-    USAGE ||--o{ BILLING : generates		%%{ USAGE[billings],BILLING[usage] }%%
-    USAGE {					%%{ icon[chart],title[Usage],description[Record energy usage data and analyze consumption patterns.] }%%
-        int usageId PK				%%{ display[true] }%%
-        float amount				%%{ tooltip[Usage amount] }%%
-        date dateRecorded			%%{ tooltip[Date of usage recording] }%%
+    USAGE ||--o{ BILLING : generates
+    USAGE {
+        int usageId PK
+        float amount
+        date dateRecorded
     }
-    BILLING {					%%{ icon[dollar-sign],title[Billing],description[Generate bills and manage energy billing cycles.] }%%		
+    BILLING {		
         int billingId PK					
-        float amount				%%{ display[true],tooltip[Billing amount] }%%
-        date dueDate				%%{ tooltip[Due date for payment] }%%
+        float amount
+        date dueDate
     }
-    PROVIDER ||--o{ UTILITY : supplies		%%{ PROVIDER[utilities],UTILITY[provider] }%%
-    PROVIDER {					%%{ icon[provider],title[Provider],description[Manage utility providers and supply contracts.] }%%      
+    PROVIDER ||--o{ UTILITY : supplies
+    PROVIDER {      
         int providerId PK					
-        string name				%%{ display[true],required[true],tooltip[Provider name] }%%
-        string contactInfo			%%{ tooltip[Provider contact information] }%%
+        string name
+        string contactInfo
     }
-    CUSTOMER ||--o{ USAGE : consumes		%%{ CUSTOMER[usage],USAGE[customer] }%%
-    CUSTOMER {					%%{ icon[customer],title[Customer],description[Manage energy customers and consumption data.] }%%      
+    CUSTOMER ||--o{ USAGE : consumes
+    CUSTOMER {      
         int customerId PK					
-        string name				%%{ display[true],required[true],tooltip[Customer name] }%%
-        string address				%%{ tooltip[Customer address] }%%
+        string name
+        string address
     }
-    ALERT ||--o{ USAGE : triggers		%%{ ALERT[usage],USAGE[alert] }%%
-    ALERT {					%%{ icon[alert],title[Alert],description[Set up alerts for unusual energy consumption patterns.] }%%      
+    ALERT ||--o{ USAGE : triggers
+    ALERT {      
         int alertId PK					
-        string description			%%{ display[true],required[true],tooltip[Alert description] }%%
-        date dateTriggered			%%{ tooltip[Date of alert triggered] }%%
+        string description
+        date dateTriggered
     }
-%%{ icon[lightning-bolt],title[Energy Management System],home-page-description[A system for managing energy consumption and utilities. Track meters, usage, and billing efficiently.],about-us-page-description[Explore our energy management system and optimize your energy consumption. Connect with utility providers and monitor your usage in real-time.],menu[Home, Meters, Usage, Billing, About Us, Contact Us] }%%
 

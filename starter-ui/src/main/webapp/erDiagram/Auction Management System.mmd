@@ -1,42 +1,41 @@
 erDiagram
-    AUCTION ||--o{ ITEM : contains	%%{ AUCTION[items],ITEM[auction] }%%
-    AUCTION {						%%{ icon[auction],title[Auction Management System],description[Manage auctions and bidding processes efficiently. Track auction details, items, and bids.] }%%      
+    AUCTION ||--o{ ITEM : contains
+    AUCTION {      
         int auctionId PK					
-        string name					%%{ display[true],required[true],tooltip[Auction name] }%%
-        date startDate					%%{ tooltip[Auction start date] }%%
-        date endDate					%%{ tooltip[Auction end date] }%%
-        string status					%%{ tooltip[Auction status] }%%
+        string name
+        date startDate
+        date endDate
+        string status
     }
-    ITEM {							%%{ icon[item],title[Item],description[Manage auction items and product listings.] }%%      
+    ITEM {      
         int itemId PK					
-        string name					%%{ display[true],required[true],tooltip[Item name] }%%
-        string description				%%{ tooltip[Item description] }%%
-        float startingPrice				%%{ tooltip[Starting price] }%%
-        string category				%%{ tooltip[Item category] }%%
+        string name
+        string description
+        float startingPrice
+        string category
     }
-    BIDDER ||--o{ BID : places			%%{ BIDDER[bids],BID[bidder] }%%
-    BIDDER {						%%{ icon[bidder],title[Bidder],description[Manage bidder information and bidding activity.] }%%      
+    BIDDER ||--o{ BID : places
+    BIDDER {      
         int bidderId PK					
-        string name					%%{ display[true],required[true],tooltip[Bidder's name] }%%
-        string email					%%{ tooltip[Bidder's email address] }%%
-        string phone					%%{ tooltip[Bidder's phone number] }%%
+        string name
+        string email
+        string phone
     }
-    BID {							%%{ icon[bid],title[Bid],description[Track bidding activity and auction bids.] }%%      
+    BID {      
         int bidId PK					
-        float amount					%%{ display[true],required[true],tooltip[Bid amount] }%%
-        date bidTime					%%{ tooltip[Bid time] }%%
+        float amount
+        date bidTime
     }
-    PAYMENT ||--o{ BID : makes			%%{ PAYMENT[bids],BID[payments] }%%
-    PAYMENT {						%%{ icon[payment],title[Payment],description[Manage payment transactions for bids.] }%%      
+    PAYMENT ||--o{ BID : makes
+    PAYMENT {      
         int paymentId PK					
-        float amount					%%{ display[true],required[true],tooltip[Payment amount] }%%
-        date paymentDate				%%{ tooltip[Payment date] }%%
-        string method					%%{ tooltip[Payment method] }%%
+        float amount
+        date paymentDate
+        string method
     }
-    SHIPPING ||--o{ ITEM : delivers		%%{ SHIPPING[items],ITEM[shipping] }%%
-    SHIPPING {						%%{ icon[shipping],title[Shipping],description[Manage shipping and delivery for auction items.] }%%      
+    SHIPPING ||--o{ ITEM : delivers
+    SHIPPING {      
         int shippingId PK					
-        date deliveryDate				%%{ display[true],required[true],tooltip[Delivery date] }%%
-        string trackingNumber			%%{ tooltip[Tracking number] }%%
-    }
-%%{ icon[auction],title[Auction Management System],home-page-description[Manage auctions and bidding processes efficiently. Track auction details, items, and bids.],about-us-page-description[Explore our auction management system and streamline your auction operations. Manage items, bidders, and bids seamlessly.],menu[Home, Auctions, Items, Bidders, Reports, About Us, Contact Us] }%%	
+        date deliveryDate
+        string trackingNumber
+    }	

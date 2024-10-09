@@ -1,50 +1,49 @@
 erDiagram
-    POLICYHOLDER ||--o{ POLICY : owns		%%{ POLICYHOLDER[policies],POLICY[holder] }%%
-    POLICYHOLDER {					%%{ icon[person],title[Insurance Claim Management System],description[A system for managing insurance policies and claims. Track policyholders, policies, and claims efficiently.] }%%
-        int policyholderId PK			%%{ htmllabel[Policyholder ID],required[true] }%%
-        string name				%%{ display[true],required[true],tooltip[Policyholder's name] }%%
-        string email				%%{ tooltip[Policyholder's email address] }%%
+    POLICYHOLDER ||--o{ POLICY : owns
+    POLICYHOLDER {
+        int policyholderId PK
+        string name
+        string email
     }
-    POLICY ||--o{ CLAIM : covers		%%{ POLICY[claims],CLAIM[policy] }%%
-    POLICY {					%%{ icon[shield-check],title[Policy],description[Manage insurance policies and associated claims.] }%%
-        int policyId PK				%%{ display[true] }%%
-        string type				%%{ tooltip[Type of insurance policy] }%%
-        date startDate				%%{ tooltip[Start date of policy coverage] }%%
-        date endDate				%%{ tooltip[End date of policy coverage] }%%
+    POLICY ||--o{ CLAIM : covers
+    POLICY {
+        int policyId PK
+        string type
+        date startDate
+        date endDate
     }
-    CLAIM ||--o{ DOCUMENT : includes		%%{ CLAIM[documents],DOCUMENT[claim] }%%
-    CLAIM {						%%{ icon[file-text],title[Claim],description[Process and manage insurance claims submitted by policyholders.] }%%
-        int claimId PK				%%{ display[true] }%%
-        string status				%%{ tooltip[Claim status] }%%
-        date dateOfLoss				%%{ tooltip[Date of loss or incident] }%%
+    CLAIM ||--o{ DOCUMENT : includes
+    CLAIM {
+        int claimId PK
+        string status
+        date dateOfLoss
     }
-    DOCUMENT {					%%{ icon[file],title[Document],description[View and manage documents related to insurance claims.] }%%      
+    DOCUMENT {      
         int documentId PK					
-        string type				%%{ display[true],required[true],tooltip[Type of document] }%%
-        string url				%%{ tooltip[Document URL] }%%
+        string type
+        string url
     }
-    INSURER ||--o{ CLAIM : processes		%%{ INSURER[claims],CLAIM[insurer] }%%
-    INSURER {						%%{ icon[person],title[Insurer],description[Manage insurer profiles and claim processing.] }%%      
+    INSURER ||--o{ CLAIM : processes
+    INSURER {      
         int insurerId PK					
-        string name				%%{ display[true],required[true],tooltip[Insurer's name] }%%
-        string email				%%{ tooltip[Insurer's email address] }%%
+        string name
+        string email
     }
-    PAYMENT ||--o{ CLAIM : processes		%%{ PAYMENT[claims],CLAIM[payment] }%%
-    PAYMENT {						%%{ icon[cash],title[Payment],description[Manage payments related to insurance claims.] }%%      
+    PAYMENT ||--o{ CLAIM : processes
+    PAYMENT {      
         int paymentId PK					
-        float amount				%%{ display[true],tooltip[Payment amount] }%%
-        date date				%%{ tooltip[Payment date] }%%
+        float amount
+        date date
     }
-    ADJUSTER ||--|{ CLAIM : assesses		%%{ ADJUSTER[claims],CLAIM[adjuster] }%%
-    ADJUSTER {						%%{ icon[worker],title[Claims Adjuster],description[Assess and evaluate insurance claims.] }%%      
+    ADJUSTER ||--|{ CLAIM : assesses
+    ADJUSTER {      
         int adjusterId PK					
-        string name				%%{ display[true],required[true],tooltip[Adjuster's name] }%%
-        string department			%%{ tooltip[Adjuster's department] }%%
+        string name
+        string department
     }
-    WITNESS ||--o{ CLAIM : provides		%%{ WITNESS[claims],CLAIM[witness] }%%
-    WITNESS {						%%{ icon[eye],title[Witness],description[Provide witness testimony for insurance claims.] }%%      
+    WITNESS ||--o{ CLAIM : provides
+    WITNESS {      
         int witnessId PK					
-        string name				%%{ display[true],required[true],tooltip[Witness's name] }%%
-        string statement			%%{ tooltip[Witness statement] }%%
-    }
-%%{ icon[shield-check],title[Insurance Claim Management System],home-page-description[A system for managing insurance policies and claims. Track policyholders, policies, and claims efficiently.],about-us-page-description[Explore our insurance claim management system and streamline your insurance processes. Connect with policyholders, insurers, and adjusters seamlessly.],menu[Home, Policies, Claims, About Us, Contact Us] }%%	
+        string name
+        string statement
+    }	
