@@ -136,11 +136,10 @@ public class ApplicationGenerator {
                 if (erModel != null && !erModel.getEntities().isEmpty()) {
                     Jsonb jsonb = JsonbBuilder.create();
                     String jsonString = jsonb.toJson(erModel);
+                    LOGGER.info("Generating web components info from AI.");
                     String outputJson = langChainChatService.addFronEndDetailsToERDiagram(jsonString);
                     if (outputJson != null && !outputJson.isEmpty()) {
                         String updatedJson = outputJson.strip().replaceAll("^```json|```$", "");
-                        // convert json to ERModel
-                        
                         erModel = jsonb.fromJson(updatedJson, ERModel.class);
                     }
                     CRUDAppGenerator generator = new CRUDAppGenerator(erModel,
