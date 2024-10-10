@@ -1,7 +1,9 @@
 
 import org.apache.commons.io.FileUtils
-import groovy.text.SimpleTemplateEngine
-import groovy.io.FileType
+
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Path
 
 def build = request.properties["build"].trim()
 def _package = request.properties["package"].trim()
@@ -136,47 +138,39 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     }
 }
 
-private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, File outputDirectory) {
-    def eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
+static void bindEEPackage(String jakartaEEVersion,  String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, File outputDirectory) throws IOException {
+    String eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
     println "Binding EE package: $eePackage"
 
     def binding = [eePackage: eePackage, \
         'mpConfig': mpConfig.toBoolean(), 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean(),
-        'formAuthFileRealm': auth.equals("formAuthFileRealm"),
-        'formAuthDB': auth.equals("formAuthDB"),
-        'formAuthLDAP': auth.equals("formAuthLDAP")
+                   'formAuthFileRealm': auth.equals("formAuthFileRealm"),
+                   'formAuthDB': auth.equals("formAuthDB"),
+                   'formAuthLDAP': auth.equals("formAuthLDAP")
     ]
-    def engine = new SimpleTemplateEngine()
 
-    outputDirectory.eachFileRecurse(FileType.FILES) { file ->
-        if (shouldProcessFile(file)) {
-            processFile(file, engine, binding)
-        }
+    File[] files = outputDirectory.listFiles()
+    if (files != null) {
+        files.each {file -> traverseFiles(file, binding)}
     }
 }
 
-private boolean shouldProcessFile(File file) {
-    def excludedFileNames = [
-        "pom.xml",
-        "arquillian.xml",
-        "mvnw",
-        "mvnw.cmd",
-        "maven-wrapper.properties",
-        "gradlew",
-        "gradlew.bat",
-        "gradle-wrapper.jar",
-        "gradle-wrapper.properties"
-    ]
-    !excludedFileNames.any { fileName -> file.path.endsWith(fileName) }
+private static void traverseFiles(File file, Map binding) throws IOException {
+    if (file.isDirectory()) {
+        File[] files = file.listFiles()
+        if (files != null) {
+            files.each { subFile ->
+                traverseFiles(subFile, binding)
+            }
+        }
+    } else if (file.isFile() && file.getName().matches(".*\\.(xml|java)") && !file.getName().endsWith("pom.xml")) {
+        processFile(file, binding)
+    }
 }
 
-private void processFile(File file, SimpleTemplateEngine engine, Map binding) {
-    file.withReader('UTF-8') { reader ->
-        try {
-            def template = engine.createTemplate(reader).make(binding)
-            file.text = template.toString()
-        } catch (ex) {
-            println "Error processing ${file.name}: $ex"
-        }
-    }
+private static void processFile(File file, Map binding) throws IOException {
+    Path filePath = file.toPath()
+    String content = new String(Files.readAllBytes(filePath), StandardCharsets.UTF_8)
+    binding.each {key,value -> content = content.replaceAll('\\$\\{'+ key + '}', value.toString())}
+    Files.write(filePath, content.getBytes(StandardCharsets.UTF_8))
 }
