@@ -110,7 +110,6 @@ form.addEventListener('submit', function (event) {
             jsonObject[key] = input.value;
             if(input.id == 'erDiagram' && !$("#mermaidErDiagramList").val()) {
                  jsonObject[key] = '';
-                 debugger;
             }
         }
     });
