@@ -138,6 +138,13 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <defaultValue>none</defaultValue>
             <validationRegex>^(none|formAuthFileRealm|formAuthDB|formAuthLDAP)$</validationRegex>
         </requiredProperty>
+        <requiredProperty key="erDiagram">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
+        <requiredProperty key="erDiagramName">
+            <defaultValue></defaultValue>
+        </requiredProperty>
     </requiredProperties>
     
     <fileSets>

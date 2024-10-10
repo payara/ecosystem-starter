@@ -19,6 +19,7 @@ import static fish.payara.starter.application.util.StringHelper.firstUpper;
 import static fish.payara.starter.application.util.StringHelper.pluralize;
 import static fish.payara.starter.application.util.StringHelper.startCase;
 import static fish.payara.starter.application.util.StringHelper.titleCase;
+import jakarta.json.bind.annotation.JsonbTransient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,57 +29,74 @@ import java.util.List;
  */
 public class Entity {
 
-    public String name;
-    private final List<Attribute> attributes = new ArrayList<>();
-    private final List<KeyValue> property;
+    private String name;
+    private List<Attribute> attributes = new ArrayList<>();
+    private String icon = "circle";
+    private String title;
+    private String description = "";
 
-    public Entity(String name, List<KeyValue> property) {
+    public Entity() {
+    }
+    
+    public Entity(String name) {
         this.name = name;
-        this.property = property;
     }
 
     public String getName() {
         return name;
     }
 
+    @JsonbTransient
     public String getStartCaseName() {
         return startCase(name);
     }
 
+    @JsonbTransient
     public String getLowerCaseName() {
         return name.toLowerCase();
     }
 
+    @JsonbTransient
     public String getTitleCaseName() {
         return titleCase(name);
     }
 
+    @JsonbTransient
     public String getLowerCasePluralizeName() {
         return pluralize(name.toLowerCase());
     }
 
+    @JsonbTransient
     public String getTitleCasePluralizeName() {
-        return getProperty("title", pluralize(titleCase(name)));
+        return pluralize(getTitle());
     }
 
     public List<Attribute> getAttributes() {
         return attributes;
     }
 
+    public void setAttributes(List<Attribute> attributes) {
+        this.attributes = attributes;
+    }
+
+    @JsonbTransient
     public String getPrimaryKeyType() {
         return attributes.stream().filter(a -> a.isPrimaryKey()).map(a -> a.getType()).findFirst().orElse("Long");
     }
 
+    @JsonbTransient
     public String getPrimaryKeyName() {
         return attributes.stream().filter(a -> a.isPrimaryKey()).map(a -> a.getName()).findFirst().orElse(null);
     }
 
+    @JsonbTransient
     public String getPrimaryKeyFirstUpperName() {
         return firstUpper(getPrimaryKeyName());
     }
-
+    
+    @JsonbTransient
     public String getDisplayName() {
-        String displayName = attributes.stream().filter(a -> Boolean.valueOf(a.getProperty("display"))).map(a -> a.getName()).findFirst().orElse(null);
+        String displayName = attributes.stream().filter(a -> a.isDisplay() != null && a.isDisplay()).map(a -> a.getName()).findFirst().orElse(null);
         if(displayName == null) {
             displayName = attributes.stream().filter(a -> !a.isPrimaryKey()).map(a -> a.getName()).findFirst().orElse(null);
 
@@ -90,43 +108,45 @@ public class Entity {
         attributes.add(attribute);
     }
 
-    public List<KeyValue> getProperty() {
-        return property;
-    }
-
-    public KeyValue getProperty(String key) {
-        for (KeyValue keyValue : property) {
-            if (keyValue.getKey().equals(key)) {
-                return keyValue;
-            }
-        }
-        return null;
-    }
-
-    public String getProperty(String key, String defaultValue) {
-        for (KeyValue keyValue : property) {
-            if (keyValue.getKey().equals(key)) {
-                return keyValue.getValue() == null ? defaultValue : keyValue.getValue();
-            }
-        }
-        return defaultValue;
-    }
-
+    @JsonbTransient
     public String getIcon() {
-        return getProperty("icon", "circle");
+        return icon;
     }
 
-    public String getTitle() {
-        return getProperty("title", titleCase(name));
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
+    @JsonbTransient
     public String getDescription() {
-        return getProperty("description", "");
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @JsonbTransient
+    public String getTitle() {
+        return getTitle(titleCase(name));
+    }
+    
+    @JsonbTransient
+    public String getTitle(String defaultValue) {
+        return title != null ? title : defaultValue;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "\n\tEntity{" + "name=" + name + ", attributes=" + attributes + ", property=\n\t\t" + property + '}';
+        return "\n\tEntity{" + "name=" + name + ", attributes=" + attributes + '}';
     }
 
 }

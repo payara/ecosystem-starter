@@ -1,45 +1,44 @@
 erDiagram
-    CASE ||--o{ TASK : has	%%{ CASE[tasks],TASK[case] }%%
-    CASE {						%%{ icon[case],title[Legal Case Management System],description[Manage legal cases and tasks efficiently. Track case details, tasks, and deadlines.] }%%      
+    CASE ||--o{ TASK : has
+    CASE {      
         int caseId PK					
-        string name					%%{ display[true],required[true],tooltip[Case name] }%%
-        date startDate					%%{ tooltip[Case start date] }%%
-        date endDate					%%{ tooltip[Case end date] }%%
-        string status					%%{ tooltip[Case status] }%%
-        string type					%%{ tooltip[Case type] }%%
+        string name
+        date startDate
+        date endDate
+        string status
+        string type
     }
-    TASK {						%%{ icon[task],title[Task],description[Manage tasks and deadlines for legal cases.] }%%      
+    TASK {      
         int taskId PK					
-        string description				%%{ display[true],required[true],tooltip[Task description] }%%
-        date deadline					%%{ tooltip[Task deadline] }%%
-        string status					%%{ tooltip[Task status] }%%
+        string description
+        date deadline
+        string status
     }
-    CLIENT ||--o{ CASE : hires		%%{ CLIENT[cases],CASE[client] }%%
-    CLIENT {						%%{ icon[client],title[Client],description[Manage client information and legal matters.] }%%      
+    CLIENT ||--o{ CASE : hires
+    CLIENT {      
         int clientId PK					
-        string name					%%{ display[true],required[true],tooltip[Client's name] }%%
-        string email					%%{ tooltip[Client's email address] }%%
-        string phone					%%{ tooltip[Client's phone number] }%%
+        string name
+        string email
+        string phone
     }
-    LAWYER ||--o{ CASE : handles	%%{ LAWYER[cases],CASE[lawyer] }%%
-    LAWYER {						%%{ icon[lawyer],title[Lawyer],description[Manage lawyer information and legal representation.] }%%      
+    LAWYER ||--o{ CASE : handles
+    LAWYER {      
         int lawyerId PK					
-        string name					%%{ display[true],required[true],tooltip[Lawyer's name] }%%
-        string email					%%{ tooltip[Lawyer's email address] }%%
-        string phone					%%{ tooltip[Lawyer's phone number] }%%
+        string name
+        string email
+        string phone
     }
-    DOCUMENT ||--o{ CASE : relates	%%{ DOCUMENT[cases],CASE[documents] }%%
-    DOCUMENT {						%%{ icon[document],title[Document],description[Manage legal documents and case-related files.] }%%      
+    DOCUMENT ||--o{ CASE : relates
+    DOCUMENT {      
         int documentId PK					
-        string name					%%{ display[true],required[true],tooltip[Document name] }%%
-        string type					%%{ tooltip[Document type] }%%
-        date uploadDate				%%{ tooltip[Upload date] }%%
+        string name
+        string type
+        date uploadDate
     }
-    HEARING ||--o{ CASE : schedules	%%{ HEARING[cases],CASE[hearings] }%%
-    HEARING {						%%{ icon[hearing],title[Hearing],description[Schedule hearings and court appearances for legal cases.] }%%      
+    HEARING ||--o{ CASE : schedules
+    HEARING {      
         int hearingId PK					
-        string location					%%{ display[true],required[true],tooltip[Hearing location] }%%
-        date dateTime					%%{ tooltip[Hearing date and time] }%%
-        string judge					%%{ tooltip[Presiding judge] }%%
-    }
-%%{ icon[case],title[Legal Case Management System],home-page-description[Manage legal cases and tasks efficiently. Track case details, tasks, and deadlines.],about-us-page-description[Explore our legal case management system and streamline your legal practice. Manage cases, tasks, and clients seamlessly.],menu[Home, Cases, Tasks, Clients, Lawyers, Reports, About Us, Contact Us] }%%	
+        string location
+        date dateTime
+        string judge
+    }	

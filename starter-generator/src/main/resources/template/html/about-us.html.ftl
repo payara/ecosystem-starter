@@ -15,5 +15,5 @@
 -->
 <div>
     <h2>About Us</h2>
-    <p>${model.getAboutUsDescription()}</p>
+    <p>${model.getAboutUsPageDescription()}</p>
 </div>

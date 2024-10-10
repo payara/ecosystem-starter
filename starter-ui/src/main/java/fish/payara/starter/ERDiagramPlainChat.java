@@ -244,4 +244,12 @@ Don't add anything else in the end after you respond with the erDiagram.
     """)
     String shrinkERDiagram(@UserMessage String erDiagram, @UserMessage String diagramName);
 
+    @SystemMessage("""
+    You are an API server that modifies the ER diagram as per the user's request.
+    Ensure that the existing diagram is updated instead of generating a new version.
+    Please update the diagram strictly in Mermaid 'erDiagram' format.
+    Respond only in Mermaid erDiagram format and the response adheres to valid Mermaid syntax.
+   """)
+    String updateERDiagram(@UserMessage String erDiagram, @UserMessage String userRequestToModifyTheDiagram);
+
 }

@@ -23,18 +23,21 @@ import java.util.List;
  */
 public class Relationship {
 
-    private final String firstEntity;
-    private final String secondEntity;
-    private final String relationshipType;
-    private final String relationshipLabel;
-    private final List<KeyValue> property;
+    private String firstEntity;
+    private String secondEntity;
+    private String relationshipType;
+    private String relationshipLabel;
+    private String relationshipVarNameInFirstEntity;
+    private String relationshipVarNameInSecondEntity;
 
-    public Relationship(String firstEntity, String secondEntity, String relationshipType, String relationshipLabel, List<KeyValue> property) {
+    public Relationship() {
+    }
+
+    public Relationship(String firstEntity, String secondEntity, String relationshipType, String relationshipLabel) {
         this.firstEntity = firstEntity;
         this.secondEntity = secondEntity;
         this.relationshipType = relationshipType;
         this.relationshipLabel = relationshipLabel;
-        this.property = property;
     }
 
     public String getFirstEntity() {
@@ -53,17 +56,36 @@ public class Relationship {
         return relationshipLabel;
     }
 
-    public List<KeyValue> getProperty() {
-        return property;
+    public String getRelationshipVarNameInFirstEntity() {
+        return relationshipVarNameInFirstEntity;
     }
 
-    public KeyValue getProperty(String key) {
-        for (KeyValue keyValue : property) {
-            if (keyValue.getKey().equals(key)) {
-                return keyValue;
-            }
-        }
-        return null;
+    public void setRelationshipVarNameInFirstEntity(String relationshipVarNameInFirstEntity) {
+        this.relationshipVarNameInFirstEntity = relationshipVarNameInFirstEntity;
+    }
+
+    public String getRelationshipVarNameInSecondEntity() {
+        return relationshipVarNameInSecondEntity;
+    }
+
+    public void setRelationshipVarNameInSecondEntity(String relationshipVarNameInSecondEntity) {
+        this.relationshipVarNameInSecondEntity = relationshipVarNameInSecondEntity;
+    }
+
+    public void setFirstEntity(String firstEntity) {
+        this.firstEntity = firstEntity;
+    }
+
+    public void setSecondEntity(String secondEntity) {
+        this.secondEntity = secondEntity;
+    }
+
+    public void setRelationshipType(String relationshipType) {
+        this.relationshipType = relationshipType;
+    }
+
+    public void setRelationshipLabel(String relationshipLabel) {
+        this.relationshipLabel = relationshipLabel;
     }
 
     @Override

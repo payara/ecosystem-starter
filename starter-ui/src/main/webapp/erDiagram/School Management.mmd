@@ -1,26 +1,25 @@
 erDiagram
-    STUDENT ||--o{ ENROLLMENT : enrolls         %%{ STUDENT[enrollments],ENROLLMENT[student] }%%
-    STUDENT {					%%{ icon[person],title[Student],description[Represents students in the school.] }%%
-        string studentID PK			%%{ required[true] }%%
-        string name				%%{ display[true],required[true] }%%
+    STUDENT ||--o{ ENROLLMENT : enrolls
+    STUDENT {
+        string studentID PK
+        string name
         string address
-        int age					%%{ required[true] }%%
+        int age
     }
-    ENROLLMENT ||--|{ COURSE : contains		%%{ ENROLLMENT[courses],COURSE[enrollments] }%%
-    ENROLLMENT {				%%{ icon[folder],title[Enrollment],description[Represents student enrollment in courses.] }%%
-        int enrollmentID PK			%%{ display[true],required[true] }%%
+    ENROLLMENT ||--|{ COURSE : contains
+    ENROLLMENT {
+        int enrollmentID PK
         string semester
     }
-    COURSE {					%%{ icon[book],title[Course],description[Represents courses offered in the school.] }%%
-        string courseCode PK			%%{ required[true] }%%
-        string courseName			%%{ display[true],required[true] }%%
-        int credits				%%{ required[true] }%%
+    COURSE {
+        string courseCode PK
+        string courseName
+        int credits
     }
-    TEACHER ||--o{ COURSE : teaches		%%{ TEACHER[teaches],COURSE[teacher] }%%
-    TEACHER {					%%{ icon[people],title[Teacher],description[Represents teachers in the school.] }%%
-        string teacherID PK			%%{ required[true] }%%
-        string name				%%{ display[true],required[true] }%%
+    TEACHER ||--o{ COURSE : teaches
+    TEACHER {
+        string teacherID PK
+        string name
         string specialization
     }
-%%{ icon[pin-map],title[School Management],home-page-description[Represents a school management system.],about-us-page-description[This system manages student enrollments, courses, and teachers.],menu[home, courses, teachers, about us, contact us] }%%
 

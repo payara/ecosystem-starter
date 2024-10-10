@@ -38,6 +38,7 @@
  */
 package fish.payara.starter.resources;
 
+import fish.payara.starter.LangChainChatService;
 import fish.payara.starter.application.domain.ERModel;
 import fish.payara.starter.application.generator.CRUDAppGenerator;
 import fish.payara.starter.application.generator.ERDiagramParser;
@@ -64,10 +65,12 @@ import jakarta.annotation.Resource;
 import jakarta.enterprise.concurrent.ManagedExecutorDefinition;
 import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -79,6 +82,9 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.apache.maven.cli.MavenCli;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbException;
 
 /**
  *
@@ -102,6 +108,9 @@ public class ApplicationGenerator {
     @Resource(name = "java:comp/DefaultManagedExecutorService")
     private ManagedExecutorService executorService;
 
+    @Inject
+    private LangChainChatService langChainChatService;
+
     public Future<File> generate(ApplicationConfiguration appProperties) {
         System.out.println("executorService " + executorService);
         return executorService.submit(() -> {
@@ -111,15 +120,29 @@ public class ApplicationGenerator {
                 workingDirectory.deleteOnExit();
                 LOGGER.log(Level.INFO, "Executing Maven Archetype from working directory: {0}", new Object[]{workingDirectory.getAbsolutePath()});
                 Properties properties = buildMavenProperties(appProperties);
+                ERModel erModel = null;
+                if (appProperties.getErDiagram() != null) {
+                    ERDiagramParser parser = new ERDiagramParser();
+                    erModel = parser.parse(appProperties.getErDiagram());
+                    if (erModel != null && !erModel.getEntities().isEmpty()) {
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM, true);
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM_NAME, appProperties.getErDiagramName());
+                    }
+                }
                 invokeMavenArchetype(ARCHETYPE_GROUP_ID, ARCHETYPE_ARTIFACT_ID, ARCHETYPE_VERSION,
                         properties, workingDirectory);
 
                 LOGGER.info("Creating a compressed application bundle.");
                 applicationDir = new File(workingDirectory, appProperties.getArtifactId());
-                if (appProperties.getErDiagram() != null) {
-                    ERDiagramParser parser = new ERDiagramParser();
-                    ERModel erModel = parser.parse(appProperties.getErDiagram());
-
+                if (erModel != null && !erModel.getEntities().isEmpty()) {
+                    Jsonb jsonb = JsonbBuilder.create();
+                    String jsonString = jsonb.toJson(erModel);
+                    LOGGER.info("Generating web components info from AI.");
+                    String outputJson = langChainChatService.addFronEndDetailsToERDiagram(jsonString);
+                    if (outputJson != null && !outputJson.isEmpty()) {
+                        String updatedJson = outputJson.strip().replaceAll("^```json|```$", "");
+                        erModel = jsonb.fromJson(updatedJson, ERModel.class);
+                    }
                     CRUDAppGenerator generator = new CRUDAppGenerator(erModel,
                             appProperties.getPackageName(),
                             appProperties.getJpaSubpackage(),
@@ -132,12 +155,14 @@ public class ApplicationGenerator {
                                 appProperties.isGenerateRepository(),
                                 appProperties.isGenerateRest(),
                                 appProperties.isGenerateWeb());
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
+                        LOGGER.log(Level.SEVERE, "Error generating application: {0}", e.getMessage());
                     }
                 }
                 return zipDirectory(applicationDir, workingDirectory);
-            } catch (IOException ie) {
+            } catch (Exception ie) {
+                ie.printStackTrace();
                 throw new RuntimeException("Failed to generate application.", ie);
             } finally {
                 if (applicationDir != null) {

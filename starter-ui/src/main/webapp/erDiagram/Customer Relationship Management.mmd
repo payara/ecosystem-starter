@@ -1,32 +1,31 @@
 erDiagram
-    CUSTOMER ||--o{ CONTACT : has               %%{ CUSTOMER[contacts],CONTACT[customer] }%%
-    CUSTOMER {					%%{ icon[people],title[Customer],description[Represents customers in the customer relationship management system.] }%%
-        int customerID PK			%%{ required[true] }%%
-        string name				%%{ display[true],required[true] }%%
+    CUSTOMER ||--o{ CONTACT : has
+    CUSTOMER {
+        int customerID PK
+        string name
         string email
         string phone
         string address
     }
-    CONTACT {					%%{ icon[envelope],title[Contact],description[Represents contacts associated with customers in the CRM system.] }%%
-        int contactID PK			%%{ required[true] }%%
-        string fullName				%%{ display[true],required[true] }%%
+    CONTACT {
+        int contactID PK
+        string fullName
         string email
         string phone
         string position
     }
-    OPPORTUNITY ||--o{ CUSTOMER : belongs_to	%%{ OPPORTUNITY[customer],CUSTOMER[opportunities] }%%
-    OPPORTUNITY {				%%{ icon[handshake],title[Opportunity],description[Represents sales opportunities associated with customers in the CRM system.] }%%
-        int opportunityID PK			%%{ required[true] }%%
-        string name				%%{ display[true],required[true] }%%
-        float amount				%%{ required[true] }%%
-        datetime closeDate			%%{ required[true] }%%
-        string stage				%%{ required[true] }%%
+    OPPORTUNITY ||--o{ CUSTOMER : belongs_to
+    OPPORTUNITY {
+        int opportunityID PK
+        string name
+        float amount
+        datetime closeDate
+        string stage
     }
-    TASK ||--o{ CUSTOMER : relates_to           %%{ TASK[customer],CUSTOMER[tasks] }%%
-    TASK {					%%{ icon[tasks],title[Task],description[Represents tasks associated with customers in the CRM system.] }%%
-        int taskID PK				%%{ required[true] }%%
-        string title				%%{ display[true],required[true] }%%
-        datetime dueDate			%%{ required[true] }%%
-        string status				%%{ required[true] }%%
+    TASK ||--o{ CUSTOMER : relates_to
+    TASK {
+        int taskID PK
+        string title
+        datetime dueDate
+        string status
     }
-%%{ icon[users],title[Customer Relationship Management],home-page-description[Represents a customer relationship management system managing customers, contacts, opportunities, and tasks.],about-us-page-description[This system helps in managing relationships with customers and tracking sales opportunities.],menu[home, customers, contacts, opportunities, tasks, about us, contact us] }%%

@@ -16,7 +16,6 @@
     </head>
     <body>
 
-
         <h1>Greetings from Payara!</h1>
         <p>
             Thank you for visiting <a href="https://www.payara.fish/">Payara</a>! We're thrilled to have you here. Payara is your go-to destination for all things Jakarta EE and Java enterprise applications.
@@ -24,13 +23,18 @@
         <p>
             <a href="https://www.payara.fish/"><img width="50%" src="images/payara-fish-logo.svg" alt="Payara Logo"></a>
         </p>
-
+        <% if (erDiagram) { %>
+        <h2>${erDiagramName} Home Page</h2>
+        <p>
+            To manage the ${erDiagramName}, visit the home page: 
+            <a href="main.html">Main Page</a>.
+        </p>
+        <% } %>
         <h2>RESTful Service</h2>
         <p>
             The REST end-point is available at <a href="resources/hello">resources/hello</a>.
             You can supply a name to the end-point using a query parameter like this: <a href="resources/hello?name=John">resources/hello?name=John</a>
         </p>
-
         <% if (formAuthFileRealm || formAuthDB || formAuthLDAP) { %>
         <h2>Secure Pages</h2>
         <p>
@@ -50,7 +54,6 @@
             <li><a href="resources/admin">Secured Admin Resource</a></li>
         </ul>
         <% } %>
-
         <% if (mpOpenAPI) { %>        
         <h2>API Documentation</h2>
         <p>

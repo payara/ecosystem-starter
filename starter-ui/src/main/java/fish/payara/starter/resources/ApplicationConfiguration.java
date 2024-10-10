@@ -73,6 +73,8 @@ public class ApplicationConfiguration {
     public static final String DEPLOY_WAR = "deployWar";
     public static final String CONTEXT_ROOT = "contextRoot";
     public static final String AUTH = "auth";
+    public static final String ER_DIAGRAM = "erDiagram";
+    public static final String ER_DIAGRAM_NAME = "erDiagramName";
 
     public static final String PAYARA_VERSION_6_2023_11 = "6.2023.11";
 
@@ -156,9 +158,13 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(AUTH)
     private String auth = "none";
-    
-    
+
+    @JsonbProperty(ER_DIAGRAM)
     private String erDiagram = null;
+
+    @JsonbProperty(ER_DIAGRAM_NAME)
+    private String erDiagramName = null;
+
     private boolean generateJPA = true;
     private boolean generateRepository = true;
     private boolean generateRest = true;
@@ -393,6 +399,14 @@ public class ApplicationConfiguration {
 
     public void setErDiagram(String erDiagram) {
         this.erDiagram = erDiagram;
+    }
+
+    public String getErDiagramName() {
+        return erDiagramName;
+    }
+
+    public void setErDiagramName(String erDiagramName) {
+        this.erDiagramName = erDiagramName;
     }
 
     public boolean isGenerateJPA() {

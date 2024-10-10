@@ -1,27 +1,26 @@
 erDiagram
-    BOOK ||--o{ LOAN : is		%%{ BOOK[loans],LOAN[book] }%%
-    BOOK {				%%{ icon[book],title[Book],description[Represents books available in the library.] }%%
-        string ISBN PK			%%{ required[true] }%%
-        string title			%%{ display[true],required[true] }%%
-        string author			%%{ required[true] }%%
-        int pages			%%{ required[true] }%%
+    BOOK ||--o{ LOAN : is
+    BOOK {
+        string ISBN PK
+        string title
+        string author
+        int pages
     }
-    LOAN {				%%{ icon[folder],title[Loan],description[Represents book loans to library patrons.] }%%
-        int loanID PK			%%{ required[true] }%%
-        datetime loanDate		%%{ display[true],required[true] }%%
+    LOAN {
+        int loanID PK
+        datetime loanDate
         datetime returnDate		
     }
-    PATRON ||--o{ LOAN : borrows	%%{ PATRON[loans],LOAN[patron] }%%
-    PATRON {				%%{ icon[person],title[Patron],description[Represents patrons of the library.] }%%
-        string patronID PK		%%{ required[true] }%%
-        string name			%%{ display[true],required[true] }%%
+    PATRON ||--o{ LOAN : borrows
+    PATRON {
+        string patronID PK
+        string name
         string address
         string email
     }
-    LIBRARIAN ||--o{ LOAN : manages	%%{ LIBRARIAN[manages],LOAN[librarian] }%%
-    LIBRARIAN {				%%{ icon[people],title[Librarian],description[Represents librarians managing the library.] }%%
-        string librarianID PK		%%{ required[true] }%%
-        string name			%%{ display[true],required[true] }%%
+    LIBRARIAN ||--o{ LOAN : manages
+    LIBRARIAN {
+        string librarianID PK
+        string name
         string department
     }
-%%{ icon[pin-map],title[Library Management System],home-page-description[Represents a library management system.],about-us-page-description[This system manages books, loans, patrons, and librarians in the library.],menu[home, books, loans, patrons, librarians, about us, contact us] }%%
