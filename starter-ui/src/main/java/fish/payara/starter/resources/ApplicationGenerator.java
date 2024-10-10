@@ -125,7 +125,8 @@ public class ApplicationGenerator {
                     ERDiagramParser parser = new ERDiagramParser();
                     erModel = parser.parse(appProperties.getErDiagram());
                     if (erModel != null && !erModel.getEntities().isEmpty()) {
-                        properties.put(ApplicationConfiguration.ENTITIES, appProperties.getAuth());
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM, true);
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM_NAME, appProperties.getErDiagramName());
                     }
                 }
                 invokeMavenArchetype(ARCHETYPE_GROUP_ID, ARCHETYPE_ARTIFACT_ID, ARCHETYPE_VERSION,
@@ -136,11 +137,10 @@ public class ApplicationGenerator {
                 if (erModel != null && !erModel.getEntities().isEmpty()) {
                     Jsonb jsonb = JsonbBuilder.create();
                     String jsonString = jsonb.toJson(erModel);
+                    LOGGER.info("Generating web components info from AI.");
                     String outputJson = langChainChatService.addFronEndDetailsToERDiagram(jsonString);
                     if (outputJson != null && !outputJson.isEmpty()) {
                         String updatedJson = outputJson.strip().replaceAll("^```json|```$", "");
-                        // convert json to ERModel
-                        
                         erModel = jsonb.fromJson(updatedJson, ERModel.class);
                     }
                     CRUDAppGenerator generator = new CRUDAppGenerator(erModel,

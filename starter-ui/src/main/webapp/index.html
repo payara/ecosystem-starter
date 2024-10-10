@@ -411,82 +411,74 @@
                                             </div>
                                         </fieldset>
 
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Data Model Configuration</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Data Model Configuration</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                   <fieldset class="form-steps__step">
+                                        <legend class="visually-hidden form-steps__title">ER Diagram Designer</legend>
+                                        <div class="legend h3 form-steps__title" aria-hidden="true">ER Diagram Designer</div>
+                                        <div class="form-steps__icon">
+                                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                 <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
                                                 <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
                                                 <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
-                                                        <select name="mermaidErDiagramList" id="mermaidErDiagramList" class="form__select" ></select>
-                                                        <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <button type="button" class="button button--ghost" onclick="openMermaidPreview()">
-                                                            <span class="button__text">Live Preview</span>
-                                                        </button>
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <span class="form__label">Generate Code For:</span>
-
-                                                        <!-- JPA Checkbox and Textfield -->
+                                            </svg>
+                                        </div>
+                                        <div class="form-steps__fields">
+                                            <div class="form-steps__inner">
+                                                <p class="form__row">
+                                                    <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
+                                                    <select name="erDiagramName" id="mermaidErDiagramList" class="form__select" title="Select an existing diagram or type to create a new one"></select>
+                                                    <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
+                                                </p>
+                                                <p class="form__row">
+                                                    <button type="button" class="button button--ghost" title="Open the Diagram Builder and Preview" onclick="openMermaidPreview()">
+                                                        <span class="button__text">Diagram Builder & Live Preview</span>
+                                                    </button>
+                                                </p>
+                                                <p class="form__row">
+                                                    <span class="form__label">Generate Code For:</span>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked title="Generate JPA code">
                                                         <label class="form__radbox-label" for="generateJpa">JPA</label>
-
                                                         <label class="form__label" for="jpaSubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA">
+                                                        <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA" title="Specify the subpackage for JPA">
                                                     </div>
-                                                    </br>
-                                                    <!-- Repository Checkbox and Textfield -->
+                                                    <br/>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked title="Generate Repository code">
                                                         <label class="form__radbox-label" for="generateRepository">Repository</label>
-
                                                         <label class="form__label" for="repositorySubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository">
+                                                        <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository" title="Specify the subpackage for Repository">
                                                     </div>
-                                                    </br>
-                                                    <!-- REST Checkbox and Textfield -->
+                                                    <br/>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked title="Generate REST code">
                                                         <label class="form__radbox-label" for="generateRest">REST</label>
-
                                                         <label class="form__label" for="restSubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST">
+                                                        <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST">
                                                     </div>
-                                                    </br>
-                                                    <!-- HTML Checkbox -->
+                                                    <br/>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked title="Generate Web code">
                                                         <label class="form__radbox-label" for="generateWeb">Web</label>
                                                     </div>
-                                                    </p>
+                                                </p>
 
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                <p class="form__row form-steps__controls">
+                                                    <a class="button button--ghost form__step__button-back" title="Go back to the previous step">
+                                                        <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                             <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                        </svg>
+                                                        <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                    </a>
+                                                    <a class="button button--ghost form__step__button" title="Proceed to the next step">
+                                                        <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                             <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
+                                                        </svg>
+                                                        <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
+                                                    </a>
+                                                </p>
                                             </div>
-                                        </fieldset>
+                                        </div>
+                                    </fieldset>
 
                                         <fieldset class="form-steps__step">
                                             <legend class="visually-hidden form-steps__title">Security Configuration</legend>
@@ -630,12 +622,12 @@
                 <div class="half" id="diagramSource">
                     <div class="inline-elements"  id="diagramSourceTopTool">
                         <h2>Source</h2>
-                        <select name="mermaidErDiagramListPreview" id="mermaidErDiagramListPreview" class="form__select"></select>
+                        <select name="mermaidErDiagramListPreview" id="mermaidErDiagramListPreview" class="form__select" title="Select an existing diagram or type to create a new one"></select>
                     </div>
                     <textarea id="sourceCode"></textarea>
                     <div id="graphDiv"></div>
                     <div class="inline-elements" id="diagramSourceBottomTool">
-                        <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" /> 
+                        <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter" /> 
                     </div>
                 </div>
                 <div class="half" id="diagramView">
@@ -647,13 +639,12 @@
                     </div> 
                     <div id="livePreview" class="livePreview"></div>
                     <div class="inline-elements" id="diagramViewBottomTool">
-                        <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" /> 
-                        <button type="button" class="button button--ghost" id="updateERDiagram" ><i class="bi bi-chat"></i></button>
-                        <button type="button" class="button button--ghost" id="prevERDiagram" disabled><i class="bi bi-arrow-left"></i></button>
-                        <button type="button" class="button button--ghost" id="nextERDiagram" disabled><i class="bi bi-arrow-right"></i></button>
-                        <button type="button" class="button button--ghost" id="enlargeERDiagram">+</button>
-                        <button type="button" class="button button--ghost" id="shrinkERDiagram">-</button>
-                        <button type="button" class="button button--ghost" id="fullscreenDiagram" onclick="toggleDiagramView()"><i class="bi bi-fullscreen"></i></button>
+                        <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter" /> 
+                        <button type="button" class="button button--ghost" id="prevERDiagram" disabled title="Previous ER Diagram"><i class="bi bi-arrow-left"></i></button>
+                        <button type="button" class="button button--ghost" id="nextERDiagram" disabled title="Next ER Diagram"><i class="bi bi-arrow-right"></i></button>
+                        <button type="button" class="button button--ghost" id="enlargeERDiagram" title="Enlarge ER Diagram">+</button>
+                        <button type="button" class="button button--ghost" id="shrinkERDiagram" title="Shrink ER Diagram">-</button>
+                        <button type="button" class="button button--ghost" id="fullscreenDiagram" onclick="toggleDiagramView()" title="Fullscreen Diagram"><i class="bi bi-fullscreen" id="fullscreenIcon"></i></button>
                     </div>
                 </div>
                 <span class="close">&times;</span>
@@ -661,15 +652,24 @@
         </div>
         <script>
                 function toggleDiagramView() {
-                    debugger;
                     const diagramView = document.getElementById('diagramView');
                     const diagramSource = document.getElementById('diagramSource');
                     const makeFullscreen = diagramView.style.width !== '100%';
-                    diagramView.style.width = makeFullscreen ?  '100%' : '50%';
+                    diagramView.style.width = makeFullscreen ? '100%' : '50%';
                     diagramSource.style.width = makeFullscreen ? '0%' : '50%';
                     document.getElementById('queryBox').style.display = makeFullscreen ? 'none' : 'inline';
-                    document.getElementById('queryBoxHidden').style.display = makeFullscreen ?  'inline' : 'none';
+                    document.getElementById('queryBoxHidden').style.display = makeFullscreen ? 'inline' : 'none';
                     diagramSource.style.display = makeFullscreen ? 'none' : 'inline';
+                    const fullscreenIcon = document.getElementById('fullscreenIcon');
+                    if (makeFullscreen) {
+                        fullscreenIcon.classList.remove('bi-fullscreen');
+                        fullscreenIcon.classList.add('bi-fullscreen-exit');
+                        document.getElementById('fullscreenDiagram').title = 'Exit Fullscreen Diagram';
+                    } else {
+                        fullscreenIcon.classList.remove('bi-fullscreen-exit');
+                        fullscreenIcon.classList.add('bi-fullscreen');
+                        document.getElementById('fullscreenDiagram').title = 'Fullscreen Diagram';
+                    }
                 }
         </script>
         <!-- CSS for styling the modal dialog -->
@@ -678,8 +678,8 @@
                 color: #aaa;
             }
             button:disabled {
-    box-shadow: 0 0 0 1px #aaa inset !important;
-}
+                box-shadow: 0 0 0 1px #aaa inset !important;
+            }
             .modal {
                 display: none;
                 position: fixed;
@@ -768,6 +768,9 @@
                 color: #ff0000; /* Change this to your desired color */
             }
         </style>
+        <script>
+           var editor;
+        </script>
         <script type="module">
 //        https://chatgpt.com/share/99102a26-a8ac-45c5-8d5b-76fc118cd602
             const erDiagrams = [
@@ -796,24 +799,19 @@
             ];
 
             var erDiagramContent = {};
-            var editor;
             var erDiagram;
             var erDiagramChat = [];
             var erDiagramChatIndex = 0;
-
-            // register button press event for button id enlargeERDiagram
 
             document.getElementById('prevERDiagram').addEventListener('click', prevERDiagram);
             document.getElementById('nextERDiagram').addEventListener('click', nextERDiagram);
             document.getElementById('enlargeERDiagram').addEventListener('click', enlargeERDiagram);
             document.getElementById('shrinkERDiagram').addEventListener('click', shrinkERDiagram);
-//            document.getElementById('updateERDiagram').addEventListener('click', updateERDiagram);
-            $('#queryBox').on('keypress', async function (e) {
-                    if (e.key === 'Enter') {
-                        updateERDiagram();
-                    }
-                });
-
+            $('#queryBox, #queryBoxHidden').on('keypress', async function (e) {
+                if (e.key === 'Enter') {
+                    updateERDiagram();
+                }
+            });
 
             async function prevERDiagram() {
                 const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
@@ -847,12 +845,12 @@
                     updateButtonStates();
             }
             
-                function updateButtonStates() {
-                    const nextButton = document.getElementById('nextERDiagram');
-                    const prevButton = document.getElementById('prevERDiagram');
-                    nextButton.disabled = erDiagramChatIndex >= erDiagramChat.length - 1;
-                    prevButton.disabled = erDiagramChatIndex <= 0;
-                }
+            function updateButtonStates() {
+                const nextButton = document.getElementById('nextERDiagram');
+                const prevButton = document.getElementById('prevERDiagram');
+                nextButton.disabled = erDiagramChatIndex >= erDiagramChat.length - 1;
+                prevButton.disabled = erDiagramChatIndex <= 0;
+            }
             
             async function enlargeERDiagram() {
                 showAILoadingBar();
@@ -996,18 +994,25 @@
                 $('#mermaidErDiagramList').change(async function () {
                     const selectedDiagramId = $(this).val();
                     const selectedDiagramContent = erDiagramContent[selectedDiagramId];
-                    if (!selectedDiagramContent) {
-                        const content = await fetchErDiagramContent(selectedDiagramId);
+                    var content;
+                    if (!selectedDiagramContent && selectedDiagramId) {
+                        content = await fetchErDiagramContent(selectedDiagramId);
                         if (content) {
                             erDiagramContent[selectedDiagramId] = content;
                         }
                     }
-                    editor.setValue(erDiagramContent[selectedDiagramId]);
-                    erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
-                    
-                    erDiagramChat = [];
-                    erDiagramChat.push({"erd": content});
-                    erDiagramChatIndex = erDiagramChat.length - 1;
+                    if(erDiagramContent[selectedDiagramId]) {
+                        editor.setValue(erDiagramContent[selectedDiagramId]);
+                        erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
+                        $('#mermaidErDiagramListPreview').val(selectedDiagramId);
+
+                        erDiagramChat = [];
+                        erDiagramChat.push({"erd": content});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                    } else {
+                        erDiagramChat = [];
+                        erDiagramChatIndex = 0;
+                    }
                     updateButtonStates();
                 });
 
@@ -1028,7 +1033,6 @@
 
                 $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
                     if (e.key === 'Enter') {
-                        debugger;
                         const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
                         if (erDiagrams.includes(selectedDiagramId)) {
                             if (!erDiagramContent[selectedDiagramId]) {
@@ -1106,7 +1110,6 @@
                             editor.setValue(erDiagramContent[selectedDiagramId]);
                             erDiagram.innerHTML = erDiagramContent[selectedDiagramId];
 
-
                             const selectElement = document.getElementById('mermaidErDiagramList');
                             for (let i = 0; i < selectElement.options.length; i++) {
                                 if (selectElement.options[i].value === selectedDiagramId) {
@@ -1141,7 +1144,6 @@
 
             function closeModal() {
                 document.getElementById("previewModal").style.display = "none";
-                debugger;
                 erDiagram.innerHTML = editor.getValue();
             }
             var modal = document.getElementById("previewModal");
@@ -1168,6 +1170,11 @@
             // Function to open the modal and populate live preview and source code
             function openMermaidPreview() {
                 document.getElementById("previewModal").style.display = "block";
+                setTimeout(() => {
+                    if (editor) {
+                        editor.refresh(); 
+                    }
+                }, 200); 
             }
 
         </script>

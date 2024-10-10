@@ -108,6 +108,9 @@ form.addEventListener('submit', function (event) {
             }
         } else {
             jsonObject[key] = input.value;
+            if(input.id == 'erDiagram' && !$("#mermaidErDiagramList").val()) {
+                 jsonObject[key] = '';
+            }
         }
     });
 
@@ -118,7 +121,7 @@ form.addEventListener('submit', function (event) {
         },
         body: JSON.stringify(jsonObject),
     };
-debugger;
+
     fetch('resources/starter', requestOptions)
             .then(response => {
                 if (response.status === 200) {

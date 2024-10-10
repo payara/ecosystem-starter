@@ -72,7 +72,7 @@
     <modules>
         <module>starter-archetype</module>
         <module>starter-ui</module>
-        <module>PayaraStarterGenerator</module>
+        <module>starter-generator</module>
     </modules>
             
     <build>
