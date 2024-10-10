@@ -5,8 +5,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
-import dev.langchain4j.service.SystemMessage;
-import dev.langchain4j.service.UserMessage;
 
 @ApplicationScoped
 public class LangChainChatService {
