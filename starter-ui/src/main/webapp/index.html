@@ -411,82 +411,74 @@
                                             </div>
                                         </fieldset>
 
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">ER Diagram Designer</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">ER Diagram Designer</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                   <fieldset class="form-steps__step">
+                                        <legend class="visually-hidden form-steps__title">ER Diagram Designer</legend>
+                                        <div class="legend h3 form-steps__title" aria-hidden="true">ER Diagram Designer</div>
+                                        <div class="form-steps__icon">
+                                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                 <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
                                                 <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
                                                 <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
-                                                        <select name="mermaidErDiagramList" id="mermaidErDiagramList" class="form__select" title="Select an existing diagram or type to create a new one" ></select>
-                                                        <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <button type="button" class="button button--ghost" onclick="openMermaidPreview()">
-                                                            <span class="button__text">Diagram Builder & Live Preview</span>
-                                                        </button>
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <span class="form__label">Generate Code For:</span>
-
-                                                        <!-- JPA Checkbox and Textfield -->
+                                            </svg>
+                                        </div>
+                                        <div class="form-steps__fields">
+                                            <div class="form-steps__inner">
+                                                <p class="form__row">
+                                                    <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
+                                                    <select name="mermaidErDiagramList" id="mermaidErDiagramList" class="form__select" title="Select an existing diagram or type to create a new one"></select>
+                                                    <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
+                                                </p>
+                                                <p class="form__row">
+                                                    <button type="button" class="button button--ghost" title="Open the Diagram Builder and Preview" onclick="openMermaidPreview()">
+                                                        <span class="button__text">Diagram Builder & Live Preview</span>
+                                                    </button>
+                                                </p>
+                                                <p class="form__row">
+                                                    <span class="form__label">Generate Code For:</span>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked title="Generate JPA code">
                                                         <label class="form__radbox-label" for="generateJpa">JPA</label>
-
                                                         <label class="form__label" for="jpaSubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA">
+                                                        <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA" title="Specify the subpackage for JPA">
                                                     </div>
-                                                    </br>
-                                                    <!-- Repository Checkbox and Textfield -->
+                                                    <br/>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked title="Generate Repository code">
                                                         <label class="form__radbox-label" for="generateRepository">Repository</label>
-
                                                         <label class="form__label" for="repositorySubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository">
+                                                        <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository" title="Specify the subpackage for Repository">
                                                     </div>
-                                                    </br>
-                                                    <!-- REST Checkbox and Textfield -->
+                                                    <br/>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked title="Generate REST code">
                                                         <label class="form__radbox-label" for="generateRest">REST</label>
-
                                                         <label class="form__label" for="restSubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST">
+                                                        <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST">
                                                     </div>
-                                                    </br>
-                                                    <!-- HTML Checkbox -->
+                                                    <br/>
                                                     <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked>
+                                                        <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked title="Generate Web code">
                                                         <label class="form__radbox-label" for="generateWeb">Web</label>
                                                     </div>
-                                                    </p>
+                                                </p>
 
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                <p class="form__row form-steps__controls">
+                                                    <a class="button button--ghost form__step__button-back" title="Go back to the previous step">
+                                                        <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                             <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                        </svg>
+                                                        <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                    </a>
+                                                    <a class="button button--ghost form__step__button" title="Proceed to the next step">
+                                                        <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                             <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
+                                                        </svg>
+                                                        <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
+                                                    </a>
+                                                </p>
                                             </div>
-                                        </fieldset>
+                                        </div>
+                                    </fieldset>
 
                                         <fieldset class="form-steps__step">
                                             <legend class="visually-hidden form-steps__title">Security Configuration</legend>
