@@ -1,4 +1,4 @@
-package ${package}.hello;
+package ${package}.${restSubpackage};
 
 import ${eePackage}.ws.rs.ApplicationPath;
 import ${eePackage}.ws.rs.core.Application;
