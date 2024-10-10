@@ -16,12 +16,13 @@ def mpOpenAPI = request.properties["mpOpenAPI"].trim()
 def mpFaultTolerance = request.properties["mpFaultTolerance"].trim()
 def mpMetrics = request.properties["mpMetrics"].trim()
 def auth = request.properties["auth"].trim()
+def erDiagram = request.properties["erDiagram"].trim()
 
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
 generateSource(build, _package, platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, auth, outputDirectory)
-bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, auth, outputDirectory)
+bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, auth, erDiagram, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
     boolean deleteDirectory = true;
@@ -136,7 +137,7 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     }
 }
 
-private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, File outputDirectory) {
+private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, String erDiagram, File outputDirectory) {
     def eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
     println "Binding EE package: $eePackage"
 
@@ -144,7 +145,8 @@ private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOp
         'mpConfig': mpConfig.toBoolean(), 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean(),
         'formAuthFileRealm': auth.equals("formAuthFileRealm"),
         'formAuthDB': auth.equals("formAuthDB"),
-        'formAuthLDAP': auth.equals("formAuthLDAP")
+        'formAuthLDAP': auth.equals("formAuthLDAP"),
+        'erDiagram': erDiagram.toBoolean()
     ]
     def engine = new SimpleTemplateEngine()
 

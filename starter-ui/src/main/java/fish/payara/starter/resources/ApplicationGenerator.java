@@ -125,7 +125,8 @@ public class ApplicationGenerator {
                     ERDiagramParser parser = new ERDiagramParser();
                     erModel = parser.parse(appProperties.getErDiagram());
                     if (erModel != null && !erModel.getEntities().isEmpty()) {
-                        properties.put(ApplicationConfiguration.ENTITIES, appProperties.getAuth());
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM, true);
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM_NAME, appProperties.getErDiagramName());
                     }
                 }
                 invokeMavenArchetype(ARCHETYPE_GROUP_ID, ARCHETYPE_ARTIFACT_ID, ARCHETYPE_VERSION,
