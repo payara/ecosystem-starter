@@ -197,7 +197,7 @@ public class ${controllerClass} {
         LOG.log(Level.FINE, "REST request to get ${EntityClass} : {}", ${pkName});
         ${instanceType} ${instanceName} = ${entityRepository}.find(${pkName});
         return Optional.ofNullable(${instanceName})
-                .map(result -> Response.status(Response.Status.OK).entity(${instanceName}).build())
+                .map(res -> Response.status(Response.Status.OK).entity(${instanceName}).build())
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
 
