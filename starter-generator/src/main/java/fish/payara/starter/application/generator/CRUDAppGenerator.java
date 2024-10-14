@@ -70,59 +70,39 @@ public class CRUDAppGenerator {
     }
 
     public static void main(String[] args) {
-        String mermaidCode = "erDiagram\n" +
-"    USER ||--o{ JOB_APPLICATION : applies		%%{ USER[applications],JOB_APPLICATION[user] }%%\n" +
-"    USER {					%%{ icon[person],title[Recruitment Management System],description[A system for managing recruitment processes. Post job openings, receive applications, and manage candidates efficiently.],menu[Home, Jobs, Candidates, About Us, Contact Us] }%%\n" +
-"        string userId	PK                    %%{ htmllabel[User ID],required[true] }%%\n" +
-"        string username		%%{ display[true],required[true],tooltip[Username for login] }%%\n" +
-"        string email		%%{ tooltip[User's email address] }%%\n" +
-"    }\n" +
-"    JOB_APPLICATION ||--|{ JOB : applies_for		%%{ JOB_APPLICATION[job],JOB[applications] }%%\n" +
-"    JOB_APPLICATION {					%%{ icon[file-text],title[Job Application],description[Track job applications submitted by candidates.],menu[My Applications, Jobs, About Us, Contact Us] }%%\n" +
-"        int applicationId PK			%%{ display[true] }%%\n" +
-"        string status			%%{ tooltip[Application status] }%%\n" +
-"        string resume			%%{ tooltip[Link to candidate's resume] }%%\n" +
-"    }\n" +
-"    JOB {					%%{ icon[briefcase],title[Job],description[Manage job openings and applications.],menu[Jobs, Candidates, About Us, Contact Us] }%%		\n" +
-"        int jobId PK					\n" +
-"        string title			%%{ display[true],required[true],tooltip[Job title] }%%\n" +
-"        string description			%%{ tooltip[Job description] }%%\n" +
-"        date startDate			%%{ tooltip[Start date of employment] }%%\n" +
-"        date endDate			%%{ tooltip[End date of employment] }%%\n" +
-"    }\n" +
-"    CANDIDATE ||--o{ JOB_APPLICATION : submits		%%{ CANDIDATE[applications],JOB_APPLICATION[candidate] }%%\n" +
-"    CANDIDATE {					%%{ icon[person],title[Candidate],description[Manage candidate profiles and applications.],menu[Candidates, Jobs, About Us, Contact Us] }%%      \n" +
-"        int candidateId PK					\n" +
-"        string name			%%{ display[true],required[true],tooltip[Candidate's name] }%%\n" +
-"        string email			%%{ tooltip[Candidate's email address] }%%\n" +
-"        string phone			%%{ tooltip[Candidate's phone number] }%%\n" +
-"    }\n" +
-"    INTERVIEW ||--|{ CANDIDATE : schedules		%%{ INTERVIEW[candidate],CANDIDATE[interviews] }%%\n" +
-"    INTERVIEW {						%%{ icon[calendar],title[Interview],description[Schedule and manage interviews with candidates.],menu[Interviews, Candidates, About Us, Contact Us] }%%      \n" +
-"        int interviewId PK					\n" +
-"        date date			%%{ display[true],tooltip[Interview date] }%%\n" +
-"        string location			%%{ tooltip[Interview location] }%%\n" +
-"    }\n" +
-"    RECRUITER ||--o{ INTERVIEW : schedules		%%{ RECRUITER[interviews],INTERVIEW[recruiter] }%%\n" +
-"    RECRUITER {						%%{ icon[person],title[Recruiter],description[Manage recruiter profiles and interview schedules.],menu[Recruiters, Interviews, About Us, Contact Us] }%%      \n" +
-"        int recruiterId PK					\n" +
-"        string name			%%{ display[true],required[true],tooltip[Recruiter's name] }%%\n" +
-"        string department			%%{ tooltip[Recruiter's department] }%%\n" +
-"    }\n" +
-"    OFFER ||--o{ CANDIDATE : extends		%%{ OFFER[candidate],CANDIDATE[offer] }%%\n" +
-"    OFFER {						%%{ icon[document],title[Job Offer],description[Create and manage job offers extended to candidates.],menu[Offers, Candidates, About Us, Contact Us] }%%      \n" +
-"        int offerId PK					\n" +
-"        string status			%%{ tooltip[Offer status] }%%\n" +
-"        float salary			%%{ tooltip[Offered salary] }%%\n" +
-"    }\n" +
-"    FEEDBACK ||--|{ INTERVIEW : provides		%%{ FEEDBACK[interview],INTERVIEW[feedback] }%%\n" +
-"    FEEDBACK {						%%{ icon[comment],title[Interview Feedback],description[Provide feedback on candidate interviews.],menu[Feedback, Interviews, About Us, Contact Us] }%%      \n" +
-"        int feedbackId PK					\n" +
-"        string comments			%%{ display[true],tooltip[Interviewer's comments] }%%\n" +
-"        int rating			%%{ tooltip[Interview rating] }%%\n" +
-"    }\n" +
-"%%{ icon[briefcase],title[Recruitment Management System],home-page-description[A system for managing recruitment processes. Post job openings, receive applications, and manage candidates efficiently.],about-us-page-description[Explore our recruitment management system and streamline your hiring process. Connect with talented candidates and make informed decisions.],menu[Home, Jobs, Candidates, About Us, Contact Us] }%%	\n" +
-"";
+        String mermaidCode = """
+                             erDiagram
+                                 CUSTOMER ||--o{ CONTACT : has
+                                 CUSTOMER {
+                                     int customerID PK
+                                     string name
+                                     string email
+                                     string phone
+                                     string address
+                                 }
+                                 CONTACT {
+                                     int contactID PK
+                                     string fullName
+                                     string email
+                                     string phone
+                                     string position
+                                 }
+                                 OPPORT_UNITY ||--o{ CUSTOMER : belongs_to
+                                 OPPORT_UNITY {
+                                     int opportunityID PK
+                                     string name
+                                     float amount
+                                     datetime closeDate
+                                     string stage
+                                 }
+                                 TASK ||--o{ CUSTOMER : relates_to
+                                 TASK {
+                                     int taskID PK
+                                     string title
+                                     datetime dueDate
+                                     string status
+                                 }
+                             """;
 
         ERDiagramParser parser = new ERDiagramParser();
         ERModel erModel = parser.parse(mermaidCode);
@@ -187,10 +167,10 @@ public class CRUDAppGenerator {
     private void generateFrontend(Entity entity, File outputDir) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("entity", entity);
-        dataModel.put("entityNameLowerCase", entity.getName().toLowerCase());
-        dataModel.put("entityNameTitleCase", titleCase(entity.getName()));
-        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getName())));
-        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getName().toLowerCase()));
+        dataModel.put("entityNameLowerCase", entity.getClassName().toLowerCase());
+        dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
+        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getClassName())));
+        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getClassName().toLowerCase()));
         generate("template/html", "entity.html.ftl", dataModel.get("entityNameLowerCase") + ".html", dataModel, outputDir);
     }
 
@@ -218,20 +198,20 @@ public class CRUDAppGenerator {
             String repositoryPackage = _package + "." + repositoryLayer;
             String controllerPackage = _package + "." + controllerLayer;
 
-            String entityInstance = firstLower(entity.getName());
+            String entityInstance = firstLower(entity.getClassName());
             String entityNameSpinalCased = kebabCase(entityInstance);
             Map<String, Object> dataModel = new HashMap<>();
             dataModel.put("package", controllerPackage);
             dataModel.put("entity", entity);
-            dataModel.put("EntityClass", entity.getName());
-            dataModel.put("EntityClassPlural", pluralize(firstUpper(entity.getName())));
-            dataModel.put("EntityClass_FQN", _package + "."+ domainLayer+"." + entity.getName());
+            dataModel.put("EntityClass", entity.getClassName());
+            dataModel.put("EntityClassPlural", pluralize(firstUpper(entity.getClassName())));
+            dataModel.put("EntityClass_FQN", _package + "."+ domainLayer+"." + entity.getClassName());
             dataModel.put("entityInstance", entityInstance);
             dataModel.put("entityInstancePlural", pluralize(entityInstance));
             dataModel.put("entityTranslationKey", entityInstance);
 
-            String repositoryFileName = entity.getName() + firstUpper(repositoryLayer);
-            String controllerFileName = entity.getName() + firstUpper(controllerLayer);
+            String repositoryFileName = entity.getClassName() + firstUpper(repositoryLayer);
+            String controllerFileName = entity.getClassName() + firstUpper(controllerLayer);
 
             dataModel.put("controllerClass", controllerFileName);
             dataModel.put("controllerClassHumanized", startCase(controllerFileName));
@@ -244,7 +224,7 @@ public class CRUDAppGenerator {
             dataModel.put("EntityRepositorySuffix", firstUpper(repositoryLayer));
 
             boolean dto = false;
-            dataModel.put("instanceType", dto ? entity.getName() + "DTO" : entity.getName());
+            dataModel.put("instanceType", dto ? entity.getClassName() + "DTO" : entity.getClassName());
             dataModel.put("instanceName", dto ? entityInstance + "DTO" : entityInstance);
 
             dataModel.put("pagination", "no");
@@ -307,9 +287,9 @@ public class CRUDAppGenerator {
             dataModel.put("cdi", true);
             dataModel.put("named", false);
             dataModel.put("entityInstance", "exampleEntityRepository");
-            dataModel.put("EntityClass", entity.getName());
-            dataModel.put("EntityRepository", entity.getName() + firstUpper(repositoryLayer));
-            dataModel.put("EntityClass_FQN", _package + "."+domainLayer+"." + entity.getName());
+            dataModel.put("EntityClass", entity.getClassName());
+            dataModel.put("EntityRepository", entity.getClassName()+ firstUpper(repositoryLayer));
+            dataModel.put("EntityClass_FQN", _package + "."+domainLayer+"." + entity.getClassName());
             dataModel.put("EntityPKClass", entity.getPrimaryKeyType());
             dataModel.put("EntityPKClass_FQN", "");
             dataModel.put("AbstractRepository", "Abstract" + firstUpper(repositoryLayer));
@@ -398,7 +378,7 @@ public class CRUDAppGenerator {
 
     private void generateJPAClass(String _package, ERModel model, Entity entity, File outputDir) throws IOException {
         List<Relationship> relationships = model.getRelationships();
-        String className = entity.getName();
+        String className = entity.getClassName();
         StringBuilder sbHeader = new StringBuilder();
         StringBuilder sbfunc = new StringBuilder();
         String entityPackage = _package + "." + domainLayer;
@@ -408,7 +388,7 @@ public class CRUDAppGenerator {
         StringBuilder sbBody = new StringBuilder();
         // Generate named queries
         sbBody.append(generateNamedQueries(entity));
-        String entityName = entity.getName();
+        String entityName = entity.getClassName();
         String escapedEntityName = escapeReservedKeyword(entityName);
         if (entityName.length() < escapedEntityName.length()) {
             sbBody.append("@Table(name = \"").append(escapedEntityName).append("\")\n");
@@ -476,8 +456,8 @@ public class CRUDAppGenerator {
 
         for (Attribute attribute : entity.getAttributes()) {
             String capitalized = attribute.getName().substring(0, 1).toUpperCase() + attribute.getName().substring(1);
-            String queryName = entity.getName() + ".findBy" + capitalized;
-            String queryString = "SELECT e FROM " + entity.getName() + " e WHERE e." + attribute.getName() + " = :" + attribute.getName();
+            String queryName = entity.getClassName() + ".findBy" + capitalized;
+            String queryString = "SELECT e FROM " + entity.getClassName() + " e WHERE e." + attribute.getName() + " = :" + attribute.getName();
             sb.append("    @NamedQuery(name = \"").append(queryName).append("\", query = \"").append(queryString).append("\"),\n");
         }
 

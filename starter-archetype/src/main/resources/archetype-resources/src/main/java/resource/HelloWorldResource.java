@@ -1,4 +1,4 @@
-package ${package}.hello;
+package ${package}.${restSubpackage};
 <% if (mpConfig) { %>
 import ${eePackage}.inject.Inject;<% } %>
 import ${eePackage}.ws.rs.GET;

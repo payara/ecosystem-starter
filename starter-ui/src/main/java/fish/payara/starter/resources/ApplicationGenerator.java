@@ -60,6 +60,7 @@ import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_CLOU
 import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PLATFORM;
 import static fish.payara.starter.resources.ApplicationConfiguration.PROFILE;
+import static fish.payara.starter.resources.ApplicationConfiguration.REST_SUBPACKAGE;
 import static fish.payara.starter.resources.ApplicationConfiguration.VERSION;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.concurrent.ManagedExecutorDefinition;
@@ -70,7 +71,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -84,7 +84,6 @@ import java.util.zip.ZipOutputStream;
 import org.apache.maven.cli.MavenCli;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbException;
 
 /**
  *
@@ -137,7 +136,7 @@ public class ApplicationGenerator {
                 if (erModel != null && !erModel.getEntities().isEmpty()) {
                     Jsonb jsonb = JsonbBuilder.create();
                     String jsonString = jsonb.toJson(erModel);
-                    LOGGER.info("Generating web components info from AI.");
+                    LOGGER.info("Generating web components info from AI \n" + jsonString);
                     String outputJson = langChainChatService.addFronEndDetailsToERDiagram(jsonString);
                     if (outputJson != null && !outputJson.isEmpty()) {
                         String updatedJson = outputJson.strip().replaceAll("^```json|```$", "");
@@ -208,6 +207,7 @@ public class ApplicationGenerator {
         properties.put(MP_FAULT_TOLERANCE, appProperties.isMpFaultTolerance());
         properties.put(MP_METRICS, appProperties.isMpMetrics());
         properties.put(AUTH, appProperties.getAuth());
+        properties.put(REST_SUBPACKAGE, appProperties.getRestSubpackage());
         return properties;
     }
 
@@ -219,7 +219,7 @@ public class ApplicationGenerator {
         options.addAll(Arrays.asList(new String[]{MAVEN_ARCHETYPE_CMD, "-DinteractiveMode=false",
             "-DaskForDefaultPropertyValues=false", "-DarchetypeGroupId=" + archetypeGroupId,
             "-DarchetypeArtifactId=" + archetypeArtifactId, "-DarchetypeVersion=" + archetypeVersion}));
-        properties.forEach((k, v) -> options.add("-D" + k + "=" + v));
+        properties.forEach((k, v) -> options.add("-D" + k + "=" + (v.toString().contains(" ") ? "'" + v + "'" : v)));
 
         LOGGER.log(Level.INFO, "Executing Maven Archetype {0} ", new Object[]{options.toString()});
 
