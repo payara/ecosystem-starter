@@ -136,6 +136,25 @@ private generateSource(build, _package, platform, jakartaEEVersion,
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/admin"))
     }
+
+    //Temporary bypass for the groovy scripts not working as it is not deleting <% if (...){} %> templating code
+    if (!mpOpenAPI.equalsIgnoreCase("true") && !mpConfig.equalsIgnoreCase("true")) {
+        // Delete the HelloWorldResource.java file which contains template language
+        FileUtils.forceDelete(new File(outputDirectory, "src/main/java/" + packagePath + "/hello/HelloWorldResource.java"))
+
+        // Rename SimpleHelloWorldResource.java to HelloWorldResource.java
+        File defaultFile = new File(outputDirectory, "src/main/java/" + packagePath + "/hello/SimpleHelloWorldResource.java")
+        File renamedFile = new File(outputDirectory, "src/main/java/" + packagePath + "/hello/HelloWorldResource.java")
+
+        if (defaultFile.exists()) {
+            boolean renamed = defaultFile.renameTo(renamedFile)
+            if (!renamed) {
+                throw new RuntimeException("Failed to rename SimpleHelloWorldResource.java to HelloWorldResource.java")
+            }
+        } else {
+            throw new RuntimeException("SimpleHelloWorldResource.java does not exist.")
+        }
+    }
 }
 
 static void bindEEPackage(String jakartaEEVersion,  String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, File outputDirectory) throws IOException {
