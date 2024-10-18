@@ -22,6 +22,7 @@ import static fish.payara.starter.application.util.StringHelper.pluralize;
 import static fish.payara.starter.application.util.StringHelper.startCase;
 import static fish.payara.starter.application.util.StringHelper.titleCase;
 import jakarta.json.bind.annotation.JsonbTransient;
+import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,14 @@ import java.util.List;
  *
  * @author Gaurav Gupta
  */
+@JsonbTypeSerializer(AttributeSerializer.class)
 public class Attribute {
 
     private String name;
     private String type;
     private boolean primaryKey;
-    private boolean required;
     private boolean multi;
+    private boolean required;
     private String tooltip;
     private Boolean display;
     private String htmlLabel;

@@ -17,6 +17,7 @@ def mpFaultTolerance = request.properties["mpFaultTolerance"].trim()
 def mpMetrics = request.properties["mpMetrics"].trim()
 def auth = request.properties["auth"].trim()
 def erDiagram = request.properties["erDiagram"].trim()
+def restSubpackage = request.properties["restSubpackage"].trim()
 
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
@@ -109,6 +110,10 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     }
     
     def packagePath = _package.replaceAll("\\.", "/")
+    
+    File oldFolder = new File(outputDirectory.path + "/src/main/java/" + packagePath + "/resource")
+    File newFolder = new File(outputDirectory.path + "/src/main/java/" + packagePath + "/" + restSubpackage)
+    renameFolder(oldFolder, newFolder)
 
     if (!auth.equals("formAuthDB")) {
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/DatabaseSetup.java"))
@@ -134,6 +139,19 @@ private generateSource(build, _package, platform, jakartaEEVersion,
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured/users.xhtml"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/secured"))
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/webapp/admin"))
+    }
+}
+
+private void renameFolder(File oldFolder, File newFolder) {
+    if (oldFolder.exists() && !newFolder.exists()) {
+        boolean success = oldFolder.renameTo(newFolder)
+        if (success) {
+            println "Folder renamed from ${oldFolder.name} to ${newFolder.name}"
+        } else {
+            println "Failed to rename folder ${oldFolder.name}"
+        }
+    } else {
+        println "Folder ${oldFolder.name} does not exist or the new folder ${newFolder.name} already exists."
     }
 }
 

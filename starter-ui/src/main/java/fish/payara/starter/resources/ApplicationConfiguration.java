@@ -75,6 +75,7 @@ public class ApplicationConfiguration {
     public static final String AUTH = "auth";
     public static final String ER_DIAGRAM = "erDiagram";
     public static final String ER_DIAGRAM_NAME = "erDiagramName";
+    public static final String REST_SUBPACKAGE = "restSubpackage";
 
     public static final String PAYARA_VERSION_6_2023_11 = "6.2023.11";
 

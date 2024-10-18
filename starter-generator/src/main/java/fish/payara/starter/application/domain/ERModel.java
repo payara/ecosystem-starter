@@ -27,13 +27,20 @@ import static fish.payara.starter.application.domain.Constant.title_default;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.json.bind.annotation.JsonbTransient;
-
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class ERModel {
 
     private List<Entity> entities = new ArrayList<>();
-    private List<Relationship> relationships = new ArrayList<>();
-    
+    private Set<Relationship> relationships = new LinkedHashSet<>();
+
+    private String icon;
+    private String title;
+    private String longTitle;
+    private String homePageDescription;
+    private String aboutUsPageDescription;
+    private List<String> topBarMenuOptions = new ArrayList<>();
 
     public ERModel() {
     }
@@ -59,7 +66,7 @@ public class ERModel {
         return entities;
     }
 
-    public List<Relationship> getRelationships() {
+    public Set<Relationship> getRelationships() {
         return relationships;
     }
 
@@ -67,19 +74,10 @@ public class ERModel {
         this.entities = entities;
     }
 
-    public void setRelationships(List<Relationship> relationships) {
+    public void setRelationships(Set<Relationship> relationships) {
         this.relationships = relationships;
     }
-    
 
-    private String icon;
-    private String title;
-    private String longTitle;
-    private String homePageDescription;
-    private String aboutUsPageDescription;
-    private List<String> topBarMenuOptions = new ArrayList<>();
-    
-    
     @JsonbTransient
     public String getIcon() {
         return icon == null ? icon_default : icon;
