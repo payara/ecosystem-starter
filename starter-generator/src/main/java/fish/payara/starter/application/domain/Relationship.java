@@ -15,7 +15,9 @@
  */
 package fish.payara.starter.application.domain;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -46,6 +48,28 @@ public class Relationship {
 
     public String getSecondEntity() {
         return secondEntity;
+    }
+
+    @JsonbTransient
+    public String getFirstEntityClass() {
+        return getClassName(firstEntity);
+    }
+
+    @JsonbTransient
+    public String getSecondEntityClass() {
+        return getClassName(secondEntity);
+    }
+
+    @JsonbTransient
+    public String getClassName(String name) {
+        String[] parts = name.split("_");
+        StringBuilder result = new StringBuilder();
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                result.append(part.substring(0, 1).toUpperCase()).append(part.substring(1).toLowerCase());
+            }
+        }
+        return result.toString();
     }
 
     public String getRelationshipType() {
@@ -86,6 +110,35 @@ public class Relationship {
 
     public void setRelationshipLabel(String relationshipLabel) {
         this.relationshipLabel = relationshipLabel;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstEntity, secondEntity, relationshipType, relationshipLabel);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Relationship other = (Relationship)obj;
+        if (!Objects.equals(this.firstEntity, other.firstEntity)) {
+            return false;
+        }
+        if (!Objects.equals(this.secondEntity, other.secondEntity)) {
+            return false;
+        }
+        if (!Objects.equals(this.relationshipType, other.relationshipType)) {
+            return false;
+        }
+        return Objects.equals(this.relationshipLabel, other.relationshipLabel);
     }
 
     @Override

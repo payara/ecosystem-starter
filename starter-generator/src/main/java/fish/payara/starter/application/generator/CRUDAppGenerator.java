@@ -71,37 +71,76 @@ public class CRUDAppGenerator {
 
     public static void main(String[] args) {
         String mermaidCode = """
-                             erDiagram
-                                 CUSTOMER ||--o{ CONTACT : has
-                                 CUSTOMER {
-                                     int customerID PK
-                                     string name
-                                     string email
-                                     string phone
-                                     string address
-                                 }
-                                 CONTACT {
-                                     int contactID PK
-                                     string fullName
-                                     string email
-                                     string phone
-                                     string position
-                                 }
-                                 OPPORT_UNITY ||--o{ CUSTOMER : belongs_to
-                                 OPPORT_UNITY {
-                                     int opportunityID PK
-                                     string name
-                                     float amount
-                                     datetime closeDate
-                                     string stage
-                                 }
-                                 TASK ||--o{ CUSTOMER : relates_to
-                                 TASK {
-                                     int taskID PK
-                                     string title
-                                     datetime dueDate
-                                     string status
-                                 }
+erDiagram
+    STUDENT ||--o{ ENROLLMENT : enrolls
+    STUDENT {
+        string studentID PK
+        string name
+        string address
+        int age
+    }
+    ENROLLMENT ||--|{ COURSE : contains
+    ENROLLMENT {
+        int enrollmentID PK
+        string semester
+    }
+    COURSE {
+        string courseCode PK
+        string courseName
+        int credits
+    }
+    TEACHER ||--o{ COURSE : teaches
+    TEACHER {
+        string teacherID PK
+        string name
+        string specialization
+    }
+    CLASSROOM ||--o{ COURSE : hosts
+    CLASSROOM {
+        string classroomID PK
+        string building
+        int capacity
+    }
+    STUDENT ||--o{ ATTENDANCE : records
+    ATTENDANCE {
+        int attendanceID PK
+        date date
+        boolean present
+    }
+    COURSE ||--o{ ASSIGNMENT : includes
+    ASSIGNMENT {
+        int assignmentID PK
+        string title
+        date dueDate
+        int maxScore
+    }
+    TEACHER ||--o{ ASSIGNMENT : assigns
+    STUDENT ||--o{ SUBMISSION : submits
+    SUBMISSION {
+        int submissionID PK
+        int score
+        date submissionDate
+    }
+    STUDENT ||--o{ PROJECT : participates
+    PROJECT {
+        int projectID PK
+        string projectName
+        date startDate
+        date endDate
+        string description
+    }
+    COURSE ||--o{ PROJECT : involves
+    TEACHER ||--o{ PROJECT : supervises
+    PROJECT ||--o{ STUDENT : has
+    STUDENT ||--o{ EXAM : takes
+    EXAM {
+        int examID PK
+        string subject
+        date examDate
+        int totalMarks
+    }
+    COURSE ||--o{ EXAM : includes
+    TEACHER ||--o{ EXAM : administers
                              """;
 
         ERDiagramParser parser = new ERDiagramParser();
@@ -377,7 +416,7 @@ public class CRUDAppGenerator {
     }
 
     private void generateJPAClass(String _package, ERModel model, Entity entity, File outputDir) throws IOException {
-        List<Relationship> relationships = model.getRelationships();
+        Set<Relationship> relationships = model.getRelationships();
         String className = entity.getClassName();
         StringBuilder sbHeader = new StringBuilder();
         StringBuilder sbfunc = new StringBuilder();
@@ -470,8 +509,8 @@ public class CRUDAppGenerator {
 
     private void appendRelationship(StringBuilder sb, StringBuilder sbfunc, Set<String> _imports, ERModel model, Entity entity, Relationship relationship, boolean isFirstEntity) {
         String relationshipType = relationship.getRelationshipType();
-        String firstEntity = relationship.getFirstEntity();
-        String secondEntity = relationship.getSecondEntity();
+        String firstEntity = relationship.getFirstEntityClass();
+        String secondEntity = relationship.getSecondEntityClass();
 
         if (isFirstEntity) {
             switch (relationshipType) {
@@ -491,17 +530,17 @@ public class CRUDAppGenerator {
                 case "||--|{": // Exactly one to one or more
                 case "||--o{": // Exactly one to zero or more
 //                    entity.getAttributes().add(new Attribute(secondEntity.toLowerCase(), secondEntityObj, true, relationship.getProperty()));
-                    sbfunc.append("    public List<").append(secondEntity).append("> get").append(secondEntity).append("() {\n");
-                    sbfunc.append("        return ").append(secondEntity.toLowerCase()).append("s;\n");
+                    sbfunc.append("    public List<").append(secondEntity).append("> get").append(pluralize(secondEntity)).append("() {\n");
+                    sbfunc.append("        return ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(secondEntity).append("(List<").append(secondEntity).append("> ").append(secondEntity.toLowerCase()).append("s) {\n");
-                    sbfunc.append("        this.").append(secondEntity.toLowerCase()).append("s = ").append(secondEntity.toLowerCase()).append("s;\n");
+                    sbfunc.append("    public void set").append(pluralize(secondEntity)).append("(List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(") {\n");
+                    sbfunc.append("        this.").append(pluralize(secondEntity.toLowerCase())).append(" = ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
                     _imports.add("jakarta.json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @OneToMany(mappedBy = \"").append(firstEntity.toLowerCase()).append("\")\n");
-                    sb.append("    private List<").append(secondEntity).append("> ").append(secondEntity.toLowerCase()).append("s;\n");
+                    sb.append("    private List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     break;
                 case "}|--||": // One or more to exactly one
                 case "}o--||": // Zero or more to exactly one
@@ -520,17 +559,17 @@ public class CRUDAppGenerator {
                 case "}o--|{": // Zero or more to one or more
                 case "}|--|{": // One or more to one or more
 //                    entity.getAttributes().add(new Attribute(secondEntity.toLowerCase(), secondEntityObj, true, relationship.getProperty()));
-                    sbfunc.append("    public List<").append(secondEntity).append("> get").append(secondEntity).append("() {\n");
-                    sbfunc.append("        return ").append(secondEntity.toLowerCase()).append("s;\n");
+                    sbfunc.append("    public List<").append(secondEntity).append("> get").append(pluralize(secondEntity)).append("() {\n");
+                    sbfunc.append("        return ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(secondEntity).append("(List<").append(secondEntity).append("> ").append(secondEntity.toLowerCase()).append("s) {\n");
-                    sbfunc.append("        this.").append(secondEntity.toLowerCase()).append("s = ").append(secondEntity.toLowerCase()).append("s;\n");
+                    sbfunc.append("    public void set").append(pluralize(secondEntity)).append("(List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(") {\n");
+                    sbfunc.append("        this.").append(pluralize(secondEntity.toLowerCase())).append(" = ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
                     _imports.add("jakarta.json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @ManyToMany(mappedBy = \"").append(firstEntity.toLowerCase()).append("\")\n");
-                    sb.append("    private List<").append(secondEntity).append("> ").append(secondEntity.toLowerCase()).append("s;\n");
+                    sb.append("    private List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     break;
             }
         } else {
@@ -575,18 +614,18 @@ public class CRUDAppGenerator {
                 case "}o--|{": // Zero or more to one or more
                 case "}|--|{": // One or more to one or more
 //                    entity.getAttributes().add(new Attribute(firstEntity.toLowerCase(), firstEntityObj, true, relationship.getProperty()));
-                    sbfunc.append("    public List<").append(firstEntity).append("> get").append(firstEntity).append("() {\n");
-                    sbfunc.append("        return ").append(firstEntity.toLowerCase()).append("s;\n");
+                    sbfunc.append("    public List<").append(firstEntity).append("> get").append(pluralize(firstEntity)).append("() {\n");
+                    sbfunc.append("        return ").append(pluralize(firstEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstEntity).append("(List<").append(firstEntity).append("> ").append(firstEntity.toLowerCase()).append("s) {\n");
-                    sbfunc.append("        this.").append(firstEntity.toLowerCase()).append("s = ").append(firstEntity.toLowerCase()).append("s;\n");
+                    sbfunc.append("    public void set").append(pluralize(firstEntity)).append("(List<").append(firstEntity).append("> ").append(pluralize(firstEntity.toLowerCase())).append(") {\n");
+                    sbfunc.append("        this.").append(pluralize(firstEntity.toLowerCase())).append(" = ").append(pluralize(firstEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
                     _imports.add("jakarta.json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @ManyToMany\n");
                     sb.append("    @JoinColumn(name = \"").append(firstEntity.toLowerCase()).append("_id\")\n");
-                    sb.append("    private List<").append(firstEntity).append("> ").append(firstEntity.toLowerCase()).append("s;\n");
+                    sb.append("    private List<").append(firstEntity).append("> ").append(pluralize(firstEntity.toLowerCase())).append(";\n");
                     break;
             }
         }

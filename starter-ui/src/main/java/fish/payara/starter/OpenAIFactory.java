@@ -52,40 +52,40 @@ import static java.time.Duration.ofSeconds;
 @ApplicationScoped
 public class OpenAIFactory {
 
-	@Inject
-	@ConfigProperty(name = "OPEN_API_KEY")
-	String apiKey;
-	@Inject
-	@ConfigProperty(name = "gpt.model")
-	String gptModel;
+    @Inject
+    @ConfigProperty(name = "OPEN_API_KEY")
+    private String apiKey;
 
+    @Inject
+    @ConfigProperty(name = "gpt.model")
+    private String gptModel;
 
-	@Inject
-	@ConfigProperty(name = "model.temperature")
-	Double temperature;
-	@Inject
-	@ConfigProperty(name = "openai.timeout")
-	int apiTimeout;
+    @Inject
+    @ConfigProperty(name = "model.temperature")
+    private Double temperature;
 
-	@Produces
-	@Singleton
-	public OpenAiService produceService() {
-		return new OpenAiService(apiKey,
-				Duration.ofSeconds(apiTimeout));
-	}
+    @Inject
+    @ConfigProperty(name = "openai.timeout")
+    private int apiTimeout;
 
-	@Produces
-	@Singleton
-	public OpenAiChatModel produceModel() {
-		return OpenAiChatModel.builder()
-				.apiKey(apiKey)
-				// .responseFormat("json_object")
-				.modelName(gptModel)
-				.temperature(temperature)
-				.timeout(ofSeconds(60))
-				.logRequests(true)
-				.logResponses(true)
-				.build();
-	}
+    @Produces
+    @Singleton
+    public OpenAiService produceService() {
+        return new OpenAiService(apiKey,
+                Duration.ofSeconds(apiTimeout));
+    }
+
+    @Produces
+    @Singleton
+    public OpenAiChatModel produceModel() {
+        return OpenAiChatModel.builder()
+                .apiKey(apiKey)
+                .modelName(gptModel)
+                .temperature(temperature)
+                .timeout(ofSeconds(apiTimeout))
+                .logRequests(true)
+                .logResponses(true)
+                .build();
+    }
 
 }

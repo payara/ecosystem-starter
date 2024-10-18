@@ -19,8 +19,6 @@ import fish.payara.starter.application.domain.Entity;
 import fish.payara.starter.application.domain.Relationship;
 import fish.payara.starter.application.domain.ERModel;
 import fish.payara.starter.application.domain.Attribute;
-import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE;
-import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE_TIME;
 import static fish.payara.starter.application.util.AttributeType.getWrapperType;
 import static fish.payara.starter.application.util.StringHelper.titleCase;
 import java.util.regex.Matcher;
@@ -53,8 +51,11 @@ private final static Pattern ENTITY_PATTERN = Pattern.compile("^(\\w+)\\s*\\{\\s
                 Matcher matcher = ENTITY_PATTERN.matcher(line);
                 if (matcher.find()) {
                     String entityName = matcher.group(1);
-//                    String entityMetadata = matcher.group(2);
-                    Entity entity = new Entity(titleCase(entityName));
+                    
+                    Entity entity = erModel.getEntity(titleCase(entityName));
+                    if(entity == null) {
+                        entity = new Entity(titleCase(entityName));
+                    }
                     while (i < lines.length - 1) {
                         line = lines[++i].trim();
                         if (line.equals("}")) {

@@ -45,7 +45,8 @@ public class Entity {
     public String getName() {
         return name;
     }
-    
+
+    @JsonbTransient
     public String getClassName() {
         String[] parts = name.split("_");
         StringBuilder result = new StringBuilder();
