@@ -142,9 +142,6 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <defaultValue>false</defaultValue>
             <validationRegex>^(false|true)$</validationRegex>
         </requiredProperty>
-        <requiredProperty key="erDiagramName">
-            <defaultValue></defaultValue>
-        </requiredProperty>
         <requiredProperty key="restSubpackage">
             <defaultValue>resource</defaultValue>
         </requiredProperty>
