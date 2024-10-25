@@ -64,7 +64,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" id="${entity.getLowerCaseName()}Link">
                                 <i class="bi bi-${entity.getIcon()}"></i>
-                                ${entity.getTitleCasePluralizeName()}
+                                ${entity.getTitleCaseName()}
                             </a>
                         </li>
                     </#list>

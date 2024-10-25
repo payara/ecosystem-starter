@@ -39,7 +39,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -464,9 +463,9 @@ erDiagram
         }
 
         for (Relationship relationship : relationships) {
-            if (relationship.getFirstEntity().equals(className)) {
+            if (relationship.getFirstEntityClass().equals(className)) {
                 appendRelationship(sbBody, sbfunc, _imports, model, entity, relationship, true);
-            } else if (relationship.getSecondEntity().equals(className)) {
+            } else if (relationship.getSecondEntityClass().equals(className)) {
                 appendRelationship(sbBody, sbfunc, _imports, model, entity, relationship, false);
             }
         }
