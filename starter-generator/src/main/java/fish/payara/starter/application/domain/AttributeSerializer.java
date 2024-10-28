@@ -42,13 +42,18 @@ import jakarta.json.bind.serializer.JsonbSerializer;
 import jakarta.json.bind.serializer.SerializationContext;
 import jakarta.json.stream.JsonGenerator;
 
+/**
+ * A serializer for the {@link Attribute} class that defines how an
+ * Attribute object should be serialized to JSON.
+ * This class implements the {@link JsonbSerializer} interface
+ * to provide custom serialization logic for attributes.
+ */
 public class AttributeSerializer implements JsonbSerializer<Attribute> {
 
     @Override
     public void serialize(Attribute attribute, JsonGenerator generator, SerializationContext ctx) {
         generator.writeStartObject();
 
-        // Always write the name and type
         generator.write("name", attribute.getName());
         generator.write("type", attribute.getType());
 

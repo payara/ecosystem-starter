@@ -49,12 +49,12 @@ public final class StringHelper {
     /**
      * Converts `string` to [start case]
      *
-     * @param content
-     * @return
-     * @example
-     *
      * startCase('--foo-bar--') => 'Foo Bar' startCase('fooBar') => 'Foo Bar'
      * startCase('__FOO_BAR__') => 'FOO BAR'
+     * 
+     * @param content
+     * @return
+     *
      */
     public static String startCase(String content) {
         StringBuilder result = new StringBuilder();
@@ -68,12 +68,10 @@ public final class StringHelper {
 
     /**
      * Converts `string` to [snake case]
+     * Foo Bar > 'foo_bar', fooBar > 'foo_bar', --FOO-BAR-- > 'foo_bar'
      *
      * @param content
      * @return
-     * @example
-     *
-     * Foo Bar > 'foo_bar', fooBar > 'foo_bar', --FOO-BAR-- > 'foo_bar'
      */
     public static String snakeCase(String content) {
         StringBuilder result = new StringBuilder();
@@ -87,12 +85,11 @@ public final class StringHelper {
 
     /**
      * Converts `string` to [kebab case]
+     * 'Foo Bar > 'foo-bar', 'fooBar' > 'foo-bar', '__FOO_BAR__' > 'foo-bar'
      *
      * @param content
      * @return
-     * @example
      *
-     * 'Foo Bar > 'foo-bar', 'fooBar' > 'foo-bar', '__FOO_BAR__' > 'foo-bar'
      */
     public static String kebabCase(String content) {
         StringBuilder result = new StringBuilder();
@@ -108,14 +105,13 @@ public final class StringHelper {
      * Removes leading and trailing whitespace or specified characters from
      * `string`.
      *
-     * @param content
-     * @param trimmer
-     * @return
-     * @example
-     *
      * _.trim(' abc ', ' '); // => 'abc'
      *
      * _.trim('_abc_', '_'); // => 'abc'
+     *
+     * @param content
+     * @param trimmer
+     * @return
      *
      */
     public static String trim(String content, char trimmer) {
@@ -137,11 +133,10 @@ public final class StringHelper {
     /**
      * Converts `string` to [camel case]
      *
+     * 'Foo Bar > 'fooBar', '--foo-bar--' > 'fooBar', '__FOO_BAR__ > 'fooBar'
+     *
      * @param content
      * @return
-     * @example
-     *
-     * 'Foo Bar > 'fooBar', '--foo-bar--' > 'fooBar', '__FOO_BAR__ > 'fooBar'
      */
     public static String camelCase(String content) {
         StringBuilder result = new StringBuilder();
@@ -160,12 +155,12 @@ public final class StringHelper {
     }
 
     /**
+     * Convert to natural language
+     * BankAccount => Bank Account Bank_Account => Bank_Account
      *
      * @param input
      * @return
-     * @example
      *
-     * BankAccount => Bank Account Bank_Account => Bank_Account
      */
     public static String toNatural(String input) {
         String natural = EMPTY;
@@ -191,12 +186,11 @@ public final class StringHelper {
     }
 
     /**
-     *
+     * Convert to constant
+     * BankAccount => BANK_ACCOUNT Bank_Account => BANK_ACCOUNT
      * @param input
      * @return
-     * @example
      *
-     * BankAccount => BANK_ACCOUNT Bank_Account => BANK_ACCOUNT
      */
     public static String toConstant(String input) {
         String constant = EMPTY;
