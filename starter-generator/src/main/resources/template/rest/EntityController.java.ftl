@@ -18,7 +18,7 @@ package ${package};
 import ${EntityClass_FQN};
 import ${EntityRepository_FQN};
 <#list entity.attributes as attribute>
-    <#if attribute.relation??>
+    <#if model.getEntity(attribute.type)??>
         <#if attribute.multi>
         <#else>
 import ${EntityRepository_package}.${attribute.getTitleCaseName()}${EntityRepositorySuffix};
@@ -64,7 +64,7 @@ public class ${controllerClass} {
     private ${EntityRepository} ${entityRepository};
 
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
     @Inject
@@ -95,13 +95,13 @@ public class ${controllerClass} {
     public Response create${EntityClass}(${instanceType} ${instanceName}) throws URISyntaxException {
         LOG.log(Level.FINE, "REST request to save ${EntityClass} : {}", ${instanceName});
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
-        if (${instanceName}.get${attribute.relation.getTitleCaseName()}() != null && ${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}() != null) {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}()));
+        if (${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}() != null && ${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
         } else {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(null);
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(null);
         }
             </#if>
         <#else>
@@ -133,13 +133,13 @@ public class ${controllerClass} {
     public Response update${EntityClass}(${instanceType} ${instanceName}) throws URISyntaxException {
         LOG.log(Level.FINE, "REST request to update ${EntityClass} : {}", ${instanceName});
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
-        if (${instanceName}.get${attribute.relation.getTitleCaseName()}() != null && ${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}() != null) {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}()));
+        if (${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}() != null && ${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
         } else {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(null);
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(null);
         }
             </#if>
         <#else>

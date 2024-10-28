@@ -70,7 +70,7 @@ public class CRUDAppGenerator {
 
     public static void main(String[] args) {
         String mermaidCode = """
-erDiagram
+                             erDiagram
     STUDENT ||--o{ ENROLLMENT : enrolls
     STUDENT {
         string studentID PK
@@ -185,7 +185,7 @@ erDiagram
                     generateRestBase(dataModel, _package, java);
                     if (generateWeb) {
                         for (Entity entity : model.getEntities()) {
-                            generateFrontend(entity, webapp);
+                            generateFrontend(model, entity, webapp);
                         }
                         generateFrontendBase(model, webapp);
                     }
@@ -202,8 +202,9 @@ erDiagram
         generate("template/html", "about-us.html.ftl", "about-us.html", dataModel, outputDir);
     }
 
-    private void generateFrontend(Entity entity, File outputDir) {
+    private void generateFrontend(ERModel model, Entity entity, File outputDir) {
         Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("model", model);
         dataModel.put("entity", entity);
         dataModel.put("entityNameLowerCase", entity.getClassName().toLowerCase());
         dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
@@ -239,6 +240,7 @@ erDiagram
             String entityInstance = firstLower(entity.getClassName());
             String entityNameSpinalCased = kebabCase(entityInstance);
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("model", model);
             dataModel.put("package", controllerPackage);
             dataModel.put("entity", entity);
             dataModel.put("EntityClass", entity.getClassName());
@@ -321,6 +323,7 @@ erDiagram
             // Create the data model
             String repositoryPackage = _package + "." + repositoryLayer;
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("model", model);
             dataModel.put("package", repositoryPackage);
             dataModel.put("cdi", true);
             dataModel.put("named", false);
