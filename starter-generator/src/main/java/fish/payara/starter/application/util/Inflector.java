@@ -198,7 +198,8 @@ public class Inflector {
      * method also converts '/' characters to '::' because that reflects the
      * normal syntax for fully qualified names in Ruby.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -260,7 +261,8 @@ public class Inflector {
      * Create and return a simple class name that corresponds to a addPlural
      * table name. Any leading schema name will be trimmed.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -291,7 +293,8 @@ public class Inflector {
      * <p>
      * Replace underscores in the specified word with dashes.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -319,7 +322,8 @@ public class Inflector {
      * Remove any package name from a fully qualified class name, returning only
      * the simple classname.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -363,7 +367,8 @@ public class Inflector {
      * Create and return a foreign key name from a class name, optionally
      * inserting an underscore before the "id" portion.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -403,7 +408,8 @@ public class Inflector {
      * <code>titleize()</code>, this is meant for creating pretty output, and is
      * not intended for code generation.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -444,7 +450,8 @@ public class Inflector {
      * Turn a number into a corresponding ordinal string used to denote the
      * position in an ordered sequence.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -560,7 +567,8 @@ public class Inflector {
      * database table, by uncamelizing, inserting underscores, and pluralizing
      * the last word.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -589,7 +597,8 @@ public class Inflector {
      * create a nicer looking title. This is meant for creating pretty output,
      * and is not intended for code generation.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
@@ -635,7 +644,8 @@ public class Inflector {
      * the expression in the string. Changes "." to "/" to convert fully
      * qualified class names into paths.</p>
      *
-     * <table border="1" width="100%">
+     * <table border="1">
+     * <caption>Inflector Rules</caption>
      * <tr>
      * <th>Input</th>
      * <th>Output</th>
