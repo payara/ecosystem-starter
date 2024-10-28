@@ -1,0 +1,27 @@
+erDiagram
+    EVENT ||--o{ ATTENDEE : hosts
+    EVENT {
+        int eventID PK
+        string eventName
+        datetime eventDateTime
+        string location
+    }
+    ATTENDEE {
+        int attendeeID PK
+        string name
+        string email
+        string organization
+    }
+    ORGANIZER ||--o{ EVENT : organizes
+    ORGANIZER {
+        int organizerID PK
+        string name
+        string company
+    }
+    VENUE ||--o{ EVENT : hosts
+    VENUE {
+        int venueID PK
+        string name
+        string location
+        int capacity
+    }

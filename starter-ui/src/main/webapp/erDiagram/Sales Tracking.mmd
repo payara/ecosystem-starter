@@ -1,0 +1,26 @@
+erDiagram
+    SALE ||--o{ PRODUCT : includes
+    SALE {
+        int saleID PK
+        datetime saleDateTime
+        float totalAmount
+    }
+    PRODUCT {
+        int productID PK
+        string productName
+        float price
+        int quantity
+    }
+    CUSTOMER ||--o{ SALE : makes
+    CUSTOMER {
+        int customerID PK
+        string name
+        string email
+        string address
+    }
+    EMPLOYEE ||--o{ SALE : records
+    EMPLOYEE {
+        int employeeID PK
+        string name
+        string department
+    }

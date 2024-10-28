@@ -1,0 +1,53 @@
+erDiagram
+    LAWYER ||--o{ CASE : handles
+    LAWYER {      
+        int lawyerId PK					
+        string name
+        string email
+        string specialization
+        string phone
+    }
+    CLIENT ||--o{ CASE : hires
+    CLIENT {      
+        int clientId PK					
+        string name
+        string email
+        string phone
+        string address
+    }
+    CASE {      
+        int caseId PK					
+        string name
+        date startDate
+        date endDate
+        string status
+    }
+    DOCUMENT ||--o{ CASE : relates
+    DOCUMENT {      
+        int documentId PK					
+        string name
+        string type
+        date uploadDate
+    }
+    BILLING ||--o{ CLIENT : invoices
+    BILLING {      
+        int billingId PK					
+        float amount
+        date dueDate
+        string status
+    }
+    PAYMENT ||--o{ BILLING : pays
+    PAYMENT {      
+        int paymentId PK					
+        float amount
+        date paymentDate
+        string method
+    }
+    MEETING ||--o{ CASE : schedules
+    MEETING {      
+        int meetingId PK					
+        string title
+        date dateTime
+        string location
+    }	
+

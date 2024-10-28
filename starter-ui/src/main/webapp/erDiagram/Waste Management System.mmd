@@ -1,0 +1,38 @@
+erDiagram
+    WASTE_PROVIDER ||--o{ WASTE_COLLECTION : "provides"
+    WASTE_PROVIDER {      
+        int providerId PK					
+        string name
+        string address
+        string contactNumber
+        string email
+        string website
+    }
+    WASTE_COLLECTION {      
+        int collectionId PK					
+        string type
+        string schedule
+        string frequency
+        float cost
+    }
+    CUSTOMER ||--o{ WASTE_COLLECTION : "subscribes to"
+    CUSTOMER {      
+        int customerId PK					
+        string name
+        string address
+        string contactNumber
+        string email
+    }
+    WASTE_DISPOSAL ||--o{ WASTE_COLLECTION : "handled by"
+    WASTE_DISPOSAL {      
+        int disposalId PK					
+        string method
+        string facility
+        string location
+    }
+    WASTE_CATEGORY ||--o{ WASTE_COLLECTION : "classified by"
+    WASTE_CATEGORY {      
+        int categoryId PK					
+        string name
+        string description
+    }	

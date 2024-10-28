@@ -1,0 +1,43 @@
+erDiagram
+    UTILITY ||--o{ METER : owns
+    UTILITY {
+        int utilityId PK
+        string name
+        string location
+    }
+    METER ||--o{ USAGE : records
+    METER {
+        int meterId PK
+        string type
+        string serialNumber
+    }
+    USAGE ||--o{ BILLING : generates
+    USAGE {
+        int usageId PK
+        float amount
+        date dateRecorded
+    }
+    BILLING {		
+        int billingId PK					
+        float amount
+        date dueDate
+    }
+    PROVIDER ||--o{ UTILITY : supplies
+    PROVIDER {      
+        int providerId PK					
+        string name
+        string contactInfo
+    }
+    CUSTOMER ||--o{ USAGE : consumes
+    CUSTOMER {      
+        int customerId PK					
+        string name
+        string address
+    }
+    ALERT ||--o{ USAGE : triggers
+    ALERT {      
+        int alertId PK					
+        string description
+        date dateTriggered
+    }
+

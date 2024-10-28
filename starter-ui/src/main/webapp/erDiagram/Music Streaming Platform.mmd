@@ -1,0 +1,18 @@
+erDiagram					
+    USER ||--o{ PLAYLIST : creates
+    USER {
+        string userId	PK
+        string username
+        string email
+    }
+    PLAYLIST ||--|{ SONG : contains
+    PLAYLIST {
+        int playlistId PK
+        string title
+    }
+    SONG {		
+        string songId PK					
+        string title
+        string artist
+        string genre
+    }	

@@ -46,73 +46,93 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="manifest" href="manifest.webmanifest">
         <link rel="stylesheet" href="ui/css/payara.min.css">
-		<link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
-		<link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
+        <link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
+        <link rel="stylesheet" href="ui-starter/hubspot.css" type="text/css" media="all">
+        <link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/xml/xml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/css/css.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/mermaid/mermaid.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
+        <link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
 
-        <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MGV5FR6D');</script>
-        <!-- End Google Tag Manager -->
+        <!-- Google Tag Manager with HubSpot cookie constent check. -->
+        <script>
+            var _hsq = window._hsq = window._hsq || [];
+            _hsq.push(['addPrivacyConsentListener', function(consent) {
+
+                if (consent.allowed || consent.categories.analytics) {
+
+                    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','GTM-MGV5FR6D');
+                }
+            }]);
+        </script>
+        <!-- End Google Tag Manager with HubSpot cookie constent check -->
 
     </head>
     <body class="page page--sticky-header theme--light">
 
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGV5FR6D"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGV5FR6D" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
 
-		<header class="page__header">
-			<div class="cards card--no-pad js__main-menu">
-				<div class="card--content-width">
-					<a href="/" class="logo">
-						<img src="ui/images/logo.svg" alt="Payara" class="logo__full">
-					</a>
-				</div>
-				<div class="card--content-width text-align--right">
-					<nav class="menu menu--horizontal">
-						<ul class="menu__group">
+        <header class="page__header">
+            <div class="cards card--no-pad js__main-menu">
+                <div class="card--content-width">
+                    <a href="/" class="logo">
+                        <img src="ui/images/logo.svg" alt="Payara" class="logo__full">
+                    </a>
+                </div>
+                <div class="card--content-width text-align--right">
+                    <nav class="menu menu--horizontal">
+                        <ul class="menu__group">
 
-							<li class="menu__item">
-								<a href="https://www.payara.fish/enterprise/" class="menu__content">
-									<span class="menu__text">Enterprise</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://www.payara.fish/products/payara-cloud/" class="menu__content">
-									<span class="menu__text">Payara Cloud</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://www.payara.fish/learn/resources/" class="menu__content">
-									<span class="menu__text">Learn</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://blog.payara.fish/" class="menu__content">
-									<span class="menu__text">Blog</span>
-								</a>
-							</li>
-							<li class="menu__item">
-								<a href="https://www.payara.fish/about/community/" class="menu__content">
-									<span class="menu__text">Community</span>
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</header>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/enterprise/" class="menu__content">
+                                    <span class="menu__text">Enterprise</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/products/payara-cloud/" class="menu__content">
+                                    <span class="menu__text">Payara Cloud</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/learn/resources/" class="menu__content">
+                                    <span class="menu__text">Learn</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://blog.payara.fish/" class="menu__content">
+                                    <span class="menu__text">Blog</span>
+                                </a>
+                            </li>
+                            <li class="menu__item">
+                                <a href="https://www.payara.fish/about/community/" class="menu__content">
+                                    <span class="menu__text">Community</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
 
         <div class="page__main">
             <main class="page__content">
                 <div class="page__content-inner">
 
-					<div class="hero">
-						<div class="cards--max-width cards--max-width--medium">
+                    <div class="hero">
+                        <div class="cards--max-width cards--max-width--medium">
                             <div>
                                 <div class="cards card--no-pad">
                                     <div>
@@ -124,7 +144,7 @@
                                 </div>
                             </div>
                         </div>
-					</div>
+                    </div>
 
                     <div class="cards--max-width cards--max-width--medium">
                         <div>
@@ -134,13 +154,13 @@
                                     <form class="form form-steps form-steps--hide-previous-fields form-steps--clickable-legends" data-step-error="Please correct the errors in this step before moving forward." style="--scroll-margin-top: 1.6rem" id="appForm">
 
                                         <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Project Details</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Details</div>
+                                            <legend class="visually-hidden form-steps__title">Project Description</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Description</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -168,49 +188,7 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Project Configuration</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Project Configuration</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Configuration</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="package">Package</label>
-                                                        <input type="text" name="package" id="package" value="fish.payara" class="form__text">
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <input class="form__radbox" type="checkbox" id="includeTests" name="includeTests" value="true">
-                                                        <label class="form__radbox-label" for="includeTests">Include Tests</label>
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="javaVersion">Java Version</label>
-                                                        <select class="form__select" name="javaVersion" id="javaVersion"></select>
-                                                    </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Details</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: Jakarta EE</span></span>
                                                         </a>
@@ -218,15 +196,15 @@
                                                 </div>
                                             </div>
                                         </fieldset>
-
+                                        
                                         <fieldset class="form-steps__step">
                                             <legend class="visually-hidden form-steps__title">Jakarta EE</legend>
                                             <div class="legend h3 form-steps__title" aria-hidden="true">Jakarta EE</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -250,13 +228,99 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Configuration</span></span>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Details</span></span>
                                                         </a>
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: Payara Platform</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        
+                                        
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Payara Platform</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Payara Platform</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">
+                                                    <p class="form__row">
+                                                        <span class="form__label">Platform</span>
+                                                        <input class="form__radbox" type="radio" name="platform" id="server" value="server" checked>
+                                                        <label class="form__radbox-label" for="server">Payara Server</label>
+                                                        <br>
+                                                        <input class="form__radbox" type="radio" name="platform" id="micro" value="micro">
+                                                        <label class="form__radbox-label" for="micro">Payara Micro</label>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="payaraVersion">Payara Platform version:</label>
+                                                        <select class="form__select" name="payaraVersion" id="payaraVersion"></select>
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Jakarta EE</span></span>
+                                                        </a>
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Next<span class="visually-hidden">: Project Configuration</span></span>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        
+                                        
+                                        <fieldset class="form-steps__step">
+                                            <legend class="visually-hidden form-steps__title">Project Configuration</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Configuration</div>
+                                            <div class="form-steps__icon">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="form-steps__fields">
+                                                <div class="form-steps__inner">
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="package">Package</label>
+                                                        <input type="text" name="package" id="package" value="fish.payara" class="form__text">
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <input class="form__radbox" type="checkbox" id="includeTests" name="includeTests" value="true">
+                                                        <label class="form__radbox-label" for="includeTests">Include Tests</label>
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <label class="form__label" for="javaVersion">Java Version</label>
+                                                        <select class="form__select" name="javaVersion" id="javaVersion"></select>
+                                                    </p>
+                                                    <p class="form__row form-steps__controls">
+                                                        <a class="button button--ghost form__step__button-back">
+                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            </svg>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                        </a>
+                                                        <a class="button button--ghost form__step__button">
+                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: MicroProfile</span></span>
                                                         </a>
@@ -270,9 +334,9 @@
                                             <div class="legend h3 form-steps__title" aria-hidden="true">MicroProfile</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -296,55 +360,13 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Jakarta EE</span></span>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Configuration</span></span>
                                                         </a>
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Payara Platform</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Payara Platform</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Payara Platform</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">
-                                                    <p class="form__row">
-                                                        <span class="form__label">Platform</span>
-                                                        <input class="form__radbox" type="radio" name="platform" id="server" value="server" checked>
-                                                        <label class="form__radbox-label" for="server">Payara Server</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="radio" name="platform" id="micro" value="micro">
-                                                        <label class="form__radbox-label" for="micro">Payara Micro</label>
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="payaraVersion">Payara Platform version:</label>
-                                                        <select class="form__select" name="payaraVersion" id="payaraVersion"></select>
-                                                    </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: MicroProfile</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
                                                             <span class="button__text">Next<span class="visually-hidden">: Deployment Options</span></span>
                                                         </a>
@@ -352,15 +374,15 @@
                                                 </div>
                                             </div>
                                         </fieldset>
-                                        
+
                                         <fieldset class="form-steps__step">
                                             <legend class="visually-hidden form-steps__title">Deployment Options</legend>
                                             <div class="legend h3 form-steps__title" aria-hidden="true">Deployment Options</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -373,12 +395,13 @@
                                                         <input class="form__radbox" type="checkbox" id="cloud" name="cloud" value="false">
                                                         <label class="form__radbox-label" for="cloud">Payara Cloud</label>
                                                     </p>
+                                                    
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                                                             <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: MicroProfile</span></span>
                                                         </a>
                                                         <a class="button button--ghost form__step__button">
                                                             <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -391,14 +414,83 @@
                                             </div>
                                         </fieldset>
 
+                                   <fieldset class="form-steps__step">
+                                        <legend class="visually-hidden form-steps__title">ER Diagram Designer</legend>
+                                        <div class="legend h3 form-steps__title" aria-hidden="true">ER Diagram Designer</div>
+                                        <div class="form-steps__icon">
+                                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                            </svg>
+                                        </div>
+                                        <div class="form-steps__fields">
+                                            <div class="form-steps__inner">
+                                                <p class="form__row">
+                                                    <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
+                                                    <select name="erDiagramName" id="mermaidErDiagramList" class="form__select" title="Select an existing diagram or type to create a new one"></select>
+                                                    <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
+                                                </p>
+                                                <p class="form__row">
+                                                    <button type="button" class="button button--ghost" title="Open the Diagram Builder and Preview" onclick="openMermaidPreview()">
+                                                        <span class="button__text">Diagram Builder & Live Preview</span>
+                                                    </button>
+                                                </p>
+                                                <p class="form__row">
+                                                    <span class="form__label">Generate Code For:</span>
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked title="Generate JPA code">
+                                                        <label class="form__radbox-label" for="generateJpa">JPA</label>
+                                                        <label class="form__label" for="jpaSubpackage">Package</label>
+                                                        <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA" title="Specify the subpackage for JPA">
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked title="Generate Repository code">
+                                                        <label class="form__radbox-label" for="generateRepository">Repository</label>
+                                                        <label class="form__label" for="repositorySubpackage">Package</label>
+                                                        <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository" title="Specify the subpackage for Repository">
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked title="Generate REST code">
+                                                        <label class="form__radbox-label" for="generateRest">REST</label>
+                                                        <label class="form__label" for="restSubpackage">Package</label>
+                                                        <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST">
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked title="Generate Web code">
+                                                        <label class="form__radbox-label" for="generateWeb">Web</label>
+                                                    </div>
+                                                </p>
+
+                                                <p class="form__row form-steps__controls">
+                                                    <a class="button button--ghost form__step__button-back" title="Go back to the previous step">
+                                                        <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                        </svg>
+                                                        <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                    </a>
+                                                    <a class="button button--ghost form__step__button" title="Proceed to the next step">
+                                                        <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                        </svg>
+                                                        <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
                                         <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Advanced Configuration</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Advanced Configuration</div>
+                                            <legend class="visually-hidden form-steps__title">Security Configuration</legend>
+                                            <div class="legend h3 form-steps__title" aria-hidden="true">Security Configuration</div>
                                             <div class="form-steps__icon">
                                                 <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                    <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                <use href="ui/images/icons.svg#icon-tick"></use>
+                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
                                                 </svg>
                                             </div>
                                             <div class="form-steps__fields">
@@ -420,9 +512,9 @@
                                                     <p class="form__row form-steps__controls">
                                                         <a class="button button--ghost form__step__button-back">
                                                             <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
                                                             </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                            <span class="button__text">Previous<span class="visually-hidden">: Data Model Configuration</span></span>
                                                         </a>
                                                     </p>
                                                 </div>
@@ -439,15 +531,26 @@
                                             <span>
                                                 <button type="submit" class="button">
                                                     <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                        <use href="ui/images/icons.svg#icon-download"></use>
+                                                    <use href="ui/images/icons.svg#icon-download"></use>
                                                     </svg>
                                                     <span class="button__text">Generate</span>
                                                 </button>
                                             </span>
+<!--                                            <span>
+                                                <button type="submit" class="button">
+                                                    <i class="bi bi-github"></i>
+                                                    <span class="button__text">Save to Github</span>
+                                                </button>
+                                            </span>
+                                            <span>
+                                                <button type="submit" class="button">
+                                                    <i class="bi bi-cloud"></i>
+                                                    <span class="button__text">Deploy to Payara Cloud</span>
+                                                </button>
+                                            </span>-->
                                         </p>
 
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -457,64 +560,701 @@
             </main>
         </div>
 
-		<footer class="page__footer">
-			<div class="cards card--no-pad">
-				<div class="text-align--left">
-					<theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
-				</div>
-				<div class="card--content-width buttons--light text-align--right"> 
-					<span>Follow Us: </span>
-					<a href="https://twitter.com/Payara_Fish" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-twitter"></use>
-						</svg>
-						<span class="visually-hidden">Twitter</span>
-					</a>
-					<a href="https://www.facebook.com/PayaraFish" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-facebook"></use>
-						</svg>
-						<span class="visually-hidden">Facebook</span>
-					</a>
-					<a href="https://www.linkedin.com/company/payara" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-linkedin"></use>
-						</svg>
-						<span class="visually-hidden">LinkedIn</span>
-					</a>
-					<a href="https://www.youtube.com/user/payarafish" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-youtube"></use>
-						</svg>
-						<span class="visually-hidden">YouTube</span>
-					</a>
-					<a href="https://www.instagram.com/payaraculture" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-instagram"></use>
-						</svg>
-						<span class="visually-hidden">Instagram</span>
-					</a>
-					<a href="https://www.meetup.com/payara-global-meetup/" class="button button--ghost">
-						<svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-							<use href="ui/images/icons.svg#icon-meetup"></use>
-						</svg>
-						<span class="visually-hidden">Meetup</span>
-					</a>
-				</div>
-				<div class="card--content-width">
-					<a href="https://www.payara.fish/about/contact-us/" class="button">
-						<span class="button__text">Contact Us</span>
-					</a>
-				</div>
-			</div>
-		</footer>
+        <footer class="page__footer">
+            <div class="cards card--no-pad">
+                <div class="card--content-width text-align--left">
+                    <theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
+                </div>
+                <div class="buttons--light text-align--left">
+                    <button type="button" class="button button--ghost" id="hs_show_banner_button" onclick="(function(){
+                        var _hsp = window._hsp = window._hsp || [];
+                        _hsp.push(['showBanner']);
+                    })()">
+                        Cookies
+                    </button>
+                </div>
+                <div class="card--content-width buttons--light text-align--right"> 
+                    <span>Follow Us: </span>
+                    <a href="https://twitter.com/Payara_Fish" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-twitter"></use>
+                        </svg>
+                        <span class="visually-hidden">Twitter</span>
+                    </a>
+                    <a href="https://www.facebook.com/PayaraFish" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-facebook"></use>
+                        </svg>
+                        <span class="visually-hidden">Facebook</span>
+                    </a>
+                    <a href="https://www.linkedin.com/company/payara" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-linkedin"></use>
+                        </svg>
+                        <span class="visually-hidden">LinkedIn</span>
+                    </a>
+                    <a href="https://www.youtube.com/user/payarafish" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-youtube"></use>
+                        </svg>
+                        <span class="visually-hidden">YouTube</span>
+                    </a>
+                    <a href="https://www.instagram.com/payaraculture" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-instagram"></use>
+                        </svg>
+                        <span class="visually-hidden">Instagram</span>
+                    </a>
+                    <a href="https://www.meetup.com/payara-global-meetup/" class="button button--ghost">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-meetup"></use>
+                        </svg>
+                        <span class="visually-hidden">Meetup</span>
+                    </a>
+                </div>
+                <div class="card--content-width">
+                    <a href="https://www.payara.fish/about/contact-us/" class="button">
+                        <span class="button__text">Contact Us</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+        <!-- HTML structure for the modal dialog -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <div class="half" id="diagramSource">
+                    <div class="inline-elements"  id="diagramSourceTopTool">
+                        <h2>Source</h2>
+                        <select name="mermaidErDiagramListPreview" id="mermaidErDiagramListPreview" class="form__select" title="Select an existing diagram or type to create a new one"></select>
+                    </div>
+                    <textarea id="sourceCode"></textarea>
+                    <div id="graphDiv"></div>
+                    <div class="inline-elements" id="diagramSourceBottomTool">
+                        <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter" /> 
+                    </div>
+                </div>
+                <div class="half" id="diagramView">
+                    <div class="inline-elements"  id="diagramSourceTopTool">
+                        <h2 id="headerAI"  style="white-space: nowrap;">Live Preview</h2>
+                        <span class="form__progress loader loader--line" id="loadingBarAI" style="display: none;">
+                            <span class="loader__fish"></span>
+                        </span>
+                    </div> 
+                    <div id="livePreview" class="livePreview"></div>
+                    <div class="inline-elements" id="diagramViewBottomTool">
+                        <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter" /> 
+                        <button type="button" class="button button--ghost" id="prevERDiagram" disabled title="Previous ER Diagram"><i class="bi bi-arrow-left"></i></button>
+                        <button type="button" class="button button--ghost" id="nextERDiagram" disabled title="Next ER Diagram"><i class="bi bi-arrow-right"></i></button>
+                        <button type="button" class="button button--ghost" id="enlargeERDiagram" title="Enlarge ER Diagram">+</button>
+                        <button type="button" class="button button--ghost" id="shrinkERDiagram" title="Shrink ER Diagram">-</button>
+                        <button type="button" class="button button--ghost" id="fullscreenDiagram" onclick="toggleDiagramView()" title="Fullscreen Diagram"><i class="bi bi-fullscreen" id="fullscreenIcon"></i></button>
+                    </div>
+                </div>
+                <span class="close">&times;</span>
+            </div>
+        </div>
+        <script>
+                function toggleDiagramView() {
+                    const diagramView = document.getElementById('diagramView');
+                    const diagramSource = document.getElementById('diagramSource');
+                    const makeFullscreen = diagramView.style.width !== '100%';
+                    diagramView.style.width = makeFullscreen ? '100%' : '50%';
+                    diagramSource.style.width = makeFullscreen ? '0%' : '50%';
+                    document.getElementById('queryBox').style.display = makeFullscreen ? 'none' : 'inline';
+                    document.getElementById('queryBoxHidden').style.display = makeFullscreen ? 'inline' : 'none';
+                    diagramSource.style.display = makeFullscreen ? 'none' : 'inline';
+                    const fullscreenIcon = document.getElementById('fullscreenIcon');
+                    if (makeFullscreen) {
+                        fullscreenIcon.classList.remove('bi-fullscreen');
+                        fullscreenIcon.classList.add('bi-fullscreen-exit');
+                        document.getElementById('fullscreenDiagram').title = 'Exit Fullscreen Diagram';
+                    } else {
+                        fullscreenIcon.classList.remove('bi-fullscreen-exit');
+                        fullscreenIcon.classList.add('bi-fullscreen');
+                        document.getElementById('fullscreenDiagram').title = 'Fullscreen Diagram';
+                    }
+                }
+        </script>
+        <!-- CSS for styling the modal dialog -->
+        <style>
+            button:disabled i {
+                color: #aaa;
+            }
+            button:disabled {
+                box-shadow: 0 0 0 1px #aaa inset !important;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 10;
+                left: 0;
+                top: 0;
+                width: 98%;
+                height: 98%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.5);
+                margin-top: 1%;
+                margin-left: 1%;
+            }
+
+            .modal-content {
+                display: flex;
+                flex-direction: row;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 10px;
+                border: 1px solid #888;
+                width: 99%;
+                height: 99%;
+            }
+
+            .half {
+                width: 50%;
+                padding: 10px;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            #livePreview {
+                border: 1px solid #ccc;
+                height: 82%;
+                margin-bottom: 10px;
+            }
+
+            #sourceCode {
+                border: 1px solid #ccc;
+                height: 90%;
+                overflow-y: scroll;
+                width: 100%;
+            }
+
+            .inline-elements {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .inline-elements h2 {
+                margin: 0;
+                margin-right: 10px;
+            }
+
+            .inline-elements select {
+                margin: 0;
+            }
+
+            .CodeMirror {
+                height: 82%;
+                font-size: small;
+                border: 1px solid #ccc;
+                margin-top: 11px;
+                margin-bottom: 9px;
+            }
+            
+            .livePreview svg {
+                height: inherit;
+            }
+
+            .CodeMirror .cm-comment {
+                color: #ff0000; /* Change this to your desired color */
+            }
+        </style>
+        <script>
+           var editor;
+        </script>
+        <script type="module">
+//        https://chatgpt.com/share/99102a26-a8ac-45c5-8d5b-76fc118cd602
+            const erDiagrams = [
+                'Auction Management System',
+                'Customer Relationship Management',
+                'Employee Management',
+                'Energy Management System',
+                'Event Management',
+                'Flight Reservation System',
+                'Healthcare System',
+                'Insurance Claim Management System',
+                'Inventory System',
+                'Laboratory Information Management System',
+                'Law Firm Management System',
+                'Legal Case Management System',
+                'Library Management System',
+                'Membership Management System',
+                'Music Streaming Platform',
+                'Product Catalog',
+                'Property Management System',
+                'Recruitment Management System',
+                'Sales Tracking',
+                'School Management',
+                'Video Streaming Platform',
+                'Waste Management System'
+            ];
+
+            var erDiagramContent = {};
+            var erDiagramChat = [];
+            var erDiagramChatIndex = 0;
+
+            document.getElementById('prevERDiagram').addEventListener('click', prevERDiagram);
+            document.getElementById('nextERDiagram').addEventListener('click', nextERDiagram);
+            document.getElementById('enlargeERDiagram').addEventListener('click', enlargeERDiagram);
+            document.getElementById('shrinkERDiagram').addEventListener('click', shrinkERDiagram);
+            $('#queryBox, #queryBoxHidden').on('keypress', async function (e) {
+                if (e.key === 'Enter') {
+                    updateERDiagram();
+                }
+            });
+
+            async function prevERDiagram() {
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex, erDiagramChat.length - 1));
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex-1, erDiagramChat.length - 1));
+                    var content = erDiagramChat[erDiagramChatIndex]["erd"];
+                      var action = erDiagramChat[erDiagramChatIndex]["action"];
+                   if(action) {
+                        document.getElementById('queryBox').value = action;
+                   }
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                    }
+                    updateButtonStates();
+            }
+
+            async function nextERDiagram() {
+                     const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex, erDiagramChat.length - 1)); 
+                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex+1, erDiagramChat.length - 1)); 
+                   var content = erDiagramChat[erDiagramChatIndex]["erd"];
+                   var action = erDiagramChat[erDiagramChatIndex]["action"];
+                   if(action) {
+                        document.getElementById('queryBox').value = action;
+                   }
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                    }
+                    updateButtonStates();
+            }
+            
+            function updateButtonStates() {
+                const nextButton = document.getElementById('nextERDiagram');
+                const prevButton = document.getElementById('prevERDiagram');
+                nextButton.disabled = erDiagramChatIndex >= erDiagramChat.length - 1;
+                prevButton.disabled = erDiagramChatIndex <= 0;
+            }
+            
+            async function enlargeERDiagram() {
+                showAILoadingBar();
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
+                const erDiagramData = encodeURIComponent(editor.getValue());
+
+                try {
+                    const response = await fetch(`resources/er-diagram/enlarge?name=${encodedDiagramId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        body: erDiagramData
+                    });
+                    hideAILoadingBar();
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    var content = await response.text();
+                    content = content.replace(/```mermaid|```/g, '').trim();
+
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                        erDiagramChat.push({"erd": content});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                    updateButtonStates();
+                    }
+                } catch (error) {
+                    hideAILoadingBar();
+                    console.error('Error fetching custom diagram:', error);
+                }
+
+            }
+            async function shrinkERDiagram() {
+                showAILoadingBar();
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
+                const erDiagramData = encodeURIComponent(editor.getValue());
+
+                try {
+                    const response = await fetch(`resources/er-diagram/shrink?name=${encodedDiagramId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        body: erDiagramData
+                    });
+                    hideAILoadingBar();
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    var content = await response.text();
+                    content = content.replace(/```mermaid|```/g, '').trim();
+
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                        erDiagramChat.push({"erd": content});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                        updateButtonStates();
+                    }
+                } catch (error) {
+                    hideAILoadingBar();
+                    console.error('Error fetching diagram:', error);
+                }
+            }
+            
+            async function updateERDiagram() {
+                showAILoadingBar();
+                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
+                const queryBox = document.getElementById('queryBox').value.trim();
+                const encodedQueryBox = encodeURIComponent(queryBox);
+                const erDiagramData = encodeURIComponent(editor.getValue());
+
+                try {
+                    const response = await fetch(`resources/er-diagram/update?request=${encodedQueryBox}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        body: erDiagramData
+                    });
+                    hideAILoadingBar();
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    var content = await response.text();
+                    content = content.replace(/```mermaid|```/g, '').trim();
+
+                    erDiagramContent[selectedDiagramId] = content;
+                    if (content) {
+                        editor.setValue(content);
+                        erDiagramChat.push({"erd": content, "action": queryBox});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                        updateButtonStates();
+                    }
+                } catch (error) {
+                    hideAILoadingBar();
+                    console.error('Error fetching diagram:', error);
+                }
+            }
+            // Function to fetch ER diagram content from the server
+            function fetchErDiagramContent(diagramId) {
+                showAILoadingBar();
+                return fetch(`erDiagram/${diagramId}.mmd`)
+                        .then(response => {
+                            hideAILoadingBar();
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text(); // This line fetches the text content
+                        })
+                        .catch(error => {
+                            hideAILoadingBar();
+                            console.error('Error fetching diagram:', error);
+                            return null;
+                        });
+            }
+
+            // Function to populate the select elements with ER diagrams
+            async function populateErDiagrams() {
+                const previewSelect = document.getElementById('mermaidErDiagramListPreview');
+                const erDiagramSelect = document.getElementById('mermaidErDiagramList');
+
+                previewSelect.addEventListener('change', function () {
+                    erDiagramSelect.value = this.value;
+                });
+                erDiagramSelect.addEventListener('change', function () {
+                    previewSelect.value = this.value;
+                });
+                $('#mermaidErDiagramList').change(async function () {
+                    const selectedDiagramId = $(this).val();
+                    const selectedDiagramContent = erDiagramContent[selectedDiagramId];
+                    var content;
+                    if (!selectedDiagramContent && selectedDiagramId) {
+                        content = await fetchErDiagramContent(selectedDiagramId);
+                        if (content) {
+                            erDiagramContent[selectedDiagramId] = content;
+                        }
+                    }
+                    if(erDiagramContent[selectedDiagramId]) {
+                        editor.setValue(erDiagramContent[selectedDiagramId]);
+                        document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
+                        $('#mermaidErDiagramListPreview').val(selectedDiagramId);
+
+                        erDiagramChat = [];
+                        erDiagramChat.push({"erd": content});
+                        erDiagramChatIndex = erDiagramChat.length - 1;
+                    } else {
+                        erDiagramChat = [];
+                        erDiagramChatIndex = 0;
+                    }
+                    updateButtonStates();
+                });
+
+
+                // Clear existing options
+                previewSelect.innerHTML = '';
+                erDiagramSelect.innerHTML = '';
+                const option = document.createElement('option');
+                previewSelect.appendChild(option);
+                erDiagramSelect.appendChild(option.cloneNode(true));
+                for (const diagram of erDiagrams) {
+                    const option = document.createElement('option');
+                    option.value = diagram;
+                    option.textContent = diagram;
+                    previewSelect.appendChild(option);
+                    erDiagramSelect.appendChild(option.cloneNode(true));
+                }
+
+                $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
+                    if (e.key === 'Enter') {
+                        const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                        if (erDiagrams.includes(selectedDiagramId)) {
+                            if (!erDiagramContent[selectedDiagramId]) {
+                                const content = await fetchErDiagramContent(selectedDiagramId);
+                                if (content) {
+                                    erDiagramContent[selectedDiagramId] = content;
+                                }
+                            }
+                            editor.setValue(erDiagramContent[selectedDiagramId]);
+                            document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
+
+                            erDiagramChat = [];
+                            erDiagramChat.push({"erd": content});
+                            erDiagramChatIndex = erDiagramChat.length - 1;
+                            updateButtonStates();
+
+                        } else {
+                            const content = await fetchCustomErDiagramContent(selectedDiagramId);
+                            erDiagramContent[selectedDiagramId] = content;
+                            prependOptionToMermaidErDiagramList(selectedDiagramId);
+                            if (content) {
+                                editor.setValue(content);
+                                document.getElementById('erDiagram').innerHTML = content;
+                                
+                                erDiagramChat = [];
+                                erDiagramChat.push({"erd": content});
+                                erDiagramChatIndex = erDiagramChat.length - 1;
+                                updateButtonStates();
+                            }
+                        }
+                        
+                    }
+                });
+
+                function prependOptionToMermaidErDiagramList(val) {
+                    var selectElement = document.getElementById('mermaidErDiagramList');
+                    var newOption = document.createElement('option');
+                    newOption.value = val;
+                    newOption.text = val;
+                    if (selectElement.children.length > 1) {
+                        selectElement.insertBefore(newOption, selectElement.children[1]);
+                    } else {
+                        selectElement.appendChild(newOption);
+                    }
+                    newOption.selected = true;
+                }
+                function fetchCustomErDiagramContent(customDiagram) {
+                    showAILoadingBar();
+                    const encodedDiagram = encodeURIComponent(customDiagram);
+                    return fetch(`resources/er-diagram/generate?request=${encodedDiagram}`)
+                            .then(response => {
+                                hideAILoadingBar();
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.text();
+                            })
+                            .catch(error => {
+                                hideAILoadingBar();
+                                console.error('Error fetching custom diagram:', error);
+                                return null;
+                            });
+                }
+                $('#mermaidErDiagramListPreview')
+                        .editableSelect()
+                        .on('select.editable-select', async function (e, li) {
+                            const selectedDiagramId = li[0].getAttribute("value");
+                            const selectedDiagramContent = erDiagramContent[selectedDiagramId];
+                            if (!selectedDiagramContent) {
+                                const content = await fetchErDiagramContent(selectedDiagramId);
+                                if (content) {
+                                    erDiagramContent[selectedDiagramId] = content;
+                                }
+                            }
+                            editor.setValue(erDiagramContent[selectedDiagramId]);
+                            document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
+
+                            const selectElement = document.getElementById('mermaidErDiagramList');
+                            for (let i = 0; i < selectElement.options.length; i++) {
+                                if (selectElement.options[i].value === selectedDiagramId) {
+                                    selectElement.options[i].selected = true;
+                                    break;
+                                }
+                            }
+                        });
+            }
+
+            document.addEventListener('DOMContentLoaded', populateErDiagrams);
+
+
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+            function updateMermaidDiagram() {
+                console.info('Updating diagram with new content.');
+                document.getElementById('erDiagram').innerHTML = editor.getValue();
+                mermaid.render('graphDiv', editor.getValue()).then(({ svg, bindFunctions }) => {
+                    var element = document.querySelector('#graphDiv');
+                    document.querySelector('div.livePreview').innerHTML = svg;
+                    bindFunctions?.(element);
+                });
+            }
+
+            editor = CodeMirror.fromTextArea(document.getElementById("sourceCode"), {
+                lineNumbers: true,
+                mode: "mermaid",
+                theme: "default"
+            });
+            editor.on("change", updateMermaidDiagram);
+
+            function closeModal() {
+                document.getElementById("previewModal").style.display = "none";
+                document.getElementById('erDiagram').innerHTML = editor.getValue();
+            }
+            var modal = document.getElementById("previewModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            function openModal() {
+                modal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+                document.getElementById('erDiagram').innerHTML = editor.getValue();
+            };
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    document.getElementById('erDiagram').innerHTML = editor.getValue();
+                }
+            };
+
+        </script>
+        <script>
+            // Function to open the modal and populate live preview and source code
+            function openMermaidPreview() {
+                document.getElementById("previewModal").style.display = "block";
+                setTimeout(() => {
+                    if (editor) {
+                        editor.refresh(); 
+                    }
+                }, 200); 
+            }
+
+        </script>
 
         <script src="assets/main.js"></script>
-		<script src="ui/js/interface.min.js"></script>
+        <script src="ui/js/interface.min.js"></script>
         <script>
             menu_wrap.init();
             form_steps.init();
         </script>
 
+        <script>
+            function handleCheckboxDependencies() {
+                const jpaCheckbox = document.getElementById('generateJpa');
+                const repositoryCheckbox = document.getElementById('generateRepository');
+                const restCheckbox = document.getElementById('generateRest');
+                const htmlCheckbox = document.getElementById('generateWeb');
+
+                repositoryCheckbox.addEventListener('change', function () {
+                    if (repositoryCheckbox.checked) {
+                        jpaCheckbox.checked = true;
+                    }
+                });
+
+                restCheckbox.addEventListener('change', function () {
+                    if (restCheckbox.checked) {
+                        jpaCheckbox.checked = true;
+                        repositoryCheckbox.checked = true;
+                    }
+                });
+
+                htmlCheckbox.addEventListener('change', function () {
+                    if (htmlCheckbox.checked) {
+                        jpaCheckbox.checked = true;
+                        repositoryCheckbox.checked = true;
+                        restCheckbox.checked = true;
+                    }
+                });
+
+                jpaCheckbox.addEventListener('change', function () {
+                    if (!jpaCheckbox.checked) {
+                        repositoryCheckbox.checked = false;
+                        restCheckbox.checked = false;
+                        htmlCheckbox.checked = false;
+                    }
+                });
+
+                repositoryCheckbox.addEventListener('change', function () {
+                    if (!repositoryCheckbox.checked) {
+                        restCheckbox.checked = false;
+                        htmlCheckbox.checked = false;
+                    }
+                });
+
+                restCheckbox.addEventListener('change', function () {
+                    if (!restCheckbox.checked) {
+                        htmlCheckbox.checked = false;
+                    }
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', handleCheckboxDependencies);
+        </script>
+
+        <script>
+
+            function showAILoadingBar() {
+                document.getElementById('loadingBarAI').style.display = 'block';
+                document.getElementById('headerAI').innerHTML = 'Loading Preview';
+            }
+
+            function hideAILoadingBar() {
+                document.getElementById('loadingBarAI').style.display = 'none';
+                document.getElementById('headerAI').innerHTML = 'Live Preview';
+            }
+        </script>
+
+		<!-- Start of HubSpot Embed Code -->
+		<script type="text/javascript" id="hs-script-loader" async defer src="https://js.hs-scripts.com/334594.js"></script>
+		<!-- End of HubSpot Embed Code -->
     </body>
 </html>

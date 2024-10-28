@@ -16,12 +16,14 @@ def mpOpenAPI = request.properties["mpOpenAPI"].trim()
 def mpFaultTolerance = request.properties["mpFaultTolerance"].trim()
 def mpMetrics = request.properties["mpMetrics"].trim()
 def auth = request.properties["auth"].trim()
+def erDiagram = request.properties["erDiagram"].trim()
+def restSubpackage = request.properties["restSubpackage"].trim()
 
 def outputDirectory = new File(request.getOutputDirectory(), request.getArtifactId())
 
 validateInput(profile, jakartaEEVersion, javaVersion, platform, outputDirectory)
 generateSource(build, _package, platform, jakartaEEVersion, includeTests, docker, mpConfig, mpOpenAPI, auth, outputDirectory)
-bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, auth, outputDirectory)
+bindEEPackage(jakartaEEVersion, mpConfig, mpOpenAPI, mpFaultTolerance, mpMetrics, auth, erDiagram, outputDirectory)
 
 private void validateInput(String profile, String jakartaEEVersion, String javaVersion, String platform, File outputDirectory) {
     boolean deleteDirectory = true;
@@ -108,6 +110,10 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     }
     
     def packagePath = _package.replaceAll("\\.", "/")
+    
+    File oldFolder = new File(outputDirectory.path + "/src/main/java/" + packagePath + "/resource")
+    File newFolder = new File(outputDirectory.path + "/src/main/java/" + packagePath + "/" + restSubpackage)
+    renameFolder(oldFolder, newFolder)
 
     if (!auth.equals("formAuthDB")) {
         FileUtils.forceDelete(new File(outputDirectory.path + "/src/main/java/" + packagePath + "/secured/DatabaseSetup.java"))
@@ -136,7 +142,20 @@ private generateSource(build, _package, platform, jakartaEEVersion,
     }
 }
 
-private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, File outputDirectory) {
+private void renameFolder(File oldFolder, File newFolder) {
+    if (oldFolder.exists() && !newFolder.exists()) {
+        boolean success = oldFolder.renameTo(newFolder)
+        if (success) {
+            println "Folder renamed from ${oldFolder.name} to ${newFolder.name}"
+        } else {
+            println "Failed to rename folder ${oldFolder.name}"
+        }
+    } else {
+        println "Folder ${oldFolder.name} does not exist or the new folder ${newFolder.name} already exists."
+    }
+}
+
+private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOpenAPI, String mpFaultTolerance, String mpMetrics, String auth, String erDiagram, File outputDirectory) {
     def eePackage = (jakartaEEVersion == '8') ? 'javax' : 'jakarta'
     println "Binding EE package: $eePackage"
 
@@ -144,7 +163,8 @@ private void bindEEPackage(String jakartaEEVersion, String mpConfig, String mpOp
         'mpConfig': mpConfig.toBoolean(), 'mpOpenAPI': mpOpenAPI.toBoolean(), 'mpFaultTolerance': mpFaultTolerance.toBoolean(), 'mpMetrics': mpMetrics.toBoolean(),
         'formAuthFileRealm': auth.equals("formAuthFileRealm"),
         'formAuthDB': auth.equals("formAuthDB"),
-        'formAuthLDAP': auth.equals("formAuthLDAP")
+        'formAuthLDAP': auth.equals("formAuthLDAP"),
+        'erDiagram': erDiagram.toBoolean()
     ]
     def engine = new SimpleTemplateEngine()
 

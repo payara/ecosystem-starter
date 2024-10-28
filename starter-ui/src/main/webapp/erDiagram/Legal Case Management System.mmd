@@ -1,0 +1,44 @@
+erDiagram
+    CASE ||--o{ TASK : has
+    CASE {      
+        int caseId PK					
+        string name
+        date startDate
+        date endDate
+        string status
+        string type
+    }
+    TASK {      
+        int taskId PK					
+        string description
+        date deadline
+        string status
+    }
+    CLIENT ||--o{ CASE : hires
+    CLIENT {      
+        int clientId PK					
+        string name
+        string email
+        string phone
+    }
+    LAWYER ||--o{ CASE : handles
+    LAWYER {      
+        int lawyerId PK					
+        string name
+        string email
+        string phone
+    }
+    DOCUMENT ||--o{ CASE : relates
+    DOCUMENT {      
+        int documentId PK					
+        string name
+        string type
+        date uploadDate
+    }
+    HEARING ||--o{ CASE : schedules
+    HEARING {      
+        int hearingId PK					
+        string location
+        date dateTime
+        string judge
+    }	

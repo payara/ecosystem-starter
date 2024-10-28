@@ -138,8 +138,18 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
             <defaultValue>none</defaultValue>
             <validationRegex>^(none|formAuthFileRealm|formAuthDB|formAuthLDAP)$</validationRegex>
         </requiredProperty>
+        <requiredProperty key="erDiagram">
+            <defaultValue>false</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
+        </requiredProperty>
+        <requiredProperty key="erDiagramName">
+            <defaultValue>HelloWorld</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="restSubpackage">
+            <defaultValue>resource</defaultValue>
+        </requiredProperty>
     </requiredProperties>
-    
+
     <fileSets>
         <fileSet filtered="true" encoding="UTF-8">
             <directory>src/main/webapp</directory>

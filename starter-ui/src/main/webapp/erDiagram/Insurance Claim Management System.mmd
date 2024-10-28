@@ -1,0 +1,49 @@
+erDiagram
+    POLICYHOLDER ||--o{ POLICY : owns
+    POLICYHOLDER {
+        int policyholderId PK
+        string name
+        string email
+    }
+    POLICY ||--o{ CLAIM : covers
+    POLICY {
+        int policyId PK
+        string type
+        date startDate
+        date endDate
+    }
+    CLAIM ||--o{ DOCUMENT : includes
+    CLAIM {
+        int claimId PK
+        string status
+        date dateOfLoss
+    }
+    DOCUMENT {      
+        int documentId PK					
+        string type
+        string url
+    }
+    INSURER ||--o{ CLAIM : processes
+    INSURER {      
+        int insurerId PK					
+        string name
+        string email
+    }
+    PAYMENT ||--o{ CLAIM : processes
+    PAYMENT {      
+        int paymentId PK					
+        float amount
+        date date
+    }
+    ADJUSTER ||--|{ CLAIM : assesses
+    ADJUSTER {      
+        int adjusterId PK					
+        string name
+        string department
+    }
+    WITNESS ||--o{ CLAIM : provides
+    WITNESS {      
+        int witnessId PK					
+        string name
+        string statement
+    }	

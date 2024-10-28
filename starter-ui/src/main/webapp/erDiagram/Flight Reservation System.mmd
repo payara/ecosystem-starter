@@ -1,0 +1,40 @@
+erDiagram
+    AIRLINE ||--o{ FLIGHT : "operates"
+    AIRLINE {      
+        int airlineId PK					
+        string name
+        string country
+        string headquarters
+        string website
+    }
+    FLIGHT ||--o{ RESERVATION : "reserved on"
+    FLIGHT {      
+        int flightId PK					
+        string flightNumber
+        string origin
+        string destination
+        date departureDate
+        date arrivalDate
+        float price
+    }
+    PASSENGER ||--o{ RESERVATION : "books"
+    PASSENGER {      
+        int passengerId PK					
+        string name
+        string email
+        string phone
+        string nationality
+    }
+    RESERVATION {      
+        int reservationId PK					
+        date bookingDate
+        string status
+    }
+    PAYMENT ||--o{ RESERVATION : "confirms"
+    PAYMENT {      
+        int paymentId PK					
+        float amount
+        date paymentDate
+        string method
+    }	
+

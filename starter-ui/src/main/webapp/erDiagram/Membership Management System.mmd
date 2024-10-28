@@ -1,0 +1,51 @@
+erDiagram
+    MEMBER ||--o{ MEMBERSHIP : registers
+    MEMBER {
+        int memberId PK
+        string name
+        string email
+        date joinDate
+    }
+    MEMBERSHIP ||--o{ SUBSCRIPTION : includes
+    MEMBERSHIP {
+        int membershipId PK
+        string type
+        date startDate
+        date endDate
+    }
+    SUBSCRIPTION {		
+        int subscriptionId PK					
+        float price
+        string status
+    }
+    BENEFIT ||--o{ MEMBERSHIP : offers
+    BENEFIT {      
+        int benefitId PK					
+        string name
+        string description
+    }
+    EVENT ||--o{ MEMBERSHIP : hosts
+    EVENT {      
+        int eventId PK					
+        string name
+        date date
+        string location
+    }
+    NOTIFICATION ||--o{ MEMBER : sends
+    NOTIFICATION {      
+        int notificationId PK					
+        string content
+        date sentDate
+    }
+    PAYMENT ||--o{ MEMBERSHIP : processes
+    PAYMENT {      
+        int paymentId PK					
+        float amount
+        date paymentDate
+    }
+    ADMIN ||--o{ MEMBERSHIP : manages
+    ADMIN {      
+        int adminId PK					
+        string name
+        string role
+    }

@@ -68,7 +68,7 @@ function hideAndDeselectIncludeTests() {
 }
 
 // Get all the input fields in the form
-const formInputs = document.querySelectorAll('form input, form select');
+const formInputs = document.querySelectorAll('form input, form select, form textarea');
 const form = document.getElementById('appForm');
 
 const inputToConfigurationMap = {
@@ -108,6 +108,9 @@ form.addEventListener('submit', function (event) {
             }
         } else {
             jsonObject[key] = input.value;
+            if(input.id == 'erDiagram' && !$("#mermaidErDiagramList").val()) {
+                 jsonObject[key] = '';
+            }
         }
     });
 

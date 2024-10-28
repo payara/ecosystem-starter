@@ -1,0 +1,41 @@
+erDiagram
+    AUCTION ||--o{ ITEM : contains
+    AUCTION {      
+        int auctionId PK					
+        string name
+        date startDate
+        date endDate
+        string status
+    }
+    ITEM {      
+        int itemId PK					
+        string name
+        string description
+        float startingPrice
+        string category
+    }
+    BIDDER ||--o{ BID : places
+    BIDDER {      
+        int bidderId PK					
+        string name
+        string email
+        string phone
+    }
+    BID {      
+        int bidId PK					
+        float amount
+        date bidTime
+    }
+    PAYMENT ||--o{ BID : makes
+    PAYMENT {      
+        int paymentId PK					
+        float amount
+        date paymentDate
+        string method
+    }
+    SHIPPING ||--o{ ITEM : delivers
+    SHIPPING {      
+        int shippingId PK					
+        date deliveryDate
+        string trackingNumber
+    }	

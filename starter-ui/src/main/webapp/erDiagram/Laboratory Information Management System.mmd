@@ -1,0 +1,45 @@
+erDiagram
+    LAB_TECHNICIAN ||--o{ SAMPLE : collects
+    LAB_TECHNICIAN {
+        int technicianId PK
+        string name
+        string email
+    }
+    SAMPLE ||--o{ TEST : undergoes
+    SAMPLE {
+        int sampleId PK
+        string type
+        date collectionDate
+    }
+    TEST {		
+        int testId PK					
+        string name
+        string method
+        string equipment
+    }
+    PATIENT ||--o{ SAMPLE : provides
+    PATIENT {      
+        int patientId PK					
+        string name
+        string dob
+        string gender
+    }
+    RESULT {      
+        int resultId PK					
+        string value
+        string unit
+        date dateRecorded
+    }
+    LAB_ANALYST ||--o{ TEST : analyzes
+    LAB_ANALYST {      
+        int analystId PK					
+        string name
+        string department
+    }
+    LAB_MANAGER ||--o{ SAMPLE : supervises
+    LAB_MANAGER {      
+        int managerId PK					
+        string name
+        string department
+    }	
+

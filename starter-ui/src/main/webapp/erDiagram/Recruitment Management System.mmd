@@ -1,0 +1,51 @@
+erDiagram
+    USER ||--o{ JOB_APPLICATION : applies
+    USER {
+        string userId	PK
+        string username
+        string email
+    }
+    JOB_APPLICATION ||--|{ JOB : applies_for
+    JOB_APPLICATION {
+        int applicationId PK
+        string status
+        string resume
+    }
+    JOB {		
+        int jobId PK					
+        string title
+        string description
+        date startDate
+        date endDate
+    }
+    CANDIDATE ||--o{ JOB_APPLICATION : submits
+    CANDIDATE {      
+        int candidateId PK					
+        string name
+        string email
+        string phone
+    }
+    INTERVIEW ||--|{ CANDIDATE : schedules
+    INTERVIEW {      
+        int interviewId PK					
+        date date
+        string location
+    }
+    RECRUITER ||--o{ INTERVIEW : schedules
+    RECRUITER {      
+        int recruiterId PK					
+        string name
+        string department
+    }
+    OFFER ||--o{ CANDIDATE : extends
+    OFFER {      
+        int offerId PK					
+        string status
+        float salary
+    }
+    FEEDBACK ||--|{ INTERVIEW : provides
+    FEEDBACK {      
+        int feedbackId PK					
+        string comments
+        int rating
+    }	

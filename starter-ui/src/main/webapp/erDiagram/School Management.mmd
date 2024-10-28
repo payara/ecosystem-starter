@@ -1,0 +1,25 @@
+erDiagram
+    STUDENT ||--o{ ENROLLMENT : enrolls
+    STUDENT {
+        string studentID PK
+        string name
+        string address
+        int age
+    }
+    ENROLLMENT ||--|{ COURSE : contains
+    ENROLLMENT {
+        int enrollmentID PK
+        string semester
+    }
+    COURSE {
+        string courseCode PK
+        string courseName
+        int credits
+    }
+    TEACHER ||--o{ COURSE : teaches
+    TEACHER {
+        string teacherID PK
+        string name
+        string specialization
+    }
+

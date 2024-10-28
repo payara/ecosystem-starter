@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2024 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-2024 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -38,6 +38,10 @@
  */
 package fish.payara.starter.resources;
 
+import fish.payara.starter.LangChainChatService;
+import fish.payara.starter.application.domain.ERModel;
+import fish.payara.starter.application.generator.CRUDAppGenerator;
+import fish.payara.starter.application.generator.ERDiagramParser;
 import static fish.payara.starter.resources.ApplicationConfiguration.ADD_PAYARA_API;
 import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID;
 import static fish.payara.starter.resources.ApplicationConfiguration.AUTH;
@@ -56,11 +60,13 @@ import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_CLOU
 import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PLATFORM;
 import static fish.payara.starter.resources.ApplicationConfiguration.PROFILE;
+import static fish.payara.starter.resources.ApplicationConfiguration.REST_SUBPACKAGE;
 import static fish.payara.starter.resources.ApplicationConfiguration.VERSION;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.concurrent.ManagedExecutorDefinition;
 import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -76,6 +82,8 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.apache.maven.cli.MavenCli;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 
 /**
  *
@@ -93,11 +101,14 @@ public class ApplicationGenerator {
     private static final String ARCHETYPE_GROUP_ID = "fish.payara.starter";
     private static final String ARCHETYPE_ARTIFACT_ID = "payara-starter-archetype";
     private static final String ARCHETYPE_VERSION = "1.0-SNAPSHOT";
-    private static final String MAVEN_ARCHETYPE_CMD = "archetype:generate";
+    private static final String MAVEN_ARCHETYPE_CMD = "org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate";// "archetype:generate";
     private static final String ZIP_EXTENSION = ".zip";
 
     @Resource(name = "java:comp/DefaultManagedExecutorService")
     private ManagedExecutorService executorService;
+
+    @Inject
+    private LangChainChatService langChainChatService;
 
     public Future<File> generate(ApplicationConfiguration appProperties) {
         System.out.println("executorService " + executorService);
@@ -108,13 +119,50 @@ public class ApplicationGenerator {
                 workingDirectory.deleteOnExit();
                 LOGGER.log(Level.INFO, "Executing Maven Archetype from working directory: {0}", new Object[]{workingDirectory.getAbsolutePath()});
                 Properties properties = buildMavenProperties(appProperties);
+                ERModel erModel = null;
+                if (appProperties.getErDiagram() != null) {
+                    ERDiagramParser parser = new ERDiagramParser();
+                    erModel = parser.parse(appProperties.getErDiagram());
+                    if (erModel != null && !erModel.getEntities().isEmpty()) {
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM, true);
+                        properties.put(ApplicationConfiguration.ER_DIAGRAM_NAME, appProperties.getErDiagramName());
+                    }
+                }
                 invokeMavenArchetype(ARCHETYPE_GROUP_ID, ARCHETYPE_ARTIFACT_ID, ARCHETYPE_VERSION,
                         properties, workingDirectory);
 
                 LOGGER.info("Creating a compressed application bundle.");
                 applicationDir = new File(workingDirectory, appProperties.getArtifactId());
+                if (erModel != null && !erModel.getEntities().isEmpty()) {
+                    Jsonb jsonb = JsonbBuilder.create();
+                    String jsonString = jsonb.toJson(erModel);
+                    LOGGER.log(Level.INFO, "Generating web components info from AI \n{0}", jsonString);
+                    String outputJson = langChainChatService.addFronEndDetailsToERDiagram(jsonString);
+                    if (outputJson != null && !outputJson.isEmpty()) {
+                        String updatedJson = outputJson.strip().replaceAll("^```json|```$", "");
+                        erModel = jsonb.fromJson(updatedJson, ERModel.class);
+                    }
+                    erModel.setImportPrefix("8".equals(appProperties.getJakartaEEVersion()) ? "javax" : "jakarta");
+                    CRUDAppGenerator generator = new CRUDAppGenerator(erModel,
+                            appProperties.getPackageName(),
+                            appProperties.getJpaSubpackage(),
+                            appProperties.getRepositorySubpackage(),
+                            appProperties.getRestSubpackage()
+                    );
+                    try {
+                        generator.generate(applicationDir,
+                                appProperties.isGenerateJPA(),
+                                appProperties.isGenerateRepository(),
+                                appProperties.isGenerateRest(),
+                                appProperties.isGenerateWeb());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        LOGGER.log(Level.SEVERE, "Error generating application: {0}", e.getMessage());
+                    }
+                }
                 return zipDirectory(applicationDir, workingDirectory);
-            } catch (IOException ie) {
+            } catch (Exception ie) {
+                ie.printStackTrace();
                 throw new RuntimeException("Failed to generate application.", ie);
             } finally {
                 if (applicationDir != null) {
@@ -160,6 +208,7 @@ public class ApplicationGenerator {
         properties.put(MP_FAULT_TOLERANCE, appProperties.isMpFaultTolerance());
         properties.put(MP_METRICS, appProperties.isMpMetrics());
         properties.put(AUTH, appProperties.getAuth());
+        properties.put(REST_SUBPACKAGE, appProperties.getRestSubpackage());
         return properties;
     }
 
@@ -171,7 +220,7 @@ public class ApplicationGenerator {
         options.addAll(Arrays.asList(new String[]{MAVEN_ARCHETYPE_CMD, "-DinteractiveMode=false",
             "-DaskForDefaultPropertyValues=false", "-DarchetypeGroupId=" + archetypeGroupId,
             "-DarchetypeArtifactId=" + archetypeArtifactId, "-DarchetypeVersion=" + archetypeVersion}));
-        properties.forEach((k, v) -> options.add("-D" + k + "=" + v));
+        properties.forEach((k, v) -> options.add("-D" + k + "=" + (v.toString().contains(" ") ? "'" + v + "'" : v)));
 
         LOGGER.log(Level.INFO, "Executing Maven Archetype {0} ", new Object[]{options.toString()});
 

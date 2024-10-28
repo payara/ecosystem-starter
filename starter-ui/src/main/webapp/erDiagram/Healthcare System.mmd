@@ -1,0 +1,29 @@
+erDiagram
+    PATIENT ||--o{ APPOINTMENT : has
+    PATIENT {
+        string patientID PK
+        string name
+        string address	
+        string insuranceProvider
+    }
+    APPOINTMENT ||--|{ DOCTOR : attends
+    APPOINTMENT {
+        int appointmentID PK
+        datetime appointmentDateTime
+        string reason	
+        string status	
+    }
+    DOCTOR {
+        string doctorID PK
+        string name
+        string specialization
+        string department	
+    }
+    PRESCRIPTION ||--|{ APPOINTMENT : issues
+    PRESCRIPTION {
+        int prescriptionID PK
+        string medicationName
+        string dosage	
+        string instructions
+    }
+

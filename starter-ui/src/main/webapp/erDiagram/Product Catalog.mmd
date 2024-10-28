@@ -1,0 +1,13 @@
+erDiagram
+    CATEGORY ||--o{ PRODUCT : contains
+    CATEGORY {
+        int categoryID PK
+        string categoryName
+        string description
+    }
+    PRODUCT {
+        int productID PK
+        string productName
+        float price
+        int stockQuantity
+    }

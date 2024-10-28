@@ -1,0 +1,19 @@
+erDiagram
+    EMPLOYEE ||--o{ DEPARTMENT : belongs_to
+    EMPLOYEE {
+        int employeeID PK
+        string name
+        string position
+        datetime hireDate
+    }
+    DEPARTMENT {
+        int departmentID PK
+        string name
+        string location				
+    }
+    MANAGER ||--o{ DEPARTMENT : manages
+    MANAGER {
+        int managerID PK
+        string name
+    }
+

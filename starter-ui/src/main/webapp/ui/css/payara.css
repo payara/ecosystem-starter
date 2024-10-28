@@ -4797,6 +4797,7 @@
 			.js__form-steps .form-steps__step--incomplete .form-steps__fields, 
 			/* Hide completed steps if this option is set in the HTML. */
 			.js__form-steps.form-steps--hide-previous-fields .form-steps__step--complete .form-steps__fields {
+				display: none;
 				grid-template-rows: 0fr;
 				transition: grid-template-rows 0.3s ease-in-out, visibility 0.03s ease-in-out 0.3s;
 				visibility: hidden;

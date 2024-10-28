@@ -1,0 +1,31 @@
+erDiagram
+    CUSTOMER ||--o{ CONTACT : has
+    CUSTOMER {
+        int customerID PK
+        string name
+        string email
+        string phone
+        string address
+    }
+    CONTACT {
+        int contactID PK
+        string fullName
+        string email
+        string phone
+        string position
+    }
+    OPPORTUNITY ||--o{ CUSTOMER : belongs_to
+    OPPORTUNITY {
+        int opportunityID PK
+        string name
+        float amount
+        datetime closeDate
+        string stage
+    }
+    TASK ||--o{ CUSTOMER : relates_to
+    TASK {
+        int taskID PK
+        string title
+        datetime dueDate
+        string status
+    }

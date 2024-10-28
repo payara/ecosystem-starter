@@ -1,0 +1,38 @@
+erDiagram
+    PROPERTY_MANAGER ||--o{ PROPERTY : manages
+    PROPERTY_MANAGER {      
+        int managerId PK					
+        string name
+        string email
+    }
+    PROPERTY ||--o{ TENANT : rents
+    PROPERTY {      
+        int propertyId PK					
+        string name
+        string address
+        float rent
+    }
+    TENANT {      
+        int tenantId PK					
+        string name
+        string email
+        string phone
+    }
+    MAINTENANCE_TASK ||--o{ PROPERTY : assigned
+    MAINTENANCE_TASK {      
+        int taskId PK					
+        string description
+        date dueDate
+    }
+    PAYMENT ||--o{ TENANT : pays
+    PAYMENT {      
+        int paymentId PK					
+        float amount
+        date paymentDate
+    }
+    LEASE ||--o{ TENANT : signs
+    LEASE {      
+        int leaseId PK					
+        date startDate
+        date endDate
+    }	

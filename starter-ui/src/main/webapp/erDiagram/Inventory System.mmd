@@ -1,0 +1,12 @@
+erDiagram
+    PRODUCT ||--o{ INVENTORY : contains
+    PRODUCT {
+        int productID PK
+        string name
+        float price
+    }
+    INVENTORY {
+        int inventoryID PK
+        int quantity
+        string location				
+    }

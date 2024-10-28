@@ -1,0 +1,20 @@
+erDiagram
+    USER ||--o{ VIDEO : watches
+    USER {
+        long userId	PK
+        string username
+        string email
+    }
+    VIDEO ||--|{ CATEGORY : belongs_to
+    VIDEO {
+        int videoId PK
+        string title
+        string description
+        string duration
+        string format
+    }
+    CATEGORY {		
+        int categoryId PK					
+        string name
+        string description
+    }	
