@@ -15,10 +15,10 @@
 -->
 package ${package};
 
-<#if cdi>import jakarta.enterprise.context.Dependent;</#if><#if !cdi>import jakarta.ejb.Stateless;</#if>
-<#if named>import jakarta.inject.Named;</#if>
-import jakarta.persistence.EntityManager;
-import jakarta.inject.Inject;
+<#if cdi>import ${model.importPrefix}.enterprise.context.Dependent;</#if><#if !cdi>import ${model.importPrefix}.ejb.Stateless;</#if>
+<#if named>import ${model.importPrefix}.inject.Named;</#if>
+import ${model.importPrefix}.persistence.EntityManager;
+import ${model.importPrefix}.inject.Inject;
 import ${EntityClass_FQN};
 <#if EntityPKClass_FQN!="">import ${EntityPKClass_FQN};</#if>
 

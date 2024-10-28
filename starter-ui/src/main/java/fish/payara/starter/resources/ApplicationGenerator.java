@@ -136,12 +136,13 @@ public class ApplicationGenerator {
                 if (erModel != null && !erModel.getEntities().isEmpty()) {
                     Jsonb jsonb = JsonbBuilder.create();
                     String jsonString = jsonb.toJson(erModel);
-                    LOGGER.info("Generating web components info from AI \n" + jsonString);
+                    LOGGER.log(Level.INFO, "Generating web components info from AI \n{0}", jsonString);
                     String outputJson = langChainChatService.addFronEndDetailsToERDiagram(jsonString);
                     if (outputJson != null && !outputJson.isEmpty()) {
                         String updatedJson = outputJson.strip().replaceAll("^```json|```$", "");
                         erModel = jsonb.fromJson(updatedJson, ERModel.class);
                     }
+                    erModel.setImportPrefix("8".equals(appProperties.getJakartaEEVersion()) ? "javax" : "jakarta");
                     CRUDAppGenerator generator = new CRUDAppGenerator(erModel,
                             appProperties.getPackageName(),
                             appProperties.getJpaSubpackage(),

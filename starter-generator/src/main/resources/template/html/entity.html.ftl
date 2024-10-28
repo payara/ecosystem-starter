@@ -47,7 +47,7 @@
                 <form id="${entityNameLowerCase}Form">
                     <#list entity.attributes as attribute>
                         <div class="form-group">
-                            <#if attribute.relation??>
+                            <#if model.getEntity(attribute.type)??>
                                 <#if attribute.multi>
                                 <#else>
                             <label for="${attribute.name}Select">${attribute.getTitleCaseName()}:</label>
@@ -94,10 +94,10 @@
                     data.forEach(function (${entityNameLowerCase}) {
                         var row = '<tr>' +
                         <#list entity.attributes as attribute>
-                            <#if attribute.relation??>
+                            <#if model.getEntity(attribute.type)??>
                                 <#if attribute.multi>
                                 <#else>
-                            '<td>' + (${entityNameLowerCase}?.${attribute.name}?.${attribute.relation.getDisplayName()} || '') + '</td>' +
+                            '<td>' + (${entityNameLowerCase}?.${attribute.name}?.${model.getEntity(attribute.type).getDisplayName()} || '') + '</td>' +
                                 </#if>
                             <#else>
                             '<td>' + ${entityNameLowerCase}.${attribute.name} + '</td>' +
@@ -117,7 +117,7 @@
         load${entityNameTitleCasePluralize}();
 
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
         function load${attribute.getTitleCasePluralizeName()}() {
@@ -129,7 +129,7 @@
                     var ${attribute.name}Select = $('#${attribute.name}Select');
                     ${attribute.name}Select.empty();
                     data.forEach(function (${attribute.name}) {
-                        var option = '<option value="' + ${attribute.name}.${attribute.relation.getPrimaryKeyName()} + '">' + ${attribute.name}.${attribute.relation.getDisplayName()} + '</option>';
+                        var option = '<option value="' + ${attribute.name}.${model.getEntity(attribute.type).getPrimaryKeyName()} + '">' + ${attribute.name}.${model.getEntity(attribute.type).getDisplayName()} + '</option>';
                         ${attribute.name}Select.append(option);
                     });
                 }
@@ -149,7 +149,7 @@
             $('#updateButton').hide();
             $('#${entityNameLowerCase}Modal').modal('show');
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
             load${attribute.getTitleCasePluralizeName()}();
@@ -163,11 +163,11 @@
             e.preventDefault();
             var ${entityNameLowerCase} = {
                 <#list entity.attributes as attribute>
-                    <#if attribute.relation??>
+                    <#if model.getEntity(attribute.type)??>
                         <#if attribute.multi>
                         <#else>
                     ${attribute.name}: {
-                        ${attribute.relation.getPrimaryKeyName()}: $('#${attribute.name}Select').val()
+                        ${model.getEntity(attribute.type).getPrimaryKeyName()}: $('#${attribute.name}Select').val()
                     },
                         </#if>
                     <#else>
@@ -194,11 +194,11 @@
         $('#updateButton').on('click', function () {
             var ${entityNameLowerCase} = {
                 <#list entity.attributes as attribute>
-                    <#if attribute.relation??>
+                    <#if model.getEntity(attribute.type)??>
                         <#if attribute.multi>
                         <#else>
                     ${attribute.name}: {
-                        ${attribute.relation.getPrimaryKeyName()}: $('#${attribute.name}Select').val()
+                        ${model.getEntity(attribute.type).getPrimaryKeyName()}: $('#${attribute.name}Select').val()
                     },
                         </#if>
                     <#else>
@@ -227,10 +227,10 @@
                 contentType: 'application/json',
                 success: function (${entityNameLowerCase}) {
                     <#list entity.attributes as attribute>
-                        <#if attribute.relation??>
+                        <#if model.getEntity(attribute.type)??>
                             <#if attribute.multi>
                             <#else>
-                    $('#${attribute.name}Select').val(${entityNameLowerCase}.${attribute.name}.${attribute.relation.getPrimaryKeyName()});
+                    $('#${attribute.name}Select').val(${entityNameLowerCase}.${attribute.name}.${model.getEntity(attribute.type).getPrimaryKeyName()});
                             </#if>
                         <#else>
                     $('#${attribute.name}').val(${entityNameLowerCase}.${attribute.name})<#if attribute.isPrimaryKey()>.prop('disabled', true).closest('.form-group').show()</#if>;

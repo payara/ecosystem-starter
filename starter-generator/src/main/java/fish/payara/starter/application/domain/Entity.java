@@ -86,6 +86,13 @@ public class Entity {
     public List<Attribute> getAttributes() {
         return attributes;
     }
+    
+    public Attribute findAttributeByName(String name) {
+        return attributes.stream()
+                .filter(attribute -> attribute.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
 
     public void setAttributes(List<Attribute> attributes) {
         this.attributes = attributes;
@@ -108,10 +115,17 @@ public class Entity {
     
     @JsonbTransient
     public String getDisplayName() {
-        String displayName = attributes.stream().filter(a -> a.isDisplay() != null && a.isDisplay()).map(a -> a.getName()).findFirst().orElse(null);
+        String displayName = attributes.stream()
+                .filter(a -> a.isDisplay() != null && a.isDisplay())
+                .map(a -> a.getName()).findFirst().orElse(null);
         if(displayName == null) {
-            displayName = attributes.stream().filter(a -> !a.isPrimaryKey()).map(a -> a.getName()).findFirst().orElse(null);
-
+            displayName = attributes.stream()
+                    .filter(a -> !a.isPrimaryKey())
+                    .map(a -> a.getName()).findFirst().orElse(null);
+        }
+        if(displayName == null) {
+            displayName = attributes.stream()
+                    .map(a -> a.getName()).findFirst().orElse(null);
         }
         return displayName;
     }

@@ -39,7 +39,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -71,7 +70,7 @@ public class CRUDAppGenerator {
 
     public static void main(String[] args) {
         String mermaidCode = """
-erDiagram
+                             erDiagram
     STUDENT ||--o{ ENROLLMENT : enrolls
     STUDENT {
         string studentID PK
@@ -170,6 +169,7 @@ erDiagram
                 generateJPAClass(_package, model, entity, java);
             }
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("model", model);
             dataModel.put("appPU", model.getTitle("app") + "PU");
             generate("template/descriptor", "persistence.xml.ftl", "persistence.xml", dataModel, metainf);
 
@@ -186,7 +186,7 @@ erDiagram
                     generateRestBase(dataModel, _package, java);
                     if (generateWeb) {
                         for (Entity entity : model.getEntities()) {
-                            generateFrontend(entity, webapp);
+                            generateFrontend(model, entity, webapp);
                         }
                         generateFrontendBase(model, webapp);
                     }
@@ -203,8 +203,9 @@ erDiagram
         generate("template/html", "about-us.html.ftl", "about-us.html", dataModel, outputDir);
     }
 
-    private void generateFrontend(Entity entity, File outputDir) {
+    private void generateFrontend(ERModel model, Entity entity, File outputDir) {
         Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("model", model);
         dataModel.put("entity", entity);
         dataModel.put("entityNameLowerCase", entity.getClassName().toLowerCase());
         dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
@@ -240,6 +241,7 @@ erDiagram
             String entityInstance = firstLower(entity.getClassName());
             String entityNameSpinalCased = kebabCase(entityInstance);
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("model", model);
             dataModel.put("package", controllerPackage);
             dataModel.put("entity", entity);
             dataModel.put("EntityClass", entity.getClassName());
@@ -322,6 +324,7 @@ erDiagram
             // Create the data model
             String repositoryPackage = _package + "." + repositoryLayer;
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("model", model);
             dataModel.put("package", repositoryPackage);
             dataModel.put("cdi", true);
             dataModel.put("named", false);
@@ -422,7 +425,7 @@ erDiagram
         StringBuilder sbfunc = new StringBuilder();
         String entityPackage = _package + "." + domainLayer;
         sbHeader.append("package ").append(entityPackage).append(";\n\n");
-        sbHeader.append("import jakarta.persistence.*;\n");
+        sbHeader.append("import ").append(model.getImportPrefix()).append(".persistence.*;\n");
 
         StringBuilder sbBody = new StringBuilder();
         // Generate named queries
@@ -464,9 +467,9 @@ erDiagram
         }
 
         for (Relationship relationship : relationships) {
-            if (relationship.getFirstEntity().equals(className)) {
+            if (relationship.getFirstEntityClass().equals(className)) {
                 appendRelationship(sbBody, sbfunc, _imports, model, entity, relationship, true);
-            } else if (relationship.getSecondEntity().equals(className)) {
+            } else if (relationship.getSecondEntityClass().equals(className)) {
                 appendRelationship(sbBody, sbfunc, _imports, model, entity, relationship, false);
             }
         }
@@ -536,7 +539,7 @@ erDiagram
                     sbfunc.append("    public void set").append(pluralize(secondEntity)).append("(List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(") {\n");
                     sbfunc.append("        this.").append(pluralize(secondEntity.toLowerCase())).append(" = ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @OneToMany(mappedBy = \"").append(firstEntity.toLowerCase()).append("\")\n");
@@ -565,7 +568,7 @@ erDiagram
                     sbfunc.append("    public void set").append(pluralize(secondEntity)).append("(List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(") {\n");
                     sbfunc.append("        this.").append(pluralize(secondEntity.toLowerCase())).append(" = ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @ManyToMany(mappedBy = \"").append(firstEntity.toLowerCase()).append("\")\n");
@@ -584,7 +587,7 @@ erDiagram
                     sbfunc.append("    public void set").append(firstEntity).append("(").append(firstEntity).append(" ").append(firstEntity.toLowerCase()).append(") {\n");
                     sbfunc.append("        this.").append(firstEntity.toLowerCase()).append(" = ").append(firstEntity.toLowerCase()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @OneToOne\n");
                     sb.append("    @JoinColumn(name = \"").append(firstEntity.toLowerCase()).append("_id\")\n");
@@ -620,7 +623,7 @@ erDiagram
                     sbfunc.append("    public void set").append(pluralize(firstEntity)).append("(List<").append(firstEntity).append("> ").append(pluralize(firstEntity.toLowerCase())).append(") {\n");
                     sbfunc.append("        this.").append(pluralize(firstEntity.toLowerCase())).append(" = ").append(pluralize(firstEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @ManyToMany\n");

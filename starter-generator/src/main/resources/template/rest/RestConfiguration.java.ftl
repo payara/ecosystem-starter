@@ -15,8 +15,8 @@
 -->
 package ${package};
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import ${model.importPrefix}.ws.rs.ApplicationPath;
+import ${model.importPrefix}.ws.rs.core.Application;
 
 /**
  * Configures RESTful Web Services for the application.

@@ -34,7 +34,7 @@ public class ERModel {
 
     private List<Entity> entities = new ArrayList<>();
     private Set<Relationship> relationships = new LinkedHashSet<>();
-
+    private String importPrefix = "jakarta";
     private String icon;
     private String title;
     private String longTitle;
@@ -43,6 +43,14 @@ public class ERModel {
     private List<String> topBarMenuOptions = new ArrayList<>();
 
     public ERModel() {
+    }
+
+    public String getImportPrefix() {
+        return importPrefix;
+    }
+
+    public void setImportPrefix(String importPrefix) {
+        this.importPrefix = importPrefix;
     }
 
     public void addEntity(Entity entity) {

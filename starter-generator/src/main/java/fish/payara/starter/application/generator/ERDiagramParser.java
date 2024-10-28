@@ -68,8 +68,7 @@ private final static Pattern ENTITY_PATTERN = Pattern.compile("^(\\w+)\\s*\\{\\s
                             String keyType = attrMatcher.group(3);
                             boolean isPrimaryKey = "PK".equals(keyType);
                             boolean isForeignKey = "FK".equals(keyType);
-//                            String attrMetadata = attrMatcher.group(4);
-                            if (!isForeignKey) {
+                            if (!isForeignKey && entity.findAttributeByName(name) == null) {
                                 type = getWrapperType(mapToJavaType(type));
                                 Attribute attribute = new Attribute(name, type, isPrimaryKey);
                                 entity.addAttribute(attribute);

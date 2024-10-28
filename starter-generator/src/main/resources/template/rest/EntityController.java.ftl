@@ -18,7 +18,7 @@ package ${package};
 import ${EntityClass_FQN};
 import ${EntityRepository_FQN};
 <#list entity.attributes as attribute>
-    <#if attribute.relation??>
+    <#if model.getEntity(attribute.type)??>
         <#if attribute.multi>
         <#else>
 import ${EntityRepository_package}.${attribute.getTitleCaseName()}${EntityRepositorySuffix};
@@ -26,25 +26,25 @@ import ${EntityRepository_package}.${attribute.getTitleCaseName()}${EntityReposi
     <#else>
     </#if>
 </#list>
-import jakarta.inject.Inject;
+import ${model.importPrefix}.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;<#if pagination != "no">
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Response.ResponseBuilder;
+import ${model.importPrefix}.ws.rs.Consumes;
+import ${model.importPrefix}.ws.rs.DELETE;
+import ${model.importPrefix}.ws.rs.GET;
+import ${model.importPrefix}.ws.rs.POST;
+import ${model.importPrefix}.ws.rs.PUT;
+import ${model.importPrefix}.ws.rs.Path;
+import ${model.importPrefix}.ws.rs.PathParam;
+import ${model.importPrefix}.ws.rs.Produces;
+import ${model.importPrefix}.ws.rs.core.MediaType;
+import ${model.importPrefix}.ws.rs.core.Response;<#if pagination != "no">
+import ${model.importPrefix}.ws.rs.QueryParam;
+import ${model.importPrefix}.ws.rs.core.Response.ResponseBuilder;
 import ${Page_FQN};
 import ${PaginationUtil_FQN};</#if><#if metrics>
 import org.eclipse.microprofile.metrics.annotation.Timed;</#if>
@@ -64,7 +64,7 @@ public class ${controllerClass} {
     private ${EntityRepository} ${entityRepository};
 
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
     @Inject
@@ -95,13 +95,13 @@ public class ${controllerClass} {
     public Response create${EntityClass}(${instanceType} ${instanceName}) throws URISyntaxException {
         LOG.log(Level.FINE, "REST request to save ${EntityClass} : {}", ${instanceName});
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
-        if (${instanceName}.get${attribute.relation.getTitleCaseName()}() != null && ${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}() != null) {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}()));
+        if (${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}() != null && ${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
         } else {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(null);
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(null);
         }
             </#if>
         <#else>
@@ -133,13 +133,13 @@ public class ${controllerClass} {
     public Response update${EntityClass}(${instanceType} ${instanceName}) throws URISyntaxException {
         LOG.log(Level.FINE, "REST request to update ${EntityClass} : {}", ${instanceName});
     <#list entity.attributes as attribute>
-        <#if attribute.relation??>
+        <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
-        if (${instanceName}.get${attribute.relation.getTitleCaseName()}() != null && ${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}() != null) {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.relation.getTitleCaseName()}().get${attribute.relation.getPrimaryKeyFirstUpperName()}()));
+        if (${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}() != null && ${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
         } else {
-            ${instanceName}.set${attribute.relation.getTitleCaseName()}(null);
+            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(null);
         }
             </#if>
         <#else>
