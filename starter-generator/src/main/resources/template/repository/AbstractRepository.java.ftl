@@ -21,15 +21,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-<#if cdi>import jakarta.transaction.Transactional;
-import static jakarta.transaction.Transactional.TxType.REQUIRED;
-import static jakarta.transaction.Transactional.TxType.SUPPORTS;</#if>
+import ${model.importPrefix}.persistence.EntityManager;
+import ${model.importPrefix}.persistence.NoResultException;
+import ${model.importPrefix}.persistence.Query;
+import ${model.importPrefix}.persistence.TypedQuery;
+import ${model.importPrefix}.persistence.criteria.CriteriaQuery;
+import ${model.importPrefix}.persistence.criteria.Root;
+<#if cdi>import ${model.importPrefix}.transaction.Transactional;
+import static ${model.importPrefix}.transaction.Transactional.TxType.REQUIRED;
+import static ${model.importPrefix}.transaction.Transactional.TxType.SUPPORTS;</#if>
 
 <#if cdi>@Transactional(SUPPORTS)</#if>
 public abstract class ${AbstractRepository}<E,P> {
@@ -82,7 +82,7 @@ public abstract class ${AbstractRepository}<E,P> {
         q.setMaxResults(size);
         q.setFirstResult(startPosition);
         if (entityGraph != null) {
-            q.setHint("jakarta.persistence.loadgraph", getEntityManager().getEntityGraph(entityGraph));
+            q.setHint("${model.importPrefix}.persistence.loadgraph", getEntityManager().getEntityGraph(entityGraph));
         }
         return q.getResultList();
     }
@@ -108,7 +108,7 @@ public abstract class ${AbstractRepository}<E,P> {
         TypedQuery<E> query = getEntityManager().createNamedQuery(namedQueryName, entityClass);
         rawParameters.forEach(entry -> query.setParameter(entry.getKey(), entry.getValue()));
         if(entityGraph != null){
-            query.setHint("jakarta.persistence.loadgraph", getEntityManager().getEntityGraph(entityGraph));
+            query.setHint("${model.importPrefix}.persistence.loadgraph", getEntityManager().getEntityGraph(entityGraph));
         }
         return findOrEmpty(query::getSingleResult);
     }

@@ -15,10 +15,10 @@
 -->
 <#if package??>package ${package};</#if>
 
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import ${model.importPrefix}.enterprise.inject.Produces;
+import ${model.importPrefix}.enterprise.context.RequestScoped;
+import ${model.importPrefix}.persistence.EntityManager;
+import ${model.importPrefix}.persistence.PersistenceContext;
 
 /**
  * Producer for injectable EntityManager

@@ -123,6 +123,7 @@ public class ApplicationGenerator {
                 if (appProperties.getErDiagram() != null) {
                     ERDiagramParser parser = new ERDiagramParser();
                     erModel = parser.parse(appProperties.getErDiagram());
+                    erModel.setImportPrefix("8".equals(appProperties.getJakartaEEVersion()) ? "javax" : "jakarta");
                     if (erModel != null && !erModel.getEntities().isEmpty()) {
                         properties.put(ApplicationConfiguration.ER_DIAGRAM, true);
                         properties.put(ApplicationConfiguration.ER_DIAGRAM_NAME, appProperties.getErDiagramName());

@@ -15,7 +15,7 @@
 -->
 package ${package};
 
-import jakarta.ws.rs.core.Response.ResponseBuilder;
+import ${model.importPrefix}.ws.rs.core.Response.ResponseBuilder;
 
 /**
  * Utility class for HTTP headers creation.

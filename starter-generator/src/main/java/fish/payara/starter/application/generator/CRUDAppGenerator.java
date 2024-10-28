@@ -169,6 +169,7 @@ public class CRUDAppGenerator {
                 generateJPAClass(_package, model, entity, java);
             }
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("model", model);
             dataModel.put("appPU", model.getTitle("app") + "PU");
             generate("template/descriptor", "persistence.xml.ftl", "persistence.xml", dataModel, metainf);
 
@@ -424,7 +425,7 @@ public class CRUDAppGenerator {
         StringBuilder sbfunc = new StringBuilder();
         String entityPackage = _package + "." + domainLayer;
         sbHeader.append("package ").append(entityPackage).append(";\n\n");
-        sbHeader.append("import jakarta.persistence.*;\n");
+        sbHeader.append("import ").append(model.getImportPrefix()).append(".persistence.*;\n");
 
         StringBuilder sbBody = new StringBuilder();
         // Generate named queries
@@ -538,7 +539,7 @@ public class CRUDAppGenerator {
                     sbfunc.append("    public void set").append(pluralize(secondEntity)).append("(List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(") {\n");
                     sbfunc.append("        this.").append(pluralize(secondEntity.toLowerCase())).append(" = ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @OneToMany(mappedBy = \"").append(firstEntity.toLowerCase()).append("\")\n");
@@ -567,7 +568,7 @@ public class CRUDAppGenerator {
                     sbfunc.append("    public void set").append(pluralize(secondEntity)).append("(List<").append(secondEntity).append("> ").append(pluralize(secondEntity.toLowerCase())).append(") {\n");
                     sbfunc.append("        this.").append(pluralize(secondEntity.toLowerCase())).append(" = ").append(pluralize(secondEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @ManyToMany(mappedBy = \"").append(firstEntity.toLowerCase()).append("\")\n");
@@ -586,7 +587,7 @@ public class CRUDAppGenerator {
                     sbfunc.append("    public void set").append(firstEntity).append("(").append(firstEntity).append(" ").append(firstEntity.toLowerCase()).append(") {\n");
                     sbfunc.append("        this.").append(firstEntity.toLowerCase()).append(" = ").append(firstEntity.toLowerCase()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @OneToOne\n");
                     sb.append("    @JoinColumn(name = \"").append(firstEntity.toLowerCase()).append("_id\")\n");
@@ -622,7 +623,7 @@ public class CRUDAppGenerator {
                     sbfunc.append("    public void set").append(pluralize(firstEntity)).append("(List<").append(firstEntity).append("> ").append(pluralize(firstEntity.toLowerCase())).append(") {\n");
                     sbfunc.append("        this.").append(pluralize(firstEntity.toLowerCase())).append(" = ").append(pluralize(firstEntity.toLowerCase())).append(";\n");
                     sbfunc.append("    }\n\n");
-                    _imports.add("jakarta.json.bind.annotation.JsonbTransient");
+                    _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @ManyToMany\n");
