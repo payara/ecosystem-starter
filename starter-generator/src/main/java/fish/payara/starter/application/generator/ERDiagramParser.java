@@ -58,6 +58,7 @@ import fish.payara.starter.application.domain.Relationship;
 import fish.payara.starter.application.domain.ERModel;
 import fish.payara.starter.application.domain.Attribute;
 import static fish.payara.starter.application.util.AttributeType.getWrapperType;
+import fish.payara.starter.application.util.MermaidUtil;
 import static fish.payara.starter.application.util.StringHelper.titleCase;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,10 +66,11 @@ import java.util.regex.Pattern;
 public class ERDiagramParser {
 
  private final static Pattern RELATIONSHIP_PATTERN = Pattern.compile("^(\\w+)\\s*(\\|\\|--o\\{)\\s*(\\w+)\\s*:\\s*(.+?)\\s*$");
-private final static Pattern ENTITY_PATTERN = Pattern.compile("^(\\w+)\\s*\\{\\s*(?:%%\\{(.+?)\\}%%)?");
+private final static Pattern ENTITY_PATTERN = Pattern.compile("^([\\w-]+)\\s*\\{\\s*(?:%%\\{(.+?)\\}%%)?");
     private final static Pattern ATTRIBUTE_PATTERN = Pattern.compile("^\\s*(\\w+)\\s+(\\w+)(?:\\s+(PK|FK))?(?:\\s*%%\\{(.+?)\\}%%)?");
 
     public ERModel parse(String mermaidCode) {
+        mermaidCode = MermaidUtil.filterNoise(mermaidCode);
         ERModel erModel = new ERModel();
         String[] lines = mermaidCode.split("\n");
 

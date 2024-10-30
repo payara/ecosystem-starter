@@ -36,7 +36,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-/*
+ /*
  *
  * Copyright (c) 2024 Payara Foundation and/or its affiliates. All rights reserved.
  *
@@ -78,44 +78,84 @@ package fish.payara.starter.application.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class MermaidUtil {
 
+    private static final Pattern ATTRIBUTE_PATTERN = Pattern.compile("^\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s*(PK|FK)?$");
+    private static final Pattern HYPHEN_TO_UNDERSCORE_PATTERN = Pattern.compile("\\b([a-zA-Z]+)-([a-zA-Z]+)\\b");
+    private static final Pattern MERMAID_RELATIONSHIP_PATTERN = Pattern.compile("^\\s*(\\w+)\\s+([|o}]{1,2}--[|o{]{1,2})\\s*(\\w+)\\s*:\\s*(.+)$");
+
     public static String filterNoise(String mermaidString) {
         mermaidString = mermaidString.replaceAll("\\s*//.*", "");
-        StringBuilder sb = new StringBuilder();
-        for (String input : mermaidString.split("\n")) {
-            sb.append(convertAttribute(input)).append('\n');
-        }
-        return sb.toString();
+        return mermaidString.lines()
+                .map(MermaidUtil::convertAttributeSplit)
+                .map(MermaidUtil::convertHyphenToUnderscore)
+                .map(MermaidUtil::convertMermaidRelationship)
+                .collect(Collectors.joining("\n"));
     }
 
-    private static String convertAttribute(String input) {
-        // Regex to match the pattern
-        String regex = "^\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)\\s*(PK|FK)?$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
+    private static String convertAttributeSplit(String input) {
+        Matcher matcher = ATTRIBUTE_PATTERN.matcher(input);
 
         if (matcher.find()) {
             String dataType = matcher.group(1);
             String var1 = matcher.group(2);
             String var2 = matcher.group(3);
-            if(var2.equals("PK") || var2.equals("FK")) {
+            if (var2.equals("PK") || var2.equals("FK")) {
                 return input;
             }
             String constraint = matcher.group(4) != null ? " " + matcher.group(4) : "";
-
-            // Convert variable names to camelCase
             String camelCaseName = toCamelCase(var1, var2);
 
             // Format the output
-            return "        "+ String.format("\t\t%s %s%s", dataType, camelCaseName, constraint).trim();
+            return "        " + String.format("%s %s%s", dataType, camelCaseName, constraint).trim();
         }
-        return input; // return the original input if it doesn't match
+        return input;
+    }
+
+    private static String convertHyphenToUnderscore(String input) {
+        Matcher matcher = HYPHEN_TO_UNDERSCORE_PATTERN.matcher(input);
+        StringBuffer processedInput = new StringBuffer();
+
+        while (matcher.find()) {
+            String hyphenatedWord = matcher.group();
+            String converted = hyphenatedWord.replace("-", "_");
+            matcher.appendReplacement(processedInput, converted);
+        }
+        matcher.appendTail(processedInput);
+        return processedInput.toString();
+    }
+
+    public static String convertMermaidRelationship(String input) {
+        Matcher matcher = MERMAID_RELATIONSHIP_PATTERN.matcher(input);
+
+        if (matcher.find()) {
+            String leftValue = matcher.group(1);
+            String relationshipSymbol = matcher.group(2);
+            String rightValue = matcher.group(3);
+            String meaning = matcher.group(4);
+
+            String camelCaseMeaning = toCamelCase(meaning);
+
+            return "    " + String.format("%s %s %s : %s", leftValue, relationshipSymbol, rightValue, camelCaseMeaning);
+        }
+        return input;
+    }
+
+    private static String toCamelCase(String phrase) {
+        String[] words = phrase.split(" ");
+        StringBuilder camelCasePhrase = new StringBuilder(words[0].toLowerCase());
+
+        for (int i = 1; i < words.length; i++) {
+            camelCasePhrase.append(words[i].substring(0, 1).toUpperCase())
+                    .append(words[i].substring(1).toLowerCase());
+        }
+
+        return camelCasePhrase.toString();
     }
 
     private static String toCamelCase(String var1, String var2) {
-        // Convert var1 to lower case and var2 to capitalized
-        return var1.toLowerCase() + var2.substring(0, 1).toUpperCase() + var2.substring(1).toLowerCase();
+        return var1.toLowerCase() + Character.toUpperCase(var2.charAt(0)) + var2.substring(1).toLowerCase();
     }
 }

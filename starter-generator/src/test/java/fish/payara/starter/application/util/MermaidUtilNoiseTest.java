@@ -103,4 +103,75 @@ class MermaidUtilNoiseTest {
         assertEquals(EXPECTED_OUTPUT.trim(), actualOutput.trim());
     }
 
+    @Test
+    void testHyphenNamedClass() {
+        String input = """
+                                            erDiagram
+                                               INCIDENT {
+                                                   int incidentId PK
+                                                   string status
+                                               }
+                                               IT-OPERATION {
+                                                   long operationId PK
+                                                   string description
+                                               }
+                                           """;
+        String expected = """
+                                            erDiagram
+                                               INCIDENT {
+                                                   int incidentId PK
+                                                   string status
+                                               }
+                                               IT_OPERATION {
+                                                   long operationId PK
+                                                   string description
+                                               }
+                                           """;
+
+        String actualOutput = MermaidUtil.filterNoise(input);
+        assertEquals(expected.trim(), actualOutput.trim());
+    }
+
+    @Test
+    void testSplitedRelationName() {
+        String input = """
+                       erDiagram
+                           INCIDENT {
+                               int incidentID PK
+                               string status
+                               string priority
+                           }
+                           INCIDENT ||--o{ CATEGORY : belongs to
+                           CATEGORY {
+                               int categoryID PK
+                               string categoryName
+                               string description
+                           }
+                           p ||--o| a : has
+                           PERSON ||--o{ NAMED-DRIVER : is not
+                           JOB_APPLICATION ||--|{ JOB : applies_for
+                       """;
+
+        String expected = """
+                       erDiagram
+                           INCIDENT {
+                               int incidentID PK
+                               string status
+                               string priority
+                           }
+                           INCIDENT ||--o{ CATEGORY : belongsTo
+                           CATEGORY {
+                               int categoryID PK
+                               string categoryName
+                               string description
+                           }
+                           p ||--o| a : has
+                           PERSON ||--o{ NAMED_DRIVER : isNot
+                           JOB_APPLICATION ||--|{ JOB : applies_for
+                        """;
+
+        String actualOutput = MermaidUtil.filterNoise(input);
+        assertEquals(expected.trim(), actualOutput.trim());
+    }
+
 }

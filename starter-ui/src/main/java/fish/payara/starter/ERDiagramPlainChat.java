@@ -297,7 +297,7 @@ Don't add anything else in the end after you respond with the erDiagram.
         1(b) -Add website home-page description,about-us page description(5-10 lines) only to root of json 
     2- After following property to each Entity 
        2(a) Each must have one primary key PK attribute.
-       2(b) Add property related to bootstrap icon (e.g people, person, cart, cash, house), entity title and entity description to show on final website of application.
+       2(b) Add property related to bootstrap icon (e.g people, person, cart, cash, house or any related icon), entity title and entity description to show on final website of application.
        2(c) Ensure that the related bootstrap icon is always added for each entity.
     3- After following property to Attribute:
         3(a) Add htmllabel if variable name is not descriptive itself. Add it only if attribute is not itself descriptive.
