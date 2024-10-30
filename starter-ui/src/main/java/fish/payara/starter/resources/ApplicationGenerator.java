@@ -100,7 +100,7 @@ public class ApplicationGenerator {
     private static final String WORKING_DIR_PREFIX = "payara-starter-";
     private static final String ARCHETYPE_GROUP_ID = "fish.payara.starter";
     private static final String ARCHETYPE_ARTIFACT_ID = "payara-starter-archetype";
-    private static final String ARCHETYPE_VERSION = "1.0-beta10";
+    private static final String ARCHETYPE_VERSION = "1.0-beta11";
     private static final String MAVEN_ARCHETYPE_CMD = "org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate";// "archetype:generate";
     private static final String ZIP_EXTENSION = ".zip";
 

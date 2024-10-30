@@ -13,6 +13,44 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+/*
+ *
+ * Copyright (c) 2024 Payara Foundation and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://github.com/payara/Payara/blob/master/LICENSE.txt
+ * See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at glassfish/legal/LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * The Payara Foundation designates this particular file as subject to the "Classpath"
+ * exception as provided by the Payara Foundation in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
+ */
 package fish.payara.starter.application.generator;
 
 import fish.payara.starter.application.domain.Entity;
@@ -70,76 +108,25 @@ public class CRUDAppGenerator {
 
     public static void main(String[] args) {
         String mermaidCode = """
-                             erDiagram
-    STUDENT ||--o{ ENROLLMENT : enrolls
-    STUDENT {
-        string studentID PK
-        string name
-        string address
-        int age
-    }
-    ENROLLMENT ||--|{ COURSE : contains
-    ENROLLMENT {
-        int enrollmentID PK
-        string semester
-    }
-    COURSE {
-        string courseCode PK
-        string courseName
-        int credits
-    }
-    TEACHER ||--o{ COURSE : teaches
-    TEACHER {
-        string teacherID PK
-        string name
-        string specialization
-    }
-    CLASSROOM ||--o{ COURSE : hosts
-    CLASSROOM {
-        string classroomID PK
-        string building
-        int capacity
-    }
-    STUDENT ||--o{ ATTENDANCE : records
-    ATTENDANCE {
-        int attendanceID PK
-        date date
-        boolean present
-    }
-    COURSE ||--o{ ASSIGNMENT : includes
-    ASSIGNMENT {
-        int assignmentID PK
-        string title
-        date dueDate
-        int maxScore
-    }
-    TEACHER ||--o{ ASSIGNMENT : assigns
-    STUDENT ||--o{ SUBMISSION : submits
-    SUBMISSION {
-        int submissionID PK
-        int score
-        date submissionDate
-    }
-    STUDENT ||--o{ PROJECT : participates
-    PROJECT {
-        int projectID PK
-        string projectName
-        date startDate
-        date endDate
-        string description
-    }
-    COURSE ||--o{ PROJECT : involves
-    TEACHER ||--o{ PROJECT : supervises
-    PROJECT ||--o{ STUDENT : has
-    STUDENT ||--o{ EXAM : takes
-    EXAM {
-        int examID PK
-        string subject
-        date examDate
-        int totalMarks
-    }
-    COURSE ||--o{ EXAM : includes
-    TEACHER ||--o{ EXAM : administers
+erDiagram
+                                 DEPARTMENT ||--o{ IT_EMPLOYEE : belongs_to
+                                 IT_EMPLOYEE {
+                                     int employeeID PK
+                                     string name
+                                     string position
+                                     datetime hireDate
+                                 }
+                                 DEPARTMENT {
+                                     int departmentID PK
+                                     string name
+                                     string location				
+                                 }
+                                 MANAGER ||--|| DEPARTMENT : managesSys
+                                 MANAGER {
+                                     int managerID PK
+                                     string name
+                                 }
+                             
                              """;
 
         ERDiagramParser parser = new ERDiagramParser();
@@ -170,7 +157,7 @@ public class CRUDAppGenerator {
             }
             Map<String, Object> dataModel = new HashMap<>();
             dataModel.put("model", model);
-            dataModel.put("appPU", model.getTitle("app") + "PU");
+            dataModel.put("appPU", model.getTitle("app").replace(" ", "") + "PU");
             generate("template/descriptor", "persistence.xml.ftl", "persistence.xml", dataModel, metainf);
 
             if (generateRepository) {
@@ -207,10 +194,13 @@ public class CRUDAppGenerator {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("model", model);
         dataModel.put("entity", entity);
-        dataModel.put("entityNameLowerCase", entity.getClassName().toLowerCase());
+        dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
         dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
         dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getClassName())));
         dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getClassName().toLowerCase()));
+        String entityInstance = firstLower(entity.getClassName());
+        String entityNameSpinalCased = kebabCase(entityInstance);
+        dataModel.put("entityApiUrl", entityNameSpinalCased);
         generate("template/html", "entity.html.ftl", dataModel.get("entityNameLowerCase") + ".html", dataModel, outputDir);
     }
 
