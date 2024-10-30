@@ -65,8 +65,9 @@ import java.util.regex.Pattern;
 
 public class ERDiagramParser {
 
- private final static Pattern RELATIONSHIP_PATTERN = Pattern.compile("^(\\w+)\\s*(\\|\\|--o\\{)\\s*(\\w+)\\s*:\\s*(.+?)\\s*$");
-private final static Pattern ENTITY_PATTERN = Pattern.compile("^([\\w-]+)\\s*\\{\\s*(?:%%\\{(.+?)\\}%%)?");
+ private final static Pattern RELATIONSHIP_PATTERN = Pattern.compile("^\\s*(\\w+)\\s+([|o}]{1,2}--[|o{]{1,2})\\s*(\\w+)\\s*:\\s*(.+)$");
+
+ private final static Pattern ENTITY_PATTERN = Pattern.compile("^([\\w-]+)\\s*\\{\\s*(?:%%\\{(.+?)\\}%%)?");
     private final static Pattern ATTRIBUTE_PATTERN = Pattern.compile("^\\s*(\\w+)\\s+(\\w+)(?:\\s+(PK|FK))?(?:\\s*%%\\{(.+?)\\}%%)?");
 
     public ERModel parse(String mermaidCode) {

@@ -108,76 +108,25 @@ public class CRUDAppGenerator {
 
     public static void main(String[] args) {
         String mermaidCode = """
-                             erDiagram
-    STUDENT ||--o{ ENROLLMENT : enrolls
-    STUDENT {
-        string studentID PK
-        string name
-        string address
-        int age
-    }
-    ENROLLMENT ||--|{ COURSE : contains
-    ENROLLMENT {
-        int enrollmentID PK
-        string semester
-    }
-    COURSE {
-        string courseCode PK
-        string courseName
-        int credits
-    }
-    TEACHER ||--o{ COURSE : teaches
-    TEACHER {
-        string teacherID PK
-        string name
-        string specialization
-    }
-    CLASSROOM ||--o{ COURSE : hosts
-    CLASSROOM {
-        string classroomID PK
-        string building
-        int capacity
-    }
-    STUDENT ||--o{ ATTENDANCE : records
-    ATTENDANCE {
-        int attendanceID PK
-        date date
-        boolean present
-    }
-    COURSE ||--o{ ASSIGNMENT : includes
-    ASSIGNMENT {
-        int assignmentID PK
-        string title
-        date dueDate
-        int maxScore
-    }
-    TEACHER ||--o{ ASSIGNMENT : assigns
-    STUDENT ||--o{ SUBMISSION : submits
-    SUBMISSION {
-        int submissionID PK
-        int score
-        date submissionDate
-    }
-    STUDENT ||--o{ PROJECT : participates
-    PROJECT {
-        int projectID PK
-        string projectName
-        date startDate
-        date endDate
-        string description
-    }
-    COURSE ||--o{ PROJECT : involves
-    TEACHER ||--o{ PROJECT : supervises
-    PROJECT ||--o{ STUDENT : has
-    STUDENT ||--o{ EXAM : takes
-    EXAM {
-        int examID PK
-        string subject
-        date examDate
-        int totalMarks
-    }
-    COURSE ||--o{ EXAM : includes
-    TEACHER ||--o{ EXAM : administers
+erDiagram
+                                 DEPARTMENT ||--o{ IT_EMPLOYEE : belongs_to
+                                 IT_EMPLOYEE {
+                                     int employeeID PK
+                                     string name
+                                     string position
+                                     datetime hireDate
+                                 }
+                                 DEPARTMENT {
+                                     int departmentID PK
+                                     string name
+                                     string location				
+                                 }
+                                 MANAGER ||--|| DEPARTMENT : managesSys
+                                 MANAGER {
+                                     int managerID PK
+                                     string name
+                                 }
+                             
                              """;
 
         ERDiagramParser parser = new ERDiagramParser();
@@ -208,7 +157,7 @@ public class CRUDAppGenerator {
             }
             Map<String, Object> dataModel = new HashMap<>();
             dataModel.put("model", model);
-            dataModel.put("appPU", model.getTitle("app") + "PU");
+            dataModel.put("appPU", model.getTitle("app").replace(" ", "") + "PU");
             generate("template/descriptor", "persistence.xml.ftl", "persistence.xml", dataModel, metainf);
 
             if (generateRepository) {
@@ -245,10 +194,13 @@ public class CRUDAppGenerator {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("model", model);
         dataModel.put("entity", entity);
-        dataModel.put("entityNameLowerCase", entity.getClassName().toLowerCase());
+        dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
         dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
         dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getClassName())));
         dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getClassName().toLowerCase()));
+        String entityInstance = firstLower(entity.getClassName());
+        String entityNameSpinalCased = kebabCase(entityInstance);
+        dataModel.put("entityApiUrl", entityNameSpinalCased);
         generate("template/html", "entity.html.ftl", dataModel.get("entityNameLowerCase") + ".html", dataModel, outputDir);
     }
 

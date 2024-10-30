@@ -103,17 +103,17 @@ public class Entity {
 
     @JsonbTransient
     public String getLowerCaseName() {
-        return name.toLowerCase();
+        return getClassName().toLowerCase();
     }
 
     @JsonbTransient
     public String getTitleCaseName() {
-        return titleCase(name);
+        return titleCase(getClassName());
     }
 
     @JsonbTransient
     public String getLowerCasePluralizeName() {
-        return pluralize(name.toLowerCase());
+        return pluralize(getLowerCaseName());
     }
 
     @JsonbTransient

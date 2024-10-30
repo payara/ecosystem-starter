@@ -85,7 +85,7 @@
         // Fetch all ${entityNameLowerCase}s and display them
         function load${entityNameTitleCasePluralize}() {
             $.ajax({
-                url: 'resources/api/${entityNameLowerCase}',
+                url: 'resources/api/${entityApiUrl}',
                 method: 'GET',
                 contentType: 'application/json',
                 success: function (data) {
@@ -178,7 +178,7 @@
                 </#list>
             };
             $.ajax({
-                url: 'resources/api/${entityNameLowerCase}',
+                url: 'resources/api/${entityApiUrl}',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(${entityNameLowerCase}),
@@ -207,7 +207,7 @@
                 </#list>
             };
             $.ajax({
-                url: 'resources/api/${entityNameLowerCase}',
+                url: 'resources/api/${entityApiUrl}',
                 method: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(${entityNameLowerCase}),
@@ -222,7 +222,7 @@
         // Edit ${entityNameLowerCase} (populate form)
         window.edit${entityNameTitleCase} = function (${entity.getPrimaryKeyName()}) {
             $.ajax({
-                url: 'resources/api/${entityNameLowerCase}/' + ${entity.getPrimaryKeyName()},
+                url: 'resources/api/${entityApiUrl}/' + ${entity.getPrimaryKeyName()},
                 method: 'GET',
                 contentType: 'application/json',
                 success: function (${entityNameLowerCase}) {
@@ -230,7 +230,7 @@
                         <#if model.getEntity(attribute.type)??>
                             <#if attribute.multi>
                             <#else>
-                    $('#${attribute.name}Select').val(${entityNameLowerCase}.${attribute.name}.${model.getEntity(attribute.type).getPrimaryKeyName()});
+                    $('#${attribute.name}Select').val(${entityNameLowerCase}?.${attribute.name}?.${model.getEntity(attribute.type).getPrimaryKeyName()});
                             </#if>
                         <#else>
                     $('#${attribute.name}').val(${entityNameLowerCase}.${attribute.name})<#if attribute.isPrimaryKey()>.prop('disabled', true).closest('.form-group').show()</#if>;
@@ -247,7 +247,7 @@
         // Delete ${entityNameLowerCase}
         window.delete${entityNameTitleCase} = function (${entity.getPrimaryKeyName()}) {
             $.ajax({
-                url: 'resources/api/${entityNameLowerCase}/' + ${entity.getPrimaryKeyName()},
+                url: 'resources/api/${entityApiUrl}/' + ${entity.getPrimaryKeyName()},
                 method: 'DELETE',
                 success: function () {
                     load${entityNameTitleCasePluralize}();
