@@ -107,8 +107,8 @@ public class CRUDAppGenerator {
     }
 
     public static void main(String[] args) {
-        String mermaidCode = """
-erDiagram
+                    String mermaidCode = """
+                             erDiagram
                                  DEPARTMENT ||--o{ IT_EMPLOYEE : belongs_to
                                  IT_EMPLOYEE {
                                      int employeeID PK
@@ -544,7 +544,7 @@ erDiagram
                     sbfunc.append("    public void set").append(secondEntity).append("(").append(secondEntity).append(" ").append(secondEntity.toLowerCase()).append(") {\n");
                     sbfunc.append("        this.").append(secondEntity.toLowerCase()).append(" = ").append(secondEntity.toLowerCase()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sb.append("    @ManyToOne(mappedBy = \"").append(firstEntity.toLowerCase()).append("\")\n");
+                    sb.append("    @ManyToOne\n");
                     sb.append("    private ").append(secondEntity).append(" ").append(secondEntity.toLowerCase()).append(";\n");
                     break;
                 case "}o--o{": // Zero or more to zero or more
