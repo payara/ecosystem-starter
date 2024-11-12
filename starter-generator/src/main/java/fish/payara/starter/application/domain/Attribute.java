@@ -56,9 +56,11 @@ package fish.payara.starter.application.domain;
 import fish.payara.starter.application.util.AttributeType;
 import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE;
 import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE_TIME;
-import static fish.payara.starter.application.util.StringHelper.pluralize;
-import static fish.payara.starter.application.util.StringHelper.startCase;
-import static fish.payara.starter.application.util.StringHelper.titleCase;
+import static fish.payara.starter.application.util.StringUtils.firstLower;
+import static fish.payara.starter.application.util.StringUtils.kebabCase;
+import static fish.payara.starter.application.util.StringUtils.pluralize;
+import static fish.payara.starter.application.util.StringUtils.startCase;
+import static fish.payara.starter.application.util.StringUtils.titleCase;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import java.util.ArrayList;
@@ -109,7 +111,7 @@ public class Attribute {
         this.type = relation;
         this.multi = multi;
     }
-
+   
     /** 
      * Returns the name of the attribute.
      * 
@@ -342,6 +344,10 @@ public class Attribute {
      */
     public void setMulti(boolean multi) {
         this.multi = multi;
+    }
+
+    public String getApiUrl() {
+        return kebabCase(firstLower(type));
     }
 
     @Override

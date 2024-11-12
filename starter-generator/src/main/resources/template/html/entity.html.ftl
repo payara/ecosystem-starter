@@ -122,7 +122,7 @@
             <#else>
         function load${attribute.getTitleCasePluralizeName()}() {
             $.ajax({
-                url: 'resources/api/${attribute.name}',
+                url: 'resources/api/${attribute.getApiUrl()}',
                 method: 'GET',
                 contentType: 'application/json',
                 success: function (data) {

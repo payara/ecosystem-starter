@@ -53,10 +53,10 @@
  */
 package fish.payara.starter.application.domain;
 
-import static fish.payara.starter.application.util.StringHelper.firstUpper;
-import static fish.payara.starter.application.util.StringHelper.pluralize;
-import static fish.payara.starter.application.util.StringHelper.startCase;
-import static fish.payara.starter.application.util.StringHelper.titleCase;
+import static fish.payara.starter.application.util.StringUtils.firstUpper;
+import static fish.payara.starter.application.util.StringUtils.pluralize;
+import static fish.payara.starter.application.util.StringUtils.startCase;
+import static fish.payara.starter.application.util.StringUtils.titleCase;
 import jakarta.json.bind.annotation.JsonbTransient;
 import java.util.ArrayList;
 import java.util.List;

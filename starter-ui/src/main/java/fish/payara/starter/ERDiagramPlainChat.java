@@ -314,7 +314,7 @@ Don't add anything else in the end after you respond with the erDiagram.
              Do not add to Primary key PK.
         3(d) Add 'tooltip=description of attribute' to attribute to show it on html input UI which will help end user.
              tooltip must be added to all attributes except FK or PK primary key.    
-    4- Add variable name to relation of JPA Entities with property relationshipVarNameInFirstEntity and relationshipVarNameInSecondEntity.
+    4- Add variable name to relation of JPA Entities with property relationshipVarNameInFirstEntity and relationshipVarNameInSecondEntity based on the value of relationshipLabel.
 
     Sample JSON Structure:
           {

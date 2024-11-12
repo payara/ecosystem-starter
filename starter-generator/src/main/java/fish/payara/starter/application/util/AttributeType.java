@@ -305,7 +305,7 @@ public class AttributeType {
     }
 
     public static boolean isArray(String type) {
-        if (StringHelper.isEmpty(type) || type.length() < 3) {
+        if (StringUtils.isEmpty(type) || type.length() < 3) {
             return false;
         }
         return type.charAt(type.length() - 2) == '[' && type.charAt(type.length() - 1) == ']';

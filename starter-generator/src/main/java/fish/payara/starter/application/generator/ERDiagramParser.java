@@ -59,7 +59,7 @@ import fish.payara.starter.application.domain.ERModel;
 import fish.payara.starter.application.domain.Attribute;
 import static fish.payara.starter.application.util.AttributeType.getWrapperType;
 import fish.payara.starter.application.util.MermaidUtil;
-import static fish.payara.starter.application.util.StringHelper.titleCase;
+import static fish.payara.starter.application.util.StringUtils.titleCase;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,6 +106,9 @@ public class ERDiagramParser {
                         if (attrMatcher.find()) {
                             String type = attrMatcher.group(1);
                             String name = attrMatcher.group(2);
+                            if(name.equals(name.toUpperCase())) {
+                                name = name.toLowerCase();
+                            }
                             String keyType = attrMatcher.group(3);
                             boolean isPrimaryKey = "PK".equals(keyType);
                             boolean isForeignKey = "FK".equals(keyType);
