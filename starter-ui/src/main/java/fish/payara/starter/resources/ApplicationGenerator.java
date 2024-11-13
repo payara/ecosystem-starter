@@ -84,6 +84,8 @@ import java.util.zip.ZipOutputStream;
 import org.apache.maven.cli.MavenCli;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -159,6 +161,8 @@ public class ApplicationGenerator {
                         e.printStackTrace();
                         LOGGER.log(Level.SEVERE, "Error generating application: {0}", e.getMessage());
                     }
+                    Path diagramPath = Paths.get(applicationDir.getAbsolutePath(), appProperties.getErDiagramName().trim().replaceAll("\\s+", "_") + ".mmd");
+                    Files.write(diagramPath, appProperties.getErDiagram().getBytes());
                 }
                 return zipDirectory(applicationDir, workingDirectory);
             } catch (Exception ie) {
