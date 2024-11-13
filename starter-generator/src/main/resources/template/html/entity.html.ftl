@@ -23,7 +23,9 @@
         <thead>
             <tr>
                 <#list entity.attributes as attribute>
+                <#if !attribute.multi>
                 <th>${attribute.getStartCaseName()}</th>
+                </#if>
                 </#list>
                 <th>Actions</th>
             </tr>

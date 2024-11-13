@@ -306,6 +306,7 @@ Don't add anything else in the end after you respond with the erDiagram.
             HTML label should not be the same as the attribute name by spliting with space; it should provide more meaning and description.              
             Invalid Example:    For date appointmentDate dont' add htmllabel=Appointment Date, Not required for appointmentDate as it is self descriptive 
         3(b) Each entity must have only one label or name attribute. Add a 'display=true' property to the attribute that will serve as the label for the entity.
+            Do not add the 'display=true' property to primary-key attribute.
             Do not add the 'display=true' property to more than one attribute.
             Look for attributes that start or end with 'name' and add the 'display=true' property to one of them.
             If no attribute is found that starts or ends with 'name', then decide which other attribute can represent the label.
