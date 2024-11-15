@@ -268,9 +268,6 @@ public class CRUDAppGenerator {
             String pkName = entity.getPrimaryKeyName();
             String pkType = entity.getPrimaryKeyType();
             dataModel.put("pkName", firstLower(pkName));
-//            System.out.println("getIntrospectionPrefix " + getIntrospectionPrefix(isBoolean(pkType)));
-//            System.out.println("pkType " + pkType);
-//            System.out.println("pkName " + pkName);
             dataModel.put("pkGetter", getMethodName(getIntrospectionPrefix(isBoolean(pkType)), pkName));
             dataModel.put("pkSetter", getMethodName("set", pkName));
             dataModel.put("pkType", pkType);
@@ -508,68 +505,73 @@ public class CRUDAppGenerator {
         String firstEntityVar = relationship.getRelationshipVarNameInFirstEntity() != null ? relationship.getRelationshipVarNameInFirstEntity() : secondEntity.toLowerCase();
         String firstEntityVars = pluralize(firstEntityVar);
         firstEntityVar = singularize(firstEntityVar);
-        String secondEntityVar = relationship.getRelationshipVarNameInSecondEntity() != null ? relationship.getRelationshipVarNameInSecondEntity() : firstEntity.toLowerCase();;
+        String secondEntityVar = relationship.getRelationshipVarNameInSecondEntity() != null ? relationship.getRelationshipVarNameInSecondEntity() : firstEntity.toLowerCase();
         String secondEntityVars = pluralize(secondEntityVar);
         secondEntityVar = singularize(secondEntityVar);
         
+        Attribute attribute;
         if (isFirstEntity) {
             switch (relationshipType) {
                 case "||--||": // Exactly one to exactly one
                 case "||--o|": // Exactly one to zero or one
                 case "|o--||": // Zero or one to exactly one
-                    entity.getAttributes().add(new Attribute(firstEntityVar, false, secondEntity));
-                    sbfunc.append("    public ").append(secondEntity).append(" get").append(firstUpper(firstEntityVar)).append("() {\n");
-                    sbfunc.append("        return ").append(firstEntityVar).append(";\n");
+                    attribute = new Attribute(firstEntityVar, false, secondEntity);
+                    entity.getAttributes().add(attribute);
+                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
+                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstUpper(firstEntityVar)).append("(").append(secondEntity).append(" ").append(firstEntityVar).append(") {\n");
-                    sbfunc.append("        this.").append(firstEntityVar).append(" = ").append(firstEntityVar).append(";\n");
+                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
+                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
                     sb.append("    @OneToOne(mappedBy = \"").append(secondEntityVar).append("\")\n");
-                    sb.append("    private ").append(secondEntity).append(" ").append(firstEntityVar).append(";\n");
+                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
                     break;
                 case "||--|{": // Exactly one to one or more
                 case "||--o{": // Exactly one to zero or more
-                    entity.getAttributes().add(new Attribute(firstEntityVars, true, secondEntity));
-                    sbfunc.append("    public List<").append(secondEntity).append("> get").append(firstUpper(firstEntityVars)).append("() {\n");
-                    sbfunc.append("        return ").append(firstEntityVars).append(";\n");
+                    attribute = new Attribute(firstEntityVars, true, secondEntity);
+                    entity.getAttributes().add(attribute);
+                    sbfunc.append("    public List<").append(attribute.getType()).append("> get").append(attribute.getTitleCaseName()).append("() {\n");
+                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstUpper(firstEntityVars)).append("(List<").append(secondEntity).append("> ").append(firstEntityVars).append(") {\n");
-                    sbfunc.append("        this.").append(firstEntityVars).append(" = ").append(firstEntityVars).append(";\n");
+                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(") {\n");
+                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @OneToMany(mappedBy = \"").append(secondEntityVar).append("\")\n");
-                    sb.append("    private List<").append(secondEntity).append("> ").append(firstEntityVars).append(";\n");
+                    sb.append("    private List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(";\n");
                     break;
                 case "}|--||": // One or more to exactly one
                 case "}o--||": // Zero or more to exactly one
-                    entity.getAttributes().add(new Attribute(firstEntityVar, false, secondEntity));
-                    sbfunc.append("    public ").append(secondEntity).append(" get").append(firstUpper(firstEntityVar)).append("() {\n");
-                    sbfunc.append("        return ").append(firstEntityVar).append(";\n");
+                    attribute = new Attribute(firstEntityVar, false, secondEntity);
+                    entity.getAttributes().add(attribute);
+                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
+                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstUpper(firstEntityVar)).append("(").append(secondEntity).append(" ").append(firstEntityVar).append(") {\n");
-                    sbfunc.append("        this.").append(firstEntityVar).append(" = ").append(firstEntityVar).append(";\n");
+                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
+                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
                     sb.append("    @ManyToOne\n");
-                    sb.append("    private ").append(secondEntity).append(" ").append(firstEntityVar).append(";\n");
+                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
                     break;
                 case "}o--o{": // Zero or more to zero or more
                 case "}|--o{": // One or more to zero or more
                 case "}o--|{": // Zero or more to one or more
                 case "}|--|{": // One or more to one or more
-                    entity.getAttributes().add(new Attribute(firstEntityVars, true, secondEntity));
-                    sbfunc.append("    public List<").append(secondEntity).append("> get").append(firstUpper(firstEntityVars)).append("() {\n");
-                    sbfunc.append("        return ").append(firstEntityVars).append(";\n");
+                    attribute = new Attribute(firstEntityVars, true, secondEntity);
+                    entity.getAttributes().add(attribute);
+                    sbfunc.append("    public List<").append(attribute.getType()).append("> get").append(attribute.getTitleCaseName()).append("() {\n");
+                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstUpper(firstEntityVars)).append("(List<").append(secondEntity).append("> ").append(firstEntityVars).append(") {\n");
-                    sbfunc.append("        this.").append(firstEntityVars).append(" = ").append(firstEntityVars).append(";\n");
+                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(") {\n");
+                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
-                    sb.append("    @ManyToMany(mappedBy = \"").append(secondEntityVar).append("\")\n");
-                    sb.append("    private List<").append(secondEntity).append("> ").append(firstEntityVars).append(";\n");
+                    sb.append("    @ManyToMany(mappedBy = \"").append(secondEntityVars).append("\")\n");
+                    sb.append("    private List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(";\n");
                     break;
             }
         } else {
@@ -577,55 +579,58 @@ public class CRUDAppGenerator {
                 case "||--||": // Exactly one to exactly one
                 case "||--o|": // Exactly one to zero or one
                 case "|o--||": // Zero or one to exactly one
-                    entity.getAttributes().add(new Attribute(secondEntityVar, false, secondEntity));
-                    sbfunc.append("    public ").append(firstEntity).append(" get").append(firstUpper(secondEntityVar)).append("() {\n");
-                    sbfunc.append("        return ").append(secondEntityVar).append(";\n");
+                    attribute = new Attribute(secondEntityVar, false, firstEntity);
+                    entity.getAttributes().add(attribute);
+                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
+                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstUpper(secondEntityVar)).append("(").append(firstEntity).append(" ").append(secondEntityVar).append(") {\n");
-                    sbfunc.append("        this.").append(secondEntityVar).append(" = ").append(secondEntityVar).append(";\n");
+                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
+                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @OneToOne\n");
-                    sb.append("    @JoinColumn(name = \"").append(secondEntityVar).append("_id\")\n");
-                    sb.append("    private ").append(firstEntity).append(" ").append(secondEntityVar).append(";\n");
+                    sb.append("    @JoinColumn(name = \"").append(attribute.getName()).append("_id\")\n");
+                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
                     break;
                 case "||--|{": // Exactly one to one or more
                 case "||--o{": // Exactly one to zero or more
-                    entity.getAttributes().add(new Attribute(secondEntityVar, false, firstEntity));
-                    sbfunc.append("    public ").append(firstEntity).append(" get").append(firstUpper(secondEntityVar)).append("() {\n");
-                    sbfunc.append("        return ").append(secondEntityVar).append(";\n");
+                    attribute = new Attribute(secondEntityVar, false, firstEntity);
+                    entity.getAttributes().add(attribute);
+                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
+                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstUpper(secondEntityVar)).append("(").append(firstEntity).append(" ").append(secondEntityVar).append(") {\n");
-                    sbfunc.append("        this.").append(secondEntityVar).append(" = ").append(secondEntityVar).append(";\n");
+                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
+                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
                     sb.append("    @ManyToOne\n");
-                    sb.append("    @JoinColumn(name = \"").append(secondEntityVar).append("_id\")\n");
-                    sb.append("    private ").append(firstEntity).append(" ").append(secondEntityVar).append(";\n");
+                    sb.append("    @JoinColumn(name = \"").append(attribute.getName()).append("_id\")\n");
+                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
                     break;
 //                case "}|--||": // One or more to exactly one
 //                case "}o--||": // Zero or more to exactly one
 //                    sb.append("    @OneToMany\n");
-//                    sb.append("    @JoinColumn(name = \"").append(secondEntityVar).append("_id\")\n");
-//                    sb.append("    private ").append(firstEntity).append(" ").append(secondEntityVar).append(";\n");
+//                    sb.append("    @JoinColumn(name = \"").append(attribute.getName()).append("_id\")\n");
+//                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
 //                    break;
                 case "}o--o{": // Zero or more to zero or more
                 case "}|--o{": // One or more to zero or more
                 case "}o--|{": // Zero or more to one or more
                 case "}|--|{": // One or more to one or more
-                    entity.getAttributes().add(new Attribute(secondEntityVars, true, firstEntity));
-                    sbfunc.append("    public List<").append(firstEntity).append("> get").append(firstUpper(secondEntityVars)).append("() {\n");
-                    sbfunc.append("        return ").append(secondEntityVars).append(";\n");
+                    attribute = new Attribute(secondEntityVars, true, firstEntity);
+                    entity.getAttributes().add(attribute);
+                    sbfunc.append("    public List<").append(attribute.getType()).append("> get").append(attribute.getTitleCaseName()).append("() {\n");
+                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(firstUpper(secondEntityVars)).append("(List<").append(firstEntity).append("> ").append(secondEntityVars).append(") {\n");
-                    sbfunc.append("        this.").append(secondEntityVars).append(" = ").append(secondEntityVars).append(";\n");
+                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(") {\n");
+                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
                     sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
                     sb.append("    @JsonbTransient\n");
                     sb.append("    @ManyToMany\n");
                     sb.append("    @JoinColumn(name = \"").append(secondEntityVar).append("_id\")\n");
-                    sb.append("    private List<").append(firstEntity).append("> ").append(secondEntityVars).append(";\n");
+                    sb.append("    private List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(";\n");
                     break;
             }
         }

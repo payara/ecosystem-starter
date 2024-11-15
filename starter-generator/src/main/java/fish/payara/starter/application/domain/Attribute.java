@@ -57,6 +57,7 @@ import fish.payara.starter.application.util.AttributeType;
 import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE;
 import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE_TIME;
 import static fish.payara.starter.application.util.StringUtils.firstLower;
+import static fish.payara.starter.application.util.StringUtils.firstUpper;
 import static fish.payara.starter.application.util.StringUtils.kebabCase;
 import static fish.payara.starter.application.util.StringUtils.pluralize;
 import static fish.payara.starter.application.util.StringUtils.startCase;
@@ -132,43 +133,13 @@ public class Attribute {
     }
 
     /** 
-     * Returns the name of the attribute in lower case format.
-     * 
-     * @return the lower case name
-     */
-    @JsonbTransient
-    public String getLowerCaseName() {
-        return name.toLowerCase();
-    }
-
-    /** 
      * Returns the name of the attribute in title case format.
      * 
      * @return the title case name
      */
     @JsonbTransient
     public String getTitleCaseName() {
-        return titleCase(name);
-    }
-
-    /** 
-     * Returns the pluralized lower case name of the attribute.
-     * 
-     * @return the pluralized lower case name
-     */
-    @JsonbTransient
-    public String getLowerCasePluralizeName() {
-        return pluralize(name.toLowerCase());
-    }
-
-    /** 
-     * Returns the pluralized title case name of the attribute.
-     * 
-     * @return the pluralized title case name
-     */
-    @JsonbTransient
-    public String getTitleCasePluralizeName() {
-        return pluralize(titleCase(name));
+        return firstUpper(name);
     }
 
     /** 
