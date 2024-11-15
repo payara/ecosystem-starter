@@ -53,8 +53,8 @@
  */
 package fish.payara.starter.application.util;
 
-import static fish.payara.starter.application.util.StringHelper.EMPTY;
-import static fish.payara.starter.application.util.StringHelper.isNotBlank;
+import static fish.payara.starter.application.util.StringUtils.EMPTY;
+import static fish.payara.starter.application.util.StringUtils.isNotBlank;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -198,7 +198,7 @@ public class JavaUtil {
         } else {
             return null;
         }
-        fieldName = StringHelper.firstLower(fieldName);
+        fieldName = StringUtils.firstLower(fieldName);
         return fieldName;
     }
 
@@ -211,7 +211,7 @@ public class JavaUtil {
         } else {
             return null;
         }
-        fieldName = StringHelper.firstLower(fieldName);
+        fieldName = StringUtils.firstLower(fieldName);
         return fieldName;
     }
 

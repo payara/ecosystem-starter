@@ -84,6 +84,8 @@ import java.util.zip.ZipOutputStream;
 import org.apache.maven.cli.MavenCli;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -100,7 +102,7 @@ public class ApplicationGenerator {
     private static final String WORKING_DIR_PREFIX = "payara-starter-";
     private static final String ARCHETYPE_GROUP_ID = "fish.payara.starter";
     private static final String ARCHETYPE_ARTIFACT_ID = "payara-starter-archetype";
-    private static final String ARCHETYPE_VERSION = "1.0-beta11";
+    private static final String ARCHETYPE_VERSION = "1.0-beta12";
     private static final String MAVEN_ARCHETYPE_CMD = "org.apache.maven.plugins:maven-archetype-plugin:3.2.1:generate";// "archetype:generate";
     private static final String ZIP_EXTENSION = ".zip";
 
@@ -159,6 +161,8 @@ public class ApplicationGenerator {
                         e.printStackTrace();
                         LOGGER.log(Level.SEVERE, "Error generating application: {0}", e.getMessage());
                     }
+                    Path diagramPath = Paths.get(applicationDir.getAbsolutePath(), appProperties.getErDiagramName().trim().replaceAll("\\s+", "_") + ".mmd");
+                    Files.write(diagramPath, appProperties.getErDiagram().getBytes());
                 }
                 return zipDirectory(applicationDir, workingDirectory);
             } catch (Exception ie) {

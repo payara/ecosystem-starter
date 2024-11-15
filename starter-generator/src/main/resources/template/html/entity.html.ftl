@@ -23,7 +23,9 @@
         <thead>
             <tr>
                 <#list entity.attributes as attribute>
+                <#if !attribute.multi>
                 <th>${attribute.getStartCaseName()}</th>
+                </#if>
                 </#list>
                 <th>Actions</th>
             </tr>
@@ -46,31 +48,39 @@
             <div class="modal-body">
                 <form id="${entityNameLowerCase}Form">
                     <#list entity.attributes as attribute>
-                        <div class="form-group">
                             <#if model.getEntity(attribute.type)??>
-                                <#if attribute.multi>
-                                <#else>
+                                <#if !attribute.multi>
+                        <div class="form-group">
                             <label for="${attribute.name}Select">${attribute.getTitleCaseName()}:</label>
                             <select class="form-control" id="${attribute.name}Select" name="${attribute.name}">
-                                <!-- ${attribute.getTitleCasePluralizeName()} will be populated here -->
+                                <!-- ${attribute.getTitleCaseName()} will be populated here -->
                             </select>
+                        </div>
                                 </#if>
                             <#else>
                         <#if attribute.getType() == "LocalDate">
+                        <div class="form-group">
                             <label for="${attribute.name}">${attribute.getStartCaseName()}:</label>
                             <input type="date" class="form-control" id="${attribute.name}" name="${attribute.name}"<#if attribute.required> required</#if>>
+                        </div>
                         <#elseif attribute.getType() == "LocalDateTime">
+                        <div class="form-group">
                             <label for="${attribute.name}">${attribute.getStartCaseName()}:</label>
                             <input type="datetime-local" class="form-control" id="${attribute.name}" name="${attribute.name}"<#if attribute.required> required</#if>>
+                        </div>
                         <#elseif attribute.isNumber()>
+                        <div class="form-group">
                             <label for="${attribute.name}">${attribute.getStartCaseName()}:</label>
                             <input type="number" class="form-control" id="${attribute.name}" name="${attribute.name}"<#if attribute.required> required</#if>>
+                        </div>
                         <#else>
+                        <div class="form-group">
                             <label for="${attribute.name}">${attribute.getStartCaseName()}:</label>
                             <input type="text" class="form-control" id="${attribute.name}" name="${attribute.name}"<#if attribute.required> required</#if>>
+                        </div>
                         </#if>
                             </#if>
-                        </div>
+                        
                     </#list>
                     <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
                     <button type="button" class="btn btn-primary" id="updateButton">Update</button>
@@ -95,8 +105,7 @@
                         var row = '<tr>' +
                         <#list entity.attributes as attribute>
                             <#if model.getEntity(attribute.type)??>
-                                <#if attribute.multi>
-                                <#else>
+                                <#if !attribute.multi>
                             '<td>' + (${entityNameLowerCase}?.${attribute.name}?.${model.getEntity(attribute.type).getDisplayName()} || '') + '</td>' +
                                 </#if>
                             <#else>
@@ -118,11 +127,10 @@
 
     <#list entity.attributes as attribute>
         <#if model.getEntity(attribute.type)??>
-            <#if attribute.multi>
-            <#else>
-        function load${attribute.getTitleCasePluralizeName()}() {
+            <#if !attribute.multi>
+        function load${attribute.getTitleCaseName()}() {
             $.ajax({
-                url: 'resources/api/${attribute.name}',
+                url: 'resources/api/${attribute.getApiUrl()}',
                 method: 'GET',
                 contentType: 'application/json',
                 success: function (data) {
@@ -135,7 +143,7 @@
                 }
             });
         }
-        load${attribute.getTitleCasePluralizeName()}();
+        load${attribute.getTitleCaseName()}();
             </#if>
         </#if>
     </#list>
@@ -150,9 +158,8 @@
             $('#${entityNameLowerCase}Modal').modal('show');
     <#list entity.attributes as attribute>
         <#if model.getEntity(attribute.type)??>
-            <#if attribute.multi>
-            <#else>
-            load${attribute.getTitleCasePluralizeName()}();
+            <#if !attribute.multi>
+            load${attribute.getTitleCaseName()}();
             </#if>
         </#if>
     </#list>
@@ -164,8 +171,7 @@
             var ${entityNameLowerCase} = {
                 <#list entity.attributes as attribute>
                     <#if model.getEntity(attribute.type)??>
-                        <#if attribute.multi>
-                        <#else>
+                        <#if !attribute.multi>
                     ${attribute.name}: {
                         ${model.getEntity(attribute.type).getPrimaryKeyName()}: $('#${attribute.name}Select').val()
                     },
@@ -195,8 +201,7 @@
             var ${entityNameLowerCase} = {
                 <#list entity.attributes as attribute>
                     <#if model.getEntity(attribute.type)??>
-                        <#if attribute.multi>
-                        <#else>
+                        <#if !attribute.multi>
                     ${attribute.name}: {
                         ${model.getEntity(attribute.type).getPrimaryKeyName()}: $('#${attribute.name}Select').val()
                     },
@@ -228,8 +233,7 @@
                 success: function (${entityNameLowerCase}) {
                     <#list entity.attributes as attribute>
                         <#if model.getEntity(attribute.type)??>
-                            <#if attribute.multi>
-                            <#else>
+                            <#if !attribute.multi>
                     $('#${attribute.name}Select').val(${entityNameLowerCase}?.${attribute.name}?.${model.getEntity(attribute.type).getPrimaryKeyName()});
                             </#if>
                         <#else>

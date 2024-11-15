@@ -63,24 +63,24 @@ public class ERDiagramResource {
         }
     }
 
-       @POST
+    @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Path(value = "/enlarge")
     public String enlargeERDiagramSize(@QueryParam(value = "name") String diagramName, String erDiagram) {
         try {
-        if (erDiagram != null && !erDiagram.isBlank()
-                && diagramName != null && !diagramName.isBlank()) {
-            return langChainChatService.enlargeERDiagramSuggestion(diagramName, erDiagram);
-        } else {
-            throw new BadRequestException("Please provide the diagram");
-        }
-        } catch(Exception e) {
+            if (erDiagram != null && !erDiagram.isBlank()
+                    && diagramName != null && !diagramName.isBlank()) {
+                return langChainChatService.enlargeERDiagramSuggestion(diagramName, erDiagram);
+            } else {
+                throw new BadRequestException("Please provide the diagram");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
     }
 
-       @POST
+    @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Path("/shrink")
     public String shrinkERDiagramSize(@QueryParam("name") String diagramName, String erDiagram) {
@@ -91,8 +91,8 @@ public class ERDiagramResource {
             throw new BadRequestException("Please provide the diagram");
         }
     }
-    
-           @POST
+
+    @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Path("/update")
     public String updateERDiagramSize(@QueryParam("request") String userRequest, String erDiagram) {

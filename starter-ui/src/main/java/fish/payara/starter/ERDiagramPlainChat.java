@@ -306,6 +306,7 @@ Don't add anything else in the end after you respond with the erDiagram.
             HTML label should not be the same as the attribute name by spliting with space; it should provide more meaning and description.              
             Invalid Example:    For date appointmentDate dont' add htmllabel=Appointment Date, Not required for appointmentDate as it is self descriptive 
         3(b) Each entity must have only one label or name attribute. Add a 'display=true' property to the attribute that will serve as the label for the entity.
+            Do not add the 'display=true' property to primary-key attribute.
             Do not add the 'display=true' property to more than one attribute.
             Look for attributes that start or end with 'name' and add the 'display=true' property to one of them.
             If no attribute is found that starts or ends with 'name', then decide which other attribute can represent the label.
@@ -314,7 +315,7 @@ Don't add anything else in the end after you respond with the erDiagram.
              Do not add to Primary key PK.
         3(d) Add 'tooltip=description of attribute' to attribute to show it on html input UI which will help end user.
              tooltip must be added to all attributes except FK or PK primary key.    
-    4- Add variable name to relation of JPA Entities with property relationshipVarNameInFirstEntity and relationshipVarNameInSecondEntity.
+    4- Add variable name to relation of JPA Entities with property relationshipVarNameInFirstEntity and relationshipVarNameInSecondEntity based on the value of relationshipLabel.
 
     Sample JSON Structure:
           {

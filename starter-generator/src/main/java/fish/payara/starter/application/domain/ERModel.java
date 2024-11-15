@@ -97,7 +97,8 @@ public class ERModel {
 
     public Entity getEntity(String entityName) {
         for (Entity entity : entities) {
-            if (entity.getName().equals(entityName)) {
+            if (entity.getName().equals(entityName)
+                    || entity.getClassName().equals(entityName)) {
                 return entity;
             }
         }

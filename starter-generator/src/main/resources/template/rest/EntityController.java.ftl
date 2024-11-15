@@ -21,7 +21,7 @@ import ${EntityRepository_FQN};
     <#if model.getEntity(attribute.type)??>
         <#if attribute.multi>
         <#else>
-import ${EntityRepository_package}.${attribute.getTitleCaseName()}${EntityRepositorySuffix};
+import ${EntityRepository_package}.${attribute.getType()}${EntityRepositorySuffix};
         </#if>
     <#else>
     </#if>
@@ -68,7 +68,7 @@ public class ${controllerClass} {
             <#if attribute.multi>
             <#else>
     @Inject
-    private ${attribute.getTitleCaseName()}${EntityRepositorySuffix} ${attribute.name}${EntityRepositorySuffix};
+    private ${attribute.getType()}${EntityRepositorySuffix} ${attribute.name}${EntityRepositorySuffix};
             </#if>
         <#else>
         </#if>
@@ -98,10 +98,10 @@ public class ${controllerClass} {
         <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
-        if (${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}() != null && ${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
-            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
+        if (${instanceName}.get${attribute.getTitleCaseName()}() != null && ${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+            ${instanceName}.set${attribute.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
         } else {
-            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(null);
+            ${instanceName}.set${attribute.getTitleCaseName()}(null);
         }
             </#if>
         <#else>
@@ -136,10 +136,10 @@ public class ${controllerClass} {
         <#if model.getEntity(attribute.type)??>
             <#if attribute.multi>
             <#else>
-        if (${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}() != null && ${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
-            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${model.getEntity(attribute.type).getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
+        if (${instanceName}.get${attribute.getTitleCaseName()}() != null && ${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+            ${instanceName}.set${attribute.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
         } else {
-            ${instanceName}.set${model.getEntity(attribute.type).getTitleCaseName()}(null);
+            ${instanceName}.set${attribute.getTitleCaseName()}(null);
         }
             </#if>
         <#else>
