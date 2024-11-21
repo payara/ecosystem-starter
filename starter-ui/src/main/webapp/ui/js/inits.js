@@ -1,5 +1,6 @@
-/*! Payara Pattern Library version: 0.50.2 */
+/*! Payara Pattern Library version: 0.72.1 */
 // ONLY FOR DEMONSTRATION!
+
 
 // UI path function example.
 
@@ -14,25 +15,13 @@
 menu_wrap.init();
 
 
-// Start sidebar toggle.
-sidebar_toggle.init();
-sidebar_toggle_mob.init();
-sidebar_height.init();
-
-// Tab panel.
-tab_panel.init();
-
 // Tab panel.
 tab_group.init();
 
 accordion.init();
-// Start copy box.
-copy_box.init();
-
 notification_toggle.init();
 
 
-button_toggle.init();
 // Start menus.
 menu.init();
 
@@ -64,16 +53,7 @@ grid_to_column.init({
 });
 
 
-// Play/pause toggles
-play_pause.init();
-
 switch_toggle.init();
-// Nested linked fieldsets
-
-child_fields.init();
-
-
-
 // Nested linked fieldsets
 
 fieldset_group.init({
