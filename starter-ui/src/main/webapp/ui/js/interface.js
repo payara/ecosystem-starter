@@ -1,33 +1,10 @@
-/*! Payara Pattern Library version: 0.51.2 */
+/*! Payara Pattern Library version: 0.72.1 */
 /*! DO NOT MODIFY THIS FILE, CHANGES WILL BE OVERWRITTEN! */
 
 // Always set a top level class to indicate if we have JS available.
 
 document.getElementsByTagName("html")[0].className = document.getElementsByTagName("html")[0].className.replace(/no-js/,'').trim() + ' js';
 
-
-
-// IE11 Deson't support linked SVG sprite files, annd this polyfill.
-// svg4everybody();
-
-
-
-
-// Polyfill for .closest.
-
-if (window.Element && !Element.prototype.closest) {
-    Element.prototype.closest =
-    function(s) {
-        var matches = (this.document || this.ownerDocument).querySelectorAll(s),
-            i,
-            el = this;
-        do {
-            i = matches.length;
-            while (--i >= 0 && matches.item(i) !== el) {}
-        } while ((i < 0) && (el = el.parentElement));
-        return el;
-    };
-}
 
 
 function dispatch_resize_end() {
@@ -63,71 +40,277 @@ create_resize_end_event();
 
 
 
-// Scroll bars
+var blinky_addIcon = function(icon, t) {
 
-var scrollbar = function() {
+	if (!icon) return false;
 
-	// Throw the bottom shadow on on page load.
-	__init_first_shadow = function(e) {
-		e.classList.add('scroll-shadow--bottom');
-	};
+	// Create the SVG wrapper for the button icon.
+	const i = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+	i.setAttribute('class', 'icon');
+	i.setAttribute('width', '1em');
+	i.setAttribute('height', '1em');
+	i.setAttribute('viewbox', '0 0 16 16');
+	i.setAttribute('aria-hidden', 'true');
+	i.setAttribute('focusable', 'false');
 
-
-	__scrolling = function(e) {
-		if (!scrolling) {
-			window.requestAnimationFrame(function() {
-				if (e.target.scrollTop > 0) {
-					e.target.classList.add('scroll-shadow--top');
-				} else {
-					e.target.classList.remove('scroll-shadow--top');
-				}
-
-				// Height of containing element - height of scrollable content.
-				if ( e.target.scrollTop < (e.target.firstElementChild.offsetHeight - e.target.offsetHeight) ) {
-					e.target.classList.add('scroll-shadow--bottom');
-				} else {
-					e.target.classList.remove('scroll-shadow--bottom');
-				}
-				scrolling = false;
-			});
-			scrolling = true;
+	// Add the icon to the SVG.
+	if (typeof icon === 'string') {
+		const i_use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+		i_use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: t})+'/ui/images/icons.svg#icon-'+icon);
+		i.append(i_use);
+	} else {
+		for (const [k, v] of icon.entries()) {
+			const k = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+			k.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: t})+'/ui/images/icons.svg#icon-'+v.icon);
+			k.setAttribute('class', v.css);
+			i.append(k);
 		}
-	};
+	}
 
+	return i;
+};
+const Blinky_cookie = function() {
 
-	__calc = function() {
-		var scrollers;
-		scrollers = document.querySelectorAll('.scroll');
-		if (scrollers !== null) {
-			for (i=0; i<scrollers.length; i++) {
+	// A constructor for getting and setting cookies.
 
-				// Remove any existing scrollers.
-				scrollers[i].classList.remove('js__scroll');
-				scrollers[i].removeEventListener('scroll', __scrolling);
+	this.get_eTLD1 = (suffixes) => {
+		const hostname = document.location.hostname;
 
-				// Bail if there's nothing to scroll.
-				if (scrollers[i].firstElementChild === null) return false;
+		// // Check against the specified suffixes.
+		for (let suffix of suffixes) {
+			if (/^[a-z.]*$/.test(suffix)) {
 
-				if ( scrollers[i].firstElementChild.offsetHeight > scrollers[i].offsetHeight ) {
-					scrollers[i].classList.add('js__scroll');
-					scrollers[i].addEventListener('scroll', __scrolling);
-					__init_first_shadow(scrollers[i]);
+				// Add a dot to the front of the suffix if one hasn't been sent.
+				if (suffix.substring(0,1) !== '.') suffix= '.'+suffix;
+
+				// Chop the suffix off the hostname, if the reulting array
+				// contains more than a single item we found an allowed suffix.
+				const suffix_end = new RegExp(suffix+"$");
+				const hostbits = hostname.split(suffix_end);
+				if (hostbits.length > 1) {
+					// Send back the string from the last occurance . to the end of the string, plus the suffix.
+					// e.g. billing.payara.cloud or even bill.ing.payara.cloud will return .payara.cloud
+					return hostbits[0].substr(hostbits[0].lastIndexOf('.'), hostbits[0].length) + suffix;
 				}
 			}
 		}
+
+		// Nothing matched.
+		return false;
 	};
 
 
-	var scrolling = false;
+	this.set = (args) => {
+		// Required args: name.
+		// Optional args: val, expiry_days, path, domain, hostname.
 
-	// Recalculate the scrollers when the user resizes their screen.
-	window.addEventListener('resize-end', __calc);
+		// Check name and val only contain allowed characters, and that they exist.
+		if (!args.name || !/^[A-Za-z0-9-_]*$/.test(args.name) ||
+			!/^[A-Za-z0-9-_!#$&()\[\]*+.:<>?@^`{}|~]*$/.test(args.val)) return false;
 
-	// First run.
-	__calc();
+		let cookie = args.name+'=';
+		if (args.val) cookie+= args.val;
+
+		const expiry = new Date();
+
+		// Check expiry_days is greater than 0.
+		if (!isNaN(args.expiry_days) && args.expiry_days > 0) {
+			expiry.setTime(expiry.getTime() + (args.expiry_days*24*60*60*1000));
+			cookie+= ';expires='+expiry.toUTCString();
+
+		// If expiry is less then 0 we take this as an intent to delete the cookie so set the expiry 1
+		// day behind the current time(ish). Not dealing with BST here so could be 23-24 hours behind.
+		} else if (!isNaN(args.expiry_days) && args.expiry_days < 0) {
+			expiry.setTime(expiry.getTime() - 86400000);
+			cookie+= ';expires='+expiry.toUTCString();
+		}
+		// If the expiry value was 0 the we set no expiry value and assume a session cookie.
+
+		// Add the path if supplied and only contains allowed characters.
+		cookie+= ';path=';
+		cookie+= (args.path && /^[A-Za-z0-9-_\/]*$/.test(args.path)) ? args.path : '/';
+
+		// For the sake of simplicity we're running on the theory that if there's
+		// a properly formatted domain set then set Samesite and Secure as a
+		// matter of course. We could break these out as separate args but for
+		// the moment ¯\_(ツ)_/¯
+		if (args.hostname) {
+			// If anything was sent in the hostname parameter we will always
+			// try and grab the eTLD+1 and ignore any domain parameter.
+
+			// If we got the hostname as a string change it to an array because we can check for multiple suffixes.
+			let suffixes = (typeof args.hostname == 'string') ? new Array(args.hostname) : args.hostname;
+
+			const domain_from_hostname = this.get_eTLD1(suffixes);
+			if (domain_from_hostname) {
+				cookie+= ';Domain='+domain_from_hostname+';SameSite=None;Secure';
+			} else {
+				cookie+= ';SameSite=Lax';
+			}
+
+		} else if (args.domain && /^[A-Za-z0-9-.]*$/.test(args.domain)) {
+			// Use the domain sent, this makes no judgement as to the correctness
+			// of the domain compared to the actual domain in use so if they don't
+			// match the cookie will fail to be set.
+			cookie+= ';Domain='+args.domain+';SameSite=None;Secure';
+		} else {
+			cookie+= ';SameSite=Lax';
+		}
+
+		// Write the cookie.
+		document.cookie = cookie;
+	};
+
+
+	this.get = (args) => {
+		// Required args: name or a single string that will be interpretted as name.
+
+		// Is there anything that might be a cookie name and are there actually any cookies?
+		if (!args || !document.cookie) return false;
+
+		// Set the name to either the arg.name object or if sommeone
+		// shorthanded it did they sent the cookie name as a string?
+		const name = args.name || args;
+
+		// Split the cookie string, then look for a cookie that starts with the name=.
+		let cookie = document.cookie
+			.split('; ')
+			.find((c) => c.startsWith(name+'='));
+
+		if(!cookie) return false;
+		return cookie.split('=')[1];
+	};
 };
 
-scrollbar();
+
+
+const Blinky_wrap_content = function(args) {
+	// Take an element and wrap its contents in another element, turns out this is painful to do in vanilla JS because we want to make sure to move both children HTML elements and any text nodes. Since we can't grab text nodes with querySelector we have to rely on childNodes, this is promlematic as it's a live set of data. Directly moving the child elements messes with the live data so we have to move them out into a temporary array and then reattach them into the new wrapper.
+
+	let els = [];
+	for (let c of args.el.childNodes) {
+		els.push(c);
+	}
+	for (let e of els) {
+		args.wrapper.append(e);
+	}
+
+	// If there's a separate target to wrap the contents into...
+	let target = (args.target) ? args.target : args.el;
+	target.append(args.wrapper);
+};
+
+
+
+// Scroll bars
+
+class BlinkyScrollHints extends HTMLElement {
+	
+	constructor() {
+		super();
+	}
+	
+	
+	__scroll_pos_checker(e) {
+		// The styles for the shadows are set using data values, this is so 
+		// the mutation observer we use later on can ignore the shadow changes.
+		window.requestAnimationFrame(function() {
+			
+			// If the scroll position is at all scrolled from the top, show the top shadow.
+			e.dataset.shadow_top = (e.scrollTop > 0) ? '1' : '0';
+			
+			// Deduct the clientHeight and scrollTop from the scrollHeight. ScrollHeight 
+			// is non-rounded whilst the others are so we check here that the bottom of 
+			// the scroll is somewhere near 0.
+			e.dataset.shadow_bottom = (Math.abs(e.scrollHeight - e.clientHeight - e.scrollTop) >= 1) ? '1' : '0';
+		});
+	}
+	
+	
+	__scrolling(e) {
+		// We're only doing this to standardise what's sent to the next function, 
+		// otherwise we could just call this directly from the eventlistener.
+		this.__scroll_pos_checker(e.target);
+	}
+	
+	
+	connectedCallback() {
+		// Setup the component.
+		
+		// Shadow CSS hangs off this.
+		this.classList.add('js__scroll');
+		
+		// Because we can't add two elements as :before and :after (only :before works 
+		// in conjunction with sticky) we need something to apply one of the shadows to.
+		const shadow = document.createElement('span');
+		shadow.classList.add('js__shadow');
+		this.prepend(shadow);
+		
+		const debounce = new WeakMap();
+		
+		this.resize_observer = new ResizeObserver((entries) => {
+			const entry = entries[0];
+			
+			// Remove the old timeout, we'll be adding another below.
+			clearTimeout( debounce.get( entry.target ) );
+			
+			// To minimise layout thrashing we need to throttle running code too quickly in 
+			// sucsession so add a timeout, set to 150 ms as that's generally quick enough 
+			// not to look janky.
+			debounce.set( entry.target, setTimeout(() => {
+				
+				// Remove the current eventlistener since we'll be rechecking if we still need 
+				// one next and adding it back if we do.
+				this.removeEventListener('scroll', this.__scrolling);
+				
+				// Compare the total height of the content with the current height of its 
+				// containing box, if the total height is larger than the space available the 
+				// content will be scrollable so we add the eventlistener.
+				if (this.scrollHeight >= entry.contentBoxSize[0].blockSize) {
+					this.addEventListener('scroll', this.__scrolling);
+					this.__scroll_pos_checker(this);
+				}
+			}, 150) );
+			
+		});
+		this.resize_observer.observe(this);
+		
+		// Observe pretty much everything, we're adding the shadows to the scrollable 
+		// element via some data attributes so they aren't detected in this because we're 
+		// only checking class changes.
+		const observables = { 
+			attributes: true, 
+			attributeFilter: ['class'],
+			childList: true, 
+			subtree: true 
+		};
+		
+		// Callback function runs when any changes specified in the observables is detected.
+		const mutation_cb = (mutations, mut_observer) => {
+			for (const mutation of mutations) {
+				this.__scroll_pos_checker(this);
+			}
+		};
+		
+		// Create instance and link to the callback.
+		this.mut_observer = new MutationObserver(mutation_cb);
+		
+		// Start the mutation observer.
+		this.mut_observer.observe(this, observables);
+		
+		// Run on initial setup just to set any shadows on first load.
+		this.__scroll_pos_checker(this);
+	}
+	
+	
+	disconnectedCallback() {
+		this.removeEventListener('scroll', this.__scrolling);
+		this.resize_observer.disconnect();
+		this.mut_observer.disconnect();
+	}
+}
+
+customElements.define('blinky-scroll-hints', BlinkyScrollHints);
 
 
 
@@ -317,173 +500,216 @@ var menu_wrap = (function() {
 
 
 
-var sidebar_toggle = (function() {
+class BlinkySidebar extends HTMLElement {
+	
+	static get observedAttributes() {
+		// Watched component attributes.
+		return ['minimized'];
+	}
+	
 
-	// Toggle sidebar.
-	var __sidebar_toggle = function(b) {
-
-		var pressed = (b.getAttribute('aria-pressed') === 'true');
-		b.setAttribute('aria-pressed', !pressed);
-
-		// If the button
-		if (!pressed) {
-			b.closest('[aria-labelledby='+b.getAttribute('id')+']').classList.add('page__sidebar--minimised');
-			// Title stuff is only used on Monitoring Console.
-			// if (b.getAttribute('data-show-title')) {
-			// 	document.querySelector(b.getAttribute('data-show-title')).textContent = b.closest('[aria-labelledby='+b.getAttribute('id')+']').querySelector('[aria-current="page"]').textContent;
-			// }
-
-			// Switched for cloud
-			// window.localStorage.setItem(b.getAttribute('id'), 'true');
-		} else {
-			b.closest('[aria-labelledby='+b.getAttribute('id')+']').classList.remove('page__sidebar--minimised');
-			// Title stuff is only used on Monitoring Console.
-			// if (b.getAttribute('data-show-title')) {
-			// 	document.querySelector(b.getAttribute('data-show-title')).textContent = '';
-			// }
-
-			// Switched for cloud
-			// window.localStorage.removeItem(b.getAttribute('id'));
-		}
-		// Switched for cloud
-		window.localStorage.setItem(b.getAttribute('id'), !pressed);
-	};
-
-	function toggle(sidebarElement) {
-		sidebarElement.addEventListener('click', function () {
-			__sidebar_toggle(this);
-		}, false);
-
-		// Possibly need to look at inlining this to stop the flash of open sidebar on page load.
-
-		// Switched for cloud
-		// if (window.localStorage.getItem(sidebars[i].getAttribute('id'))) __sidebar_toggle(sidebars[i]);
-		if (window.localStorage.getItem(sidebarElement.getAttribute('id')) != sidebarElement.getAttribute('aria-pressed')) {
-			__sidebar_toggle(sidebarElement);
-		}
+	constructor() {
+		super();
 	}
 
-	function init() {
-		// Find all sidebar toggles and loop through them.
-		var sidebars = document.querySelectorAll('.js__sidebar__toggle');
-		for (i = 0; i < sidebars.length; i++) {
-			var sidebarElement = sidebars[i];
-			toggle(sidebarElement);
+
+	__wrap_contents() {
+		// Take an element and wrap its contents in another element, turns out this is painful to do in vanilla JS because we want to make sure to move both children HTML elements and any text nodes. Since we can't grab text nodes with querySelector we have to rely on childNodes, this is promlematic as it's a live set of data. Directly moving the child elements messes with the live data so we have to move them out into a temporary array and then reattach them into the new wrapper.
+
+		// Create a wrapper to wrap all the content of the shoutbox.
+		let wrapper = document.createElement('aside');
+		wrapper.setAttribute('class', 'sidebar');
+
+		let els = [];
+		for (let c of this.childNodes) {
+			els.push(c);
 		}
+		for (let e of els) {
+			wrapper.append(e);
+		}
+		this.appendChild(wrapper);
 	}
 
-	return {
-		init: init,
-		toggle: toggle,
-	};
-})();
 
-
-
-var sidebar_toggle_mob = (function() {
-
-	// Toggle mobile sidebar.
-	var __sidebar_toggle = function(b) {
-
-		var pressed = (b.getAttribute('aria-pressed') === 'true');
-		b.setAttribute('aria-pressed', !pressed);
-
-		// If the button
-		if (!pressed) {
-			document.getElementsByTagName('body')[0].classList.add('page__sidebar--expanded');
-		} else {
-			document.getElementsByTagName('body')[0].classList.remove('page__sidebar--expanded');
+	__add_toggle() {
+		// Is there a .sidebar__header? Get it or create and attach it.
+		let sidebar_header = this.querySelector('.sidebar__header');
+		if (!sidebar_header) {
+			sidebar_header = document.createElement('header');
+			sidebar_header.setAttribute('class', 'sidebar__header');
 		}
-	};
+		this.querySelector('.sidebar').prepend(sidebar_header);
 
-	function __toggle(sidebarElement) {
-		sidebarElement.addEventListener('click', function () {
-			__sidebar_toggle(this);
-		}, false);
+		// Create button.
+		const button = document.createElement('button');
+		button.setAttribute('type', 'button');
+		button.setAttribute('class', 'button sidebar__toggle');
+
+		// Button icon.
+		const icon_svg = blinky_addIcon('sidebar', this);
+		button.append(icon_svg);
+
+		// Button label.
+		let label = this.getAttribute('toggle-label') || 'Toggle Sidebar';
+		const button_label = document.createElement('span');
+		button_label.innerText = label;
+		button_label.setAttribute('class', 'visually-hidden');
+		button.append(button_label);
+
+		// Set the initial value of the aria-expanded based on the minimized attribute on load/creation.
+		button.setAttribute('aria-expanded', !Number(this.getAttribute('minimized')));
+
+		sidebar_header.prepend(button);
+		button.addEventListener('click', this.__do_toggle.bind(this));
 	}
 
-	function __init() {
-		// Find all sidebar toggles and loop through them.
-		var sidebars = document.querySelectorAll('.js__sidebar__toggle__mob');
-		for (i = 0; i < sidebars.length; i++) {
-			var sidebarElement = sidebars[i];
-			__toggle(sidebarElement);
-		}
+
+	__do_toggle() {
+		// Update the minimized attribute, we only need to update this single value as the rest is handled by watching for changes on this attribute.
+		this.setAttribute('minimized', Number(!JSON.parse(this.getAttribute('minimized'))));
 	}
 
-	return {
-		init: __init,
-		toggle: __toggle
-	};
-})();
 
+	__set_mimimized_state() {
 
+		// Update the aria on the toggle button.
+		this.querySelector('.sidebar__toggle').setAttribute('aria-expanded', !JSON.parse(this.getAttribute('minimized')));
 
-var sidebar_height = (function() {
-
-	var __init = function() {
-		window.addEventListener('resize-end', __sidebar_height);
-		
-		// Fix to wait for any images to load in the header.
-		window.addEventListener('load', function () {
-			__sidebar_height();
+		// Update persistent storage.
+		this.cookie.set({
+			name: this.id,
+			val: this.getAttribute('minimized'),
+			expiry_days: 365,
+			hostname: ['.fish', '.cloud']
 		});
-	};
+	}
 
-	var __sidebar_height = function() {
-		var header_height = 0;
-		// Get the height of the page header if the header element exists, otherwise the height value remains set to 0.
-		try {
-			header_height = document.querySelector('.page--sticky-header .page__header').offsetHeight;
-		} catch (e) {}
-		
-		if (!header_height) return false;
 
-		var sidebar = document.querySelector('.page__sidebar .sidebar');
+	__is_large_screen() {
+		const cssmq = window.matchMedia('(min-width: 60rem)');
+		let thing = this;
+		function test_cssmq(e) {
+			if (!e.matches) {
+
+				// Force minimize the sidebar on window resize to small width'
+				thing.setAttribute('minimized', '1');
+			}
+		}
+		cssmq.addEventListener('change', test_cssmq);
+		return cssmq.matches;
+	}
+
+
+	__get_mimimized_state() {
+
+		// If we're a small screen we need to show the sidebar minimized.
+		// Using a media query, it's a little janky but it does work.
+		// The code below handles forcing minimized on load, the code in __is_large_screen() deals 
+		// with the transision of resizing the window and minimizing there. I did say it was janky.
+
+		if (this.__is_large_screen()) {
+
+			// Check for any stored previous setting in browser localStorage, 
+			// everything runs off the minimized attribute so we only need this one line.
+			if (this.cookie.get(this.id)) {
+				this.setAttribute('minimized', this.cookie.get(this.id));
+			}
+		} else {
+			this.setAttribute('minimized', 1);
+
+			// I'd have rather this got picked up in the attributeChangedCallback() 
+			// but I think it's happening before the guard can pass.
+			this.cookie.set({
+				name: this.id,
+				val: this.getAttribute('minimized'),
+				expiry_days: 365,
+				hostname: '.fish'
+			});
+		}
+	}
+
+
+	__set_sidebar_height() {
+
+		// If we detected a change to the height of the .page--sticky-header .page__header 
+		// we need to adjust the CSS for the height of 100% - header height.
+
+		let sidebar = this.querySelector('.sidebar');
 		if (sidebar) {
+
+			let header_height = 0;
+			try {
+				header_height = document.querySelector('.page--sticky-header .page__header').offsetHeight;
+			} catch(e) {}
+			
 			sidebar.setAttribute('style', 'top: '+header_height+'px; max-height: calc(100vh - '+header_height+'px);');
 		}
-	};
-
-	return {
-		init: __init
-	};
-})();
+	}
 
 
+	__sidebar_height() {
+		if (!document.querySelector('.page--sticky-header .page__header')) return false;
 
-var tab_panel = (function() {
+		const debounce = new WeakMap();
+		let old_height = 0;
+		this.resize_observer = new ResizeObserver((entries) => {
+			const entry = entries[0];
+			clearTimeout( debounce.get( entry.target ) );
+			debounce.set( entry.target, setTimeout(() => {
+				if (entry.contentBoxSize[0].blockSize !== old_height) {
+					this.__set_sidebar_height();
+				}
+				old_height = entry.contentBoxSize[0].blockSize;
+			}, 150) );
+		});
+		this.resize_observer.observe(document.querySelector('.page--sticky-header .page__header'));
+	}
+	
 
-	var __switch_tab = function() {
+	connectedCallback() {
+		if (!this.classList.contains('js__sidebar')) {
 
-		// Reset all tabs in the panel.
-		var panel_tabs = this.closest('.tab-panel').querySelectorAll('[role="tab"]');
-		for (i=0; i<panel_tabs.length; i++) {
-			panel_tabs[i].setAttribute('aria-selected', 'false');
+			// Use the Blinky cookie utility constructor.
+			this.cookie = new Blinky_cookie();
+
+			// Wrap the entire contents of the sidebar.
+			this.__wrap_contents();
+			
+			// Because we store the minimized state in a cookie and
+			// it needs a name we need to make sure there's an ID set.
+			if (this.getAttribute('toggle') && this.id) {
+				this.__get_mimimized_state();
+				this.__add_toggle();
+			}
+			
+			// This is only run if the page has a layout using sticky header only.
+			this.__sidebar_height();
 		}
-		this.setAttribute('aria-selected', 'true');
+		
+		// We use this to guard actions in attributeChangedCallback() but 
+		// also to apply any CSS that may only be needed on the JSed element
+		this.classList.add('js__sidebar');
+	}
+	
 
-		// Reset all the tab content states.
-		var panel_contents = this.closest('.tab-panel').querySelectorAll('[role="tabpanel"]');
-		for (i=0; i<panel_contents.length; i++) {
-			panel_contents[i].classList.remove('tab-panel__active');
+	attributeChangedCallback(att, old_v, new_v) {
+		
+		// Because this method fires purely on the element being inited we 
+		// guard the actions by checking to make sure it's not the first run.
+		// Also, only run if the attribute was actually updated.
+		if ((!this.classList.contains('js__sidebar')) || (old_v === new_v)) return false;
+		
+		// If the value of attribute minimized is updated, either by using the WC 
+		// toggle button or an outside action (button elsewhere on the page) update 
+		// the aria values and the localStorage.
+		if (att === 'minimized') {
+			this.__set_mimimized_state();
 		}
+	}
 
-		this.closest('.tab-panel').querySelector('[aria-labelledby="'+this.getAttribute('id')+'"]').classList.add('tab-panel__active');
-	};
+}
 
-	var __init = function() {
-		var tabs = document.querySelectorAll('.tab-panel [role="tab"]');
-		for (i=0; i<tabs.length; i++) {
-			tabs[i].addEventListener('click', __switch_tab);
-		}
-	};
-
-	return {
-		init: __init
-	};
-
-})();
+customElements.define('blinky-sidebar', BlinkySidebar);
 
 
 
@@ -649,90 +875,85 @@ var accordion = (function() {
 	};
 	
 })();
-var copy_box = (function() {
-
-	/*
-		v0.3.2
-
-		This can either be run to grab all of the .copy-box__button elements by 
-		default a group of elements, or in a more specific per element way.
-
-		Find all default: copy_box.init();
-
-		Find all: copy_box.init('.CSS-class-goes-here');
-
-		Target specific element: copy_box.copy(el);
-
-		Roll your own eventListener:
-		var test = document.querySelector('.test');
-		test.addEventListener('click', copy_box.copy);
-		
-		In-page: onclick="copy_box.copy(this)"
-	*/
+class BlinkyCopybox extends HTMLElement {
 	
-	// Stores the elements to check against.
-	var el;
-	
-	// Add the eventListener to the whole page, this should be more performant over looping through individual elements and adding separate eventListeners. Also, store the element list so we can use it to test for whether an elements is to be listened to.
-	var __init = function(els) {
-		el = (els) ? els : '.copy-box__button';
-		document.addEventListener('click', __bouncer);
-	};
-	
-	// If we want to add more elements after the init has already been called.
-	var __inject = function(els) {
-		el += ', '+els;
-	};
-	
-	// "You're not coming in wearing those trainers..." Checks against the list of elements, uses .closest to cope with instances where the we have something like <button class="el"><button>
-	var __bouncer = function(e) {
-		if (e.target.closest(el)) __action(e.target.closest(el));
-	};
-	
-	// This is used if someone wants to forego any of the init stuff and setup their own eventListener.
-	var __copy = function(btn) {
-		__action(btn.target);
-	};
-	
-	var __action = function(copy_btn) {
-		// Grab the element containing the copy content.
-		var to_copy = copy_btn.previousElementSibling;
+	constructor() {
+		super();
+	}
+
+	__create_button() {
+
+		let label = this.getAttribute('button-label') || 'Copy';
+
+		const button = document.createElement('button');
+		button.setAttribute('type', 'button');
+		button.setAttribute('class', 'button');
+
+		// icon-and-text (default), icon, text.
+		let button_type = this.getAttribute('button-type') || 'icon-and-text';
+
+		if (button_type !== 'text') {
+			const icon_svg = blinky_addIcon('copy', this);
+			button.append(icon_svg);
+		}
+
+		let button_class = 'button__text';
+		if (button_type == 'icon') {
+			button_class = 'visually-hidden';
+		}
+
+		// Button label.
+		const button_label = document.createElement('span');
+		button_label.innerText = label;
+		button_label.setAttribute('class', button_class);
+		button.append(button_label);
+
+		return button;
+	}
+
+	__upgrade_text() {
+		const text = this.firstElementChild;
+		text.setAttribute('tabIndex', '0');
+		text.classList.add('copy-box__content', 'scroll');
+	}
+	__copy() {
+		const text = this.firstElementChild;
 
 		// We can't directly select something that's not an input but being an input wouldn't be great for accessibility, so we create a temporary visually hidden textarea, add the content to copy, copy that into the clipboard then nuke the temporary textarea.
-		temp_copy_box = document.createElement('textarea');
-		temp_copy_box.setAttribute('style', 'position: absolute; left: 9999px;');
-		temp_copy_box.textContent = to_copy.textContent;
-		to_copy.parentNode.insertBefore(temp_copy_box, to_copy.nextSibling);
-		temp_copy_box.select();
+		const ta = document.createElement('textarea');
+		ta.setAttribute('style', 'position: absolute; left: 9999px;');
+		ta.textContent = text.textContent;
+		this.append(ta);
+		ta.select();
 
-		// Add a CSS animation to the copy box content, then after some time remove the class so it could be played again.
-		to_copy.classList.add('copy-box__content--copied');
+		// CSS animation for text content.
+		text.classList.add('copy-box__content--copied');
 		setTimeout(function() {
-			to_copy.classList.remove('copy-box__content--copied');
-		}, 1000);
+			text.classList.remove('copy-box__content--copied');
+		}, 500);
 
 		document.execCommand("copy");
 
-		// Change the icon on the button to a tick, then change it back after some time.
-		var icon = copy_btn.querySelector('use').getAttribute('href');
-		var default_icon = icon;
-		icon = icon.split('-');
-		icon[icon.length - 1] = 'tick';
-		copy_btn.querySelector('use').setAttribute('href', icon.join('-'));
-		setTimeout(function() {
-			copy_btn.querySelector('use').setAttribute('href', default_icon);
-		}, 2000);
-		
-		temp_copy_box.remove();
-	};
+		ta.remove();
 
-	return {
-		init: __init,
-		inject: __inject,
-		copy: __copy
-	};
+		let icon = this.querySelector('use');
+		let icon_href = icon.getAttribute('href').split('-');
+		icon.setAttribute('href', icon_href[0] + '-' + 'tick');
+		setTimeout(function() {
+			icon.setAttribute('href', icon_href[0] + '-' + icon_href[1]);
+		}, 1000);
+	}
 	
-})();
+	connectedCallback() {
+		// Setup the component.
+		this.__upgrade_text();
+		const button = this.__create_button();
+		this.append(button);
+		button.addEventListener('click', this.__copy.bind(this));
+	}
+}
+
+customElements.define('blinky-copybox', BlinkyCopybox);
 
 
 
@@ -810,6 +1031,230 @@ var notification_toggle = (function() {
 
 
 
+// Closeable Card Custom Element
+
+class BlinkyShoutbox extends HTMLElement {
+	static get observedAttributes() {
+		return ['b-close'];
+	}
+
+	constructor() {
+		super();
+	}
+
+	__create_button(bits) {
+
+		// Creates a button, passes it back so we can attach it to the DOM and add the eventListener.
+
+		// Create button and attach it.
+		const button = document.createElement('button');
+		button.setAttribute('class', 'button '+bits.class);
+		button.setAttribute('type', 'button');
+
+		if (bits.icon) {
+			// Create the SVG wrapper for the button icon.
+			const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+			icon.setAttribute('class', 'icon');
+			icon.setAttribute('width', '1em');
+			icon.setAttribute('height', '1em');
+			icon.setAttribute('viewbox', '0 0 16 16');
+			icon.setAttribute('aria-hidden', 'true');
+			icon.setAttribute('focusable', 'false');
+			button.append(icon);
+
+			// Add the icon to the SVG.
+			const icon_use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+			icon_use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: this})+'/ui/images/icons.svg#icon-'+bits.icon);
+			icon.append(icon_use);
+		}
+
+		// Button label.
+		const button_label = document.createElement('span');
+		button_label.setAttribute('class', (bits.type == 'icon') ? 'visually-hidden' : 'button__text');
+		button_label.innerText = bits.label;
+		button.append(button_label);
+
+		return button;
+	}
+
+	__close_card() {
+		// this.classList.add('shoutbox--closing');
+		// This sets the animation speed and waits for the speed before removing the element.
+		let speed = this.__set_speed();
+		this.querySelector('.shoutbox__outer').setAttribute('style', '--transision-duration: '+speed+'ms');
+		this.classList.add('shoutbox--closing');
+		setTimeout(() => {
+			if (this.querySelector('.shoutbox__undo')) {
+				this.__show_undo();
+			} else {
+				this.__remove_card();
+			}
+		}, speed);
+	}
+
+	__show_undo() {
+		this.querySelector('.shoutbox__undo').classList.add('shoutbox__undo--show1');
+		// Needs a small delay because CSS can't animate display states, so we add the class containing the display block above, wait a tiny amount and then we can animate the opacity.
+		setTimeout(() => {
+			this.querySelector('.shoutbox__undo').classList.add('shoutbox__undo--show2');
+		}, 1);
+	}
+
+	__remove_card() {
+		// Can be called to immediately remove the element.
+		// When the cookie is tested on page load is when this needs to be run quickly without the animation.
+		this.remove();
+	}
+
+	__reopen_shoutbox() {
+		this.classList.remove('shoutbox--closing');
+		this.querySelector('.shoutbox__undo').classList.remove('shoutbox__undo--show2');
+		this.querySelector('.shoutbox__undo').classList.remove('shoutbox__undo--show1');
+		// Remove the cookie.
+		this.cookieObj.set({
+			name: this.getAttribute('b-cookie'),
+			expiry_days: -1,
+			path: '/',
+			hostname: ['.fish', '.cloud']
+		});
+	}
+
+	__wrap_contents(wrapper) {
+		// Take an element and wrap its contents in another element, turns out this is painful to do in vanilla JS because we want to make sure to move both children HTML elements and any text nodes. Since we can't grab text nodes with querySelector we have to rely on childNodes, this is promlematic as it's a live set of data. Directly moving the child elements messes with the live data so we have to move them out into a temporary array and then reattach them into the new wrapper.
+		let els = [];
+		for (let c of this.childNodes) {
+			els.push(c);
+		}
+		for (let e of els) {
+			wrapper.append(e);
+		}
+	}
+
+	__set_speed() {
+		// We want a consistent transition speed but this depends on the amount of content we need to close so measure the height of the shoutout and double it, then if it falls outside of the range of 100-300 push it back into range.
+		let speed = Math.floor(this.offsetHeight * 1.5);
+		if (speed < 100) {
+			speed = 100;
+		} else if (speed > 300) {
+			speed = 300;
+		}
+		return speed;
+	}
+
+	connectedCallback() {
+
+		// This sets up the custom element bits and pieces, since we can have connectedCallback or attributeChangedCallback put a guard around the code because we're also callign this function from attributeChangedCallback to sest things up ASAP.
+		if (!this.classList.contains('js__shoutbox')) {
+
+			// If there's no cookie name value attached to the card then kill off any shoutbox custom element because if we definitely can't save the close state it's more trouble to keep it.
+			if (!this.getAttribute('b-cookie') || this.getAttribute('b-cookie') == '') {
+				this.classList.add('shoutbox--disabled');
+				return false;
+			}
+			
+			// Initiate the cookie object.
+			this.cookieObj = new Blinky_cookie();
+
+			// Get the cookie.
+			let cookie = this.cookieObj.get({
+				name: this.getAttribute('b-cookie')
+			});
+
+			// If the cookie has a value of 'closed' the we get rid of the shoutbox ASAP, no animation.
+			if (cookie === 'closed') this.__remove_card();
+
+			// If we got here then we didn't remove the shoutbox so now set it up visually.
+			// As we're animating the closing of the shoutbox we need for the outer element to not have any padding as this causes jankiness when animating the height, it doesn't count and causes a jump.
+			// Create a wrapper to wrap all the content of the shoutbox.
+			let wrapper = document.createElement('div');
+			wrapper.setAttribute('class', 'shoutbox__inner');
+
+			// Send the wrapper over to the wrapping function (because it turns out this isn't a one-liner).
+			this.__wrap_contents(wrapper);
+
+			let outer_wrapper = document.createElement('div');
+			outer_wrapper.setAttribute('class', 'shoutbox__outer');
+			this.appendChild(outer_wrapper);
+
+			// Now the wrapper contains the child elements from the shoutbox we need to attach it to the shoutbox.
+			outer_wrapper.appendChild(wrapper);
+
+			// Add the close button.
+			let close_button = this.__create_button({
+				type: 'icon',
+				icon: 'cross',
+				class: 'button--clear shoutbox__close layout-hidden',
+				label: 'Close'
+			});
+			this.querySelector('.shoutbox__inner').prepend(close_button);
+
+			// Click handler.
+			close_button.addEventListener('click', () => {
+				this.__close_card();
+				this.cookieObj.set({
+					name: this.getAttribute('b-cookie'),
+					val: 'closed',
+					expiry_days: this.getAttribute('b-expiry') || 0,
+					path: '/',
+					hostname: '.fish'
+				});
+			});
+
+			// Check for any in-content cookie setting.
+			let close_in_content = this.querySelectorAll('.shoutbox__close-in-content');
+			if (close_in_content) {
+				for (let el of close_in_content) {
+					el.addEventListener('click', () => {
+						this.__close_card();
+						this.cookieObj.set({
+							name: this.getAttribute('b-cookie'),
+							val: 'closed',
+							expiry_days: this.getAttribute('b-expiry') || 0,
+							path: '/',
+							hostname: '.fish'
+						});
+					});
+				}
+			}
+
+			// If we want the show an undo button...
+			if (this.getAttribute('b-undo')) {
+				let undo_button = this.__create_button({
+					type: 'text',
+					class: 'button--text shoutbox__undo',
+					label: this.getAttribute('b-undo')
+				});
+				this.append(undo_button);
+				undo_button.addEventListener('click', () => {
+					this.__reopen_shoutbox();
+				});
+			}
+		}
+
+		// All the interactiviy is targeted via this class so we completely separate any non-JS CSS.
+		this.classList.add('js__shoutbox');
+	}
+	
+	disconnectedCallback() {}
+
+	attributeChangedCallback(att, oldValue, newValue) {
+		
+		// Force connectedCallback() to run before doing anything with the attribute values.
+		if (!this.classList.contains('js__shoutbox')) {
+			this.connectedCallback();
+		}
+
+		// If we see the b-close attribute set to 1, close the shoutbox.
+		if ((att === 'b-close') && (newValue === '1')) {
+			this.__close_card(this, this.speed);
+		}
+	}
+}
+
+customElements.define('blinky-shoutbox', BlinkyShoutbox);
+
+
+
 // Charts JS
 
 var chart_colors = {
@@ -823,69 +1268,160 @@ var chart_colors = {
 
 
 
-// Button Toggle
+class BlinkyToggleButton extends HTMLElement {
 
-var button_toggle = (function() {
-	
-	// The value that ensures we only ever add one event listener.
-	var event_listener = false;
-	
-	
-	// Finds all toggles and kickstarts the setup process.
-	var __init = function(el) {
-		
-		// If nothing was sent across then use the default .button--toggle, note this is only to init stuff, 
-		// toggles still need to use the .toggle class after this point.
-		el = (el) ? el : '.button--toggle';
-		var toggles = document.querySelectorAll(el);
-		if (toggles.length === 0) return;
-		
-		for (var i=0; i<toggles.length; i++) {
-			__setup(toggles[i]);
+	static get observedAttributes() {
+		// Watched component attributes.
+		return ['toggled'];
+	}
+
+	constructor() {
+		super();
+	}
+
+	__toggle_clicked() {
+		this.setAttribute('toggled', Number(!JSON.parse(this.getAttribute('toggled'))));
+	}
+
+	__equalise_label_width() {
+		// Under normal circumstances a button takes its width from the length of the text label, because we have two text labels the button can suffer width changes when it's clicked. This quickly sets the label to each state's text, grabs the width, then we take the highest value, convert it to rem and add it to the button as a min-width style.
+		let label_widths = [];
+		this.querySelector('.toggle__text').innerHTML = this.getAttribute('text-0');
+		label_widths.push(this.querySelector('.toggle__text').offsetWidth);
+		this.querySelector('.toggle__text').innerHTML = this.getAttribute('text-1');
+		label_widths.push(this.querySelector('.toggle__text').offsetWidth);
+		if (Math.max(...label_widths) > 1) {
+			this.querySelector('.toggle__text').setAttribute('style', 'min-width: '+(Math.max(...label_widths)/10)+'rem');
 		}
-		
-		// Add the event listener only once, do this on capture rather than bubble up so that this always gets actioned before any other toggle JS. 
-		if (!event_listener) document.addEventListener('click', __action, true);
-	};
-	
-	
-	var __setup = function(el) {
-		
-		// If data-toggled attribute is found it means the default state is pressed so the aria-label should be set to pause.
-		if (!el.hasAttribute('data-toggle-1') || !el.hasAttribute('data-toggle-2')) return false;
+	}
 
-		el.querySelector('.toggle__text').innerHTML = (el.hasAttribute('data-toggled')) ? el.getAttribute('data-toggle-2') : el.getAttribute('data-toggle-1');
-		
-		// Add a class we attach the event listener to, we do this to force a requirement of the aria attributes.
-		el.classList.add('js__button--toggle');
-	};
-	
-	
-	// Called by the listener.
-	var __action = function(e) {
-		
-		// We only ever want to add one event listener.
-		event_listener = true;
-		
-		// Ignore anything that isn't a click on a toggle.
-		if (!e.target.closest('.js__button--toggle')) return false;
+	__build_toggle() {
 
-		// If the toggle is already pressed.
-		if (e.target.hasAttribute('data-toggled')) {
-			e.target.removeAttribute('data-toggled');
-			e.target.querySelector('.toggle__text').innerHTML = e.target.getAttribute('data-toggle-1');
+		if (!this.getAttribute('toggled')) this.setAttribute('toggled', '0');
+
+		// Create the actual toggle button.
+		let btn = document.createElement('button');
+
+		// This is where we store the button attributes.
+		let btn_atts = {
+			id: '',
+			class: ''
+		};
+
+		// Get the attributes from the WC.
+		if (this.getAttribute('button-class')) {
+			btn_atts.class = this.getAttribute('button-class');
+		}
+		if (this.getAttribute('button-id')) {
+			btn_atts.id = this.getAttribute('button-id');
+		}
+
+		// If there's an A fallback specified we can check it's attributes, if there are no WC attributes we get a second go at setting them from this A tag.
+		if (this.querySelector('a') && this.querySelector('a').tagName === 'A') {
+			let a = this.querySelector('a');
+			if (!btn_atts.class && a.getAttribute('class')) {
+				btn_atts.class = a.getAttribute('class');
+			}
+			if (!btn_atts.id && a.id) {
+				btn_atts.id = a.id;
+			}
+			// Remove the fallback.
+			a.remove();
+		}
+
+		// Add the class and ID attributes to the new button.
+		if (btn_atts.id) btn.id = btn_atts.id;
+		btn.setAttribute('class', btn_atts.class+' button--toggle');
+
+		if (!btn.classList.contains('button')) {
+			btn.classList.add('button');
+		}
+
+		// This stops the toggle from submitting if it's inside a form.
+		btn.setAttribute('type', 'button');
+
+		this.append(btn);
+
+		const text = document.createElement('span');
+		text.classList.add('toggle__text');
+
+		// Check of we have text labels, if we don't then add some.
+		if (!this.getAttribute('text-0')) this.setAttribute('text-0', 'Off');
+		if (!this.getAttribute('text-1')) this.setAttribute('text-1', 'On');
+
+		if (btn.classList.contains('button--small')) {
+
+			// Small buttons have their contents wrapped.
+			const span = document.createElement('span');
+			span.classList.add('button__text');
+			Blinky_wrap_content({
+				el: btn,
+				wrapper: span
+			});
+
+			// Because we know we're dealing with a small button change our 'shortcut' to the button content wrapper, everything we add after this point needs to go inside that.
+			btn = span;
 		} else {
-			e.target.setAttribute('data-toggled', '');
-			e.target.querySelector('.toggle__text').innerHTML = e.target.getAttribute('data-toggle-2');
+			text.classList.add('button__text');
 		}
-	};
-	
-	
-	return {
-		init: __init
-	};
-	
-})();
+
+		if (this.getAttribute('type') === 'icon-only') {
+			text.classList.add('visually-hidden');
+		}
+
+		Blinky_wrap_content({
+			el: btn,
+			wrapper: text
+		});
+
+		// Under normal circumstances a button takes its width from the length of the text label, because we have two text labels the button can suffer width changes when it's clicked.
+		this.__equalise_label_width();
+
+		// Add the icons, there should be two, if there isn't we force some.
+		const icon0 = this.getAttribute('icon-0') || 'dot_outline';
+		const icon1 = this.getAttribute('icon-1') || 'dot';
+		const icon_svg = blinky_addIcon([{icon: icon0, css: 'toggle__0'},{icon: icon1, css: 'toggle__1'}], this);
+		btn.prepend(icon_svg);
+	}
+
+	__update_toggle() {
+		// Get the toggled value or force to the off state.
+		const toggled = this.getAttribute('toggled') || '0';
+		this.querySelector('.toggle__text').innerHTML = this.getAttribute('text-'+toggled);
+	}
+
+	connectedCallback() {
+		// Setup the component.
+		this.__build_toggle();
+
+		// We use this to guard actions in attributeChangedCallback() but
+		// also to apply any CSS that may only be needed on the JSed element
+		this.classList.add('js__button--toggle');
+
+		// Do an initial grabbing of the toggle state and set.
+		// This is also called on clicking the toggle.
+		this.__update_toggle();
+
+		this.querySelector('.button').addEventListener('click', () => {this.__toggle_clicked();});
+	}
+
+	disconnectedCallback() {}
+
+	attributeChangedCallback(att, old_v, new_v) {
+
+		// Because this method fires purely on the element being inited we
+		// guard the actions by checking to make sure it's not the first run.
+		// Also, only run if the attribute was actually updated.
+		if ((!this.classList.contains('js__button--toggle')) || (old_v === new_v)) return false;
+
+		// Changes to watched attributes.
+		if (att === 'toggled') {
+			this.__update_toggle();
+		}
+	}
+}
+
+customElements.define('blinky-toggle-button', BlinkyToggleButton);
 
 
 
@@ -1564,6 +2100,14 @@ var form_steps = (function() {
 				e.target.closest('.form-steps').querySelector('.form-steps__step--active').classList.remove('form-steps__step--active');
 				e.target.closest('.form-steps').querySelector(e.target.getAttribute('href')).classList.add('form-steps__step--active');
 
+				// Because the form fieldsets that aren't active can be collapsed the browser is having difficulty
+				// keeping track of the vertical location, so we force a scroll to the new fieldset after the
+				// animation to hide / show the fields is done.
+				const next = e.target.closest('.form-steps').querySelector(e.target.getAttribute('href'));
+				setTimeout(function() {
+					next.scrollIntoView();
+				}, 300);
+
 				// Set the first field that isn't a hidden field to focus.
 				// Because we're not setting up a specific keyup eventListener we just check the x/y coords of the interaction, 
 				// if they're 0 then assume it's a keypress.
@@ -1839,79 +2383,158 @@ var multi_suggest = (function() {
 
 
 
-var play_pause = (function() {
-	
-	// The value that ensures we only ever add one event listener.
-	var event_listener = false;
-	
-	
-	// Finds all toggles and kickstarts the setup process.
-	var __init = function(el) {
-		
-		// If nothing was sent across then use the default .toggle, note this is only to init stuff, 
-		// toggles still need to use the .toggle class after this point.
-		el = (el) ? el : '.toggle--play-pause';
-		var toggles = document.querySelectorAll(el);
-		if (toggles.length === 0) return;
-		
-		for (var i=0; i<toggles.length; i++) {
-			__setup(toggles[i]);
-		}
-		
-		// Add the event listener only once. 
-		if (!event_listener) document.addEventListener('click', __action);
-	};
-	
-	
-	var __setup = function(el) {
-		
-		// If data-toggled attribute is found it means the default state is pressed so the aria-label should be set to pause.
-		if (!el.hasAttribute('data-toggle-play') || !el.hasAttribute('data-toggle-pause')) return false;
-		
-		el.setAttribute('aria-label', (el.hasAttribute('data-toggled')) ? el.getAttribute('data-toggle-pause') : el.getAttribute('data-toggle-play'));
+// Obfuscated field
 
-		el.querySelector('.button__text').innerHTML = (el.hasAttribute('data-toggled')) ? el.getAttribute('data-toggle-pause') : el.getAttribute('data-toggle-play');
+class BlinkyObfuscatedField extends HTMLElement {
+	
+	static get observedAttributes() {
+		// Watched component attributes.
+		return ['state'];
+	}
+	
+	constructor() {
+		super();
+	}
 
-// console.log( el.querySelector('.button__text').innerHTML = ; );
-		// if (el.hasAttribute('data-toggled')) {
-		// 	el.setAttribute('aria-label', el.getAttribute('data-toggle-pause'));
-		// 	el.querySelector('.button__text').innerHTML = ;
-		// } else {
-		// 	el.setAttribute('aria-label', el.getAttribute('data-toggle-play'));
-		// }
+	__add_toggle() {
+		const toggle = document.createElement('blinky-toggle-button');
+		toggle.setAttribute('type', 'icon-only');
+		toggle.setAttribute('button-class', 'button button--small form__obfuscated__toggle');
+
+		// Add the toggle button settings, we either use attributes passed
+		// on this component down to the toggle or some basic defaults.
+		toggle.setAttribute('icon-0', this.getAttribute('icon-0') || 'view-hidden');
+		toggle.setAttribute('text-0', this.getAttribute('text-0') || 'Show');
+		toggle.setAttribute('icon-1', this.getAttribute('icon-1') || 'view');
+		toggle.setAttribute('text-1', this.getAttribute('text-1') || 'Hide');
+		toggle.setAttribute('toggled', this.getAttribute('state') || '0');
+		this.append(toggle);
+
 		
-		// Add a class we attach the event listener to, we do this to force a requirement of the aria attributes.
-		el.classList.add('js__toggle--play-pause');
-	};
-	
-	
-	// Called by the listener.
-	var __action = function(e) {
+		// Add an event listener for exposing the toggle change to this web component,
+		// we name it so we can remove the event handler if we remove the WC from the page.
+		toggle.querySelector('.button').addEventListener('click', this.toggle_state = () => {
+			this.setAttribute('state', toggle.getAttribute('toggled'));
+		});
+
+		// When we add an evenListener later on to monitor for form submits the only way to do this is to go outside
+		// this component and attach it to the parent form. But if the disconnectedCallback() is used we lose track of
+		// the parent form so we record any added evenListeners into this array.
+		this.event_items = [];
+		this.event_items.push({
+			ev: 'click',
+			el: toggle.querySelector('.button'),
+			fn: this.toggle_state
+		});
+	}
+
+	__add_aria() {
+		// Because we're updating elements on the page that deal with potentially
+		// sensitive data make doubly sure the user is aware, even if they can't see it.
+		const aria = document.createElement('span');
+		aria.classList.add('visually-hidden');
+		aria.setAttribute('aria-live', 'polite');
+		this.append(aria);
+	}
+
+	__change_state() {
+		// Runs once on component setup and then whenever the state attribute changes.
+
+		// The state and toggle attributes on the main WC and the toggle are binary,
+		// so we can reference the field type via the array key.
+		const states = ['password', 'text'];
 		
-		// We only ever want to add one event listener.
-		event_listener = true;
-		
-		// Ignore anything that isn't a click on a toggle.
-		if (!e.target.closest('.js__toggle--play-pause')) return false;
-		// console.log( e.target.querySelector('.button__text').innerHTML );
-		// If the toggle is already pressed.
-		if (e.target.hasAttribute('data-toggled')) {
-			e.target.removeAttribute('data-toggled');
-			e.target.setAttribute('aria-label', e.target.getAttribute('data-toggle-play'));
-			e.target.querySelector('.button__text').innerHTML = e.target.getAttribute('data-toggle-play');
-		} else {
-			e.target.setAttribute('data-toggled', '');
-			e.target.setAttribute('aria-label', e.target.getAttribute('data-toggle-pause'));
-			e.target.querySelector('.button__text').innerHTML = e.target.getAttribute('data-toggle-pause');
+		this.querySelector('input').setAttribute('type', states[this.getAttribute('state')]);
+
+		// Make sure to keep the toggle attibute in sync, this is needed
+		// for when we force fields back to passwords on form submit.
+		this.querySelector('blinky-toggle-button').setAttribute('toggled', this.getAttribute('state'));
+	}
+
+	__update_aria() {
+		// Runs whenever the state attribute changes and on component
+		// setup if the default state is to show the field content.
+		this.querySelector('[aria-live]').innerText = this.aria_text[this.getAttribute('state')];
+	}
+
+	__submit_pass() {
+		// Ideally we don't want to submit password fields as regular text fields, so add an eventListener to the
+		// parent form. If the form is submitted it is highjecked for a moment to rest the fields back to passwords,
+		// then we proceed with the submit.
+		const submit_pass = this.getAttribute('submit-pass') || '0';
+		if (submit_pass === '0') {
+			const form = this.closest('form');
+			if (form) {
+				form.addEventListener('submit', this.submit_form = (e) => {
+					this.setAttribute('state', '0');
+				});
+				// Store the eventListener info because we will lose access to it if disconnectedCallback is fired.
+				this.event_items.push({
+					ev: 'submit',
+					el: form,
+					fn: this.submit_form
+				});
+			}
 		}
-	};
+	}
 	
+	connectedCallback() {
+		// Setup the component.
+
+		// Add toggle button.
+		this.__add_toggle();
+
+		// Add aria status, we add this separately to the toggle as if the
+		// field is set to password we don't need to alert the user for this.
+		this.__add_aria();
+
+		// Setup the aria text content, either from attributes set on the web component or some sensible defaults.
+		// We set up this array so the keys correspond to the content of the state attribute.
+		this.aria_text = [];
+		this.aria_text.push(this.getAttribute('aria-0') || 'Your field content is hidden from view.');
+		this.aria_text.push(this.getAttribute('aria-1') || 'Your field content is being displayed in plain text.');
+
+		// Check for a state attribute, if none exists set it.
+		if (!this.hasAttribute('state')) this.setAttribute('state', '0');
+
+		// Set the initial state of the field.
+		this.__change_state();
+		
+		// If the obsufacted field is set to display in plain text on initial appearance we need to let the user know.
+		if (this.getAttribute('state') === '1') this.__update_aria();
+		
+		// We use this to guard actions in attributeChangedCallback() but 
+		// also to apply any CSS that may only be needed on the JSed element
+		this.classList.add('js__form__obfuscated');
+
+		// Swap any visible fields back to passwords before submit.
+		this.__submit_pass();
+	}
 	
-	return {
-		init: __init
-	};
+	disconnectedCallback() {
+		// When disconnectedCallback() we lose access to the parent data of the component (probably bacue it's already
+		// been yeeted from the DOM) so we need to keep a log when we set an eventListener so we can find them and
+		// remove them if the WC is removed.
+		for (let item of this.event_items) {
+			item.el.removeEventListener(item.ev, item.fn);
+		}
+	}
 	
-})();
+	attributeChangedCallback(att, old_v, new_v) {
+		
+		// Because this method fires purely on the element being inited we guard the actions by checking
+		// to make sure it's not the first run. Also, only run if the attribute was actually updated.
+		if ((!this.classList.contains('js__form__obfuscated')) || (old_v === new_v)) return false;
+		
+		// Changes to watched attributes.
+		if (att === 'state') {
+			this.__change_state();
+			this.__update_aria();
+		}
+	}
+}
+
+customElements.define('blinky-obfuscated-field', BlinkyObfuscatedField);
 
 
 
@@ -1967,89 +2590,235 @@ var switch_toggle = (function() {
 })();
 // Nested linked fieldsets
 
-	var child_fields = (function() {
+	class BlinkyChildFields extends HTMLElement {
 		
-		var __init = function(el) {
-			// Check for the items to check and the class to toggle.
-			if (!el) el = {};
-			if (el.selector == null) el.selector = '.form__child-fields';
-			
-			// Get all nested field groups.
-			var els = document.querySelectorAll(el.selector);
-			if (els.length === 0) return;
-			
-			for (el of els) {
-				__prep({el: el});
+		static get observedAttributes() {
+			return ['expanded'];
+		}
+
+		constructor() {
+			super();
+		}
+
+
+		__add_connection(parent) {
+			// Does .children have an id? If it doesn't then we can generate one based on the parent's ID. If the
+			// parent doesn't have an ID we can generate soething based on the current time in milliseconds.
+			let connection = '';
+			if (this.querySelector(':scope > .children').id) {
+				connection = this.querySelector(':scope > .children').id;
+			} else {
+				// No ID on .children, look for something on parent.
+				connection = (parent.id) ? 'connection-'+parent.id : 'connection-'+Date.now();
 			}
-		};
 
-		var __prep = function(el) {
-			// If you call prep directly you need to provide an element to act upon.
-			if (!el || !el.el) return;
-			
-			// Only prep if not previously prepped this element.
-			if (!el.el.classList.contains('js__form__child-fields')) {
-				el.el.classList.add('js__form__child-fields');
-				el.el.addEventListener('change', __action);
-				
-				// Check for any pre-checked radio buttons or checkboxes so we can show the child group on inital load.
-				try {
-					__action( {target: el.el.querySelector('input[checked="checked"]')} );
-				} catch (err) {}
+			// Add aria-controls to parent.
+			parent.setAttribute('aria-controls', connection);
+
+			// Add ID to .children.
+			this.querySelector(':scope > .children').id = connection;
+		}
+
+
+		__update_aria_expanded() {
+			// This keeps the aria-expanded on the .children in sync with the expanded attribute on the instance.
+			this.querySelector(':scope > .children').setAttribute('aria-expanded', this.getAttribute('expanded'));
+
+			this.__toggle();
+			this.__set_disabled_attribute();
+		}
+
+
+		__set_disabled_attribute() {
+			// Sets the fields as disabled or enabled. Because there's no nice way in CSS to get .el :not(.el) input
+			// without also unsing the restrictive immediate child selector of > we need to grab all the fields in the
+			// instance, then get a second group that will contain only the grandchildren. When we loop thorugh the
+			// main group we check to see if the current field is actually a grandchild, if it is we ignore it.
+
+			// Add fields under this instance.
+			let fields = this.querySelectorAll(`
+				:scope .children input:not([type=submit]),
+				:scope .children textarea,
+				:scope .children select
+			`);
+
+			// Fields to ignore.
+			let fields_to_ignore = this.querySelectorAll(`
+				:scope .children .children input:not([type=submit]),
+				:scope .children .children textarea,
+				:scope .children .children select
+			`);
+
+			// We can't use includes() on a nodeList so we
+			// duplicate the ignore fields into a normal array.
+			let arr_fields_to_ignore = Array.from(fields_to_ignore);
+
+			// This instance's expanded value.
+			let expanded = this.getAttribute('expanded');
+
+			for (let field of fields) {
+
+				// Make sure the current field isn't a grandchild.
+				if (!arr_fields_to_ignore.includes(field)) {
+
+					// Set the field to the needed disabled value.
+					if (expanded == 'true') {
+						field.removeAttribute('disabled');
+					} else {
+						field.setAttribute('disabled', 'disabled');
+					}
+				}
 			}
-		};
+		}
 
 
-		var __action = function(el) {
+		__toggle() {
+			// Gets all nested component instances and sets the expanded attributes.
 
-			var all = el.target.closest('.js__form__child-fields').querySelectorAll('input[aria-controls]');
+			const bcfs = this.querySelectorAll(':scope blinky-child-fields');
 
-			if (el.target.closest('.js__form__child-fields')) {
-				
-				var clear = el.target.closest('.js__form__child-fields').dataset.clear;
-				if (!clear) clear = "true";
+			// The top level instance is not expanded then it follows that all nested should also be closed.
+			if (this.getAttribute('expanded') === 'false') {
+				if (bcfs.length > 0) {
+					for (let i of bcfs) {
+						i.setAttribute('expanded', 'false');
+					}
+				}
 
-				for (var item of all) {
-					if (!item.checked) {
-						var children = document.querySelector('#'+item.getAttribute('aria-controls'));
-						if (children.getAttribute('aria-expanded') == 'true') {
-							document.querySelector('#'+item.getAttribute('aria-controls')).setAttribute('aria-expanded', 'false');
-							if (clear === 'true') {
-								__clear_hidden_fields(document.querySelector('#'+item.getAttribute('aria-controls')));
+			} else {
+				if (bcfs.length > 0) {
+					for (let i of bcfs) {
+
+						// Is this instance's parent field checked?
+						const input = i.querySelector(':scope .js__parent');
+						if (input && input.checked) {
+
+							// Just because this instance's parent field is checked doesn't mean we just go ahead
+							// and expand this instance because we also need the parent instance to be expanded.
+							// To get the parent instance, we have to use parentNode otherwise closest() just
+							// returns the current instance.
+							const parent = i.parentNode.closest('blinky-child-fields');
+
+							// Only if the parent instance is expanded do we
+							// actually set the curruent instance to expanded.
+							if (parent && parent.getAttribute('expanded') == 'true') {
+								i.setAttribute('expanded', 'true');
 							}
 						}
 					}
 				}
+			}
+		}
 
-				if ((el.target.checked) && (el.target.hasAttribute('aria-controls'))) {
-					document.querySelector('#'+el.target.getAttribute('aria-controls')).setAttribute('aria-expanded', 'true');
+
+		connectedCallback() {
+			// Find parent field, should be first checkbox or radio but not a child.
+			const parent = this.querySelector(':scope > input[type="radio"], :scope > input[type="checkbox"]');
+			if (!parent) return false;
+
+			// Check for children group, we don't need to find them all, just check for one field.
+			if (!this.querySelector(`
+				:scope > .children input,
+				:scope > .children textarea,
+				:scope > .children select`)) return false;
+
+			// Setup the aria-controls / id relationship between parent and children.
+			this.__add_connection(parent);
+
+			// We found an aria-controls/id pairing...
+			const children = this.querySelector(':scope > .children');
+			children.setAttribute('aria-expanded', 'false');
+			this.setAttribute('expanded', 'false');
+			parent.classList.add('js__parent');
+
+			// We use this to guard actions in attributeChangedCallback() but 
+			// also to apply any CSS that may only be needed on the JSed element
+			this.classList.add('js__form__child-fields');
+
+			// Add the CSS class to the .children container to apply the indent.
+			children.classList.add('form__child-fields');
+
+			// Add the inner span to apply the overflow, this allows the fields to be animated closed.
+			const inner = document.createElement('span');
+			inner.classList.add('form__child-fields__inner');
+			Blinky_wrap_content({
+				el: children,
+				wrapper: inner
+			});
+
+			// Store any added eventListeners for removal in disconnectedCallback();
+			this.event_items = [];
+
+			// As there is no eventListener that will detect a radio being unchecked we have to add some other means
+			// to clear the active children. We add eventListeners to poke the current radio children to an uncecked
+			// state by monitoring all other radio buttons that have the same name attribute. It's not nice but it
+			// does work ¯\_(ツ)_/¯.
+			if (parent.type === 'radio') {
+				const radios = document.querySelectorAll('input[type="radio"][name="'+parent.getAttribute('name')+'"]');
+				for (let r of radios) {
+					r.addEventListener('change', this.untoggle_children = (e) => {
+						this.setAttribute('expanded', 'false');
+						children.setAttribute('aria-expanded', 'false');
+					});
+
+					// Save event.
+					this.event_items.push({
+						ev: 'change',
+						el: r,
+						fn: this.untoggle_children
+					});
 				}
 			}
-		};
 
-		var __clear_hidden_fields = function(el) {
-			if (!el) return;
-			var fields = el.querySelectorAll('input:not([type=submit]), textarea, select');
-			if (fields.length === 0) return;
+			// Add the eventListener to the aria-controls. We need to save it so we can remove it if the
+			// component is removed from the page since it will be added outside the scope of this.
+			parent.addEventListener('change', this.toggle_children = (e) => {
+				this.setAttribute('expanded', (e.target.checked) ? 'true' : 'false' );
+				children.setAttribute('aria-expanded', (e.target.checked) ? 'true' : 'false' );
+			});
+
+			// Save event.
+			this.event_items.push({
+				ev: 'change',
+				el: parent,
+				fn: this.toggle_children
+			});
+
+			this.__update_aria_expanded();
+
+			// If the component has a field that's checked by default we need to make the children visible.
+			if (parent.getAttribute('checked')) {
+				children.setAttribute('aria-expanded', 'true');
+				this.setAttribute('expanded', 'true');
+			}
+		}
+
+
+		disconnectedCallback() {
+			// Remove all previously set eventListeners.
+			for (let item of this.event_items) {
+				item.el.removeEventListener(item.ev, item.fn);
+			}
+		}
+
+
+		attributeChangedCallback(att, old_v, new_v) {
 			
-			for (var field of fields) {
-				if (field.type == 'radio' || field.type == 'checkbox') {
-					field.checked = false;
-				} else {
-					field.value = '';
-				}
+			// Because this method fires purely on the element being inited we 
+			// guard the actions by checking to make sure it's not the first run.
+			// Also, only run if the attribute was actually updated.
+			if ((!this.classList.contains('js__form__child-fields')) || (old_v === new_v)) return false;
+
+			if (att === 'expanded') {
+				this.__update_aria_expanded();
 			}
-		};
-		
-		return {
-			init: __init,
-			prep: __prep
-		};
-		
-	})();
+		}
+
+	}
+	customElements.define('blinky-child-fields', BlinkyChildFields);
 
 
-	
+
 // Nested linked fieldsets
 
 	var fieldset_group = (function() {
@@ -2256,6 +3025,157 @@ var file_upload_prettifier = (function() {
 		prettify: __prettify
 	};
 
+})();
+
+
+
+// Progress bar/circle
+
+class BlinkyProgress extends HTMLElement {
+	
+	// Values that will / might change over time to keep track of.
+	// They are mapped to the value and max attributes of a progress element.
+	static get observedAttributes() {
+		return ['b-value', 'b-max', 'b-type'];
+	}
+	
+	constructor() {
+		super();
+	}
+
+	connectedCallback() {
+		
+		if (!this.getAttribute('data-init')) {
+			
+			// Visually hide the native PROGRESS bar, we keep it "visible" to screen readers as this is the symantic 
+			// element and has meaning compared to the visual pseudo element that will be just a collection of SPANs.
+			const progress = this.querySelector('progress');
+			progress.setAttribute('class', 'visually-hidden');
+
+			let b_type = (this.getAttribute('b-type') == 'circle') ? 'circle' : 'line';
+
+			// Create and attach the pseudo progress element that we can style.
+			const loader = document.createElement('span');
+			loader.setAttribute('class', 'progress__box progress__box--'+b_type);
+			loader.setAttribute('aria-hidden', 'true');
+			progress.after(loader);
+
+			// ... And the progress bar.
+			const bar = document.createElement('span');
+			bar.setAttribute('class', 'progress__fish');
+
+			// Fix so that indeterminate progress bars still show the fish animation because we're not setting the bar to 0 width;
+			if (this.hasAttribute('b-value')) {
+				bar.setAttribute('style', 'width: 0%');
+			}
+			loader.appendChild(bar);
+
+			// Chceck for is not circle because on the first run thorough this is still undefined.
+			// If it's a line it can be a determinate progress bar so needs the animation speed sestting.
+			if (b_type != 'circle') {
+
+				// Because the progress bar can vary in width we can't set the animation speed in CSS,
+				// so we take the width of the progress bar and divide it by 4, making sure to floor it,
+				// always make sure the speed is a minimum of 100ms as any faster is hard to register visually.
+				// Then we make it readable for the custom event later on.
+				let animation_speed = Math.floor((loader.offsetWidth / 4));
+				if (animation_speed < 100) animation_speed = 100;
+				loader.setAttribute('style', '--speed: '+animation_speed+'ms');
+				this.animation_speed = animation_speed;
+			}
+			
+		}
+		
+		this.setAttribute('data-init', '1');
+	}
+	
+	disconnectedCallback() {}
+	
+	// CE attributes have updated...
+	__update_value(att, old_v, new_v) {
+		
+		if (!new_v) return false;
+		const progress = this.querySelector('progress');
+		
+		// As we use the native attribute name prefixed with 'b-' we know how many characters we can always ignore. 
+		// Update the attributes on the PROGRESS element.
+		progress.setAttribute(att.substring(2), new_v);
+		
+		// Update the progress bar current value.
+		if (att == 'b-value') {
+			
+			// Update the text content on the native PROGRESS for a11y.
+			progress.innerText = new_v+'%';
+			
+			// Set the width on pseudo bar.
+			const bar = this.querySelector('.progress__fish');
+			if (bar) bar.setAttribute('style', 'width: '+new_v+'%');
+			
+			// If we're using a determinate progress bar where it will eventually fill up to 100% send an event when it does.
+			if (new_v == '100') {
+				
+				// Delay the event by the time of the CSS animation.
+				setTimeout(() => {
+					this.dispatchEvent(
+						new CustomEvent('progressBarFull', {bubbles: true, el: this})
+					);
+				}, this.animation_speed);
+			}
+		}
+	}
+	
+	// If either b-value or b-max is changed on the main <blinky-progress> element update their usage in the CE.
+	attributeChangedCallback(att, oldValue, newValue) {
+		
+		// Force connectedCallback() to run before doing anything with the attribute values.
+		if (!this.getAttribute('data-init')) {
+			this.connectedCallback();
+		}
+		
+		let b_type = (this.getAttribute('b-type') == 'circle') ? 'circle' : 'line';
+		
+		if (b_type != 'circle') {
+			this.__update_value(att, oldValue, newValue);
+		}
+	}
+}
+
+customElements.define("blinky-progress", BlinkyProgress);
+
+
+
+// Blinky Progress controller.
+var blinky_progress = (function() {
+	
+	let __add = function(bits) {
+		if (!bits.el) return false;
+
+		let blinky_progress_tag = document.createElement('blinky-progress');
+		blinky_progress_tag.setAttribute('class', 'progress');
+		let blinky_progress_bar = document.createElement('progress');
+		blinky_progress_tag.appendChild(blinky_progress_bar);
+
+		if (bits.el.tagName == 'BUTTON' || bits.el.tagName == 'LI') bits.type = 'line';
+		if (bits.type) blinky_progress_tag.setAttribute('b-type', bits.type);
+
+		if (bits.value) blinky_progress_tag.setAttribute('b-value', bits.value);
+		if (bits.max) blinky_progress_tag.setAttribute('b-max', bits.max);
+		if (bits.id) blinky_progress_tag.setAttribute('id', bits.id);
+		if (bits.label) blinky_progress_bar.setAttribute('aria-label', bits.label);
+
+		bits.el.append(blinky_progress_tag);
+	};
+	
+	let __remove = function(bits) {
+		if (!bits.el) return false;
+		bits.el.remove();
+	};
+	
+	return {
+		add: __add,
+		remove: __remove
+	};
+	
 })();
 
 
