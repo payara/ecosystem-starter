@@ -871,7 +871,7 @@
                     hideAILoadingBar();
 
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        checkLimitExhaust(response);
                     }
 
                     var content = await response.text();
@@ -907,7 +907,7 @@
                     hideAILoadingBar();
 
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        checkLimitExhaust(response);
                     }
 
                     var content = await response.text();
@@ -945,7 +945,7 @@
                     hideAILoadingBar();
 
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        checkLimitExhaust(response);
                     }
 
                     var content = await response.text();
@@ -1087,7 +1087,7 @@
                             .then(response => {
                                 hideAILoadingBar();
                                 if (!response.ok) {
-                                    throw new Error('Network response was not ok');
+                                    checkLimitExhaust(response);
                                 }
                                 return response.text();
                             })
@@ -1251,6 +1251,20 @@
                 document.getElementById('loadingBarAI').style.display = 'none';
                 document.getElementById('headerAI').innerHTML = 'Live Preview';
             }
+            
+            function checkLimitExhaust(response) {
+                if (response.status === 429) {
+                    alert(
+                        "Too many requests have been made in a short period.\n\n" +
+                        "To ensure optimal performance, we limit the number of requests per hour. " +
+                        "Please wait a few moments before trying again. Thank you for your understanding!"
+                    );
+                    throw new Error('Generative AI access is temporarily disabled. Please try again later.');
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            }
+            
         </script>
 
 		<!-- Start of HubSpot Embed Code -->
