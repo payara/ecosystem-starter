@@ -113,7 +113,6 @@ public class ApplicationGenerator {
     private LangChainChatService langChainChatService;
 
     public Future<File> generate(ApplicationConfiguration appProperties) {
-        System.out.println("executorService " + executorService);
         return executorService.submit(() -> {
             File applicationDir = null;
             try {
@@ -158,15 +157,13 @@ public class ApplicationGenerator {
                                 appProperties.isGenerateRest(),
                                 appProperties.isGenerateWeb());
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        LOGGER.log(Level.SEVERE, "Error generating application: {0}", e.getMessage());
+                        LOGGER.log(Level.SEVERE, "Error generating application: " + e.getMessage(), e);
                     }
                     Path diagramPath = Paths.get(applicationDir.getAbsolutePath(), appProperties.getErDiagramName().trim().replaceAll("\\s+", "_") + ".mmd");
                     Files.write(diagramPath, appProperties.getErDiagram().getBytes());
                 }
                 return zipDirectory(applicationDir, workingDirectory);
             } catch (Exception ie) {
-                ie.printStackTrace();
                 throw new RuntimeException("Failed to generate application.", ie);
             } finally {
                 if (applicationDir != null) {

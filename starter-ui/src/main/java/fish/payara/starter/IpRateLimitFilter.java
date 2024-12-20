@@ -117,11 +117,9 @@ public class IpRateLimitFilter implements ContainerRequestFilter {
     private boolean isIpBlocked(String clientIp) {
         Deque<Long> timestamps = ipAccessLogs.getOrDefault(clientIp, new ConcurrentLinkedDeque<>());
         long now = Instant.now().toEpochMilli();
-        System.out.println("clientIp1 " + clientIp + " tss:" + timestamps.size());
         while (!timestamps.isEmpty() && now - timestamps.peekFirst() > timeWindow) {
             timestamps.pollFirst();
         }
-        System.out.println("clientIp2 " + clientIp + " tss:" + timestamps.size() + " - " + limit);
         return timestamps.size() >= limit;
     }
 
