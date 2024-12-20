@@ -67,7 +67,7 @@ import java.util.concurrent.TimeUnit;
  * Author: Gaurav Gupta
  */
 @Provider
-@fish.payara.starter.RateLimited
+@RateLimited
 @Priority(Priorities.AUTHORIZATION)
 public class IpRateLimitFilter implements ContainerRequestFilter {
 
