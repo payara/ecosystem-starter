@@ -255,8 +255,16 @@ public class ApplicationGenerator {
                     Files.createDirectories(destFile.getParent());
                     Files.copy(file, destFile, StandardCopyOption.REPLACE_EXISTING);
                     if (executables.contains(destFile.toString())) {
-                        // some of the files should be executable on Unix systems
-                        Set<PosixFilePermission> perms = Files.getPosixFilePermissions(file);
+                        Set<PosixFilePermission> perms;
+                        if (System.getProperty("os.name").startsWith("Windows")) {
+                            // use typical setup, r/w for owner and group, r for others
+                            perms = Set.of(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE,
+                                    PosixFilePermission.GROUP_READ, PosixFilePermission.GROUP_WRITE,
+                                    PosixFilePermission.OTHERS_READ);
+                        } else {
+                            // some of the files should be executable on Unix systems
+                            perms = Files.getPosixFilePermissions(file);
+                        }
                         perms.add(PosixFilePermission.OWNER_EXECUTE); // existing permissions + executable for user
                         Files.setAttribute(destFile, "zip:permissions", perms);
                     }
