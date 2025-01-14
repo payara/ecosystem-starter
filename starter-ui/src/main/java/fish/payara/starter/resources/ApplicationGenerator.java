@@ -90,6 +90,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -258,12 +259,16 @@ public class ApplicationGenerator {
                         Set<PosixFilePermission> perms;
                         if (System.getProperty("os.name").startsWith("Windows")) {
                             // use typical setup, r/w for owner and group, r for others
-                            perms = Set.of(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE,
-                                    PosixFilePermission.GROUP_READ, PosixFilePermission.GROUP_WRITE,
-                                    PosixFilePermission.OTHERS_READ);
+                            perms = new HashSet<>(Set.of(
+                                    PosixFilePermission.OWNER_READ,
+                                    PosixFilePermission.OWNER_WRITE,
+                                    PosixFilePermission.GROUP_READ,
+                                    PosixFilePermission.GROUP_WRITE,
+                                    PosixFilePermission.OTHERS_READ
+                            ));
                         } else {
                             // some of the files should be executable on Unix systems
-                            perms = Files.getPosixFilePermissions(file);
+                            perms = new HashSet<>(Files.getPosixFilePermissions(file));
                         }
                         perms.add(PosixFilePermission.OWNER_EXECUTE); // existing permissions + executable for user
                         Files.setAttribute(destFile, "zip:permissions", perms);
