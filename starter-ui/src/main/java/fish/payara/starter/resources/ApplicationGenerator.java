@@ -68,8 +68,6 @@ import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
@@ -79,13 +77,22 @@ import java.util.Properties;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import org.apache.maven.cli.MavenCli;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -233,40 +240,50 @@ public class ApplicationGenerator {
         }
     }
 
-    private File zipDirectory(File directory, File destinaton) throws IOException {
-        File zipFile = new File(destinaton, directory.getName() + ZIP_EXTENSION);
-        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
-            zipFile(directory, directory.getName(), zos);
+    private File zipDirectory(File directory, File destinatonDir) throws IOException {
+        Set<String> executables = Set.of("/mvnw", "/gradlew");
+        Path directoryPath = directory.toPath();
+        File zipFile = new File(destinatonDir, directory.getName() + ZIP_EXTENSION);
+        Map<String, String> zipProperties = Map.of("create", "true");
+
+        // Create a ZIP file
+        try (FileSystem zipFs = FileSystems.newFileSystem(URI.create("jar:" + zipFile.toPath().toUri()), zipProperties)) {
+            // Walk through the directory tree and copy each file into the ZIP filesystem
+            Files.walkFileTree(directoryPath, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Path destFile = zipFs.getPath("/").resolve(directoryPath.relativize(file).toString());
+                    Files.createDirectories(destFile.getParent());
+                    Files.copy(file, destFile, StandardCopyOption.REPLACE_EXISTING);
+                    if (executables.contains(destFile.toString())) {
+                        Set<PosixFilePermission> perms;
+                        if (System.getProperty("os.name").startsWith("Windows")) {
+                            // use typical setup, r/w for owner and group, r for others
+                            perms = new HashSet<>(Set.of(
+                                    PosixFilePermission.OWNER_READ,
+                                    PosixFilePermission.OWNER_WRITE,
+                                    PosixFilePermission.GROUP_READ,
+                                    PosixFilePermission.GROUP_WRITE,
+                                    PosixFilePermission.OTHERS_READ
+                            ));
+                        } else {
+                            // some of the files should be executable on Unix systems
+                            perms = new HashSet<>(Files.getPosixFilePermissions(file));
+                        }
+                        perms.add(PosixFilePermission.OWNER_EXECUTE); // existing permissions + executable for user
+                        Files.setAttribute(destFile, "zip:permissions", perms);
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                    Path dirInZip = zipFs.getPath("/").resolve(directoryPath.relativize(dir).toString());
+                    Files.createDirectories(dirInZip);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
         }
         return zipFile;
     }
-
-    private void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
-        if (fileToZip.isDirectory()) {
-            if (fileName.endsWith("/")) {
-                zipOut.putNextEntry(new ZipEntry(fileName));
-                zipOut.closeEntry();
-            } else {
-                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                zipOut.closeEntry();
-            }
-
-            File[] children = fileToZip.listFiles();
-            for (File childFile : children) {
-                zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
-            }
-        } else {
-            try (FileInputStream fis = new FileInputStream(fileToZip)) {
-                ZipEntry zipEntry = new ZipEntry(fileName);
-                zipOut.putNextEntry(zipEntry);
-
-                byte[] bytes = new byte[1024];
-                int length;
-                while ((length = fis.read(bytes)) >= 0) {
-                    zipOut.write(bytes, 0, length);
-                }
-            }
-        }
-    }
-
 }
