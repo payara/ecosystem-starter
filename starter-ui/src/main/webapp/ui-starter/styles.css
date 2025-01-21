@@ -33,3 +33,23 @@
 	overflow: hidden;
 	padding-bottom: var(--gutter);
 }
+
+/* Content driven layout shift on smaller screens, can't be part of
+   Blinky as that is content agnostic, has to happen on a project level. */
+/* At 700px ish stack the header and footer contents. */
+@media only screen and (max-width: 44rem) {
+	.page__header .cards,
+	.page__footer .cards {
+		flex-direction: column;
+		align-items: center;
+	}
+	.page__header .cards > *,
+	.page__footer .cards > * {
+		flex: 0 0 auto;
+	}
+}
+
+/* This kills page scolling when the Diagram Builder popup is open. */
+.page:has(.modal[style*="block"]) {
+	overflow: hidden;
+}

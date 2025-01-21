@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<!--
-  Copyright (c) 2023 Payara Foundation and/or its affiliates. All rights reserved.
- 
-  The contents of this file are subject to the terms of either the GNU
-  General Public License Version 2 only ("GPL") or the Common Development
-  and Distribution License("CDDL") (collectively, the "License").  You
-  may not use this file except in compliance with the License.  You can
-  obtain a copy of the License at
-  https://github.com/payara/Payara/blob/master/LICENSE.txt
-  See the License for the specific
-  language governing permissions and limitations under the License.
- 
-  When distributing the software, include this License Header Notice in each
-  file and include the License file at glassfish/legal/LICENSE.txt.
- 
-  GPL Classpath Exception:
-  The Payara Foundation designates this particular file as subject to the "Classpath"
-  exception as provided by the Payara Foundation in the GPL Version 2 section of the License
-  file that accompanied this code.
- 
-  Modifications:
-  If applicable, add the following below the License Header, with the fields
-  enclosed by brackets [] replaced by your own identifying information:
-  "Portions Copyright [year] [name of copyright owner]"
- 
-  Contributor(s):
-  If you wish your version of this file to be governed by only the CDDL or
-  only the GPL Version 2, indicate your decision by adding "[Contributor]
-  elects to include this software in this distribution under the [CDDL or GPL
-  Version 2] license."  If you don't indicate a single choice of license, a
-  recipient has the option to distribute your version of this file under
-  either the CDDL, the GPL Version 2 or to extend the choice of license to
-  its licensees as provided above.  However, if you add GPL Version 2 code
-  and therefore, elected the GPL Version 2 license, then the option applies
-  only if the new code is made subject to such option by the copyright
-  holder.
--->
 <html lang="en" class="no-js">
     <head>
         <meta charset="UTF-8">
+        <!--
+        Copyright (c) 2023 Payara Foundation and/or its affiliates. All rights reserved.
+        
+        The contents of this file are subject to the terms of either the GNU
+        General Public License Version 2 only ("GPL") or the Common Development
+        and Distribution License("CDDL") (collectively, the "License").  You
+        may not use this file except in compliance with the License.  You can
+        obtain a copy of the License at
+        https://github.com/payara/Payara/blob/master/LICENSE.txt
+        See the License for the specific
+        language governing permissions and limitations under the License.
+        
+        When distributing the software, include this License Header Notice in each
+        file and include the License file at glassfish/legal/LICENSE.txt.
+        
+        GPL Classpath Exception:
+        The Payara Foundation designates this particular file as subject to the "Classpath"
+        exception as provided by the Payara Foundation in the GPL Version 2 section of the License
+        file that accompanied this code.
+        
+        Modifications:
+        If applicable, add the following below the License Header, with the fields
+        enclosed by brackets [] replaced by your own identifying information:
+        "Portions Copyright [year] [name of copyright owner]"
+        
+        Contributor(s):
+        If you wish your version of this file to be governed by only the CDDL or
+        only the GPL Version 2, indicate your decision by adding "[Contributor]
+        elects to include this software in this distribution under the [CDDL or GPL
+        Version 2] license."  If you don't indicate a single choice of license, a
+        recipient has the option to distribute your version of this file under
+        either the CDDL, the GPL Version 2 or to extend the choice of license to
+        its licensees as provided above.  However, if you add GPL Version 2 code
+        and therefore, elected the GPL Version 2 license, then the option applies
+        only if the new code is made subject to such option by the copyright
+        holder.
+        -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Generate Payara Application</title>
         <link rel="icon" href="favicon.ico" sizes="any">
@@ -78,6 +78,102 @@
         </script>
         <!-- End Google Tag Manager with HubSpot cookie constent check -->
 
+        <!-- CSS for styling the modal dialog -->
+        <style>
+            button:disabled i {
+                color: #aaa;
+            }
+            button:disabled {
+                box-shadow: 0 0 0 1px #aaa inset !important;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 700;
+                left: 0;
+                top: 0;
+                width: 98%;
+                height: 98%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.5);
+                margin-top: 1%;
+                margin-left: 1%;
+            }
+
+            .modal-content {
+                display: flex;
+                flex-direction: row;
+                background-color: #fefefe;
+                margin: auto;
+                padding: 10px;
+                border: 1px solid #888;
+                width: 99%;
+                height: 99%;
+            }
+
+            .half {
+                width: 50%;
+                padding: 10px;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            #livePreview {
+                border: 1px solid #ccc;
+                height: 82%;
+                margin-bottom: 10px;
+            }
+
+            #sourceCode {
+                border: 1px solid #ccc;
+                height: 90%;
+                overflow-y: scroll;
+                width: 100%;
+            }
+
+            .inline-elements {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .inline-elements h2 {
+                margin: 0;
+                margin-right: 10px;
+            }
+
+            .inline-elements select {
+                margin: 0;
+            }
+
+            .CodeMirror {
+                height: 82%;
+                font-size: small;
+                border: 1px solid #ccc;
+                margin-top: 11px;
+                margin-bottom: 9px;
+            }
+            
+            .livePreview svg {
+                height: inherit;
+            }
+
+            .CodeMirror .cm-comment {
+                color: #ff0000; /* Change this to your desired color */
+            }
+        </style>
     </head>
     <body class="page page--sticky-header theme--light">
 
@@ -139,19 +235,19 @@
                                         <h1 class="h1">Payara Starter</h1>
                                         <p>Payara Starter is a source code generator to create new Payara Server or Payara Micro projects. It allows you to quickly and easily start with Payara Platform!</p>
                                         <p>Take advantage of customisation options: select your chosen JDK versions, Jakarta EE profiles, build tools, Docker support, and more. Payara Starter will also streamline your project by integrating with popular IDEs.</p>
-                                        <h2>Simply select your options, and click &lsquo;Generate&rsquo; - and Payara Platform is ready to use.</h2>
+                                        <p class="h2">Simply select your options, and click &lsquo;Generate&rsquo; - and Payara Platform is ready to use.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>     
 
                     <div class="cards--max-width cards--max-width--medium">
                         <div>
                             <div class="cards">
                                 <div>
 
-                                    <form class="form form-steps form-steps--hide-previous-fields form-steps--clickable-legends" data-step-error="Please correct the errors in this step before moving forward." style="--scroll-margin-top: 1.6rem" id="appForm">
+                                    <form class="form form-steps form-steps--hide-previous-fields form-steps--clickable-legends" data-step-error="Please correct the errors in this step before moving forward." style="--scroll-margin-top: 9rem" id="appForm">
 
                                         <fieldset class="form-steps__step">
                                             <legend class="visually-hidden form-steps__title">Project Description</legend>
@@ -390,8 +486,7 @@
                                                     <p class="form__row">
                                                         <input class="form__radbox" type="checkbox" id="docker" name="docker" value="false">
                                                         <label class="form__radbox-label" for="docker">Docker</label>
-                                                    </p>
-                                                    <p class="form__row">
+                                                        <br>
                                                         <input class="form__radbox" type="checkbox" id="cloud" name="cloud" value="false">
                                                         <label class="form__radbox-label" for="cloud">Payara Cloud</label>
                                                     </p>
@@ -414,74 +509,66 @@
                                             </div>
                                         </fieldset>
 
-                                   <fieldset class="form-steps__step">
-                                        <legend class="visually-hidden form-steps__title">ER Diagram Designer</legend>
-                                        <div class="legend h3 form-steps__title" aria-hidden="true">ER Diagram Designer</div>
-                                        <div class="form-steps__icon">
-                                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                            </svg>
-                                        </div>
-                                        <div class="form-steps__fields">
-                                            <div class="form-steps__inner">
-                                                <p class="form__row">
-                                                    <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
-                                                    <select name="erDiagramName" id="mermaidErDiagramList" class="form__select" title="Select an existing diagram or type to create a new one"></select>
-                                                    <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
-                                                </p>
-                                                <p class="form__row">
-                                                    <button type="button" class="button button--ghost" title="Open the Diagram Builder and Preview" onclick="openMermaidPreview()">
-                                                        <span class="button__text">Diagram Builder & Live Preview</span>
-                                                    </button>
-                                                </p>
-                                                <p class="form__row">
-                                                    <span class="form__label">Generate Code For:</span>
-                                                    <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked title="Generate JPA code">
-                                                        <label class="form__radbox-label" for="generateJpa">JPA</label>
-                                                        <label class="form__label" for="jpaSubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA" title="Specify the subpackage for JPA">
-                                                    </div>
-                                                    <br/>
-                                                    <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked title="Generate Repository code">
-                                                        <label class="form__radbox-label" for="generateRepository">Repository</label>
-                                                        <label class="form__label" for="repositorySubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository" title="Specify the subpackage for Repository">
-                                                    </div>
-                                                    <br/>
-                                                    <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked title="Generate REST code">
-                                                        <label class="form__radbox-label" for="generateRest">REST</label>
-                                                        <label class="form__label" for="restSubpackage">Package</label>
-                                                        <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST">
-                                                    </div>
-                                                    <br/>
-                                                    <div>
-                                                        <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked title="Generate Web code">
-                                                        <label class="form__radbox-label" for="generateWeb">Web</label>
-                                                    </div>
-                                                </p>
+                                        <fieldset class="form-steps__step">
+                                                <legend class="visually-hidden form-steps__title">ER Diagram Designer</legend>
+                                                <div class="legend h3 form-steps__title" aria-hidden="true">ER Diagram Designer</div>
+                                                <div class="form-steps__icon">
+                                                    <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                        <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
+                                                        <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
+                                                        <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
+                                                    </svg>
+                                                </div>
+                                                <div class="form-steps__fields">
+                                                    <div class="form-steps__inner">
+                                                        <p class="form__row">
+                                                            <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
+                                                            <select name="erDiagramName" id="mermaidErDiagramList" class="form__select" title="Select an existing diagram or type to create a new one"></select>
+                                                            <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
+                                                        </p>
+                                                        <p class="form__row">
+                                                            <button type="button" class="button button--ghost" title="Open the Diagram Builder and Preview" onclick="openMermaidPreview()">
+                                                                <span class="button__text">Diagram Builder & Live Preview</span>
+                                                            </button>
+                                                        </p>
+                                                        <p class="form__row">
+                                                            <span class="form__label">Generate Code For:</span>
+                                                            <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked title="Generate JPA code">
+                                                            <label class="form__radbox-label" for="generateJpa">JPA</label>
+                                                            <label class="form__label" for="jpaSubpackage">Package</label>
+                                                            <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA" title="Specify the subpackage for JPA">
+                                                            <br><br>
+                                                            <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked title="Generate Repository code">
+                                                            <label class="form__radbox-label" for="generateRepository">Repository</label>
+                                                            <label class="form__label" for="repositorySubpackage">Package</label>
+                                                            <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository" title="Specify the subpackage for Repository">
+                                                            <br><br>
+                                                            <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked title="Generate REST code">
+                                                            <label class="form__radbox-label" for="generateRest">REST</label>
+                                                            <label class="form__label" for="restSubpackage">Package</label>
+                                                            <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST">
+                                                            <br><br>
+                                                                <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked title="Generate Web code">
+                                                                <label class="form__radbox-label" for="generateWeb">Web</label>
+                                                        </p>
 
-                                                <p class="form__row form-steps__controls">
-                                                    <a class="button button--ghost form__step__button-back" title="Go back to the previous step">
-                                                        <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                        </svg>
-                                                        <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
-                                                    </a>
-                                                    <a class="button button--ghost form__step__button" title="Proceed to the next step">
-                                                        <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                        </svg>
-                                                        <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </fieldset>
+                                                        <p class="form__row form-steps__controls">
+                                                            <a class="button button--ghost form__step__button-back" title="Go back to the previous step">
+                                                                <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                    <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                                </svg>
+                                                                <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
+                                                            </a>
+                                                            <a class="button button--ghost form__step__button" title="Proceed to the next step">
+                                                                <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                                                    <use href="ui/images/icons.svg#icon-arrow"></use>
+                                                                </svg>
+                                                                <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
 
                                         <fieldset class="form-steps__step">
                                             <legend class="visually-hidden form-steps__title">Security Configuration</legend>
@@ -562,9 +649,6 @@
 
         <footer class="page__footer">
             <div class="cards card--no-pad">
-                <div class="card--content-width text-align--left">
-                    <theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
-                </div>
                 <div class="buttons--light text-align--left">
                     <button type="button" class="button button--ghost" id="hs_show_banner_button" onclick="(function(){
                         var _hsp = window._hsp = window._hsp || [];
@@ -630,7 +714,7 @@
                     <textarea id="sourceCode"></textarea>
                     <div id="graphDiv"></div>
                     <div class="inline-elements" id="diagramSourceBottomTool">
-                        <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter" /> 
+                        <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter"> 
                     </div>
                 </div>
                 <div class="half" id="diagramView">
@@ -642,7 +726,7 @@
                     </div> 
                     <div id="livePreview" class="livePreview"></div>
                     <div class="inline-elements" id="diagramViewBottomTool">
-                        <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter" /> 
+                        <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter"> 
                         <button type="button" class="button button--ghost" id="prevERDiagram" disabled title="Previous ER Diagram"><i class="bi bi-arrow-left"></i></button>
                         <button type="button" class="button button--ghost" id="nextERDiagram" disabled title="Next ER Diagram"><i class="bi bi-arrow-right"></i></button>
                         <button type="button" class="button button--ghost" id="enlargeERDiagram" title="Enlarge ER Diagram">+</button>
@@ -675,102 +759,6 @@
                     }
                 }
         </script>
-        <!-- CSS for styling the modal dialog -->
-        <style>
-            button:disabled i {
-                color: #aaa;
-            }
-            button:disabled {
-                box-shadow: 0 0 0 1px #aaa inset !important;
-            }
-            .modal {
-                display: none;
-                position: fixed;
-                z-index: 10;
-                left: 0;
-                top: 0;
-                width: 98%;
-                height: 98%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.5);
-                margin-top: 1%;
-                margin-left: 1%;
-            }
-
-            .modal-content {
-                display: flex;
-                flex-direction: row;
-                background-color: #fefefe;
-                margin: auto;
-                padding: 10px;
-                border: 1px solid #888;
-                width: 99%;
-                height: 99%;
-            }
-
-            .half {
-                width: 50%;
-                padding: 10px;
-            }
-
-            .close {
-                color: #aaa;
-                float: right;
-                font-size: 28px;
-                font-weight: bold;
-            }
-
-            .close:hover,
-            .close:focus {
-                color: black;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            #livePreview {
-                border: 1px solid #ccc;
-                height: 82%;
-                margin-bottom: 10px;
-            }
-
-            #sourceCode {
-                border: 1px solid #ccc;
-                height: 90%;
-                overflow-y: scroll;
-                width: 100%;
-            }
-
-            .inline-elements {
-                display: flex;
-                align-items: center;
-                margin-bottom: 10px;
-            }
-
-            .inline-elements h2 {
-                margin: 0;
-                margin-right: 10px;
-            }
-
-            .inline-elements select {
-                margin: 0;
-            }
-
-            .CodeMirror {
-                height: 82%;
-                font-size: small;
-                border: 1px solid #ccc;
-                margin-top: 11px;
-                margin-bottom: 9px;
-            }
-            
-            .livePreview svg {
-                height: inherit;
-            }
-
-            .CodeMirror .cm-comment {
-                color: #ff0000; /* Change this to your desired color */
-            }
-        </style>
         <script>
            var editor;
         </script>
@@ -1183,7 +1171,6 @@
         <script src="assets/main.js"></script>
         <script src="ui/js/interface.min.js"></script>
         <script>
-            menu_wrap.init();
             form_steps.init();
         </script>
 
@@ -1268,7 +1255,7 @@
         </script>
 
 		<!-- Start of HubSpot Embed Code -->
-		<script type="text/javascript" id="hs-script-loader" async defer src="https://js.hs-scripts.com/334594.js"></script>
+		<script id="hs-script-loader" async defer src="https://js.hs-scripts.com/334594.js"></script>
 		<!-- End of HubSpot Embed Code -->
     </body>
 </html>
