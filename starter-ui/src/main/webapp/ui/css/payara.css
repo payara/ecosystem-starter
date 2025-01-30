@@ -1,4 +1,4 @@
-/*! Payara Pattern Library version: 0.72.1 */
+/*! Payara Pattern Library version: 0.75.0 */
 /*! DO NOT MODIFY THIS FILE, CHANGES WILL BE OVERWRITTEN! */
 
 /* Reset */
@@ -379,32 +379,38 @@
 		font-weight: 700;
 		margin-bottom: 1.6rem;
 		margin-top: 3.2rem;
+		text-wrap: balance;
 	}
 	h2:not([class]), .h2 {
 		font-size: 2.6rem;
 		font-weight: 700;
 		margin-bottom: 1.6rem;
 		margin-top: 3.2rem;
+		text-wrap: balance;
 	}
 	h3:not([class]), .h3 {
 		font-size: 2rem;
 		font-weight: 700;
 		margin-bottom: 1.6rem;
 		margin-top: 3.2rem;
+		text-wrap: balance;
 	}
 	h4:not([class]), .h4 {
 		font-size: 1.6rem;
 		font-weight: 700;
 		margin-bottom: 1.6rem;
 		margin-top: 2.4rem;
+		text-wrap: balance;
 	}
 	h5:not([class]), .h5 {
 		font-size: 1.6rem;
 		font-weight: 700;
+		text-wrap: balance;
 	} 
 	h6:not([class]), .h6 {
 		font-size: 1.6rem;
 		font-weight: 700;
+		text-wrap: balance;
 	}
 
 	/* Squish the excessive margins when titles are placed next to each other. */
@@ -531,7 +537,20 @@
 		dl:not([class]) dt {
 			font-weight: 700;
 		}
-	
+
+	.dl--long-form {
+		margin-bottom: 1.6rem;
+	}
+	.dl--long-form:last-child {
+		margin-bottom: 0;
+	}
+		.dl--long-form dt {
+			font-weight: 700;
+		}
+		.dl--long-form dt:not(:first-of-type) {
+			margin-top: 1.6rem;
+		}
+
 	/* Horizontal DL */
 	.dl--horizontal {
 		margin-bottom: 1.6rem;
@@ -548,7 +567,7 @@
 		.dl--horizontal > dd:not(:last-child) {
 			margin-right: 1.6rem;
 		}
-	
+
 	.dl--container {
 		container-type: inline-size;
 		container-name: dl;
@@ -603,7 +622,7 @@
 	}
 
 
-	
+
 /* Icon list */
 
 	.icon-list {
@@ -1488,6 +1507,18 @@
 				.js__sidebar[minimized='0'] .sidebar__footer {
 					display: flex; 
 				}
+	}
+
+	/* Sidebar links. */
+	.page__sidebar h4 a:not([class]) {
+		color: rgb(255,255,255);
+		text-decoration: none;
+	}
+	.page__sidebar a:hover:not([class]) {
+		text-decoration: underline;
+	}
+	.page__sidebar a:focus-visible:not([class]) {
+		background: rgb(255,255,255);
 	}
 
 
@@ -3251,6 +3282,8 @@
 
 	/* ALL FOCUS STATES */
 	
+	.button:not(.button--small):focus,
+	.button:not(.button--small):focus-visible,
 	.button--small:focus .button__text, 
 	.button--small:focus-visible .button__text {
 		box-shadow: 0 0 0 4px rgb(var(--smurf)) !important;
@@ -3514,6 +3547,15 @@
 				.menu__content:not(a):not(button) {
 					font-weight: 700;
 				}
+				/* Because the sidebar can have toggles that aren't links we need to specify them as buttons. */
+				.menu--button {
+					border: none;
+					font-family: inherit;
+					font-size: inherit;
+					line-height: inherit;
+					text-align: left;
+					width: 100%;
+				}
 
 
 
@@ -3595,15 +3637,29 @@
 				.menu {
 					--indent: 1.2rem;
 				}
+				/* Level 2 */
 				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__content {
 					/* padding-left: 3.2rem; */
 					/* padding-left: calc(var(--padding) * 2); */
 					padding-left: calc(var(--padding) + var(--indent));
 				}
+				/* Level 3 */
 				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__group .menu__content {
 					/* padding-left: 4.4rem; */
 					/* padding-left: calc(var(--padding) * 3); */
 					padding-left: calc(var(--padding) + (var(--indent) * 2));
+				}
+				/* Level 4 */
+				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__group .menu__group .menu__content {
+					padding-left: calc(var(--padding) + (var(--indent) * 4));
+				}
+				/* Level 5 */
+				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__group .menu__group .menu__group .menu__content {
+					padding-left: calc(var(--padding) + (var(--indent) * 5));
+				}
+				/* Level 6 */
+				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__group .menu__group .menu__group .menu__group .menu__content {
+					padding-left: calc(var(--padding) + (var(--indent) * 5));
 				}
 				.menu:not(.menu--horizontal) .menu__group .menu__group .menu__content > .icon:first-child {
 					/* margin-left: 0.4rem; */
@@ -3867,6 +3923,182 @@
 
 
 
+/* Filter Menu. */
+
+	.filter-menu {
+		display: inline-block;
+		position: relative;
+	}
+	.js__filter-menu nav {
+		display: flex;
+		gap: calc(var(--padding) / 4);
+	}
+		.filter-menu__text {
+			padding-top: 0.8rem;
+		}
+		.filter-menu__col {
+			align-self: baseline;
+		}
+			.filter-menu .filter-menu__current {
+				margin: 0;
+			}
+			/* Kill the bottom button radius if the menu is open. */
+			.filter-menu[expanded="1"] .filter-menu__current {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+
+				/* Animation for toggle button icon. */
+				.js__filter-menu .icon {
+					transition: transform .2s;
+				}
+				.js__filter-menu [aria-expanded="true"] .icon {
+					transform: rotate(90deg);
+				}
+
+	/* If the .threshold-not-met has been added we hide the filter. */
+	.js__filter-menu.threshold-not-met .filter-menu__label {
+		display: none;
+	}
+	.js__filter-menu .filter-menu__hide {
+		display: none;
+	}
+	.js__filter-menu b {
+		color: rgb(var(--tango));
+	}
+
+	/* List that gets shown / hidden if the toggle button is clicked / hovered / focussed-within. */
+	.filter-menu__list {
+		border-radius: var(--button-radius);
+		display: none;
+		overflow: hidden;
+		position: absolute;
+		min-width: 100%;
+	}
+	.js__filter-menu .filter-menu__list {
+		background:
+			linear-gradient(
+				rgba(var(--menu), 0.3),
+				rgba(var(--menu), 0.3)),
+			rgb(var(--midnight));
+		color: rgb(var(--menu-text));
+		padding: calc(var(--padding) / 2) 0;
+	}
+		/* Only available on nonJS version. */
+		.filter-menu__skip {
+			clip: rect(1px,1px,1px,1px);
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			position: absolute;
+		}
+		.filter-menu__skip:focus {
+			clip: auto;
+			width: auto;
+			height: auto;
+			position: initial;
+		}
+		/* .filter-menu__list .nav__group {
+			max-height: 50vh;
+			overflow: auto;
+		} */
+		/* Add some spacing if the list has at least one item visible. */
+		.js__filter-menu .nav__group:has(.nav__item:not(.filter-menu__hide)) {
+			margin-top: calc(var(--padding) / 2);
+		}
+		/* Message that's shown if the user filtered away all the items. */
+		.js__filter-menu .nav__group:has(.nav__item:not(.filter-menu__hide)) ~ .filter-menu__nothing {
+			display: none;
+		}
+		.js__filter-menu .filter-menu__nothing {
+			display: block;
+			font-style: italic;
+			padding: .8rem var(--padding);
+			text-align: center;
+			text-wrap: balance;
+		}
+
+	/* Remove the corner radius of whatever corner needs to be removed
+	to match the edge of the toggle button and align the list. */
+	.filter-menu:not(.filter-menu--right) .filter-menu__list {
+		border-top-left-radius: 0;
+	}
+	.filter-menu--right .filter-menu__list {
+		border-top-right-radius: 0;
+		right: 0;
+	}
+
+	/* NonJS interaction on hover and focus-within. */
+	.filter-menu:hover:not(.js__filter-menu) .filter-menu__list,
+	.filter-menu:not(.js__filter-menu):focus-within .filter-menu__list,
+	/* JS interaction on the toggled aria value. */
+	.filter-menu [aria-expanded='true'] ~ .filter-menu__list {
+		display: block;
+	}
+
+		/* Filter. */
+		.js__filter-menu .filter-menu__label {
+			align-items: center;
+			background: rgba(var(--smurf), 0.3);
+			border-radius: var(--button-radius);
+			display: flex;
+			margin: 0 calc(var(--padding) / 2);
+			overflow: hidden;
+			padding: calc(var(--padding) / 2);
+			position: relative;
+		}
+			.js__filter-menu .filter-menu__span {
+				flex: 1 0 auto;
+				white-space: nowrap;
+			}
+			.js__filter-menu .filter-menu__filter {
+				color: rgb(var(--page-text));
+				flex: 1 1 auto;
+				margin-left: calc(var(--padding) / 2);
+			}
+			.js__filter-menu .filter-menu__clear {
+				position: absolute;
+				right: 1.2rem;
+			}
+
+			/* We only need this on the nonJS because if a UL has no class set it displays as default with a bullet. */
+			.filter-menu:not(.js__filter-menu) ul {
+				list-style-type: none;
+				margin: 0;
+			}
+				/* List link styles. */
+				.filter-menu:not(.js__filter-menu) a,
+				.js__filter-menu .nav__content {
+					background:
+						linear-gradient(
+							rgba(var(--menu), 0.3),
+							rgba(var(--menu), 0.3)),
+						rgb(var(--midnight));
+					color: rgb(var(--menu-text));
+					display: block;
+					padding: 0.8rem var(--padding);
+					text-decoration: none;
+				}
+				.filter-menu:not(.js__filter-menu) a:hover,
+				.js__filter-menu a.nav__content:hover {
+					background:
+						linear-gradient(
+							rgba(var(--menu), 0.4),
+							rgba(var(--menu), 0.4)),
+						rgb(var(--midnight)) !important;
+					color: rgb(var(--menu-text)) !important;
+				}
+				.filter-menu:not(.js__filter-menu) a:focus,
+				.filter-menu:not(.js__filter-menu) a:focus-visible,
+				.js__filter-menu a.nav__content:focus,
+				.js__filter-menu a.nav__content:focus-visible {
+					box-shadow: inset 0 0 0 4px rgb(var(--link-color));
+					outline: 0;
+				}
+				.filter-menu:not(.js__filter-menu) a:focus:not(:focus-visible),
+				.js__filter-menu a.nav__content:focus:not(:focus-visible) {
+					box-shadow: none;
+				}
 /* Breadcrumb trail */
 
 	.breadcrumb li {

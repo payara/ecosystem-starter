@@ -1,0 +1,167 @@
+:root {
+	--er-bk: 255,255,255;
+	--er-gutter: rgba(var(--concrete), 0.25);
+	--er-svg-invert: 0;
+	--er-svg-greyscale: 0;
+	--er-svg-stroke: #9370DB;
+	--er-selected: 1;
+}
+.theme--light {
+	--er-bk: 255,255,255;
+	--er-gutter: rgba(var(--concrete), 0.25);
+	--er-svg-invert: 0;
+	--er-svg-greyscale: 0;
+	--er-svg-stroke: #9370DB;
+	--er-selected: 1;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--er-bk: var(--coal);
+		--er-gutter:
+			linear-gradient(
+				rgba(255,255,255, 0.05), 
+				rgba(255,255,255, 0.05)), 
+			rgb(var(--coal));
+		--er-svg-invert: 100%;
+		--er-svg-greyscale: 1;
+		--er-svg-stroke: #32444A;
+		--er-selected: 0.25;
+	}
+}
+.theme--dark {
+	--er-bk: var(--coal);
+	--er-gutter:
+		linear-gradient(
+			rgba(255,255,255, 0.05), 
+			rgba(255,255,255, 0.05)), 
+		rgb(var(--coal));
+	--er-svg-invert: 100%;
+	--er-svg-greyscale: 1;
+	--er-svg-stroke: #32444A;
+	--er-selected: 0.25;
+}
+
+
+button:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 700;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(var(--onyx), 0.9);
+	padding: var(--padding);
+}
+
+.modal-content {
+	background-color: rgb(var(--er-bk));
+	margin: auto;
+	padding: var(--padding);
+	box-shadow: 0px 20px 20px 4px rgba(var(--onyx),0.9);
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.close {
+	display: block;
+	margin: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.title-container {
+	min-height: 2.6em;
+}
+
+#livePreview {
+	border: 1px solid var(--form-field-border);
+	height: 82%;
+	margin-bottom: var(--gutter);
+}
+
+#sourceCode {
+	border: 1px solid #ccc;
+	height: 90%;
+	overflow-y: scroll;
+	width: 100%;
+}
+
+.inline-elements {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.inline-elements h2 {
+	margin: 0;
+	margin-right: 10px;
+}
+
+.inline-elements select {
+	margin: 0;
+}
+
+.CodeMirror {
+	height: 82%;
+	font-size: small;
+	border: 1px solid var(--form-field-border);
+	margin-bottom: var(--gutter);
+}
+
+.livePreview svg {
+	height: inherit;
+}
+
+.CodeMirror .cm-comment {
+	color: #ff0000; /* Change this to your desired color */
+}
+
+.er-designer .CodeMirror {
+	background: inherit;
+	color: inherit;
+}
+.er-designer .CodeMirror-gutters {
+	background: var(--er-gutter);
+	color: inherit;
+	border-right: 1px solid var(--form-field-border);
+}
+
+.er-designer #graphDiv {
+	filter: invert(var(--er-svg-invert));
+}
+.er-designer #graphDiv .entityBox,
+.er-designer #graphDiv .attributeBoxOdd,
+.er-designer #graphDiv .attributeBoxEven {
+	stroke: var(--er-svg-stroke);
+}
+
+/* Make the fake select look like the real thing. */
+.es-list {
+	background: var(--form-field-background);
+	border: 1px solid var(--form-field-border);
+	box-shadow: none;
+	border-radius: var(--button-radius);
+	color: inherit;
+	padding: 0.7rem 3.2rem 0.7rem 0.7rem;
+}
+.es-list li.selected {
+	background: rgba(var(--concrete), var(--er-selected));
+	cursor: default;
+}
+.er-designer .js__button--toggle {
+	margin-left: calc((var(--gutter)/ 2) - 2px);
+}
+#prevERDiagram {
+	margin-left: calc(var(--gutter) - 2px);
+}
+input[style*="display: none"] + #prevERDiagram {
+	margin-left: 0;
+}
