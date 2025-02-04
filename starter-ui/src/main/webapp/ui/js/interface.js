@@ -1,4 +1,4 @@
-/*! Payara Pattern Library version: 0.72.1 */
+/*! Payara Pattern Library version: 0.75.0 */
 /*! DO NOT MODIFY THIS FILE, CHANGES WILL BE OVERWRITTEN! */
 
 // Always set a top level class to indicate if we have JS available.
@@ -1608,7 +1608,7 @@ var menu = (function() {
 		
 		// Don't follow the href link, this will only kick in if the user followed a link rather than a button.
 		if (e.target.closest('.menu__content[aria-haspopup]')) {
-			e.preventDefault();
+			if (e.target.closest('.menu[data-clone-label]')) e.preventDefault();
 		}
 		
 		// Close any open menu items, this list depends on what was clicked.
@@ -1698,6 +1698,316 @@ var menu = (function() {
 	};
 	
 })();
+class BlinkyNewthing extends HTMLElement {
+
+	static get observedAttributes() {
+		return ['threshold','expanded'];
+	}
+
+	constructor() {
+		super();
+	}
+
+	__add_nav_container() {
+		// To align the list to the edge of the toggle button we need some scaffolding to setup a grid, where we will
+		// have the text in one column then the toggle and the list in another. So wrap everything in the second
+		// column (the first one is the .filter-menu__text), then move the .filter-menu__text out.
+		const span = document.createElement('span');
+		span.classList.add('filter-menu__col');
+		Blinky_wrap_content({
+			el: this,
+			wrapper: span
+		});
+		const text = this.querySelector('.filter-menu__text');
+		this.prepend(text);
+
+		// Ideally this tag should be added in the HTML because it's an
+		// a11y landmark but just in case it hasn't been we add it here.
+		if (!this.querySelector('nav')) {
+			const nav = document.createElement('nav');
+			Blinky_wrap_content({
+				el: this,
+				wrapper: nav
+			});
+		}
+	}
+
+	__add_menu_toggle() {
+		// Add the a11y bit and bobs like aria attributes, make sure the toggle has been styled as a button.
+
+		const current = this.querySelector('.filter-menu__current');
+
+		// Should add this in the HTML but just in case it's been forgotten add it here.
+		current.classList.add('button');
+		current.setAttribute('type', 'button');
+
+		current.setAttribute('aria-haspopup', 'true');
+
+		// Does the button have the inner .button__text span? If not then add it.
+		if (!this.querySelector('.filter-menu__current .button__text')) {
+			const btn_span = document.createElement('span');
+			btn_span.classList.add('button__text');
+			Blinky_wrap_content({
+				el: current,
+				wrapper: btn_span
+			});
+		}
+
+		// Add menu toggle icon.
+		const icon_svg = blinky_addIcon('menu-toggle', this);
+		current.prepend(icon_svg);
+	}
+
+	__prep_menu_list() {
+		// This adds the relevant CSS classes and also makes a copy of the text of each
+		// item and adds it as a data attribute, we use this when we search as an easy
+		// way to remove all the b tags that have been added in the regex.
+
+		const nav = this.querySelector('.filter-menu__list');
+
+		const nothing = `
+			<span class="filter-menu__nothing">
+				${(this.hasAttribute('no-matches')) ? this.getAttribute('no-matches'): 'Nothing found'}
+			</span>
+		`;
+		nav.insertAdjacentHTML('beforeend', nothing);
+
+		// If there's a list width attribute set the list width accordingly. We can't rely on Blinky CSS
+		// because this width will depend on the length of text in the list and what looks good visually.
+		if (this.hasAttribute('list-width')) {
+			// Account for any inline CSS on the list, let's not nuke it by overwriting it.
+			let style = (nav.hasAttribute('style')) ? nav.getAttribute('style') : '';
+			// Check the end of the current style ends with a ; or add one so we don't break the existing CSS.
+			// Checks for ; and any numnber of spaces.
+			style+= (!style.match(/;[\s]*$/)) ? '; ': ' ';
+			nav.setAttribute('style', style+'width: '+this.getAttribute('list-width'));
+		}
+
+		const nav_ul = this.querySelectorAll('.filter-menu__list ul');
+		for (let ul of nav_ul) {
+			ul.classList.add('nav__group');
+		}
+
+		const nav_li = this.querySelectorAll('.filter-menu__list li');
+		for (let li of nav_li) {
+			li.classList.add('nav__item');
+		}
+
+		// This adds the class to the a tag, 99% of the time,
+		// the other 1% is if we aren't using the menu as a link filter.
+		const nav_a = this.querySelectorAll('.filter-menu__list li > *:first-child');
+		for (let a of nav_a) {
+			a.classList.add('nav__content');
+			const span = document.createElement('span');
+			span.classList.add('nav__text');
+			Blinky_wrap_content({
+				el: a,
+				wrapper: span
+			});
+			a.setAttribute('data-text', a.text);
+		}
+	}
+
+	__toggle_expanded() {
+		this.querySelector('.filter-menu__current').setAttribute('aria-expanded',
+			(this.getAttribute('expanded') == '1') ? 'true' : 'false');
+	}
+
+	__search(filter) {
+		// Grab the list items.
+		const list = this.querySelectorAll('.filter-menu__list li');
+
+		// We need to make sure what we're filtering on doesn't accidentally contain special characters, for example
+		// under normal circumstances searching for a . will match any character, we want it to actually search for a
+		// full stop. So this will wrap the filter value in the correct bits and pieces and excape any of these
+		// special characters.
+		RegExp.quote = function(str) {
+			return str.replace(/([.?*+^$[\]\\(){}|-])/, "\\$1");
+		};
+		const re = new RegExp(`(${RegExp.quote(filter.value)})`, "ig");
+
+		// Go through each item and set the matches, or not.
+		list.forEach((item) => {
+			// To start off we reset the states of the current item
+			// to clear the hidden class and kill off any bolded text.
+			item.children[0].innerHTML = item.children[0].dataset.text;
+			item.classList.remove('filter-menu__hide');
+			// We only need to do the checks if there's any text in the filter input, if we were to not mandate this we would end up with a load of empty <b> tags in between each character.
+			if (filter.value) {
+				item.children[0].innerHTML = item.children[0].text.replace(re, "<b>$1</b>");
+
+				if (item.children[0].innerHTML == item.children[0].dataset.text) {
+					item.classList.add('filter-menu__hide');
+				}
+			}
+		});
+	}
+
+	__clear_filter() {
+		// Clears the filter input and forces the search to run, which will
+		// reset all the items back to visible and clear any hightlghts.
+		const filter = this.querySelector('.filter-menu__filter');
+		filter.value = '';
+		this.__search(filter);
+		this.querySelector('.filter-menu__filter').focus();
+	}
+
+	__add_filter() {
+		// Add the filter 'form'. We add the input inside the label so we don't need to connect the two with an
+		// ID/for pair. Also, we add trhe label text into a span so we can grid the label to make sure the input
+		// fills only the available space.
+
+		const form_html = `
+			<label class="filter-menu__label">
+				<span class="filter-menu__span">
+					${(this.hasAttribute('label')) ? this.getAttribute('label'): 'Filter'}
+				</span>
+				<input class="form__text filter-menu__filter" type="text">
+				<button class="filter-menu__clear button button--small" type="button">
+					<span class="button__text">
+						${blinky_addIcon('cross', this).outerHTML}
+						<span class="visually-hidden">
+							${(this.hasAttribute('clear-label')) ? this.getAttribute('clear-label') : 'Clear'}
+						</span>
+					</span>
+				</button>
+			</label>
+		`;
+
+		// Add filter 'form' above the list.
+		const list = this.querySelector('.filter-menu__list');
+		// list.prepend(label);
+		list.insertAdjacentHTML('afterbegin', form_html);
+
+		// Add the eventListener to search and filter the menu listing.
+		const filter = this.querySelector('.filter-menu__filter');
+		filter.addEventListener('keyup', this.search = () => {
+			this.__search(filter);
+		});
+		// Save event.
+		this.event_items.push({ ev: 'keyup', el: filter, fn: this.search });
+
+		const clear_btn = this.querySelector('.filter-menu__clear');
+		clear_btn.addEventListener('click', this.clear = () => {
+			this.__clear_filter();
+		});
+		// Save event.
+		this.event_items.push({ ev: 'click', el: clear_btn, fn: this.clear });
+	}
+
+	__toggle_filter() {
+		// It would be silly to add a filter on a list of say three items so here we check the threshold component
+		// attribute and compare if with the amount of list items. If the item count is less than the threshold we
+		// hide the filter. Note the filter is still added in the code, just not available to the user.
+		const threshold = this.getAttribute('threshold') || 0;
+		const len = this.querySelectorAll('.filter-menu__list li').length;
+
+		// If there are more items than the threshold value reveal the filter.
+		if (parseInt(threshold) < len) {
+			this.classList.remove('threshold-not-met');
+
+		// The threshold has not been met so hide the filter, clear the filter and remove any CSS hide classes.
+		} else {
+			this.classList.add('threshold-not-met');
+			this.querySelector('input').value = '';
+			const hidden = this.querySelectorAll('.filter-menu__hide');
+			if (hidden) {
+				hidden.forEach((x) => {
+					x.classList.remove('filter-menu__hide');
+				});
+			}
+		}
+	}
+
+	connectedCallback() {
+
+		// Store any added eventListeners for removal in disconnectedCallback();
+		this.event_items = [];
+
+		this.setAttribute('expanded', '0');
+
+		// If no nav tag is in the component we add it.
+		this.__add_nav_container();
+
+		// Enforces the toggle button HTML.
+		this.__add_menu_toggle();
+
+		// Adds the menu classes and sets up some things for the filter.
+		this.__prep_menu_list();
+
+		// We don't need the skipnav if we have JS.
+		this.querySelector('.filter-menu__skip').remove();
+
+		// Add the filter input and label, also sests up the eventListener for key presses.
+		this.__add_filter();
+
+		// Checks the given threshold value and hides / shows the filter.
+		this.__toggle_filter();
+
+		// Mostly this is called when the expanded attribute is changed
+		// but we run it here for the first time to set things up.
+		this.__toggle_expanded();
+
+		// This is to apply the appropriate styling on JS-powered filters.
+		this.classList.add('js__filter-menu');
+
+		// This next part we add the event listeners and save them so if needed
+		// we can remove then if the component is removed from the page.
+
+		// Listens for clicks on the toggle.
+		this.querySelector('.filter-menu__current').addEventListener('click', this.toggle_filter_menu = (e) => {
+			// Toggle the attribute between 0 and 1.
+			this.setAttribute('expanded', Number(!JSON.parse(this.getAttribute('expanded'))));
+		});
+		// Save event.
+		this.event_items.push({ ev: 'click', el: this, fn: this.toggle_filter_menu });
+
+		// Add an eventListener to the main page element because
+		// we need to close the list if the user clicks outside of it.
+		document.addEventListener('click', this.close_filter_menu_blur = (e) => {
+			if (!e.composedPath().includes(this)) this.setAttribute('expanded', '0');
+		});
+		// Save event.
+		this.event_items.push({ ev: 'click', el: document, fn: this.close_filter_menu_blur });
+
+		// If the user tabs out of the component we close it.
+		document.addEventListener('keyup', this.close_filter_menu_tabout = (e) => {
+			if (!this.matches(':focus-within')) this.setAttribute('expanded', '0');
+		});
+		// Save event.
+		this.event_items.push({ ev: 'keyup', el: document, fn: this.close_filter_menu_tabout });
+
+		// Close the menu if the user presses escape and move the focus back to the toggle button.
+		this.addEventListener('keyup', this.close_filter_menu_esc = (e) => {
+			if (e.keyCode == 27) {
+				this.setAttribute('expanded', '0');
+				this.querySelector('.filter-list__current').focus();
+			}
+		});
+		// Save event.
+		this.event_items.push({ ev: 'keyup', el: document, fn: this.close_filter_menu_esc });
+	}
+
+	disconnectedCallback() {
+		// Remove all previously set eventListeners.
+		for (let item of this.event_items) {
+			item.el.removeEventListener(item.ev, item.fn);
+		}
+	}
+
+	attributeChangedCallback(att, old_v, new_v) {
+		if ((!this.classList.contains('js__filter-menu')) || (old_v === new_v)) return false;
+
+		// Changes to watched attributes.
+		if (att == 'threshold') this.__filter();
+		if (att == 'expanded') this.__toggle_expanded();
+	}
+}
+
+customElements.define('blinky-filter-menu', BlinkyNewthing);
+
+
+
 var form_sections = (function() {
 	
 	// The value that ensures we only ever add one event listener.

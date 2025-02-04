@@ -60,6 +60,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
         <link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="ui-starter/er-designer.css" type="text/css" media="all">
 
         <!-- Google Tag Manager with HubSpot cookie constent check. -->
         <script>
@@ -77,105 +78,8 @@
             }]);
         </script>
         <!-- End Google Tag Manager with HubSpot cookie constent check -->
-
-        <!-- CSS for styling the modal dialog -->
-        <style>
-            button:disabled i {
-                color: #aaa;
-            }
-            button:disabled {
-                box-shadow: 0 0 0 1px #aaa inset !important;
-            }
-            .modal {
-                display: none;
-                position: fixed;
-                z-index: 700;
-                left: 0;
-                top: 0;
-                width: 98%;
-                height: 98%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.5);
-                margin-top: 1%;
-                margin-left: 1%;
-            }
-
-            .modal-content {
-                display: flex;
-                flex-direction: row;
-                background-color: #fefefe;
-                margin: auto;
-                padding: 10px;
-                border: 1px solid #888;
-                width: 99%;
-                height: 99%;
-            }
-
-            .half {
-                width: 50%;
-                padding: 10px;
-            }
-
-            .close {
-                color: #aaa;
-                float: right;
-                font-size: 28px;
-                font-weight: bold;
-            }
-
-            .close:hover,
-            .close:focus {
-                color: black;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            #livePreview {
-                border: 1px solid #ccc;
-                height: 82%;
-                margin-bottom: 10px;
-            }
-
-            #sourceCode {
-                border: 1px solid #ccc;
-                height: 90%;
-                overflow-y: scroll;
-                width: 100%;
-            }
-
-            .inline-elements {
-                display: flex;
-                align-items: center;
-                margin-bottom: 10px;
-            }
-
-            .inline-elements h2 {
-                margin: 0;
-                margin-right: 10px;
-            }
-
-            .inline-elements select {
-                margin: 0;
-            }
-
-            .CodeMirror {
-                height: 82%;
-                font-size: small;
-                border: 1px solid #ccc;
-                margin-top: 11px;
-                margin-bottom: 9px;
-            }
-            
-            .livePreview svg {
-                height: inherit;
-            }
-
-            .CodeMirror .cm-comment {
-                color: #ff0000; /* Change this to your desired color */
-            }
-        </style>
     </head>
-    <body class="page page--sticky-header theme--light">
+    <body class="page page--sticky-header">
 
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGV5FR6D" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -649,13 +553,17 @@
 
         <footer class="page__footer">
             <div class="cards card--no-pad">
-                <div class="buttons--light text-align--left">
-                    <button type="button" class="button button--ghost" id="hs_show_banner_button" onclick="(function(){
-                        var _hsp = window._hsp = window._hsp || [];
-                        _hsp.push(['showBanner']);
-                    })()">
-                        Cookies
-                    </button>
+                <div class="text-align--left">
+                    <theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
+                    <span class="buttons--light">
+                        <i></i>
+                        <button type="button" class="button button--ghost" id="hs_show_banner_button" onclick="(function(){
+                            var _hsp = window._hsp = window._hsp || [];
+                            _hsp.push(['showBanner']);
+                        })()">
+                            Cookies
+                        </button>
+                    </span>
                 </div>
                 <div class="card--content-width buttons--light text-align--right"> 
                     <span>Follow Us: </span>
@@ -704,10 +612,10 @@
             </div>
         </footer>
         <!-- HTML structure for the modal dialog -->
-        <div id="previewModal" class="modal">
-            <div class="modal-content">
-                <div class="half" id="diagramSource">
-                    <div class="inline-elements"  id="diagramSourceTopTool">
+        <div id="previewModal" class="modal er-designer">
+            <div class="modal-content cards card--no-pad">
+                <div class="half card" id="diagramSource">
+                    <div class="inline-elements title-container"  id="diagramSourceTopTool">
                         <h2>Source</h2>
                         <select name="mermaidErDiagramListPreview" id="mermaidErDiagramListPreview" class="form__select" title="Select an existing diagram or type to create a new one"></select>
                     </div>
@@ -717,8 +625,8 @@
                         <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter"> 
                     </div>
                 </div>
-                <div class="half" id="diagramView">
-                    <div class="inline-elements"  id="diagramSourceTopTool">
+                <div class="half card" id="diagramView">
+                    <div class="inline-elements title-container"  id="diagramSourceTopTool">
                         <h2 id="headerAI"  style="white-space: nowrap;">Live Preview</h2>
                         <span class="form__progress loader loader--line" id="loadingBarAI" style="display: none;">
                             <span class="loader__fish"></span>
@@ -727,14 +635,45 @@
                     <div id="livePreview" class="livePreview"></div>
                     <div class="inline-elements" id="diagramViewBottomTool">
                         <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter"> 
-                        <button type="button" class="button button--ghost" id="prevERDiagram" disabled title="Previous ER Diagram"><i class="bi bi-arrow-left"></i></button>
-                        <button type="button" class="button button--ghost" id="nextERDiagram" disabled title="Next ER Diagram"><i class="bi bi-arrow-right"></i></button>
-                        <button type="button" class="button button--ghost" id="enlargeERDiagram" title="Enlarge ER Diagram">+</button>
-                        <button type="button" class="button button--ghost" id="shrinkERDiagram" title="Shrink ER Diagram">-</button>
-                        <button type="button" class="button button--ghost" id="fullscreenDiagram" onclick="toggleDiagramView()" title="Fullscreen Diagram"><i class="bi bi-fullscreen" id="fullscreenIcon"></i></button>
+
+                        <button type="button" class="button button--ghost" id="prevERDiagram" disabled>
+                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                            </svg>
+                            <span class="visually-hidden">Previous ER Diagram</span>
+                        </button>
+
+                        <button type="button" class="button button--ghost" id="nextERDiagram" disabled>
+                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                <use href="ui/images/icons.svg#icon-arrow"></use>
+                            </svg>
+                            <span class="visually-hidden">Next ER Diagram</span>
+                        </button>
+
+                        <button type="button" class="button button--ghost" id="enlargeERDiagram">
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                <use href="ui/images/icons.svg#icon-zoom-in"></use>
+                            </svg>
+                            <span class="visually-hidden">Enlarge ER Diagram</span>
+                        </button>
+
+                        <button type="button" class="button button--ghost" id="shrinkERDiagram">
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                <use href="ui/images/icons.svg#icon-zoom-out"></use>
+                            </svg>
+                            <span class="visually-hidden">Shrink ER Diagram</span>
+                        </button>
+
+                        <blinky-toggle-button type="icon-only" button-class="button button--ghost" button-id="fullscreenDiagram" icon-0="fullscreen" text-0="Fullscreen Diagram" icon-1="fullscreen-exit" text-1="Exit Fullscreen Diagram" toggled="0" data-ui-paths="../.." onclick="toggleDiagramView()">
+                        </blinky-toggle-button>
                     </div>
                 </div>
-                <span class="close">&times;</span>
+                <button class="button button--clear close">
+                    <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <use href="ui/images/icons.svg#icon-cross"></use>
+                    </svg>
+                    <span class="visually-hidden">Close ER Designer</span>
+                </button>
             </div>
         </div>
         <script>
@@ -747,16 +686,6 @@
                     document.getElementById('queryBox').style.display = makeFullscreen ? 'none' : 'inline';
                     document.getElementById('queryBoxHidden').style.display = makeFullscreen ? 'inline' : 'none';
                     diagramSource.style.display = makeFullscreen ? 'none' : 'inline';
-                    const fullscreenIcon = document.getElementById('fullscreenIcon');
-                    if (makeFullscreen) {
-                        fullscreenIcon.classList.remove('bi-fullscreen');
-                        fullscreenIcon.classList.add('bi-fullscreen-exit');
-                        document.getElementById('fullscreenDiagram').title = 'Exit Fullscreen Diagram';
-                    } else {
-                        fullscreenIcon.classList.remove('bi-fullscreen-exit');
-                        fullscreenIcon.classList.add('bi-fullscreen');
-                        document.getElementById('fullscreenDiagram').title = 'Fullscreen Diagram';
-                    }
                 }
         </script>
         <script>
