@@ -26,7 +26,7 @@ To run the application locally, follow these steps:
 ```
 #if (${build} == 'maven')
 #if (${platform} == 'server')
-./mvn clean package cargo:run
+./mvn clean package payara-server:dev
 #else
 #if (${javaVersion} == '8')
 ./mvn clean package payara-micro:start
