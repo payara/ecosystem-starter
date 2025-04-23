@@ -14,7 +14,6 @@
 #else
     #set ($eeArtifactId = "jakarta.jakartaee-api")
 #end
-#set ($payaraUrlPrefix = "https://repo1.maven.org/maven2/fish/payara/distributions")
 #if (${jakartaEEVersion} == '8')
     #set ($payaraHome = "payara5")
 #else
@@ -26,11 +25,6 @@
     #else
         #set ($payaraVersion = "6.2024.2")
     #end
-#end
-#if (${profile} == 'full')
-    #set ($payaraUrl = "${payaraUrlPrefix}/payara/${payaraVersion}/payara-${payaraVersion}.zip")
-#else
-    #set ($payaraUrl = "${payaraUrlPrefix}/payara-web/${payaraVersion}/payara-web-${payaraVersion}.zip")
 #end
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -54,8 +48,6 @@
         <jakartaee-api.version>${eeApiVersion}</jakartaee-api.version>
         <payara.version>${payaraVersion}</payara.version>
 #if ((${platform} == 'server'))
-        <cargo.version>1.10.13</cargo.version>
-        <payara.url>${payaraUrl}</payara.url>
         <payara.home>${payaraHome}</payara.home>
 #end
     </properties>
@@ -214,18 +206,13 @@
                 </configuration>
             </plugin>
 #else
-            <!-- Execute 'mvn clean package cargo:run' to run the application. -->
+            <!-- Execute 'mvn clean package payara-server:dev' to run the application. -->
             <plugin>
-                    <groupId>org.codehaus.cargo</groupId>
-                    <artifactId>cargo-maven3-plugin</artifactId>
-                    <version>${cargo.version}</version>
+                    <groupId>fish.payara.maven.plugins</groupId>
+                    <artifactId>payara-server-maven-plugin</artifactId>
+                    <version>1.0.0-Alpha1</version>
                     <configuration>
-                        <container>
-                            <containerId>payara</containerId>
-                            <zipUrlInstaller>
-                                <url>${payara.url}</url>
-                            </zipUrlInstaller>
-                        </container>
+                        <payaraServerVersion>${payara.version}</payaraServerVersion>
                     </configuration>
             </plugin>
 #end
