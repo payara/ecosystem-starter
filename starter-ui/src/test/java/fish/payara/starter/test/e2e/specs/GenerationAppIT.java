@@ -1,70 +1,77 @@
 package fish.payara.starter.test.e2e.specs;
 
-import fish.payara.starter.test.e2e.pages.*;
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import com.microsoft.playwright.junit.UsePlaywright;
+import fish.payara.starter.test.e2e.pages.*;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.*;
 
 @UsePlaywright
 public class GenerationAppIT {
-    static Playwright playwright;
-    static Browser browser;
-    BrowserContext context;
-    Page page;
-    
-    private static final String groupId = "fish.payara.playwrighttest";
-    private static final String artifactId = "PlaywrightTest";
-    private static final String version = "1.0";
+    private static Playwright playwright;
+    private static Browser browser;
+    private static BrowserContext context;
+    private static Page page;
+    private static StarterPageActions starterPage;
 
     @BeforeAll
     static void launchBrowser() {
-      playwright = Playwright.create();
-      browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        playwright = Playwright.create();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+    }
+
+    @BeforeEach
+    void openPage() {
+        context = browser.newContext();
+        page = context.newPage();
+        page.navigate("http://localhost:8080/payara-starter");
+        page.waitForSelector("div.hero", new Page.WaitForSelectorOptions().setTimeout(120000));
+
+        starterPage = new StarterPageActions(page);
+        starterPage.confirmGdpr();
+    }
+
+    @AfterEach
+    void closePage() {
+        context.close();
     }
     
     @AfterAll
-    static void closeBrowser(){
+    static void closeBrowser() {
         playwright.close();
-    }
-    
-    @BeforeEach
-    void createPage(){
-        context = browser.newContext();
-        page = context.newPage();
-        page.setDefaultTimeout(60000);
-        page.navigate("http://localhost:8080/payara-starter");
-        page.waitForSelector("div.hero", new Page.WaitForSelectorOptions().setTimeout(120000));
-    }
-    
-    @AfterEach
-    void closePage(){
-        context.close();
     }
     
     @Test
     void shouldGenerateSimpleApp() throws InterruptedException {
         assertThat(page).hasTitle("Generate Payara Application");
-        StarterPageActions starterPage = new StarterPageActions(page);
-        starterPage.chooseBuild("Gradle");  
-        PlaywrightAssertions.assertThat(starterPage.getGradleCheckbox()).isChecked();
-        PlaywrightAssertions.assertThat(starterPage.getMavenCheckbox()).not().isChecked();
+        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "PlaywrightTest", "1.0");
+        starterPage.setJakartaEE("Jakarta EE 9.1", "9.1", "Web Profile");
+        starterPage.closeGuidePopup();
+        starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
+        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
+        starterPage.setMicroProfile("Full MP");
+        starterPage.setDeployment(true, false);
+        starterPage.setERDiagram("", true, "domain.test", false, "service.test", false, "resource", true);
+        starterPage.setSecurity("Form Authentication - File Realm");
+        starterPage.generate(page, Paths.get(".", "PlaywrightTest.zip"));
+    }
 
-        starterPage.fillGroupId(groupId);
-        starterPage.fillArtifactId(artifactId);
-        starterPage.fillVersion(version);
-
-        PlaywrightAssertions.assertThat(starterPage.getGroupId()).hasValue(groupId);
-        PlaywrightAssertions.assertThat(starterPage.getArtifactId()).hasValue(artifactId);
-        PlaywrightAssertions.assertThat(starterPage.getVersion()).hasValue(version);
-
-        Thread.sleep(1000);
-
-        starterPage.getNextButtonToJakartaEE().click();
-
-        PlaywrightAssertions.assertThat(starterPage.getJakartaEEVersion()).isVisible();
-        Thread.sleep(6000);
+    @Test
+    void shouldModifyAppWithERDiagram() throws InterruptedException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTest", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
+        starterPage.closeGuidePopup();
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.4", "6.2025.4");
+        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 21", "21");
+        starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("Inventory System", true, "domain.test", false, "service.test", false, "resource", true);
+        starterPage.openERDiagramPreview();
+        starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
+        starterPage.checkDiagramGraphContains("INVENTORY");
+        starterPage.closeERDiagramPreview();
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get(".", "InventorySystemTest.zip"));
     }
 }
