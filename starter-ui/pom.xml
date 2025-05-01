@@ -228,7 +228,7 @@
         <profile>
             <id>e2e</id>
             <!-- to run e2e tests, make sure to have payara starter running
-                for example, use `mvn payara-micro:dev -f .\starter-ui\ -DcontextRoot="payara-starter"`-->
+                for example, use `mvn clean install payara-micro:starter -DcontextRoot="payara-starter" -DdeployWar=true -f ./starter-ui`-->
             <build>
                 <plugins>
                     <plugin>
