@@ -18,7 +18,7 @@ public class GenerationAppIT {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
     }
 
     @BeforeEach
@@ -54,7 +54,7 @@ public class GenerationAppIT {
         starterPage.setDeployment(true, false);
         starterPage.setERDiagram("", true, "domain.test", false, "service.test", false, "resource", true);
         starterPage.setSecurity("Form Authentication - File Realm");
-        starterPage.generate(page, Paths.get(".", "PlaywrightTest.zip"));
+        starterPage.generate(page, Paths.get("./target", "PlaywrightTest.zip"));
     }
 
     @Test
@@ -72,6 +72,6 @@ public class GenerationAppIT {
         starterPage.checkDiagramGraphContains("INVENTORY");
         starterPage.closeERDiagramPreview();
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get(".", "InventorySystemTest.zip"));
+        starterPage.generate(page, Paths.get("./target", "InventorySystemTest.zip"));
     }
 }
