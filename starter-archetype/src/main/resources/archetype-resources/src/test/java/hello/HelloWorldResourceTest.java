@@ -1,4 +1,4 @@
-package ${package}.hello;
+package ${package}.${restSubpackage};
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
