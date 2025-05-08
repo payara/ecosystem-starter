@@ -42,8 +42,12 @@ import com.microsoft.playwright.*;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import com.microsoft.playwright.junit.UsePlaywright;
 import fish.payara.starter.test.e2e.pages.*;
+import fish.payara.starter.test.e2e.utils.FileManagement;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @UsePlaywright
 public class GenerationAppIT {
@@ -81,35 +85,46 @@ public class GenerationAppIT {
     }
     
     @Test
-    void shouldGenerateSimpleApp() throws InterruptedException {
+    void shouldGenerateSimpleApp() throws InterruptedException, IOException {
         assertThat(page).hasTitle("Generate Payara Application");
         starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "PlaywrightTest", "1.0");
         starterPage.setJakartaEE("Jakarta EE 9.1", "9.1", "Web Profile");
         starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
+        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("Full MP");
         starterPage.setDeployment(true, false);
-        starterPage.setERDiagram("", true, "domain.test", false, "service.test", false, "resource", true);
+        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", true);
         starterPage.setSecurity("Form Authentication - File Realm");
-        starterPage.generate(page, Paths.get("./target", "PlaywrightTest.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-gradle", "PlaywrightTest.zip"));
+
+        FileManagement.unzip("./target/test-app-gradle/PlaywrightTest.zip", "./target/test-app-gradle/PlaywrightTest");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-gradle/PlaywrightTest/build.gradle")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-gradle/PlaywrightTest/build.gradle"),
+                "sourceCompatibility = JavaVersion.VERSION_17"));
+
     }
 
     @Test
-    void shouldModifyAppWithERDiagram() throws InterruptedException {
+    void shouldModifyAppWithERDiagram() throws InterruptedException, IOException {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTest", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
+        starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
         starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.4", "6.2025.4");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 21", "21");
+        starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
+        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Inventory System", true, "domain.test", false, "service.test", false, "resource", true);
+        starterPage.setERDiagram("Inventory System", true, "domain", false, "service", false, "resource", true);
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
         starterPage.checkDiagramGraphContains("INVENTORY");
         starterPage.closeERDiagramPreview();
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target", "InventorySystemTest.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "InventorySystemTest.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/InventorySystemTest.zip", "./target/test-app-maven/InventorySystemTest");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/InventorySystemTest/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/InventorySystemTest/pom.xml"),
+                "<maven.compiler.release>11</maven.compiler.release>"));
     }
 }
