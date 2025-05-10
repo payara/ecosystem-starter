@@ -82,7 +82,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class CRUDAppGenerator {
-    
+
     private final String _package;
     private final String domainLayer;
     private final String repositoryLayer;
@@ -108,7 +108,7 @@ public class CRUDAppGenerator {
     }
 
     public static void main(String[] args) {
-                    String mermaidCode = """
+        String mermaidCode = """
                              erDiagram
                                  DEPARTMENT ||--o{ IT_EMPLOYEE : belongs_to
                                  IT_EMPLOYEE {
@@ -139,13 +139,13 @@ public class CRUDAppGenerator {
         String controllerLayer = "resource";
         CRUDAppGenerator generator = new CRUDAppGenerator(erModel, _package, domainLayer, repositoryLayer, controllerLayer);
         try {
-            generator.generate(new File("D:\\HelloWorld"), true, true, true, true); // Output directory
+            generator.generate(new File("D:\\HelloWorld"), true, true, true, "jsf"); // Output directory
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void generate(File projectDir, boolean generateJPA, boolean generateRepository, boolean generateController, boolean generateWeb) throws IOException {
+    public void generate(File projectDir, boolean generateJPA, boolean generateRepository, boolean generateController, String generateWeb) throws IOException {
 
         File java = getDir(projectDir, "src/main/java");
         File resources = getDir(projectDir, "src/main/resources");
@@ -168,13 +168,21 @@ public class CRUDAppGenerator {
                 generate("template/descriptor", "beans.xml.ftl", "beans.xml", dataModel, webinf);
                 generateRepositoryBase(dataModel, _package, java);
                 if (generateController) {
-                    for (Entity entity : model.getEntities()) {
-                        generateEntityController(_package, entity, java);
-                    }
-                    generateRestBase(dataModel, _package, java);
-                    if (generateWeb) {
+                    if ("jsf".equals(generateWeb.toLowerCase())) {
                         for (Entity entity : model.getEntities()) {
-                            generateFrontend(model, entity, webapp);
+                            generateEntityBean(_package, entity, java);
+                        }
+                        for (Entity entity : model.getEntities()) {
+                            generateJSFFrontend(model, entity, webapp);
+                        }
+                        generateFrontendBase(model, webapp);
+                    } else if ("html".equals(generateWeb.toLowerCase())) {
+                        for (Entity entity : model.getEntities()) {
+                            generateEntityController(_package, entity, java);
+                        }
+                        generateRestBase(dataModel, _package, java);
+                        for (Entity entity : model.getEntities()) {
+                            generateHTMLFrontend(model, entity, webapp);
                         }
                         generateFrontendBase(model, webapp);
                     }
@@ -191,7 +199,7 @@ public class CRUDAppGenerator {
         generate("template/html", "about-us.html.ftl", "about-us.html", dataModel, outputDir);
     }
 
-    private void generateFrontend(ERModel model, Entity entity, File outputDir) {
+    private void generateHTMLFrontend(ERModel model, Entity entity, File outputDir) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("model", model);
         dataModel.put("entity", entity);
@@ -203,6 +211,79 @@ public class CRUDAppGenerator {
         String entityNameSpinalCased = kebabCase(entityInstance);
         dataModel.put("entityApiUrl", entityNameSpinalCased);
         generate("template/html", "entity.html.ftl", dataModel.get("entityNameLowerCase") + ".html", dataModel, outputDir);
+    }
+    
+    private void generateJSFFrontend(ERModel model, Entity entity, File outputDir) {
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("model", model);
+        dataModel.put("entity", entity);
+        dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
+        dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
+        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getClassName())));
+        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getClassName().toLowerCase()));
+        String entityInstance = firstLower(entity.getClassName());
+        String entityNameSpinalCased = kebabCase(entityInstance);
+        dataModel.put("entityApiUrl", entityNameSpinalCased);
+        dataModel.put("beanName", entityInstance + "Bean");
+        
+            String pkName = entity.getPrimaryKeyName();
+            dataModel.put("pkName", firstLower(pkName));
+        generate("template/jsf", "entity.xhtml.ftl", dataModel.get("entityNameLowerCase") + ".xhtml", dataModel, outputDir);
+    }
+
+    private void generateEntityBean(String _package, Entity entity, File outputDir) {
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
+        try {
+            if (IS_LOCAL) {
+                cfg.setDirectoryForTemplateLoading(new File("src/main/resources/template/jsf"));
+            } else {
+                cfg.setClassLoaderForTemplateLoading(
+                        Thread.currentThread().getContextClassLoader(),
+                        "template/jsf"
+                );
+            }
+            cfg.setDefaultEncoding("UTF-8");
+
+            Template template = cfg.getTemplate("EntityBean.java.ftl");
+
+            String domainPackage = _package + "." + domainLayer;
+            String repositoryPackage = _package + "." + repositoryLayer;
+            String beanPackage = _package + "." + controllerLayer;
+
+            String entityInstance = firstLower(entity.getClassName());
+            Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("package", beanPackage);
+            dataModel.put("EntityClass", entity.getClassName());
+            dataModel.put("EntityClass_FQN", domainPackage + "." + entity.getClassName());
+            dataModel.put("EntityClassPlural", pluralize(firstUpper(entity.getClassName())));
+            dataModel.put("entityInstance", entityInstance);
+            dataModel.put("EntityRepository", entity.getClassName() + firstUpper(repositoryLayer));
+            dataModel.put("EntityRepository_FQN", repositoryPackage + "." + entity.getClassName() + firstUpper(repositoryLayer));
+            dataModel.put("entityRepository", firstLower(entity.getClassName() + firstUpper(repositoryLayer)));
+            dataModel.put("beanName", entityInstance + "Bean");
+            dataModel.put("beanClass", entity.getClassName() + "Bean");
+            String pkName = entity.getPrimaryKeyName();
+            String pkType = entity.getPrimaryKeyType();
+            dataModel.put("pkName", firstLower(pkName));
+            dataModel.put("pkGetter", getMethodName(getIntrospectionPrefix(isBoolean(pkType)), pkName));
+            dataModel.put("pkSetter", getMethodName("set", pkName));
+            dataModel.put("pkType", pkType);
+            dataModel.put("isPKPrimitive", isPrimitive(pkType));
+
+            File outputPackageDir = new File(outputDir, beanPackage.replace(".", File.separator));
+            if (!outputPackageDir.exists()) {
+                outputPackageDir.mkdirs();
+            }
+
+            File outputFile = new File(outputPackageDir, dataModel.get("beanClass") + ".java");
+
+            try (FileWriter writer = new FileWriter(outputFile)) {
+                template.process(dataModel, writer);
+            }
+
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }
     }
 
     private void generateEntityController(String _package, Entity entity, File outputDir) {
@@ -237,7 +318,7 @@ public class CRUDAppGenerator {
             dataModel.put("entity", entity);
             dataModel.put("EntityClass", entity.getClassName());
             dataModel.put("EntityClassPlural", pluralize(firstUpper(entity.getClassName())));
-            dataModel.put("EntityClass_FQN", _package + "."+ domainLayer+"." + entity.getClassName());
+            dataModel.put("EntityClass_FQN", _package + "." + domainLayer + "." + entity.getClassName());
             dataModel.put("entityInstance", entityInstance);
             dataModel.put("entityInstancePlural", pluralize(entityInstance));
             dataModel.put("entityTranslationKey", entityInstance);
@@ -318,8 +399,8 @@ public class CRUDAppGenerator {
             dataModel.put("named", false);
             dataModel.put("entityInstance", "exampleEntityRepository");
             dataModel.put("EntityClass", entity.getClassName());
-            dataModel.put("EntityRepository", entity.getClassName()+ firstUpper(repositoryLayer));
-            dataModel.put("EntityClass_FQN", _package + "."+domainLayer+"." + entity.getClassName());
+            dataModel.put("EntityRepository", entity.getClassName() + firstUpper(repositoryLayer));
+            dataModel.put("EntityClass_FQN", _package + "." + domainLayer + "." + entity.getClassName());
             dataModel.put("EntityPKClass", entity.getPrimaryKeyType());
             dataModel.put("EntityPKClass_FQN", "");
             dataModel.put("AbstractRepository", "Abstract" + firstUpper(repositoryLayer));
@@ -508,7 +589,7 @@ public class CRUDAppGenerator {
         String secondEntityVar = relationship.getRelationshipVarNameInSecondEntity() != null ? relationship.getRelationshipVarNameInSecondEntity() : firstEntity.toLowerCase();
         String secondEntityVars = pluralize(secondEntityVar);
         secondEntityVar = singularize(secondEntityVar);
-        
+
         Attribute attribute;
         if (isFirstEntity) {
             switch (relationshipType) {

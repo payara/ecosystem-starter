@@ -169,7 +169,7 @@ public class ApplicationConfiguration {
     private boolean generateJPA = true;
     private boolean generateRepository = true;
     private boolean generateRest = true;
-    private boolean generateWeb = true;
+    private String generateWeb;
     private String jpaSubpackage = "domain";
     private String repositorySubpackage = "service";
     private String restSubpackage = "resource";
@@ -434,11 +434,11 @@ public class ApplicationConfiguration {
         this.generateRest = generateRest;
     }
 
-    public boolean isGenerateWeb() {
+    public String getGenerateWeb() {
         return generateWeb;
     }
 
-    public void setGenerateWeb(boolean generateWeb) {
+    public void setGenerateWeb(String generateWeb) {
         this.generateWeb = generateWeb;
     }
 
