@@ -39,7 +39,6 @@
 package fish.payara.starter.test.e2e.pages;
 
 import com.microsoft.playwright.Download;
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
@@ -359,8 +358,8 @@ public class StarterPageActions {
 
 
     public void generate(Page page, Path filepath) {
-        Download download = page.waitForDownload(() -> {
-            locators.generateButton.get().click(new Locator.ClickOptions().setTimeout(90000));
+        Download download = page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(90000), () -> {
+            locators.generateButton.get().click();
         });
         download.saveAs(filepath);
     }
