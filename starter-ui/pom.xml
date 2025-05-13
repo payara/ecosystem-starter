@@ -342,7 +342,7 @@
                 <activeByDefault/>
             </activation>
             <properties>
-                <os.shell>/bin/sh</os.shell>
+                <os.shell>/bin/bash</os.shell>
                 <os.script.extension></os.script.extension>                
             </properties>
             <build>
@@ -358,6 +358,7 @@
                                 <configuration>
                                     <executable>${os.shell}</executable>
                                     <arguments>
+                                        <argument>-c</argument>
                                         <argument>
                                             <![CDATA[
                                             for dir in ./target/test-app-maven/*; do 
@@ -384,7 +385,8 @@
                                             <![CDATA[
                                             for dir in ./target/test-app-gradle/*; do 
                                                 if [ -d "$dir" ]; then 
-                                                    (cd "$dir" && ./gradlew -b build.gradle build); 
+                                                    chmod +x "$dir/gradlew";
+                                                    (cd "$dir" && ./gradlew -b build.gradle build) || exit 1; 
                                                 fi; 
                                             done
                                             ]]>
