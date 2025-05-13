@@ -310,19 +310,13 @@
                                             <![CDATA[
                                             Get-ChildItem -Path ./target/test-app-gradle -Directory | ForEach-Object {
                                                 Push-Location $_.FullName;
-                                                try {
-                                                    & .\gradlew.bat -b build.gradle build;
-                                                    if ($LASTEXITCODE -ne 0) {
-                                                        echo "Gradle build failed in $($_.FullName)"
-                                                    }
-                                                } catch {
-                                                    Write-Error "Error: $_";
-                                                    Exit 1;
-                                                } finally {
-                                                    Pop-Location;
+                                                & .\gradlew.bat -b build.gradle build --no-daemon;
+                                                Pop-Location;
+                                                if ($LASTEXITCODE -ne 0) {
+                                                    Exit $LASTEXITCODE;
                                                 }
                                             }
-                                            Exit $LASTEXITCODE
+                                            Exit 0;
                                             ]]>
                                         </argument>
                                     </arguments>
