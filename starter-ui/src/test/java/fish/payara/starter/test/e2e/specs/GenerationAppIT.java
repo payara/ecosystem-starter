@@ -108,7 +108,7 @@ public class GenerationAppIT {
     @Test
     void gradleJdk17HelloWorld() throws InterruptedException, IOException {
         assertThat(page).hasTitle("Generate Payara Application");
-        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "HelloWorldJdk17", "1.0");
+        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "HelloWorldJdk17", "1.7");
         starterPage.setJakartaEE("Jakarta EE 9.1", "9.1", "Web Profile");
         starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
@@ -126,9 +126,9 @@ public class GenerationAppIT {
     }
 
     /*@Test
-    @Disable("provided gradle wrapper fails to compile with jdk21 - FISH-11064")
+    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064"
     void gradleJdk21HelloWorld() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "PlaywrightTest2", "2.0");
+        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "HelloWorldJdk21", "2.0");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
         starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
@@ -147,7 +147,7 @@ public class GenerationAppIT {
 
     @Test
     void mavenJdk11InventorySystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTest", "1.0-SNAPSHOT");
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTestJdk11", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
         starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
@@ -170,7 +170,7 @@ public class GenerationAppIT {
 
     @Test
     void mavenJdk17ProductCatalog() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "ProductCatalog", "1.0-SNAPSHOT");
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "ProductCatalogJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 9", "9", "Web Profile");
         starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
@@ -188,8 +188,10 @@ public class GenerationAppIT {
     }
 
     /*@Test
+    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064
+    So we need to run the tests with jdk 17
     void mavenJdk21EnergyManagementSystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "EnergyManagementSystem", "1.1");
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "EnergyManagementSystemJdk21", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
         starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2024.12", "6.2024.12");
