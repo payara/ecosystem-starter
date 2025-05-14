@@ -42,8 +42,12 @@ import com.microsoft.playwright.*;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import com.microsoft.playwright.junit.UsePlaywright;
 import fish.payara.starter.test.e2e.pages.*;
+import fish.payara.starter.test.e2e.utils.FileManagement;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @UsePlaywright
 public class GenerationAppIT {
@@ -63,6 +67,7 @@ public class GenerationAppIT {
     void openPage() {
         context = browser.newContext();
         page = context.newPage();
+        page.setDefaultTimeout(90000);
         page.navigate("http://localhost:8080/payara-starter");
         page.waitForSelector("div.hero", new Page.WaitForSelectorOptions().setTimeout(120000));
 
@@ -79,37 +84,127 @@ public class GenerationAppIT {
     static void closeBrowser() {
         playwright.close();
     }
+
+    @Test
+    void gradleJdk11HelloWorld() throws InterruptedException, IOException {
+        assertThat(page).hasTitle("Generate Payara Application");
+        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "HelloWorldJdk11", "1.0");
+        starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
+        starterPage.closeGuidePopup();
+        starterPage.setPayaraPlatform("Payara Micro", "5.2022.5", "5.2022.5");
+        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 11", "11");
+        starterPage.setMicroProfile("Full MP");
+        starterPage.setDeployment(true, false);
+        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", true);
+        starterPage.setSecurity("Form Authentication - File Realm");
+        starterPage.generate(page, Paths.get("./target/test-app-gradle", "HelloWorldJdk11.zip"));
+
+        FileManagement.unzip("./target/test-app-gradle/HelloWorldJdk11.zip", "./target/test-app-gradle/HelloWorldJdk11");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-gradle/HelloWorldJdk11/build.gradle")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-gradle/HelloWorldJdk11/build.gradle"),
+                "sourceCompatibility = JavaVersion.VERSION_11"));
+    }
     
     @Test
-    void shouldGenerateSimpleApp() throws InterruptedException {
+    void gradleJdk17HelloWorld() throws InterruptedException, IOException {
         assertThat(page).hasTitle("Generate Payara Application");
-        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "PlaywrightTest", "1.0");
+        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "HelloWorldJdk17", "1.7");
         starterPage.setJakartaEE("Jakarta EE 9.1", "9.1", "Web Profile");
         starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
+        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("Full MP");
         starterPage.setDeployment(true, false);
-        starterPage.setERDiagram("", true, "domain.test", false, "service.test", false, "resource", true);
+        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", true);
         starterPage.setSecurity("Form Authentication - File Realm");
-        starterPage.generate(page, Paths.get("./target", "PlaywrightTest.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-gradle", "HelloWorldJdk17.zip"));
+
+        FileManagement.unzip("./target/test-app-gradle/HelloWorldJdk17.zip", "./target/test-app-gradle/HelloWorldJdk17");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-gradle/HelloWorldJdk17/build.gradle")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-gradle/HelloWorldJdk17/build.gradle"),
+                "sourceCompatibility = JavaVersion.VERSION_17"));
     }
 
-    @Test
-    void shouldModifyAppWithERDiagram() throws InterruptedException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTest", "1.0-SNAPSHOT");
+    /*@Test
+    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064"
+    void gradleJdk21HelloWorld() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "HelloWorldJdk21", "2.0");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
         starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.4", "6.2025.4");
+        starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 21", "21");
+        starterPage.setMicroProfile("Full MP");
+        starterPage.setDeployment(true, false);
+        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", true);
+        starterPage.setSecurity("Form Authentication - File Realm");
+        starterPage.generate(page, Paths.get("./target/test-app-gradle", "HelloWorldJdk21.zip"));
+
+        FileManagement.unzip("./target/test-app-gradle/HelloWorldJdk21.zip", "./target/test-app-gradle/HelloWorldJdk21");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-gradle/HelloWorldJdk21/build.gradle")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-gradle/HelloWorldJdk21/build.gradle"),
+                "sourceCompatibility = JavaVersion.VERSION_21"));
+    }*/
+
+    @Test
+    void mavenJdk11InventorySystem() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTestJdk11", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
+        starterPage.closeGuidePopup();
+        starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
+        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Inventory System", true, "domain.test", false, "service.test", false, "resource", true);
+        starterPage.setERDiagram("Inventory System", true, "domain", false, "service", false, "resource", true);
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
         starterPage.checkDiagramGraphContains("INVENTORY");
         starterPage.closeERDiagramPreview();
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target", "InventorySystemTest.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "InventorySystemTestJdk11.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/InventorySystemTestJdk11.zip", "./target/test-app-maven/InventorySystemTestJdk11");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/InventorySystemTestJdk11/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/InventorySystemTestJdk11/pom.xml"),
+                "<maven.compiler.release>11</maven.compiler.release>"));
     }
+
+    @Test
+    void mavenJdk17ProductCatalog() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "ProductCatalogJdk17", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 9", "9", "Web Profile");
+        starterPage.closeGuidePopup();
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
+        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
+        starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("Product Catalog", true, "domain", false, "service", false, "resource", true);
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "ProductCatalogJdk17.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/ProductCatalogJdk17.zip", "./target/test-app-maven/ProductCatalogJdk17");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
+    }
+
+    /*@Test
+    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064
+    So we need to run the tests with jdk 17
+    void mavenJdk21EnergyManagementSystem() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "EnergyManagementSystemJdk21", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
+        starterPage.closeGuidePopup();
+        starterPage.setPayaraPlatform("Payara Server", "6.2024.12", "6.2024.12");
+        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 21", "21");
+        starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("Energy Management System", false, "domain", false, "service", false, "resource", true);
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "EnergyManagementSystemJdk21.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/EnergyManagementSystemJdk21.zip", "./target/test-app-maven/EnergyManagementSystemJdk21");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml"),
+                "<maven.compiler.release>21</maven.compiler.release>"));
+    }*/
 }
