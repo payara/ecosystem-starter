@@ -452,8 +452,12 @@
                                                             <label class="form__label" for="restSubpackage">Package</label>
                                                             <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST">
                                                             <br><br>
-                                                                <input class="form__radbox" type="checkbox" id="generateWeb" name="generateWeb" value="true" checked title="Generate Web code">
-                                                                <label class="form__radbox-label" for="generateWeb">Web</label>
+                                                            <label for="generateWeb" class="form__radbox-label">Web</label>
+                                                            <select class="form__select" id="generateWeb" name="generateWeb" title="Generate Web code">
+                                                              <option value="none">None</option>
+                                                              <option value="html">HTML</option>
+                                                              <option value="jsf" selected>JSF</option>
+                                                            </select>
                                                         </p>
 
                                                         <p class="form__row form-steps__controls">
@@ -1108,7 +1112,7 @@
                 const jpaCheckbox = document.getElementById('generateJpa');
                 const repositoryCheckbox = document.getElementById('generateRepository');
                 const restCheckbox = document.getElementById('generateRest');
-                const htmlCheckbox = document.getElementById('generateWeb');
+                const generateWeb = document.getElementById('generateWeb');
 
                 repositoryCheckbox.addEventListener('change', function () {
                     if (repositoryCheckbox.checked) {
@@ -1123,8 +1127,8 @@
                     }
                 });
 
-                htmlCheckbox.addEventListener('change', function () {
-                    if (htmlCheckbox.checked) {
+                generateWeb.addEventListener('change', function () {
+                    if (generateWeb.value !== 'none') {
                         jpaCheckbox.checked = true;
                         repositoryCheckbox.checked = true;
                         restCheckbox.checked = true;
@@ -1135,20 +1139,20 @@
                     if (!jpaCheckbox.checked) {
                         repositoryCheckbox.checked = false;
                         restCheckbox.checked = false;
-                        htmlCheckbox.checked = false;
+                        generateWeb.value = 'none'; 
                     }
                 });
 
                 repositoryCheckbox.addEventListener('change', function () {
                     if (!repositoryCheckbox.checked) {
                         restCheckbox.checked = false;
-                        htmlCheckbox.checked = false;
+                        generateWeb.value = 'none'; 
                     }
                 });
 
                 restCheckbox.addEventListener('change', function () {
                     if (!restCheckbox.checked) {
-                        htmlCheckbox.checked = false;
+                        generateWeb.value = 'none'; 
                     }
                 });
             }

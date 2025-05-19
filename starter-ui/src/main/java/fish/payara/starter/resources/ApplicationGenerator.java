@@ -162,7 +162,7 @@ public class ApplicationGenerator {
                                 appProperties.isGenerateJPA(),
                                 appProperties.isGenerateRepository(),
                                 appProperties.isGenerateRest(),
-                                appProperties.isGenerateWeb());
+                                appProperties.getGenerateWeb());
                     } catch (Exception e) {
                         LOGGER.log(Level.SEVERE, "Error generating application: " + e.getMessage(), e);
                     }
