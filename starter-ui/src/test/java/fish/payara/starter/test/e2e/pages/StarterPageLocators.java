@@ -134,7 +134,7 @@ public class StarterPageLocators {
     public final Supplier<Locator> repositorySubpackage = () -> diagramBlock.get().locator("input#repositorySubpackage");
     public final Supplier<Locator> generateRest = () -> diagramBlock.get().locator("input#generateRest");
     public final Supplier<Locator> restSubpackage = () -> diagramBlock.get().locator("input#restSubpackage");
-    public final Supplier<Locator> generateWeb = () -> diagramBlock.get().locator("input#generateWeb");
+    public final Supplier<Locator> generateWeb = () -> diagramBlock.get().locator("select#generateWeb");
     public final Supplier<Locator> previousButtonToSecurity = () -> diagramBlock.get().locator("a[href='#stb0-st5']");
     public final Supplier<Locator> nextButtonToSecurity = () -> diagramBlock.get().locator("a[href='#stb0-st7']");
 

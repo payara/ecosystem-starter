@@ -287,15 +287,13 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.restSubpackage.get()).hasValue(value);
     }
 
-    public void enableGenerateWeb() {
-        if (!locators.generateWeb.get().isChecked()) {
-            locators.generateWeb.get().click();
-        }
-        PlaywrightAssertions.assertThat(locators.generateWeb.get()).isChecked();
+    public void selectGenerateWeb(String text, String value) {
+        locators.generateWeb.get().selectOption(text);
+        PlaywrightAssertions.assertThat(locators.generateWeb.get()).hasValue(value);
     }
 
     public void setERDiagram(String ERDiagram, Boolean generateJPA, String jpaPackage, Boolean generateRepository,
-            String repoPackage, Boolean generateRest, String restPackage, Boolean generateWeb)
+            String repoPackage, Boolean generateRest, String restPackage, String webText, String webValue)
             throws InterruptedException {
         goToDiagramSection();
         selectERDiagram(ERDiagram);
@@ -311,9 +309,7 @@ public class StarterPageActions {
             enableGenerateRest();
         }
         setRestPackage(restPackage);
-        if (generateWeb) {
-            enableGenerateWeb();
-        }
+        selectGenerateWeb(webText, webValue);
     }
 
     // Diagram Builder & Live Preview

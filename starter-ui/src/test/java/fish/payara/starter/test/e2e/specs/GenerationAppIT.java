@@ -95,7 +95,7 @@ public class GenerationAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 11", "11");
         starterPage.setMicroProfile("Full MP");
         starterPage.setDeployment(true, false);
-        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", true);
+        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", "HTML", "html");
         starterPage.setSecurity("Form Authentication - File Realm");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "HelloWorldJdk11.zip"));
 
@@ -115,7 +115,7 @@ public class GenerationAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("Full MP");
         starterPage.setDeployment(true, false);
-        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", true);
+        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", "HTML", "html");
         starterPage.setSecurity("Form Authentication - File Realm");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "HelloWorldJdk17.zip"));
 
@@ -135,7 +135,7 @@ public class GenerationAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 21", "21");
         starterPage.setMicroProfile("Full MP");
         starterPage.setDeployment(true, false);
-        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", true);
+        starterPage.setERDiagram("", true, "domain", false, "service", false, "resource", "HTML", "html");
         starterPage.setSecurity("Form Authentication - File Realm");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "HelloWorldJdk21.zip"));
 
@@ -154,7 +154,7 @@ public class GenerationAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Inventory System", true, "domain", false, "service", false, "resource", true);
+        starterPage.setERDiagram("Inventory System", true, "domain", false, "service", false, "resource", "HTML", "html");
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
         starterPage.checkDiagramGraphContains("INVENTORY");
@@ -177,7 +177,7 @@ public class GenerationAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Product Catalog", true, "domain", false, "service", false, "resource", true);
+        starterPage.setERDiagram("Product Catalog", true, "domain", false, "service", false, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "ProductCatalogJdk17.zip"));
 
@@ -198,7 +198,7 @@ public class GenerationAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 21", "21");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Energy Management System", false, "domain", false, "service", false, "resource", true);
+        starterPage.setERDiagram("Energy Management System", false, "domain", false, "service", false, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "EnergyManagementSystemJdk21.zip"));
 
