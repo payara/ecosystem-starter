@@ -47,6 +47,7 @@ import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID
 import static fish.payara.starter.resources.ApplicationConfiguration.AUTH;
 import static fish.payara.starter.resources.ApplicationConfiguration.BUILD;
 import static fish.payara.starter.resources.ApplicationConfiguration.DOCKER;
+import static fish.payara.starter.resources.ApplicationConfiguration.GENERATE_WEB;
 import static fish.payara.starter.resources.ApplicationConfiguration.GROUP_ID;
 import static fish.payara.starter.resources.ApplicationConfiguration.INCLUDE_TESTS;
 import static fish.payara.starter.resources.ApplicationConfiguration.JAKARTA_EE_VERSION;
@@ -136,6 +137,7 @@ public class ApplicationGenerator {
                         properties.put(ApplicationConfiguration.ER_DIAGRAM_NAME, appProperties.getErDiagramName());
                     }
                 }
+                System.out.println("properties " + properties);
                 invokeMavenArchetype(ARCHETYPE_GROUP_ID, ARCHETYPE_ARTIFACT_ID, ARCHETYPE_VERSION,
                         properties, workingDirectory);
 
@@ -217,6 +219,7 @@ public class ApplicationGenerator {
         properties.put(MP_METRICS, appProperties.isMpMetrics());
         properties.put(AUTH, appProperties.getAuth());
         properties.put(REST_SUBPACKAGE, appProperties.getRestSubpackage());
+        properties.put(GENERATE_WEB, appProperties.getGenerateWeb());
         return properties;
     }
 

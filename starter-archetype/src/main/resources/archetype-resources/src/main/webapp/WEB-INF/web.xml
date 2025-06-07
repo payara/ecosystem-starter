@@ -16,7 +16,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="$schemaLocation">
     <welcome-file-list>
+    #if ($generateWeb == 'jsf')
+        <welcome-file>home.xhtml</welcome-file>
+    #elseif ($generateWeb == 'html')
+        <welcome-file>main.html</welcome-file>
+    #else
         <welcome-file>index.html</welcome-file>
+    #end
     </welcome-file-list>
 <% if (formAuthFileRealm || formAuthDB || formAuthLDAP) { %>
     <security-constraint>

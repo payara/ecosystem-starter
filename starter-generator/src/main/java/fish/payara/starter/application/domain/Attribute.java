@@ -59,9 +59,7 @@ import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE_TIME
 import static fish.payara.starter.application.util.StringUtils.firstLower;
 import static fish.payara.starter.application.util.StringUtils.firstUpper;
 import static fish.payara.starter.application.util.StringUtils.kebabCase;
-import static fish.payara.starter.application.util.StringUtils.pluralize;
 import static fish.payara.starter.application.util.StringUtils.startCase;
-import static fish.payara.starter.application.util.StringUtils.titleCase;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
 import java.util.ArrayList;
