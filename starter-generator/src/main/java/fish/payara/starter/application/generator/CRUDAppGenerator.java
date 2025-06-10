@@ -80,6 +80,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Arrays;
 
 public class CRUDAppGenerator {
 
@@ -175,7 +176,8 @@ public class CRUDAppGenerator {
                         for (Entity entity : model.getEntities()) {
                             generateJSFFrontend(model, entity, webapp);
                         }
-                        generateFrontendBase(model, webapp);
+                        generateBackendUtils(_package, java);
+                        generateJSFFrontendBase(model, webapp);
                     } else if ("html".equals(generateWeb.toLowerCase())) {
                         for (Entity entity : model.getEntities()) {
                             generateEntityController(_package, entity, java);
@@ -184,14 +186,29 @@ public class CRUDAppGenerator {
                         for (Entity entity : model.getEntities()) {
                             generateHTMLFrontend(model, entity, webapp);
                         }
-                        generateFrontendBase(model, webapp);
+                        generateHTMLFrontendBase(model, webapp);
                     }
                 }
             }
         }
     }
 
-    private void generateFrontendBase(ERModel model, File outputDir) {
+    private void generateJSFFrontendBase(ERModel model, File webapp) {
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("model", model);
+        generate("template/jsf", "home.xhtml.ftl", "home.xhtml", dataModel, webapp);
+        generate("template/jsf", "about-us.xhtml.ftl", "about-us.xhtml", dataModel, webapp);
+        
+        File layoutDir = new File(webapp, "WEB-INF/layout");
+        if (!layoutDir.exists()) {
+            layoutDir.mkdirs();
+        }
+        generate("template/jsf", "template.xhtml.ftl", "template.xhtml", dataModel, layoutDir);
+        generate("template/jsf", "header.xhtml.ftl", "header.xhtml", dataModel, layoutDir);
+        generate("template/jsf", "footer.xhtml.ftl", "footer.xhtml", dataModel, layoutDir);
+    }
+
+    private void generateHTMLFrontendBase(ERModel model, File outputDir) {
         Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("model", model);
         generate("template/html", "app.html.ftl", "main.html", dataModel, outputDir);
@@ -229,6 +246,44 @@ public class CRUDAppGenerator {
             String pkName = entity.getPrimaryKeyName();
             dataModel.put("pkName", firstLower(pkName));
         generate("template/jsf", "entity.xhtml.ftl", dataModel.get("entityNameLowerCase") + ".xhtml", dataModel, outputDir);
+    }
+
+       private void generateBackendUtils(String _package, File outputDir) {
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
+        try {
+            if (IS_LOCAL) {
+                cfg.setDirectoryForTemplateLoading(new File("src/main/resources/template/jsf"));
+            } else {
+                cfg.setClassLoaderForTemplateLoading(
+                        Thread.currentThread().getContextClassLoader(),
+                        "template/jsf"
+                );
+            }
+            cfg.setDefaultEncoding("UTF-8");
+
+
+            String beanPackage = _package + "." + controllerLayer;
+            Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("package", beanPackage);
+
+            File outputPackageDir = new File(outputDir, beanPackage.replace(".", File.separator));
+            if (!outputPackageDir.exists()) {
+                outputPackageDir.mkdirs();
+            }
+
+            for (String converter : Arrays.asList("NavigationBean.java.ftl", "LocalDateConverter.java.ftl", "LocalDateTimeConverter.java.ftl")) {
+                Template template = cfg.getTemplate(converter);
+                String convFileName = converter.replace(".ftl", "");
+                File outputFile = new File(outputPackageDir, convFileName);
+                try (FileWriter convWriter = new FileWriter(outputFile)) {
+                    template.process(dataModel, convWriter);
+                }
+            }
+            
+
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }
     }
 
     private void generateEntityBean(String _package, Entity entity, File outputDir) {
