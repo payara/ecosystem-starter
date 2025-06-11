@@ -87,63 +87,156 @@ public class PayaraVersionsIT {
     }
 
     @Test
-    void PayaraServer5Jdk8Java11() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer5Jdk8Java11", "1.0-SNAPSHOT");
+    void PayaraServer5EE8Jdk11() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer5EE8Jdk11", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 8", "8", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
-        starterPage.setMicroProfile("None");
+        starterPage.setMicroProfile("");
         starterPage.setDeployment(false, false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.closeERDiagramPreview();
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer5Jdk8Java11.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer5EE8Jdk11.zip"));
 
-        FileManagement.unzip("./target/test-app-maven/PayaraServer5Jdk8Java11.zip", "./target/test-app-maven/PayaraServer5Jdk8Java11");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer5Jdk8Java11/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer5Jdk8Java11/pom.xml"),
+        FileManagement.unzip("./target/test-app-maven/PayaraServer5EE8Jdk11.zip", "./target/test-app-maven/PayaraServer5EE8Jdk11");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer5EE8Jdk11/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer5EE8Jdk11/pom.xml"),
                 "<maven.compiler.release>11</maven.compiler.release>"));
     }
 
     @Test
-    void PayaraServer5Jdk9Java11() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer5Jdk8Java11", "1.0-SNAPSHOT");
+    void PayaraServer6EE9Jdk11() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE9Jdk11", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 9", "9", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
-        starterPage.setMicroProfile("None");
+        starterPage.setMicroProfile("");
         starterPage.setDeployment(false, false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.closeERDiagramPreview();
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer5Jdk8Java11.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE9Jdk11.zip"));
 
-        FileManagement.unzip("./target/test-app-maven/PayaraServer5Jdk8Java11.zip", "./target/test-app-maven/PayaraServer5Jdk8Java11");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer5Jdk8Java11/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer5Jdk8Java11/pom.xml"),
+        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE9Jdk11.zip", "./target/test-app-maven/PayaraServer6EE9Jdk11");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE9Jdk11/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE9Jdk11/pom.xml"),
                 "<maven.compiler.release>11</maven.compiler.release>"));
+    }
+
+    @Test
+    void PayaraServer6EE91Jdk11() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE91Jdk11", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 9.1", "9.1", "Platform");
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE91Jdk11.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE91Jdk11.zip", "./target/test-app-maven/PayaraServer6EE91Jdk11");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE91Jdk11/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE91Jdk11/pom.xml"),
+                "<maven.compiler.release>11</maven.compiler.release>"));
+    }
+
+    @Test
+    void PayaraServer6EE10Jdk17() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE10Jdk17/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE10Jdk17/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
+    }
+
+    @Test
+    void PayaraMicro6EE10Jdk17() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraMicro6EE10Jdk17", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
+        starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraMicro6EE10Jdk17.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/PayaraMicro6EE10Jdk17.zip", "./target/test-app-maven/PayaraMicro6EE10Jdk17");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraMicro6EE10Jdk17/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraMicro6EE10Jdk17/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
+    }
+
+    @Test
+    void PayaraServerWeb6EE10Jdk17() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServerWeb6EE10Jdk17", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServerWeb6EE10Jdk17.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/PayaraServerWeb6EE10Jdk17.zip", "./target/test-app-maven/PayaraServerWeb6EE10Jdk17");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServerWeb6EE10Jdk17/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServerWeb6EE10Jdk17/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
+    }
+
+    @Test
+    void PayaraServerCore6EE10Jdk17() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServerCore6EE10Jdk17", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Core Profile");
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("None");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServerCore6EE10Jdk17.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/PayaraServerCore6EE10Jdk17.zip", "./target/test-app-maven/PayaraServerCore6EE10Jdk17");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServerCore6EE10Jdk17/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServerCore6EE10Jdk17/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
     }
 
     /*@Test
     // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064
     So we need to run the tests with jdk 17
-    void mavenJdk21EnergyManagementSystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "EnergyManagementSystemJdk21", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
+    void PayaraMicro6EE10Jdk21() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraMicro6EE10Jdk21", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
+        starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
         starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "6.2024.12", "6.2024.12");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 21", "21");
-        starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 21", "21");
+        starterPage.setMicroProfile("");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Energy Management System", false, "domain", false, "service", false, "resource", "HTML", "html");
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "EnergyManagementSystemJdk21.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraMicro6EE10Jdk17.zip"));
 
-        FileManagement.unzip("./target/test-app-maven/EnergyManagementSystemJdk21.zip", "./target/test-app-maven/EnergyManagementSystemJdk21");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml"),
-                "<maven.compiler.release>21</maven.compiler.release>"));
+       FileManagement.unzip("./target/test-app-maven/PayaraMicro6EE10Jdk21.zip", "./target/test-app-maven/PayaraMicro6EE10Jdk21");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraMicro6EE10Jdk21/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraMicro6EE10Jdk21/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
     }*/
 }

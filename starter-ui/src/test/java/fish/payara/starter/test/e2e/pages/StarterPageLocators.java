@@ -78,7 +78,7 @@ public class StarterPageLocators {
     public final Supplier<Locator> jakartaeeBlock = () -> page.locator("fieldset#stb0-st1");
     public final Supplier<Locator> jakartaeeBlockTitle = () -> jakartaeeBlock.get().locator("div.legend a[href='#stb0-st1']");
     public final Supplier<Locator> jarkataeeVersion = () -> jakartaeeBlock.get().locator("select#jakartaEEVersion");
-    public final Supplier<Locator> jakartaeeProfile = () -> jakartaeeBlock.get();
+    public final Supplier<Locator> jakartaeeProfile = () -> jakartaeeBlock.get().locator("label.form__radbox-label");
     public final Supplier<Locator> previousButtonToPayaraPlatform = () -> jakartaeeBlock.get().locator("a[href='#stb0-st0']");
     public final Supplier<Locator> nextButtonToPayaraPlatform = () -> jakartaeeBlock.get().locator("a[href='#stb0-st2']");
 

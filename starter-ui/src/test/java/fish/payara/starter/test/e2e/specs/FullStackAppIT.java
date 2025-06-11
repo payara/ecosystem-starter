@@ -95,7 +95,7 @@ public class FullStackAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Inventory System", true, "domain", false, "service", false, "resource", "HTML", "html");
+        starterPage.setERDiagram("Inventory System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
         starterPage.checkDiagramGraphContains("INVENTORY");
@@ -109,43 +109,4 @@ public class FullStackAppIT {
                 "<maven.compiler.release>11</maven.compiler.release>"));
     }
 
-    @Test
-    void mavenJdk17ProductCatalog() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "ProductCatalogJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 9", "9", "Web Profile");
-        starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
-        starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Product Catalog", true, "domain", false, "service", false, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "ProductCatalogJdk17.zip"));
-
-        FileManagement.unzip("./target/test-app-maven/ProductCatalogJdk17.zip", "./target/test-app-maven/ProductCatalogJdk17");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml"),
-                "<maven.compiler.release>17</maven.compiler.release>"));
-    }
-
-    /*@Test
-    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064
-    So we need to run the tests with jdk 17
-    void mavenJdk21EnergyManagementSystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "EnergyManagementSystemJdk21", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
-        starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "6.2024.12", "6.2024.12");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 21", "21");
-        starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Energy Management System", false, "domain", false, "service", false, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "EnergyManagementSystemJdk21.zip"));
-
-        FileManagement.unzip("./target/test-app-maven/EnergyManagementSystemJdk21.zip", "./target/test-app-maven/EnergyManagementSystemJdk21");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml"),
-                "<maven.compiler.release>21</maven.compiler.release>"));
-    }*/
 }

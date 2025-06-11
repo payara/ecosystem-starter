@@ -50,7 +50,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @UsePlaywright
 public class DeploymentOptionsIT {
-
     // Generates a simple application permuting the deployment options Docker/Payara Cloud
     private static Playwright playwright;
     private static Browser browser;
@@ -87,65 +86,40 @@ public class DeploymentOptionsIT {
     }
 
     @Test
-    void mavenJdk11InventorySystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTestJdk11", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
-        starterPage.closeGuidePopup();
+    void PayaraServer5EE8Jdk11Docker() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer5EE8Jdk11Docker", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 8", "8", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
-        starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Inventory System", true, "domain", false, "service", false, "resource", "HTML", "html");
-        starterPage.openERDiagramPreview();
-        starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
-        starterPage.checkDiagramGraphContains("INVENTORY");
-        starterPage.closeERDiagramPreview();
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(true, false);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "InventorySystemTestJdk11.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer5EE8Jdk11Docker.zip"));
 
-        FileManagement.unzip("./target/test-app-maven/InventorySystemTestJdk11.zip", "./target/test-app-maven/InventorySystemTestJdk11");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/InventorySystemTestJdk11/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/InventorySystemTestJdk11/pom.xml"),
+        FileManagement.unzip("./target/test-app-maven/PayaraServer5EE8Jdk11Docker.zip", "./target/test-app-maven/PayaraServer5EE8Jdk11Docker");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer5EE8Jdk11Docker/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer5EE8Jdk11Docker/pom.xml"),
                 "<maven.compiler.release>11</maven.compiler.release>"));
     }
 
     @Test
-    void mavenJdk17ProductCatalog() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "ProductCatalogJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 9", "9", "Web Profile");
-        starterPage.closeGuidePopup();
+    void PayaraServer6EE10Jdk17Cloud() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17Cloud", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
-        starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Product Catalog", true, "domain", false, "service", false, "resource", "HTML", "html");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(false, true);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "ProductCatalogJdk17.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17Cloud.zip"));
 
-        FileManagement.unzip("./target/test-app-maven/ProductCatalogJdk17.zip", "./target/test-app-maven/ProductCatalogJdk17");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml"),
+        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17Cloud.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17Cloud");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE10Jdk17Cloud/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE10Jdk17Cloud/pom.xml"),
                 "<maven.compiler.release>17</maven.compiler.release>"));
     }
-
-    /*@Test
-    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064
-    So we need to run the tests with jdk 17
-    void mavenJdk21EnergyManagementSystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "EnergyManagementSystemJdk21", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
-        starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "6.2024.12", "6.2024.12");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 21", "21");
-        starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Energy Management System", false, "domain", false, "service", false, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "EnergyManagementSystemJdk21.zip"));
-
-        FileManagement.unzip("./target/test-app-maven/EnergyManagementSystemJdk21.zip", "./target/test-app-maven/EnergyManagementSystemJdk21");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml"),
-                "<maven.compiler.release>21</maven.compiler.release>"));
-    }*/
 }

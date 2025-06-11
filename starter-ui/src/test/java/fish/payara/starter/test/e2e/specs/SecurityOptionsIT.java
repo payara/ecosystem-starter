@@ -87,65 +87,59 @@ public class SecurityOptionsIT {
     }
 
     @Test
-    void mavenJdk11InventorySystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "InventorySystemTestJdk11", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
-        starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
-        starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Inventory System", true, "domain", false, "service", false, "resource", "HTML", "html");
-        starterPage.openERDiagramPreview();
-        starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
-        starterPage.checkDiagramGraphContains("INVENTORY");
-        starterPage.closeERDiagramPreview();
-        starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "InventorySystemTestJdk11.zip"));
-
-        FileManagement.unzip("./target/test-app-maven/InventorySystemTestJdk11.zip", "./target/test-app-maven/InventorySystemTestJdk11");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/InventorySystemTestJdk11/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/InventorySystemTestJdk11/pom.xml"),
-                "<maven.compiler.release>11</maven.compiler.release>"));
-    }
-
-    @Test
-    void mavenJdk17ProductCatalog() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "ProductCatalogJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 9", "9", "Web Profile");
-        starterPage.closeGuidePopup();
+    void PayaraServer6EE10Jdk17SecuFileRealm() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuFileRealm", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
-        starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Product Catalog", true, "domain", false, "service", false, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "ProductCatalogJdk17.zip"));
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("Form Authentication - File Realm");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuFileRealm.zip"));
 
-        FileManagement.unzip("./target/test-app-maven/ProductCatalogJdk17.zip", "./target/test-app-maven/ProductCatalogJdk17");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/ProductCatalogJdk17/pom.xml"),
+        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17SecuFileRealm.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17SecuFileRealm");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE10Jdk17SecuFileRealm/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE10Jdk17SecuFileRealm/pom.xml"),
                 "<maven.compiler.release>17</maven.compiler.release>"));
     }
 
-    /*@Test
-    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064
-    So we need to run the tests with jdk 17
-    void mavenJdk21EnergyManagementSystem() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "EnergyManagementSystemJdk21", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
+    @Test
+    void PayaraServer6EE10Jdk17SecuDB() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuDB", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
         starterPage.closeGuidePopup();
-        starterPage.setPayaraPlatform("Payara Server", "6.2024.12", "6.2024.12");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 21", "21");
-        starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("Energy Management System", false, "domain", false, "service", false, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "EnergyManagementSystemJdk21.zip"));
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("Form Authentication - Database");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuDB.zip"));
 
-        FileManagement.unzip("./target/test-app-maven/EnergyManagementSystemJdk21.zip", "./target/test-app-maven/EnergyManagementSystemJdk21");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/EnergyManagementSystemJdk21/pom.xml"),
-                "<maven.compiler.release>21</maven.compiler.release>"));
-    }*/
+        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17SecuDB.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17SecuDB");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE10Jdk17SecuDB/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE10Jdk17SecuDB/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
+    }
+
+    @Test
+    void PayaraServer6EE10Jdk17SecuLdap() throws InterruptedException, IOException {
+        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuLdap", "1.0-SNAPSHOT");
+        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
+        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
+        starterPage.closeGuidePopup();
+        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setMicroProfile("");
+        starterPage.setDeployment(false, false);
+        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.setSecurity("Form Authentication - LDAP");
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuLdap.zip"));
+
+        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17SecuLdap.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17SecuLdap");
+        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE10Jdk17SecuLdap/pom.xml")));
+        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE10Jdk17SecuLdap/pom.xml"),
+                "<maven.compiler.release>17</maven.compiler.release>"));
+    }
 }

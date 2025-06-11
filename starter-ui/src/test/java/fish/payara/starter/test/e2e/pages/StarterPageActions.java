@@ -195,8 +195,10 @@ public class StarterPageActions {
     }
 
     public void selectMicroProfile(String value) {
+        if (!value.isEmpty()) {
         locators.microProfileBlock.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.microProfileBlock.get().getByText(value)).isChecked();
+            PlaywrightAssertions.assertThat(locators.microProfileBlock.get().getByText(value)).isChecked();
+        }
     }
 
     public void setMicroProfile(String value) throws InterruptedException {
