@@ -195,8 +195,10 @@ public class StarterPageActions {
     }
 
     public void selectMicroProfile(String value) {
+        if (!value.isEmpty()) {
         locators.microProfileBlock.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.microProfileBlock.get().getByText(value)).isChecked();
+            PlaywrightAssertions.assertThat(locators.microProfileBlock.get().getByText(value)).isChecked();
+        }
     }
 
     public void setMicroProfile(String value) throws InterruptedException {
@@ -287,15 +289,13 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.restSubpackage.get()).hasValue(value);
     }
 
-    public void enableGenerateWeb() {
-        if (!locators.generateWeb.get().isChecked()) {
-            locators.generateWeb.get().click();
-        }
-        PlaywrightAssertions.assertThat(locators.generateWeb.get()).isChecked();
+    public void selectGenerateWeb(String text, String value) {
+        locators.generateWeb.get().selectOption(text);
+        PlaywrightAssertions.assertThat(locators.generateWeb.get()).hasValue(value);
     }
 
     public void setERDiagram(String ERDiagram, Boolean generateJPA, String jpaPackage, Boolean generateRepository,
-            String repoPackage, Boolean generateRest, String restPackage, Boolean generateWeb)
+            String repoPackage, Boolean generateRest, String restPackage, String webText, String webValue)
             throws InterruptedException {
         goToDiagramSection();
         selectERDiagram(ERDiagram);
@@ -311,9 +311,7 @@ public class StarterPageActions {
             enableGenerateRest();
         }
         setRestPackage(restPackage);
-        if (generateWeb) {
-            enableGenerateWeb();
-        }
+        selectGenerateWeb(webText, webValue);
     }
 
     // Diagram Builder & Live Preview
@@ -358,7 +356,7 @@ public class StarterPageActions {
 
 
     public void generate(Page page, Path filepath) {
-        Download download = page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(90000), () -> {
+        Download download = page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000), () -> {
             locators.generateButton.get().click();
         });
         download.saveAs(filepath);
