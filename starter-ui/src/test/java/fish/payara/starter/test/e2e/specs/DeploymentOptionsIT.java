@@ -68,7 +68,7 @@ public class DeploymentOptionsIT {
         context = browser.newContext();
         page = context.newPage();
         page.setDefaultTimeout(90000);
-        page.navigate("http://localhost:8080/payara-starter");
+        page.navigate("http://localhost:8082/payara-starter");
         page.waitForSelector("div.hero", new Page.WaitForSelectorOptions().setTimeout(120000));
 
         starterPage = new StarterPageActions(page);

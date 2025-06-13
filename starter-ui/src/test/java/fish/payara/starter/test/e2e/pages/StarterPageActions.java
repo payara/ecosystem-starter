@@ -356,7 +356,7 @@ public class StarterPageActions {
 
 
     public void generate(Page page, Path filepath) {
-        Download download = page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(90000), () -> {
+        Download download = page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000), () -> {
             locators.generateButton.get().click();
         });
         download.saveAs(filepath);
