@@ -216,8 +216,10 @@
                 <version>2.4</version>
                 <configuration>
                     <commandLineOptions>
+                        <!-- we use port 8082 to run the e2e tests -->
                         <option>
-                            <key>--autoBindHttp</key>
+                            <key>--port</key>
+                            <value>8082</value>
                         </option>
                     </commandLineOptions>
                 </configuration>
@@ -287,7 +289,7 @@
                                     <arguments>
                                         <argument>
                                             <![CDATA[
-                                        Get-ChildItem -Path ./target/test-app-maven -Directory | ForEach-Object { Push-Location $_.FullName; & mvn compile -f pom.xml; Pop-Location }
+                                        Get-ChildItem -Path ./target/test-app-maven -Directory | ForEach-Object { Push-Location $_.FullName; & mvn verify -f pom.xml; Pop-Location }
                                             ]]>
                                         </argument>
                                     </arguments>
@@ -360,7 +362,7 @@
                                             <![CDATA[
                                             for dir in ./target/test-app-maven/*; do 
                                                 if [ -d "$dir" ]; then 
-                                                    (cd "$dir" && mvn compile); 
+                                                    (cd "$dir" && mvn verify
                                                 fi; 
                                             done
                                             ]]>
