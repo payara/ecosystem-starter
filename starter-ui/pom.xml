@@ -289,7 +289,7 @@
                                     <arguments>
                                         <argument>
                                             <![CDATA[
-                                        Get-ChildItem -Path ./target/test-app-maven -Directory | ForEach-Object { Push-Location $_.FullName; & mvn verify -f pom.xml; Pop-Location }
+                                        Get-ChildItem -Path ./target/test-app-maven -Directory | ForEach-Object { Push-Location $_.FullName; & mvn verify -B -f pom.xml; & mvn clean -q -f pom.xml; Pop-Location }
                                             ]]>
                                         </argument>
                                     </arguments>
@@ -362,7 +362,7 @@
                                             <![CDATA[
                                             for dir in ./target/test-app-maven/*; do 
                                                 if [ -d "$dir" ]; then 
-                                                    (cd "$dir" && mvn verify
+                                                    (cd "$dir" && mvn verify -B && mvn clean -q
                                                 fi; 
                                             done
                                             ]]>
