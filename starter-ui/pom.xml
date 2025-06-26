@@ -362,7 +362,7 @@
                                             <![CDATA[
                                             for dir in ./target/test-app-maven/*; do 
                                                 if [ -d "$dir" ]; then 
-                                                    (cd "$dir" && mvn verify -B && mvn clean -q
+                                                    (cd "$dir" && mvn verify -B && mvn clean -q)
                                                 fi; 
                                             done
                                             ]]>
