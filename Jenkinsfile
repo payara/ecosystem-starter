@@ -47,8 +47,8 @@ pipeline {
                     echo $! > payara.pid'''
                     sh '''echo *#*#*#*#*#*#*#*#*#*#*#*#  Testing Payara Starter  *#*#*#*#*#*#*#*#*#*#*#*#*#*#*'''
                     sh '''sleep 150'''
-                    sh '''sudo mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install-deps"'''
-                    sh '''mvn clean verify -f ./starter-ui/ -De2e'''
+                    sh '''cd starter-ui'''
+                    sh '''mvn verify -De2e -Dmaven.javadoc.skip=true -Pinstall-deps '''
                     sh '''echo *#*#*#*#*#*#*#*#*#*#*#*#  Stopping Payara Micro  *#*#*#*#*#*#*#*#*#*#*#*#*#*#*'''
                     sh 'kill $(cat payara.pid)'
                     }
