@@ -59,7 +59,7 @@ pipeline {
                     steps {
                         script {                 
                             timeout(time: 5, unit: 'MINUTES') {
-                                waitUntil(initialRecurrencePeriod: 10000){
+                                waitUntil(initialRecurrencePeriod: 15000){
                                     fileExists('payara.log') && readFile('payara.log').contains('Payara Micro URLs:')
                                 }
                             }
