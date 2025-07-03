@@ -401,5 +401,36 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>install-deps</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                          <execution>
+                            <id>install-playwright-dependencies</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                              <goal>exec</goal>
+                            </goals>
+                          </execution>
+                        </executions>
+                        <configuration>
+                            <executable>java</executable>
+                            <mainClass>com.microsoft.playwright.CLI</mainClass>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath />
+                                <argument>com.microsoft.playwright.CLI</argument>
+                                <argument>install-deps</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>         
+        </profile> 
     </profiles>
 </project>
