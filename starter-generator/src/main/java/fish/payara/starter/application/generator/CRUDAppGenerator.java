@@ -90,6 +90,7 @@ public class CRUDAppGenerator {
     private final String controllerLayer;
     private final ERModel model;
     private static final boolean IS_LOCAL = false; // Change this flag for local vs. production
+    private static final String CONVERTER = "converter";
 
     public CRUDAppGenerator(ERModel model, String _package, String domainLayer, String repositoryLayer, String controllerLayer) {
         this._package = _package;
@@ -172,6 +173,7 @@ public class CRUDAppGenerator {
                     if ("jsf".equals(generateWeb.toLowerCase())) {
                         for (Entity entity : model.getEntities()) {
                             generateEntityBean(_package, entity, java);
+                            generateEntityConverter(_package, entity, java);
                         }
                         for (Entity entity : model.getEntities()) {
                             generateJSFFrontend(model, entity, webapp);
@@ -198,7 +200,7 @@ public class CRUDAppGenerator {
         dataModel.put("model", model);
         generate("template/jsf", "home.xhtml.ftl", "home.xhtml", dataModel, webapp);
         generate("template/jsf", "about-us.xhtml.ftl", "about-us.xhtml", dataModel, webapp);
-        
+
         File layoutDir = new File(webapp, "WEB-INF/layout");
         if (!layoutDir.exists()) {
             layoutDir.mkdirs();
@@ -217,262 +219,96 @@ public class CRUDAppGenerator {
     }
 
     private void generateHTMLFrontend(ERModel model, Entity entity, File outputDir) {
-        Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put("model", model);
-        dataModel.put("entity", entity);
-        dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
-        dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
-        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getClassName())));
-        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getClassName().toLowerCase()));
-        String entityInstance = firstLower(entity.getClassName());
-        String entityNameSpinalCased = kebabCase(entityInstance);
-        dataModel.put("entityApiUrl", entityNameSpinalCased);
+        Map<String, Object> dataModel = createEntityDataModel(model, entity, _package, domainLayer, repositoryLayer);
         generate("template/html", "entity.html.ftl", dataModel.get("entityNameLowerCase") + ".html", dataModel, outputDir);
     }
-    
+
     private void generateJSFFrontend(ERModel model, Entity entity, File outputDir) {
-        Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put("model", model);
-        dataModel.put("entity", entity);
-        dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
-        dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
-        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getClassName())));
-        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getClassName().toLowerCase()));
-        String entityInstance = firstLower(entity.getClassName());
-        String entityNameSpinalCased = kebabCase(entityInstance);
-        dataModel.put("entityApiUrl", entityNameSpinalCased);
-        dataModel.put("beanName", entityInstance + "Bean");
-        
-            String pkName = entity.getPrimaryKeyName();
-            dataModel.put("pkName", firstLower(pkName));
+        Map<String, Object> dataModel = createEntityDataModel(model, entity, _package, domainLayer, repositoryLayer);
         generate("template/jsf", "entity.xhtml.ftl", dataModel.get("entityNameLowerCase") + ".xhtml", dataModel, outputDir);
     }
 
-       private void generateBackendUtils(String _package, File outputDir) {
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
+    private void generateBackendUtils(String _package, File outputDir) {
         try {
-            if (IS_LOCAL) {
-                cfg.setDirectoryForTemplateLoading(new File("src/main/resources/template/jsf"));
-            } else {
-                cfg.setClassLoaderForTemplateLoading(
-                        Thread.currentThread().getContextClassLoader(),
-                        "template/jsf"
-                );
-            }
-            cfg.setDefaultEncoding("UTF-8");
+            Configuration cfg = createFreemarkerConfiguration("template/jsf");
 
-
-            String beanPackage = _package + "." + controllerLayer;
             Map<String, Object> dataModel = new HashMap<>();
-            dataModel.put("package", beanPackage);
+            dataModel.put("package", _package + "." + CONVERTER);
+            processTemplateToFile(cfg, "LocalDateConverter.java.ftl", dataModel, outputDir, "LocalDateConverter.java");
+            processTemplateToFile(cfg, "LocalDateTimeConverter.java.ftl", dataModel, outputDir, "LocalDateTimeConverter.java");
 
-            File outputPackageDir = new File(outputDir, beanPackage.replace(".", File.separator));
-            if (!outputPackageDir.exists()) {
-                outputPackageDir.mkdirs();
-            }
-
-            for (String converter : Arrays.asList("NavigationBean.java.ftl", "LocalDateConverter.java.ftl", "LocalDateTimeConverter.java.ftl")) {
-                Template template = cfg.getTemplate(converter);
-                String convFileName = converter.replace(".ftl", "");
-                File outputFile = new File(outputPackageDir, convFileName);
-                try (FileWriter convWriter = new FileWriter(outputFile)) {
-                    template.process(dataModel, convWriter);
-                }
-            }
-            
-
+            dataModel.put("package", _package + "." + controllerLayer);
+            String navigationBean = "NavigationBean.java.ftl";
+            processTemplateToFile(cfg, navigationBean, dataModel, outputDir, navigationBean.replace(".ftl", ""));
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
     }
 
     private void generateEntityBean(String _package, Entity entity, File outputDir) {
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         try {
-            if (IS_LOCAL) {
-                cfg.setDirectoryForTemplateLoading(new File("src/main/resources/template/jsf"));
-            } else {
-                cfg.setClassLoaderForTemplateLoading(
-                        Thread.currentThread().getContextClassLoader(),
-                        "template/jsf"
-                );
-            }
-            cfg.setDefaultEncoding("UTF-8");
-
-            Template template = cfg.getTemplate("EntityBean.java.ftl");
-
-            String domainPackage = _package + "." + domainLayer;
-            String repositoryPackage = _package + "." + repositoryLayer;
+            Configuration cfg = createFreemarkerConfiguration("template/jsf");
             String beanPackage = _package + "." + controllerLayer;
-
-            String entityInstance = firstLower(entity.getClassName());
-            Map<String, Object> dataModel = new HashMap<>();
+            Map<String, Object> dataModel = createEntityDataModel(model, entity, _package, domainLayer, repositoryLayer);
             dataModel.put("package", beanPackage);
-            dataModel.put("EntityClass", entity.getClassName());
-            dataModel.put("EntityClass_FQN", domainPackage + "." + entity.getClassName());
-            dataModel.put("EntityClassPlural", pluralize(firstUpper(entity.getClassName())));
-            dataModel.put("entityInstance", entityInstance);
-            dataModel.put("EntityRepository", entity.getClassName() + firstUpper(repositoryLayer));
-            dataModel.put("EntityRepository_FQN", repositoryPackage + "." + entity.getClassName() + firstUpper(repositoryLayer));
-            dataModel.put("entityRepository", firstLower(entity.getClassName() + firstUpper(repositoryLayer)));
-            dataModel.put("beanName", entityInstance + "Bean");
-            dataModel.put("beanClass", entity.getClassName() + "Bean");
-            String pkName = entity.getPrimaryKeyName();
-            String pkType = entity.getPrimaryKeyType();
-            dataModel.put("pkName", firstLower(pkName));
-            dataModel.put("pkGetter", getMethodName(getIntrospectionPrefix(isBoolean(pkType)), pkName));
-            dataModel.put("pkSetter", getMethodName("set", pkName));
-            dataModel.put("pkType", pkType);
-            dataModel.put("isPKPrimitive", isPrimitive(pkType));
+            processTemplateToFile(cfg, "EntityBean.java.ftl", dataModel, outputDir, dataModel.get("beanClass") + ".java");
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+    }
 
-            File outputPackageDir = new File(outputDir, beanPackage.replace(".", File.separator));
-            if (!outputPackageDir.exists()) {
-                outputPackageDir.mkdirs();
-            }
-
-            File outputFile = new File(outputPackageDir, dataModel.get("beanClass") + ".java");
-
-            try (FileWriter writer = new FileWriter(outputFile)) {
-                template.process(dataModel, writer);
-            }
-
+    private void generateEntityConverter(String _package, Entity entity, File outputDir) {
+        try {
+            Configuration cfg = createFreemarkerConfiguration("template/jsf");
+            String converterPackage = _package + "." + CONVERTER;
+            Map<String, Object> dataModel = createEntityDataModel(model, entity, _package, domainLayer, repositoryLayer);
+            dataModel.put("package", converterPackage);
+            dataModel.put("entityConverterClass", entity.getClassName() + "Converter");
+            dataModel.put("entityConverterName", firstLower(entity.getClassName()) + "Converter");
+            processTemplateToFile(cfg, "EntityConverter.java.ftl", dataModel, outputDir, dataModel.get("entityConverterClass") + ".java");
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
     }
 
     private void generateEntityController(String _package, Entity entity, File outputDir) {
-        // Configure FreeMarker
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         try {
+            Configuration cfg = createFreemarkerConfiguration("template/rest");
 
-            if (IS_LOCAL) {
-                // Local development - load templates from the file system
-                cfg.setDirectoryForTemplateLoading(new File("src/main/resources/template/rest"));
-            } else {
-                // Production - load templates from the classpath
-                cfg.setClassLoaderForTemplateLoading(
-                        Thread.currentThread().getContextClassLoader(),
-                        "template/rest"
-                );
-            }
-            cfg.setDefaultEncoding("UTF-8");
-
-            // Load the template
-            Template template = cfg.getTemplate("EntityController.java.ftl");
-
-            // Create the data model
-            String repositoryPackage = _package + "." + repositoryLayer;
             String controllerPackage = _package + "." + controllerLayer;
-
-            String entityInstance = firstLower(entity.getClassName());
-            String entityNameSpinalCased = kebabCase(entityInstance);
-            Map<String, Object> dataModel = new HashMap<>();
+            Map<String, Object> dataModel = createEntityDataModel(model, entity, _package, domainLayer, repositoryLayer);
             dataModel.put("model", model);
             dataModel.put("package", controllerPackage);
-            dataModel.put("entity", entity);
-            dataModel.put("EntityClass", entity.getClassName());
-            dataModel.put("EntityClassPlural", pluralize(firstUpper(entity.getClassName())));
-            dataModel.put("EntityClass_FQN", _package + "." + domainLayer + "." + entity.getClassName());
-            dataModel.put("entityInstance", entityInstance);
-            dataModel.put("entityInstancePlural", pluralize(entityInstance));
-            dataModel.put("entityTranslationKey", entityInstance);
 
-            String repositoryFileName = entity.getClassName() + firstUpper(repositoryLayer);
             String controllerFileName = entity.getClassName() + firstUpper(controllerLayer);
-
             dataModel.put("controllerClass", controllerFileName);
             dataModel.put("controllerClassHumanized", startCase(controllerFileName));
-            dataModel.put("entityApiUrl", entityNameSpinalCased);
-
-            dataModel.put("EntityRepository", repositoryFileName);
-            dataModel.put("entityRepository", firstLower(repositoryFileName));
-            dataModel.put("EntityRepository_FQN", repositoryPackage + "." + repositoryFileName);
-            dataModel.put("EntityRepository_package", repositoryPackage);
-            dataModel.put("EntityRepositorySuffix", firstUpper(repositoryLayer));
-
-            boolean dto = false;
-            dataModel.put("instanceType", dto ? entity.getClassName() + "DTO" : entity.getClassName());
-            dataModel.put("instanceName", dto ? entityInstance + "DTO" : entityInstance);
-
             dataModel.put("pagination", "no");
             dataModel.put("fieldsContainNoOwnerOneToOne", false);
             dataModel.put("metrics", false);
             dataModel.put("openAPI", false);
             dataModel.put("applicationPath", "resources");
 
-            String pkName = entity.getPrimaryKeyName();
-            String pkType = entity.getPrimaryKeyType();
-            dataModel.put("pkName", firstLower(pkName));
-            dataModel.put("pkGetter", getMethodName(getIntrospectionPrefix(isBoolean(pkType)), pkName));
-            dataModel.put("pkSetter", getMethodName("set", pkName));
-            dataModel.put("pkType", pkType);
-            dataModel.put("isPKPrimitive", isPrimitive(pkType));
-
-            // Output file path
-            File outputPackageDir = new File(outputDir, controllerPackage.replace(".", File.separator));
-            if (!outputPackageDir.exists()) {
-                outputPackageDir.mkdirs();
-            }
-            File outputFile = new File(outputPackageDir, dataModel.get("controllerClass") + ".java");
-
-            // Write the generated file
-            try (FileWriter writer = new FileWriter(outputFile)) {
-                template.process(dataModel, writer);
-            }
-
+            processTemplateToFile(cfg, "EntityController.java.ftl", dataModel, outputDir, dataModel.get("controllerClass") + ".java");
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
     }
 
     private void generateEntityRepository(String _package, Entity entity, File outputDir) {
-        // Configure FreeMarker
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         try {
-            if (IS_LOCAL) {
-                // Local development - load templates from the file system
-                cfg.setDirectoryForTemplateLoading(new File("src/main/resources/template/repository"));
-            } else {
-                // Production - load templates from the classpath
-                cfg.setClassLoaderForTemplateLoading(
-                        Thread.currentThread().getContextClassLoader(),
-                        "template/repository"
-                );
-            }
-            cfg.setDefaultEncoding("UTF-8");
+            Configuration cfg = createFreemarkerConfiguration("template/repository");
 
-            // Load the template
-            Template template = cfg.getTemplate("EntityRepository.java.ftl");
-
-            // Create the data model
             String repositoryPackage = _package + "." + repositoryLayer;
-            Map<String, Object> dataModel = new HashMap<>();
+            Map<String, Object> dataModel = createEntityDataModel(model, entity, _package, domainLayer, repositoryLayer);
             dataModel.put("model", model);
             dataModel.put("package", repositoryPackage);
             dataModel.put("cdi", true);
             dataModel.put("named", false);
-            dataModel.put("entityInstance", "exampleEntityRepository");
-            dataModel.put("EntityClass", entity.getClassName());
-            dataModel.put("EntityRepository", entity.getClassName() + firstUpper(repositoryLayer));
-            dataModel.put("EntityClass_FQN", _package + "." + domainLayer + "." + entity.getClassName());
-            dataModel.put("EntityPKClass", entity.getPrimaryKeyType());
-            dataModel.put("EntityPKClass_FQN", "");
             dataModel.put("AbstractRepository", "Abstract" + firstUpper(repositoryLayer));
             dataModel.put("AbstractRepository_FQN", _package + "." + repositoryLayer + "." + "Abstract" + firstUpper(repositoryLayer));
 
-            // Output file path
-            File outputPackageDir = new File(outputDir, repositoryPackage.replace(".", File.separator));
-            if (!outputPackageDir.exists()) {
-                outputPackageDir.mkdirs();
-            }
-            File outputFile = new File(outputPackageDir, dataModel.get("EntityRepository") + ".java");
-
-            // Write the generated file
-            try (FileWriter writer = new FileWriter(outputFile)) {
-                template.process(dataModel, writer);
-            }
-
+            processTemplateToFile(cfg, "EntityRepository.java.ftl", dataModel, outputDir, dataModel.get("EntityRepository") + ".java");
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
@@ -500,19 +336,8 @@ public class CRUDAppGenerator {
 
     private void generate(String templatePath, String templateName, String outputFileName, Map<String, Object> dataModel, File outputDir) {
         // Configure FreeMarker
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         try {
-            if (IS_LOCAL) {
-                // Local development - load templates from the file system
-                cfg.setDirectoryForTemplateLoading(new File("src/main/resources/" + templatePath));
-            } else {
-                // Production - load templates from the classpath
-                cfg.setClassLoaderForTemplateLoading(
-                        Thread.currentThread().getContextClassLoader(),
-                        templatePath
-                );
-            }
-            cfg.setDefaultEncoding("UTF-8");
+            Configuration cfg = createFreemarkerConfiguration(templatePath);
 
             // Load the template
             Template template = cfg.getTemplate(templateName);
@@ -550,6 +375,7 @@ public class CRUDAppGenerator {
         String entityPackage = _package + "." + domainLayer;
         sbHeader.append("package ").append(entityPackage).append(";\n\n");
         sbHeader.append("import ").append(model.getImportPrefix()).append(".persistence.*;\n");
+        sbHeader.append("import java.util.Objects;\n\n");
 
         StringBuilder sbBody = new StringBuilder();
         // Generate named queries
@@ -598,6 +424,55 @@ public class CRUDAppGenerator {
             }
         }
 
+        Attribute primaryKey = null;
+        for (Attribute attr : entity.getAttributes()) {
+            if (attr.isPrimaryKey()) {
+                primaryKey = attr;
+                break;
+            }
+        }
+        if (primaryKey != null) {
+            String pkName = primaryKey.getName();
+
+            sbfunc.append("    @Override\n");
+            sbfunc.append("    public int hashCode() {\n");
+            sbfunc.append("        int hash = 3;\n");
+            sbfunc.append("        hash = 97 * hash + Objects.hashCode(this.").append(pkName).append(");\n");
+            sbfunc.append("        return hash;\n");
+            sbfunc.append("    }\n\n");
+
+            sbfunc.append("    @Override\n");
+            sbfunc.append("    public boolean equals(Object obj) {\n");
+            sbfunc.append("        if (this == obj) {\n");
+            sbfunc.append("            return true;\n");
+            sbfunc.append("        }\n");
+            sbfunc.append("        if (obj == null) {\n");
+            sbfunc.append("            return false;\n");
+            sbfunc.append("        }\n");
+            sbfunc.append("        if (getClass() != obj.getClass()) {\n");
+            sbfunc.append("            return false;\n");
+            sbfunc.append("        }\n");
+            sbfunc.append("        final ").append(className).append(" other = (").append(className).append(") obj;\n");
+            sbfunc.append("        return Objects.equals(this.").append(pkName).append(", other.").append(pkName).append(");\n");
+            sbfunc.append("    }\n\n");
+        }
+
+        Attribute displayNameAttr = null;
+        for (Attribute attr : entity.getAttributes()) {
+            if (attr.isDisplay()) {
+                displayNameAttr = attr;
+                break;
+            }
+        }
+        sbfunc.append("    @Override\n");
+        sbfunc.append("    public String toString() {\n");
+        if (displayNameAttr != null) {
+            sbfunc.append("        return String.valueOf(").append(displayNameAttr.getName()).append(");\n");
+        } else {
+            sbfunc.append("        return String.valueOf(").append(primaryKey.getName()).append(");\n");
+        }
+        sbfunc.append("    }\n\n");
+
         for (String _import : _imports) {
             sbHeader.append("import ").append(_import).append(";\n");
         }
@@ -638,146 +513,121 @@ public class CRUDAppGenerator {
         String relationshipType = relationship.getRelationshipType();
         String firstEntity = relationship.getFirstEntityClass();
         String secondEntity = relationship.getSecondEntityClass();
+
         String firstEntityVar = relationship.getRelationshipVarNameInFirstEntity() != null ? relationship.getRelationshipVarNameInFirstEntity() : secondEntity.toLowerCase();
         String firstEntityVars = pluralize(firstEntityVar);
         firstEntityVar = singularize(firstEntityVar);
+
         String secondEntityVar = relationship.getRelationshipVarNameInSecondEntity() != null ? relationship.getRelationshipVarNameInSecondEntity() : firstEntity.toLowerCase();
         String secondEntityVars = pluralize(secondEntityVar);
         secondEntityVar = singularize(secondEntityVar);
 
-        Attribute attribute;
         if (isFirstEntity) {
             switch (relationshipType) {
-                case "||--||": // Exactly one to exactly one
-                case "||--o|": // Exactly one to zero or one
-                case "|o--||": // Zero or one to exactly one
-                    attribute = new Attribute(firstEntityVar, false, secondEntity);
+                case "||--||": // OneToOne bidirectional
+                case "||--o|":
+                case "|o--||": {
+                    Attribute attribute = new Attribute(firstEntityVar, false, secondEntity);
                     entity.getAttributes().add(attribute);
-                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
-                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
-                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sb.append("    @OneToOne(mappedBy = \"").append(secondEntityVar).append("\")\n");
-                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
+                    appendAttribute(sbfunc, sb, attribute, "    @OneToOne(mappedBy = \"" + secondEntityVar + "\")", _imports, false);
                     break;
-                case "||--|{": // Exactly one to one or more
-                case "||--o{": // Exactly one to zero or more
-                    attribute = new Attribute(firstEntityVars, true, secondEntity);
+                }
+                case "||--|{": // OneToMany
+                case "||--o{": {
+                    Attribute attribute = new Attribute(firstEntityVars, true, secondEntity);
                     entity.getAttributes().add(attribute);
-                    sbfunc.append("    public List<").append(attribute.getType()).append("> get").append(attribute.getTitleCaseName()).append("() {\n");
-                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(") {\n");
-                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
-                    sb.append("    @JsonbTransient\n");
-                    sb.append("    @OneToMany(mappedBy = \"").append(secondEntityVar).append("\")\n");
-                    sb.append("    private List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(";\n");
+                    appendAttribute(sbfunc, sb, attribute, "    @JsonbTransient\n    @OneToMany(mappedBy = \"" + secondEntityVar + "\")", _imports, true);
                     break;
-                case "}|--||": // One or more to exactly one
-                case "}o--||": // Zero or more to exactly one
-                    attribute = new Attribute(firstEntityVar, false, secondEntity);
+                }
+                case "}|--||": // ManyToOne
+                case "}o--||": {
+                    Attribute attribute = new Attribute(firstEntityVar, false, secondEntity);
                     entity.getAttributes().add(attribute);
-                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
-                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
-                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sb.append("    @ManyToOne\n");
-                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
+                    appendAttribute(sbfunc, sb, attribute, "    @ManyToOne", _imports, false);
                     break;
-                case "}o--o{": // Zero or more to zero or more
-                case "}|--o{": // One or more to zero or more
-                case "}o--|{": // Zero or more to one or more
-                case "}|--|{": // One or more to one or more
-                    attribute = new Attribute(firstEntityVars, true, secondEntity);
+                }
+                case "}o--o{": // ManyToMany
+                case "}|--o{":
+                case "}o--|{":
+                case "}|--|{": {
+                    Attribute attribute = new Attribute(firstEntityVars, true, secondEntity);
                     entity.getAttributes().add(attribute);
-                    sbfunc.append("    public List<").append(attribute.getType()).append("> get").append(attribute.getTitleCaseName()).append("() {\n");
-                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(") {\n");
-                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
-                    sb.append("    @JsonbTransient\n");
-                    sb.append("    @ManyToMany(mappedBy = \"").append(secondEntityVars).append("\")\n");
-                    sb.append("    private List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(";\n");
+                    appendAttribute(sbfunc, sb, attribute, "    @JsonbTransient\n    @ManyToMany(mappedBy = \"" + secondEntityVars + "\")", _imports, true);
                     break;
+                }
             }
         } else {
             switch (relationshipType) {
-                case "||--||": // Exactly one to exactly one
-                case "||--o|": // Exactly one to zero or one
-                case "|o--||": // Zero or one to exactly one
-                    attribute = new Attribute(secondEntityVar, false, firstEntity);
+                case "||--||":
+                case "||--o|":
+                case "|o--||": {
+                    Attribute attribute = new Attribute(secondEntityVar, false, firstEntity);
                     entity.getAttributes().add(attribute);
-                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
-                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
-                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
-                    sb.append("    @JsonbTransient\n");
-                    sb.append("    @OneToOne\n");
-                    sb.append("    @JoinColumn(name = \"").append(attribute.getName()).append("_id\")\n");
-                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
+                    String joinColumn = "    @JoinColumn(name = \"" + attribute.getName() + "_id\")";
+                    appendAttribute(sbfunc, sb, attribute, "    @JsonbTransient\n    @OneToOne\n" + joinColumn, _imports, false);
                     break;
-                case "||--|{": // Exactly one to one or more
-                case "||--o{": // Exactly one to zero or more
-                    attribute = new Attribute(secondEntityVar, false, firstEntity);
+                }
+                case "||--|{":
+                case "||--o{": {
+                    Attribute attribute = new Attribute(secondEntityVar, false, firstEntity);
                     entity.getAttributes().add(attribute);
-                    sbfunc.append("    public ").append(attribute.getType()).append(" get").append(attribute.getTitleCaseName()).append("() {\n");
-                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(").append(attribute.getType()).append(" ").append(attribute.getName()).append(") {\n");
-                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sb.append("    @ManyToOne\n");
-                    sb.append("    @JoinColumn(name = \"").append(attribute.getName()).append("_id\")\n");
-                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
+                    String joinColumn = "    @JoinColumn(name = \"" + attribute.getName() + "_id\")";
+                    appendAttribute(sbfunc, sb, attribute, "    @ManyToOne\n" + joinColumn, _imports, false);
                     break;
-//                case "}|--||": // One or more to exactly one
-//                case "}o--||": // Zero or more to exactly one
-//                    sb.append("    @OneToMany\n");
-//                    sb.append("    @JoinColumn(name = \"").append(attribute.getName()).append("_id\")\n");
-//                    sb.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n");
-//                    break;
-                case "}o--o{": // Zero or more to zero or more
-                case "}|--o{": // One or more to zero or more
-                case "}o--|{": // Zero or more to one or more
-                case "}|--|{": // One or more to one or more
-                    attribute = new Attribute(secondEntityVars, true, firstEntity);
+                }
+                case "}o--o{":
+                case "}|--o{":
+                case "}o--|{":
+                case "}|--|{": {
+                    Attribute attribute = new Attribute(secondEntityVars, true, firstEntity);
                     entity.getAttributes().add(attribute);
-                    sbfunc.append("    public List<").append(attribute.getType()).append("> get").append(attribute.getTitleCaseName()).append("() {\n");
-                    sbfunc.append("        return ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
-                    sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(") {\n");
-                    sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
-                    sbfunc.append("    }\n\n");
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
-                    sb.append("    @JsonbTransient\n");
-                    sb.append("    @ManyToMany\n");
-                    sb.append("    @JoinColumn(name = \"").append(secondEntityVar).append("_id\")\n");
-                    sb.append("    private List<").append(attribute.getType()).append("> ").append(attribute.getName()).append(";\n");
+                    String joinColumn = "    @JoinColumn(name = \"" + secondEntityVar + "_id\")";
+                    appendAttribute(sbfunc, sb, attribute, "    @JsonbTransient\n    @ManyToMany\n" + joinColumn, _imports, true);
                     break;
+                }
             }
         }
     }
 
-    private File getDir(String parent, String path) {
-        File outputDir = new File(parent, path);
-        if (!outputDir.exists()) {
-            outputDir.mkdirs();
+    private void appendAttribute(StringBuilder sbfunc, StringBuilder sb, Attribute attribute, String annotations, Set<String> _imports, boolean isCollection) {
+        // Append annotations and declaration
+        sb.append(annotations).append("\n");
+        sb.append("    private ");
+        if (isCollection) {
+            sb.append("List<").append(attribute.getType()).append(">");
+        } else {
+            sb.append(attribute.getType());
         }
-        return outputDir;
+        sb.append(" ").append(attribute.getName()).append(";\n\n");
+
+        // Append getter
+        sbfunc.append("    public ");
+        if (isCollection) {
+            sbfunc.append("List<").append(attribute.getType()).append(">");
+        } else {
+            sbfunc.append(attribute.getType());
+        }
+        sbfunc.append(" get").append(attribute.getTitleCaseName()).append("() {\n");
+        sbfunc.append("        return ").append(attribute.getName()).append(";\n");
+        sbfunc.append("    }\n\n");
+
+        // Append setter
+        sbfunc.append("    public void set").append(attribute.getTitleCaseName()).append("(");
+        if (isCollection) {
+            sbfunc.append("List<").append(attribute.getType()).append(">");
+        } else {
+            sbfunc.append(attribute.getType());
+        }
+        sbfunc.append(" ").append(attribute.getName()).append(") {\n");
+        sbfunc.append("        this.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
+        sbfunc.append("    }\n\n");
     }
 
     private File getDir(File parent, String path) {
@@ -786,6 +636,84 @@ public class CRUDAppGenerator {
             outputDir.mkdirs();
         }
         return outputDir;
+    }
+
+    private Configuration createFreemarkerConfiguration(String templatePath) throws IOException {
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
+        if (IS_LOCAL) {
+            cfg.setDirectoryForTemplateLoading(new File("src/main/resources/" + templatePath));
+        } else {
+            cfg.setClassLoaderForTemplateLoading(
+                    Thread.currentThread().getContextClassLoader(),
+                    templatePath
+            );
+        }
+        cfg.setDefaultEncoding("UTF-8");
+        return cfg;
+    }
+
+    private void processTemplateToFile(Configuration cfg, String templateName, Map<String, Object> dataModel, File outputDir, String outputFileName) throws IOException, TemplateException {
+        Template template = cfg.getTemplate(templateName);
+
+        File outputPackageDir = outputDir;
+        if (dataModel.get("package") != null) {
+            outputPackageDir = new File(outputDir, ((String) dataModel.get("package")).replace(".", File.separator));
+            if (!outputPackageDir.exists()) {
+                outputPackageDir.mkdirs();
+            }
+        }
+
+        File outputFile = new File(outputPackageDir, outputFileName);
+
+        try (FileWriter writer = new FileWriter(outputFile)) {
+            template.process(dataModel, writer);
+        }
+    }
+
+    private Map<String, Object> createEntityDataModel(ERModel model, Entity entity, String _package, String domainLayer, String repositoryLayer) {
+        Map<String, Object> dataModel = new HashMap<>();
+        String entityInstance = firstLower(entity.getClassName());
+
+        String domainPackage = _package + "." + domainLayer;
+        dataModel.put("EntityClass", entity.getClassName());
+        dataModel.put("EntityClass_FQN", domainPackage + "." + entity.getClassName());
+        dataModel.put("EntityClassPlural", pluralize(firstUpper(entity.getClassName())));
+        dataModel.put("entityInstance", entityInstance);
+        dataModel.put("entityInstancePlural", pluralize(entityInstance));
+        dataModel.put("entity", entity);
+        dataModel.put("entityTranslationKey", entityInstance);
+        dataModel.put("instanceType", entity.getClassName());
+        dataModel.put("instanceName", entityInstance);
+
+        dataModel.put("model", model);
+        dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
+        dataModel.put("entityNameTitleCase", titleCase(entity.getClassName()));
+        dataModel.put("entityNameTitleCasePluralize", pluralize(titleCase(entity.getClassName())));
+        dataModel.put("entityNameLowerCasePluralize", pluralize(entity.getClassName().toLowerCase()));
+        String entityNameSpinalCased = kebabCase(entityInstance);
+        dataModel.put("entityApiUrl", entityNameSpinalCased);
+
+        String repositoryFileName = entity.getClassName() + firstUpper(repositoryLayer);
+        String repositoryPackage = _package + "." + repositoryLayer;
+        dataModel.put("EntityRepository", repositoryFileName);
+        dataModel.put("entityRepository", firstLower(repositoryFileName));
+        dataModel.put("EntityRepository_FQN", repositoryPackage + "." + repositoryFileName);
+        dataModel.put("EntityRepository_package", repositoryPackage);
+        dataModel.put("EntityRepositorySuffix", firstUpper(repositoryLayer));
+
+        dataModel.put("beanName", entityInstance + "Bean");
+        dataModel.put("beanClass", entity.getClassName() + "Bean");
+
+        String pkName = entity.getPrimaryKeyName();
+        String pkType = entity.getPrimaryKeyType();
+        dataModel.put("pkName", firstLower(pkName));
+        dataModel.put("pkGetter", getMethodName(getIntrospectionPrefix(isBoolean(pkType)), pkName));
+        dataModel.put("pkSetter", getMethodName("set", pkName));
+        dataModel.put("pkType", pkType);
+        dataModel.put("EntityPKClass", entity.getPrimaryKeyType());
+        dataModel.put("isPKPrimitive", isPrimitive(pkType));
+
+        return dataModel;
     }
 
 }

@@ -20,7 +20,6 @@ package ${package};
 import ${model.importPrefix}.persistence.EntityManager;
 import ${model.importPrefix}.inject.Inject;
 import ${EntityClass_FQN};
-<#if EntityPKClass_FQN!="">import ${EntityPKClass_FQN};</#if>
 
 <#if cdi>@Dependent</#if><#if !cdi>@Stateless</#if>
 <#if named>@Named("${entityInstance}")</#if>

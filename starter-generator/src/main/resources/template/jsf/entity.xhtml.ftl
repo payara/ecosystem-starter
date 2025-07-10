@@ -10,26 +10,43 @@
             <p>${entity.getDescription()}</p>
             <h:panelGrid columns="2" columnClasses="label,value" styleClass="table-form">
             <#list entity.attributes as attribute>
-                <#if !attribute.multi>
-                <h:outputLabel for="${attribute.getName()}" value="${attribute.getStartCaseName()}:" />
-                <#if attribute.type == "LocalDateTime">
-                <h:inputText id="${attribute.getName()}" 
-                            value="${'#' + '{'+ beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" 
-                            converter="localDateTimeConverter">
-                    <f:passThroughAttribute name="type" value="datetime-local" />
+            <#if !(attribute.primaryKey && attribute.type != "String") && !attribute.multi>
+                <#assign attrId = attribute.getName()>
+                <#assign attrValue = beanName + '.' + entityNameLowerCase + '.' + attribute.name>
+
+                <h:outputLabel for="${attrId}" value="${attribute.getStartCaseName()}:" />
+                <#if model.getEntity(attribute.type)??>
+                <h:selectOneMenu id="${attrId}"
+                                 value="${'#{' + attrValue + '}'}"
+                                 converter="${attribute.type?lower_case}Converter">
+                    <f:selectItem itemLabel="Select ${attribute.getTitleCaseName()}" noSelectionOption="true" />
+                    <f:selectItems value="${'#{' + attribute.name + 'Bean.all' + attribute.getPluralName() + '}'}"
+                                   var="${attrId}"
+                                   itemValue="${'#{' + attrId + '}'}"
+                                   itemLabel="${'#{' + attrId + '}'}" />
+                </h:selectOneMenu>
+                <#elseif attribute.type == "LocalDateTime" || attribute.type == "LocalDate">
+                <h:inputText id="${attrId}" 
+                             value="${'#{' + attrValue + '}'}" 
+                             converter="${attribute.type?lower_case}Converter">
+                    <f:passThroughAttribute name="type" value="${attribute.type == 'LocalDateTime'?string('datetime-local', 'date')}" />
                 </h:inputText>
-                <#elseif attribute.type == "LocalDate">
-                <h:inputText id="${attribute.getName()}" 
-                             value="${'#' + '{' + beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" 
-                             converter="localDateConverter">
-                    <f:passThroughAttribute name="type" value="date" />
+                <#elseif attribute.isNumber()>
+                <h:inputText id="${attrId}" value="${'#{' + attrValue + '}'}" />
+                    <f:passThroughAttribute name="type" value="number" />
                 </h:inputText>
                 <#else>
-                <h:inputText id="${attribute.getName()}" value="${'#' + '{'+ beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" />
+                <h:inputText id="${attrId}" value="${'#{' + attrValue + '}'}" />
                 </#if>
-                </#if>
+            </#if>
             </#list>
             </h:panelGrid>
+            <#list entity.attributes as attribute>
+            <#if attribute.primaryKey && attribute.type != "String">
+            <h:inputHidden id="${attribute.getName()}" 
+                           value="${'#' + '{'+ beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" />
+            </#if>
+            </#list>
 
             <h:commandButton value="Save" action="${'#' + '{'+ beanName + '.save}'}" styleClass="btn btn-primary mt-3" />
 

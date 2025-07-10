@@ -143,7 +143,7 @@ public class Entity {
     @JsonbTransient
     public String getDisplayName() {
         String displayName = attributes.stream()
-                .filter(a -> a.isDisplay() != null && a.isDisplay())
+                .filter(a -> a.isDisplay())
                 .map(a -> a.getName()).findFirst().orElse(null);
         if(displayName == null) {
             displayName = attributes.stream()
