@@ -32,7 +32,7 @@
                     <f:passThroughAttribute name="type" value="${attribute.type == 'LocalDateTime'?string('datetime-local', 'date')}" />
                 </h:inputText>
                 <#elseif attribute.isNumber()>
-                <h:inputText id="${attrId}" value="${'#{' + attrValue + '}'}" />
+                <h:inputText id="${attrId}" value="${'#{' + attrValue + '}'}" >
                     <f:passThroughAttribute name="type" value="number" />
                 </h:inputText>
                 <#else>
