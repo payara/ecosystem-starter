@@ -1,7 +1,13 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<#if model.importPrefix == "jakarta" >
                 xmlns:ui="jakarta.faces.facelets"
                 xmlns:f="jakarta.faces.core"
                 xmlns:h="jakarta.faces.html"
+ <#else>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+</#if>
                 template="/WEB-INF/layout/template.xhtml">
 
     <ui:define name="content">
@@ -10,26 +16,43 @@
             <p>${entity.getDescription()}</p>
             <h:panelGrid columns="2" columnClasses="label,value" styleClass="table-form">
             <#list entity.attributes as attribute>
-                <#if !attribute.multi>
-                <h:outputLabel for="${attribute.getName()}" value="${attribute.getStartCaseName()}:" />
-                <#if attribute.type == "LocalDateTime">
-                <h:inputText id="${attribute.getName()}" 
-                            value="${'#' + '{'+ beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" 
-                            converter="localDateTimeConverter">
-                    <f:passThroughAttribute name="type" value="datetime-local" />
+            <#if !(attribute.primaryKey && attribute.type != "String") && !attribute.multi>
+                <#assign attrId = attribute.getName()>
+                <#assign attrValue = beanName + '.' + entityNameLowerCase + '.' + attribute.name>
+
+                <h:outputLabel for="${attrId}" value="${attribute.getStartCaseName()}:" />
+                <#if model.getEntity(attribute.type)??>
+                <h:selectOneMenu id="${attrId}"
+                                 value="${'#{' + attrValue + '}'}"
+                                 converter="${attribute.converter}">
+                    <f:selectItem itemLabel="Select ${attribute.titleCaseName}" noSelectionOption="true" />
+                    <f:selectItems value="${'#{' + attribute.bean + '.all' + attribute.pluralType + '}'}"
+                                   var="${attrId}"
+                                   itemValue="${'#{' + attrId + '}'}"
+                                   itemLabel="${'#{' + attrId + '}'}" />
+                </h:selectOneMenu>
+                <#elseif attribute.type == "LocalDateTime" || attribute.type == "LocalDate">
+                <h:inputText id="${attrId}" 
+                             value="${'#{' + attrValue + '}'}" 
+                             converter="${attribute.converter}">
+                    <f:passThroughAttribute name="type" value="${(attribute.type == 'LocalDateTime')?string('datetime-local', 'date')}" />
                 </h:inputText>
-                <#elseif attribute.type == "LocalDate">
-                <h:inputText id="${attribute.getName()}" 
-                             value="${'#' + '{' + beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" 
-                             converter="localDateConverter">
-                    <f:passThroughAttribute name="type" value="date" />
+                <#elseif attribute.isNumber()>
+                <h:inputText id="${attrId}" value="${'#{' + attrValue + '}'}" >
+                    <f:passThroughAttribute name="type" value="number" />
                 </h:inputText>
                 <#else>
-                <h:inputText id="${attribute.getName()}" value="${'#' + '{'+ beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" />
+                <h:inputText id="${attrId}" value="${'#{' + attrValue + '}'}" />
                 </#if>
-                </#if>
+            </#if>
             </#list>
             </h:panelGrid>
+            <#list entity.attributes as attribute>
+            <#if attribute.primaryKey && attribute.type != "String">
+            <h:inputHidden id="${attribute.getName()}" 
+                           value="${'#' + '{'+ beanName + '.' + entityNameLowerCase + '.' + attribute.name + '}'}" />
+            </#if>
+            </#list>
 
             <h:commandButton value="Save" action="${'#' + '{'+ beanName + '.save}'}" styleClass="btn btn-primary mt-3" />
 

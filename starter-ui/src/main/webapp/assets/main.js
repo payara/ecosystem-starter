@@ -90,10 +90,13 @@ formInputs.forEach((input, index) => {
 form.addEventListener('submit', function (event) {
     event.preventDefault();
 
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.classList.add('button--disabled');
     document.getElementById('loadingBar').style.display = 'block';
     document.getElementById('loadingBar').scrollIntoView({behavior: 'smooth'});
 
-    const form = event.target;
     const formData = new FormData(form);
     const jsonObject = {};
     formInputs.forEach((input) => {
@@ -108,8 +111,8 @@ form.addEventListener('submit', function (event) {
             }
         } else {
             jsonObject[key] = input.value;
-            if(input.id == 'erDiagram' && !$("#mermaidErDiagramList").val()) {
-                 jsonObject[key] = '';
+            if (input.id == 'erDiagram' && !$("#mermaidErDiagramList").val()) {
+                jsonObject[key] = '';
             }
         }
     });
@@ -128,6 +131,8 @@ form.addEventListener('submit', function (event) {
                     return response.blob();
                 } else {
                     alert('Error generating application. Please try again.');
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('button--disabled');
                 }
             })
             .then(blob => {
@@ -143,11 +148,15 @@ form.addEventListener('submit', function (event) {
                 a.click();
 
                 window.URL.revokeObjectURL(url);
+                submitButton.disabled = false;
+                submitButton.classList.remove('button--disabled');
             })
             .catch(error => {
                 document.getElementById('loadingBar').style.display = 'none';
                 console.error('Error:', error);
                 alert('An error occurred while generating the application.');
+                submitButton.disabled = false;
+                submitButton.classList.remove('button--disabled');
             });
 });
 

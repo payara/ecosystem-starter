@@ -37,33 +37,35 @@
     only if the new code is made subject to such option by the copyright
     holder.
 -->
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-<#if model.importPrefix == "jakarta" >
-                xmlns:pt="http://xmlns.jakarta.org/jsf/passthrough"
-                xmlns:ui="jakarta.faces.facelets"
-                xmlns:f="jakarta.faces.core"
-                xmlns:h="jakarta.faces.html">
- <#else>
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html">
-</#if>
+package ${package};
 
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0" role="navigation">
-        <h:outputLink styleClass="navbar-brand col-sm-3 col-md-2 me-0 px-3" value="#">
-            ${model.getLongTitle()}
-        </h:outputLink>
+import ${model.importPrefix}.faces.component.UIComponent;
+import ${model.importPrefix}.faces.context.FacesContext;
+import ${model.importPrefix}.faces.convert.Converter;
+import ${model.importPrefix}.faces.convert.FacesConverter;
+import ${model.importPrefix}.inject.Inject;
+import ${EntityClass_FQN};
+import ${EntityRepository_FQN};
 
-        <h:inputText styleClass="form-control form-control-dark w-100" 
-                     pt:placeholder="Search" 
-                     pt:aria-label="Search" />
+@FacesConverter(value = "${entityConverterName}", managed = true)
+public class ${entityConverterClass} implements Converter<${instanceType}> {
 
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <#noparse><h:commandLink action="#{userBean.logout}" styleClass="nav-link" value="Sign out" /></#noparse>
-            </li>
-        </ul>
-    </nav>
+    @Inject
+    private ${EntityRepository} ${entityRepository};
 
-</ui:composition>
+    @Override
+    public ${instanceType} getAsObject(FacesContext context, UIComponent component, String value) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        return ${entityRepository}.find(${pkType}.valueOf(value));
+    }
+
+    @Override
+    public String getAsString(FacesContext context, UIComponent component, ${instanceType} ${instanceName}) {
+        if (${instanceName} == null || ${instanceName}.${pkGetter}() == null) {
+            return "";
+        }
+        return ${instanceName}.${pkGetter}().toString();
+    }
+}

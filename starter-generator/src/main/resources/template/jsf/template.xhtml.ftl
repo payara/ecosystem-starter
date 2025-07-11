@@ -40,9 +40,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="jakarta.faces.facelets"
-      xmlns:f="jakarta.faces.core"
-      xmlns:h="jakarta.faces.html">
+<#if model.importPrefix == "jakarta" >
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html">
+ <#else>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+</#if>
     <f:view contentType="text/html" encoding="UTF-8">
         <ui:insert name="metadata"></ui:insert>
         <h:head>

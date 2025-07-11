@@ -38,7 +38,11 @@
     holder.
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<#if model.importPrefix == "jakarta" >
                 xmlns:ui="jakarta.faces.facelets"
+ <#else>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+</#if>
 >
 
     <footer class="fixed-bottom mt-auto py-3" id="footer">

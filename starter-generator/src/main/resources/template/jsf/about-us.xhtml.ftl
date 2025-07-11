@@ -38,8 +38,13 @@
     holder.
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<#if model.importPrefix == "jakarta" >
                 xmlns:ui="jakarta.faces.facelets"
                 xmlns:h="jakarta.faces.html"
+ <#else>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+</#if>
                 template="/WEB-INF/layout/template.xhtml">
 
     <ui:define name="pageTitle">About Us</ui:define>

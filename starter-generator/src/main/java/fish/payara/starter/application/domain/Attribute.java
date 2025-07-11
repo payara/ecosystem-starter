@@ -59,6 +59,7 @@ import static fish.payara.starter.application.util.AttributeType.LOCAL_DATE_TIME
 import static fish.payara.starter.application.util.StringUtils.firstLower;
 import static fish.payara.starter.application.util.StringUtils.firstUpper;
 import static fish.payara.starter.application.util.StringUtils.kebabCase;
+import static fish.payara.starter.application.util.StringUtils.pluralize;
 import static fish.payara.starter.application.util.StringUtils.startCase;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
@@ -78,7 +79,7 @@ public class Attribute {
     private boolean multi;
     private boolean required;
     private String tooltip;
-    private Boolean display;
+    private boolean display;
     private String htmlLabel;
 
     /** Default constructor for Attribute. */
@@ -138,6 +139,16 @@ public class Attribute {
     @JsonbTransient
     public String getTitleCaseName() {
         return firstUpper(name);
+    }
+
+    /**
+     * Returns the name of the attribute in plural case format.
+     *
+     * @return the plural case name
+     */
+    @JsonbTransient
+    public String getPluralName() {
+        return pluralize(firstUpper(name));
     }
 
     /** 
@@ -250,7 +261,7 @@ public class Attribute {
      * @return true if the attribute is to be displayed, false otherwise
      */
     @JsonbTransient
-    public Boolean isDisplay() {
+    public boolean isDisplay() {
         return display;
     }
 
@@ -259,7 +270,7 @@ public class Attribute {
      * 
      * @param display true if the attribute should be displayed, false otherwise
      */
-    public void setDisplay(Boolean display) {
+    public void setDisplay(boolean display) {
         this.display = display;
     }
 
@@ -317,6 +328,18 @@ public class Attribute {
 
     public String getApiUrl() {
         return kebabCase(firstLower(type));
+    }
+    
+    public String getConverter() {
+        return firstLower(type) + "Converter";
+    }
+    
+    public String getBean() {
+        return firstLower(type) + "Bean";
+    }
+    
+    public String getPluralType() {
+        return pluralize(type);
     }
 
     @Override
