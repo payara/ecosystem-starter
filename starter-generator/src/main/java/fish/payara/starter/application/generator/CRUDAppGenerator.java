@@ -233,6 +233,7 @@ public class CRUDAppGenerator {
             Configuration cfg = createFreemarkerConfiguration("template/jsf");
 
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("model", model);
             dataModel.put("package", _package + "." + CONVERTER);
             processTemplateToFile(cfg, "LocalDateConverter.java.ftl", dataModel, outputDir, "LocalDateConverter.java");
             processTemplateToFile(cfg, "LocalDateTimeConverter.java.ftl", dataModel, outputDir, "LocalDateTimeConverter.java");

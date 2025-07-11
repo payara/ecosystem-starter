@@ -39,11 +39,11 @@
 -->
 package ${package};
 
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.convert.Converter;
-import jakarta.faces.convert.FacesConverter;
-import jakarta.inject.Inject;
+import ${model.importPrefix}.faces.component.UIComponent;
+import ${model.importPrefix}.faces.context.FacesContext;
+import ${model.importPrefix}.faces.convert.Converter;
+import ${model.importPrefix}.faces.convert.FacesConverter;
+import ${model.importPrefix}.inject.Inject;
 import ${EntityClass_FQN};
 import ${EntityRepository_FQN};
 

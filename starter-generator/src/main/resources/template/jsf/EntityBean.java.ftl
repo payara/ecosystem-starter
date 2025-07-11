@@ -15,10 +15,10 @@
 -->
 package ${package};
 
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Named;
-import jakarta.inject.Inject;
-import jakarta.faces.view.ViewScoped;
+import ${model.importPrefix}.annotation.PostConstruct;
+import ${model.importPrefix}.inject.Named;
+import ${model.importPrefix}.inject.Inject;
+import ${model.importPrefix}.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
 

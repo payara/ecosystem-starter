@@ -1,7 +1,13 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<#if model.importPrefix == "jakarta" >
                 xmlns:ui="jakarta.faces.facelets"
                 xmlns:f="jakarta.faces.core"
                 xmlns:h="jakarta.faces.html"
+ <#else>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+</#if>
                 template="/WEB-INF/layout/template.xhtml">
 
     <ui:define name="content">
@@ -18,9 +24,9 @@
                 <#if model.getEntity(attribute.type)??>
                 <h:selectOneMenu id="${attrId}"
                                  value="${'#{' + attrValue + '}'}"
-                                 converter="${attribute.type?lower_case}Converter">
-                    <f:selectItem itemLabel="Select ${attribute.getTitleCaseName()}" noSelectionOption="true" />
-                    <f:selectItems value="${'#{' + attribute.name + 'Bean.all' + attribute.getPluralName() + '}'}"
+                                 converter="${attribute.converter}">
+                    <f:selectItem itemLabel="Select ${attribute.titleCaseName}" noSelectionOption="true" />
+                    <f:selectItems value="${'#{' + attribute.bean + '.all' + attribute.pluralType + '}'}"
                                    var="${attrId}"
                                    itemValue="${'#{' + attrId + '}'}"
                                    itemLabel="${'#{' + attrId + '}'}" />
@@ -28,8 +34,8 @@
                 <#elseif attribute.type == "LocalDateTime" || attribute.type == "LocalDate">
                 <h:inputText id="${attrId}" 
                              value="${'#{' + attrValue + '}'}" 
-                             converter="${attribute.type?lower_case}Converter">
-                    <f:passThroughAttribute name="type" value="${attribute.type == 'LocalDateTime'?string('datetime-local', 'date')}" />
+                             converter="${attribute.converter}">
+                    <f:passThroughAttribute name="type" value="${(attribute.type == 'LocalDateTime')?string('datetime-local', 'date')}" />
                 </h:inputText>
                 <#elseif attribute.isNumber()>
                 <h:inputText id="${attrId}" value="${'#{' + attrValue + '}'}" >

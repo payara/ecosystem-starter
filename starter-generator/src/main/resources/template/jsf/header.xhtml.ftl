@@ -38,10 +38,17 @@
     holder.
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+<#if model.importPrefix == "jakarta" >
+                xmlns:pt="http://xmlns.jakarta.org/jsf/passthrough"
                 xmlns:ui="jakarta.faces.facelets"
                 xmlns:f="jakarta.faces.core"
                 xmlns:h="jakarta.faces.html">
+ <#else>
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+</#if>
 
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0" role="navigation">
         <h:outputLink styleClass="navbar-brand col-sm-3 col-md-2 me-0 px-3" value="#">

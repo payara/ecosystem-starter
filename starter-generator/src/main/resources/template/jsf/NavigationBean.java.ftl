@@ -39,8 +39,8 @@
 -->
 package ${package};
 
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
+import ${model.importPrefix}.enterprise.context.SessionScoped;
+import ${model.importPrefix}.inject.Named;
 import java.io.Serializable;
 
 @Named

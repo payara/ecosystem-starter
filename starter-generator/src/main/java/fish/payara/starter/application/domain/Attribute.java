@@ -329,6 +329,18 @@ public class Attribute {
     public String getApiUrl() {
         return kebabCase(firstLower(type));
     }
+    
+    public String getConverter() {
+        return firstLower(type) + "Converter";
+    }
+    
+    public String getBean() {
+        return firstLower(type) + "Bean";
+    }
+    
+    public String getPluralType() {
+        return pluralize(type);
+    }
 
     @Override
     public String toString() {
