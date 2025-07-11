@@ -227,7 +227,7 @@
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
                 <artifactId>payara-cloud-maven-plugin</artifactId>
-                <version>1.0-Alpha2</version>
+                <version>1.0-Alpha4</version>
             </plugin>
         </plugins>
     </build>
