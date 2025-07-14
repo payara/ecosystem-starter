@@ -10,6 +10,10 @@
 #set ($webAppVersion = "6.0")
 #set ($xmlns = "https://jakarta.ee/xml/ns/jakartaee")
 #set ($schemaLocation = "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd")
+#elseif (${jakartaEEVersion} == '11')
+#set ($webAppVersion = "7.0")
+#set ($xmlns = "https://jakarta.ee/xml/ns/jakartaee")
+#set ($schemaLocation = "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_7_0.xsd")
 #end
 <web-app version="$webAppVersion"
          xmlns="$xmlns"

@@ -162,8 +162,9 @@ form.addEventListener('submit', function (event) {
 
 
 // Define the order of Jakarta EE versions
-const jakartaEEVersionOrder = ["10", "9.1", "9", "8"];
+const jakartaEEVersionOrder = ["11", "10", "9.1", "9", "8"];
 const jakartaVersions = {
+    "11": "Jakarta EE 11",
     "10": "Jakarta EE 10",
     "9.1": "Jakarta EE 9.1",
     "9": "Jakarta EE 9",
@@ -199,6 +200,7 @@ function populateSelect(selectId, optionOrder, optionMap) {
 // Call the function to populate the select elements
 populateSelect('jakartaEEVersion', jakartaEEVersionOrder, jakartaVersions);
 populateSelect('javaVersion', Object.keys(javaVersions), javaVersions);
+jakartaEEVersionSelect.value = '10';
 
 // Function to fetch Payara versions and populate the dropdown
 function populatePayaraVersionsDropdown(jakartaEEVersion) {
