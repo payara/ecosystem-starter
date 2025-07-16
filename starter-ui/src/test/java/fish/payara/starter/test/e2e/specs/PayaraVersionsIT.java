@@ -219,9 +219,7 @@ public class PayaraVersionsIT {
                 "<maven.compiler.release>17</maven.compiler.release>"));
     }
 
-    /*@Test
-    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064
-    So we need to run the tests with jdk 17
+    @Test
     void PayaraMicro6EE10Jdk21() throws InterruptedException, IOException {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraMicro6EE10Jdk21", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
@@ -232,11 +230,11 @@ public class PayaraVersionsIT {
         starterPage.setDeployment(false, false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraMicro6EE10Jdk17.zip"));
+        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraMicro6EE10Jdk21.zip"));
 
        FileManagement.unzip("./target/test-app-maven/PayaraMicro6EE10Jdk21.zip", "./target/test-app-maven/PayaraMicro6EE10Jdk21");
         assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraMicro6EE10Jdk21/pom.xml")));
         assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraMicro6EE10Jdk21/pom.xml"),
-                "<maven.compiler.release>17</maven.compiler.release>"));
-    }*/
+                "<maven.compiler.release>21</maven.compiler.release>"));
+    }
 }

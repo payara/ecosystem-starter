@@ -124,8 +124,7 @@ public class GradleBuildIT {
                 "sourceCompatibility = JavaVersion.VERSION_17"));
     }
 
-    /*@Test
-    // Disabled - provided gradle wrapper fails to compile with jdk21 - FISH-11064"
+    @Test
     void gradleJdk21() throws InterruptedException, IOException {
         starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "gradleJdk21", "2.0");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
@@ -142,5 +141,5 @@ public class GradleBuildIT {
         assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-gradle/gradleJdk21/build.gradle")));
         assertTrue(FileManagement.checkFileContains(new File("./target/test-app-gradle/gradleJdk21/build.gradle"),
                 "sourceCompatibility = JavaVersion.VERSION_21"));
-    }*/
+    }
 }
