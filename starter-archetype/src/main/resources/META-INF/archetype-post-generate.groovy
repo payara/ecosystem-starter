@@ -29,7 +29,7 @@ private void validateInput(String profile, String jakartaEEVersion, String javaV
     boolean deleteDirectory = true;
 
     if (!isValidJakartaEEVersion(jakartaEEVersion)) {
-        throwAndDelete("Failed, valid Jakarta EE versions are 8, 9, 9.1, and 10", outputDirectory);
+        throwAndDelete("Failed, valid Jakarta EE versions are 8, 9, 9.1, 10 and 11", outputDirectory);
     }
 
     if (!isValidProfile(profile)) {
@@ -44,8 +44,8 @@ private void validateInput(String profile, String jakartaEEVersion, String javaV
         throwAndDelete("Failed, valid platform values are server and micro", outputDirectory);
     }
 
-    if (profile.equalsIgnoreCase("core") && !jakartaEEVersion.equals("10")) {
-        throwAndDelete("Failed, the Core Profile is only supported for Jakarta EE 10", outputDirectory);
+    if (profile.equalsIgnoreCase("core") && !(jakartaEEVersion.equals("10") || jakartaEEVersion.equals("11"))) {
+        throwAndDelete("Failed, the Core Profile is only supported for Jakarta EE 10 and 11", outputDirectory);
     }
 
     if (!jakartaEEVersion.equals("8") && javaVersion.equals("8")) {
@@ -54,7 +54,7 @@ private void validateInput(String profile, String jakartaEEVersion, String javaV
 }
 
 private boolean isValidJakartaEEVersion(String version) {
-    return version.equals("8") || version.equals("9") || version.equals("9.1") || version.equals("10");
+    return version.equals("8") || version.equals("9") || version.equals("9.1") || version.equals("10") || version.equals("11");
 }
 
 private boolean isValidProfile(String profile) {

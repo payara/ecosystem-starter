@@ -1,4 +1,6 @@
-#if (${jakartaEEVersion} == '10')
+#if (${jakartaEEVersion} == '11')
+    #set ($eeApiVersion = "11.0.0")
+#elseif (${jakartaEEVersion} == '10')
     #set ($eeApiVersion = "10.0.0")
 #elseif (${jakartaEEVersion} == '9.1')
     #set ($eeApiVersion = "9.1.0")

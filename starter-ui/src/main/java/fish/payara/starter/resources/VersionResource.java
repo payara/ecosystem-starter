@@ -71,10 +71,14 @@ public class VersionResource {
     public List<String> getVersions(@QueryParam("jakartaEEVersion") String jakartaEEVersion) {
         if (cachedVersions == null || needsRefresh(REFRESH_INTERVAL_MILLIS)) {
             String versionData = fetchVersionData(VERSION_METADATA_URL);
-            List<String> versions = extractVersions(versionData)
-                    .stream()
-                    .filter(version -> !version.contains("Alpha") && !version.contains("Beta"))
-                    .collect(Collectors.toList());
+            List<String> versions = extractVersions(versionData);
+
+            // Skip filtering out Alpha/Beta versions only for jakartaEEVersion "11"
+            if (!"11".equals(jakartaEEVersion)) {
+                versions = versions.stream()
+                        .filter(version -> !version.contains("Alpha") && !version.contains("Beta"))
+                        .collect(Collectors.toList());
+            }
             Collections.reverse(versions);
             lastFetchedTime = System.currentTimeMillis();
             cachedVersions = versions;
@@ -88,15 +92,20 @@ public class VersionResource {
 
         for (String version : versions) {
             // Check if the version starts with "5.x" when jakartaEEVersion is "8"
-            if (jakartaEEVersion.equals("8")) {
+            if ("8".equals(jakartaEEVersion)) {
                 if (version.startsWith("5.")) {
                     filteredVersions.add(version);
                 }
-            } else {
-                // Otherwise, include only "6.x" versions
+            } else if ("9".equals(jakartaEEVersion) || "9.1".equals(jakartaEEVersion) || "10".equals(jakartaEEVersion)) {
                 if (version.startsWith("6.")) {
                     filteredVersions.add(version);
                 }
+            } else if ("11".equals(jakartaEEVersion)) {
+                if (version.startsWith("7.")) {
+                    filteredVersions.add(version);
+                }
+            } else {
+                filteredVersions.add(version);
             }
         }
 
