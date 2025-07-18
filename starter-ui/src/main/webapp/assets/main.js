@@ -225,6 +225,10 @@ function populatePayaraVersionsDropdown(jakartaEEVersion) {
                     option.text = version;
                     payaraVersionSelect.appendChild(option);
                 });
+                // Select '7.2025.1.Alpha2' if it exists, else select the first version
+                if (versions.includes('7.2025.1.Alpha2')) {
+                    payaraVersionSelect.value = '7.2025.1.Alpha2';
+                } 
                 listJavaVersionOption();
             })
             .catch(error => {
