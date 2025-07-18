@@ -74,6 +74,19 @@ pipeline {
                         }
                     }
                 }
+                stage('Test Archetypes') {
+                    environment {
+                        JAVA_HOME = tool("zulu-21")
+                        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+                        MAVEN_OPTS = '-Xmx2G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts'
+                        payaraBuildNumber = "${BUILD_NUMBER}"
+                    }
+                    steps {
+                            sh '''echo *#*#*#*#*#*#*#*#*#*#*#*#  Testing Starter Archetypes  *#*#*#*#*#*#*#*#*#*#*#*#*#*#*'''
+                            sh '''cd starter-archetype && mvn clean verify -pl . -De2e'''
+                        
+                    }
+                }
             }
         }
     }
