@@ -672,24 +672,26 @@
                         </blinky-toggle-button>
                     </div>
                 </div>
-                <button class="button button--clear close">
+            </div>
+            <button class="button button--small close">
+                <span class="button__text">
                     <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                         <use href="ui/images/icons.svg#icon-cross"></use>
                     </svg>
                     <span class="visually-hidden">Close ER Designer</span>
-                </button>
-            </div>
+                </span>
+            </button>
         </div>
         <script>
                 function toggleDiagramView() {
                     const diagramView = document.getElementById('diagramView');
                     const diagramSource = document.getElementById('diagramSource');
                     const makeFullscreen = diagramView.style.width !== '100%';
-                    diagramView.style.width = makeFullscreen ? '100%' : '50%';
-                    diagramSource.style.width = makeFullscreen ? '0%' : '50%';
+                    diagramView.style.width = makeFullscreen ? '100%' : '';
+                    diagramSource.style.width = makeFullscreen ? '0%' : '';
                     document.getElementById('queryBox').style.display = makeFullscreen ? 'none' : 'inline';
                     document.getElementById('queryBoxHidden').style.display = makeFullscreen ? 'inline' : 'none';
-                    diagramSource.style.display = makeFullscreen ? 'none' : 'inline';
+                    diagramSource.style.display = makeFullscreen ? 'none' : '';
                 }
         </script>
         <script>
