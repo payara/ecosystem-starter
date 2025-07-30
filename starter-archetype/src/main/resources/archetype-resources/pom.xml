@@ -190,7 +190,7 @@
 #if (${javaVersion} == '8')
                 <version>2.0</version>
 #else
-                <version>2.4</version>
+                <version>2.5</version>
 #end
                 <configuration>
                     <payaraVersion>${payara.version}</payaraVersion>
@@ -212,7 +212,7 @@
             <plugin>
                     <groupId>fish.payara.maven.plugins</groupId>
                     <artifactId>payara-server-maven-plugin</artifactId>
-                    <version>1.0.0-Alpha2</version>
+                    <version>1.0.0-Alpha3</version>
                     <configuration>
                         <payaraServerVersion>${payara.version}</payaraServerVersion>
                     </configuration>
