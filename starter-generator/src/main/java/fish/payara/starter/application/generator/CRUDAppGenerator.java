@@ -326,9 +326,6 @@ public class CRUDAppGenerator {
 
     private void generateRepositoryBase(Map<String, Object> dataModel, String _package, File outputDir) {
 
-        dataModel.put("package", _package + "." + repositoryLayer + ".producer");
-        generate("template/service/producer", "EntityManagerProducer.java.ftl", "EntityManagerProducer.java", dataModel, outputDir);
-
         dataModel.put("package", _package + "." + repositoryLayer);
         dataModel.put("cdi", true);
         dataModel.put("AbstractRepository", "Abstract" + firstUpper(repositoryLayer));

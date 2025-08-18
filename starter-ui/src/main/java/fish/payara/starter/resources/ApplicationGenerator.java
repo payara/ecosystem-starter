@@ -173,6 +173,7 @@ public class ApplicationGenerator {
                 }
                 return zipDirectory(applicationDir, workingDirectory);
             } catch (Exception ie) {
+                LOGGER.log(Level.SEVERE, "Failed to generate application: " + ie.getMessage(), ie);
                 throw new RuntimeException("Failed to generate application.", ie);
             } finally {
                 if (applicationDir != null) {

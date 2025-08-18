@@ -25,14 +25,6 @@ import ${EntityClass_FQN};
 <#if named>@Named("${entityInstance}")</#if>
 public class ${EntityRepository} extends ${AbstractRepository}<${EntityClass}, ${EntityPKClass}> {
 
-    @Inject
-    private EntityManager em;
-
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
     public ${EntityRepository}() {
         super(${EntityClass}.class);
     }

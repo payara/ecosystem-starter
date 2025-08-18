@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import ${model.importPrefix}.persistence.EntityManager;
 import ${model.importPrefix}.persistence.NoResultException;
+import ${model.importPrefix}.persistence.PersistenceContext;
 import ${model.importPrefix}.persistence.Query;
 import ${model.importPrefix}.persistence.TypedQuery;
 import ${model.importPrefix}.persistence.criteria.CriteriaQuery;
@@ -36,11 +37,16 @@ public abstract class ${AbstractRepository}<E,P> {
 
     private final Class<E> entityClass;
 
+    @PersistenceContext(unitName = "${appPU}")
+    private EntityManager em;
+
     public ${AbstractRepository}(Class<E> entityClass) {
         this.entityClass = entityClass;
     }
 
-    protected abstract EntityManager getEntityManager();
+    protected EntityManager getEntityManager(){
+        return em;
+    }
 
     <#if cdi>@Transactional(REQUIRED)</#if>
     public void create(E entity) {
