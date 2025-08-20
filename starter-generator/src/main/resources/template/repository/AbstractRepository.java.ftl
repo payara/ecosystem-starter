@@ -21,9 +21,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+<#if model.jakartaVersion gt 10>
+import ${model.importPrefix}.inject.Inject;
+<#else>
+import ${model.importPrefix}.persistence.PersistenceContext;
+</#if>
 import ${model.importPrefix}.persistence.EntityManager;
 import ${model.importPrefix}.persistence.NoResultException;
-import ${model.importPrefix}.persistence.PersistenceContext;
 import ${model.importPrefix}.persistence.Query;
 import ${model.importPrefix}.persistence.TypedQuery;
 import ${model.importPrefix}.persistence.criteria.CriteriaQuery;
@@ -37,7 +41,11 @@ public abstract class ${AbstractRepository}<E,P> {
 
     private final Class<E> entityClass;
 
-    @PersistenceContext(unitName = "${appPU}")
+<#if model.jakartaVersion gt 10>
+    @Inject
+<#else>
+    @PersistenceContext
+</#if>
     private EntityManager em;
 
     public ${AbstractRepository}(Class<E> entityClass) {

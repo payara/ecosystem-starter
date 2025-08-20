@@ -153,6 +153,7 @@ public class ApplicationGenerator {
                         erModel = jsonb.fromJson(updatedJson, ERModel.class);
                     }
                     erModel.setImportPrefix("8".equals(appProperties.getJakartaEEVersion()) ? "javax" : "jakarta");
+                    erModel.setJakartaVersion(Double.parseDouble(appProperties.getJakartaEEVersion()));
                     CRUDAppGenerator generator = new CRUDAppGenerator(erModel,
                             appProperties.getPackageName(),
                             appProperties.getJpaSubpackage(),
