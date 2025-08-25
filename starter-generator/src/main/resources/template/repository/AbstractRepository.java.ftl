@@ -21,6 +21,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+<#if model.jakartaVersion gt 10>
+import ${model.importPrefix}.inject.Inject;
+<#else>
+import ${model.importPrefix}.persistence.PersistenceContext;
+</#if>
 import ${model.importPrefix}.persistence.EntityManager;
 import ${model.importPrefix}.persistence.NoResultException;
 import ${model.importPrefix}.persistence.Query;
@@ -36,11 +41,20 @@ public abstract class ${AbstractRepository}<E,P> {
 
     private final Class<E> entityClass;
 
+<#if model.jakartaVersion gt 10>
+    @Inject
+<#else>
+    @PersistenceContext
+</#if>
+    private EntityManager em;
+
     public ${AbstractRepository}(Class<E> entityClass) {
         this.entityClass = entityClass;
     }
 
-    protected abstract EntityManager getEntityManager();
+    protected EntityManager getEntityManager(){
+        return em;
+    }
 
     <#if cdi>@Transactional(REQUIRED)</#if>
     public void create(E entity) {

@@ -153,6 +153,7 @@ public class ApplicationGenerator {
                         erModel = jsonb.fromJson(updatedJson, ERModel.class);
                     }
                     erModel.setImportPrefix("8".equals(appProperties.getJakartaEEVersion()) ? "javax" : "jakarta");
+                    erModel.setJakartaVersion(Double.parseDouble(appProperties.getJakartaEEVersion()));
                     CRUDAppGenerator generator = new CRUDAppGenerator(erModel,
                             appProperties.getPackageName(),
                             appProperties.getJpaSubpackage(),
@@ -173,6 +174,7 @@ public class ApplicationGenerator {
                 }
                 return zipDirectory(applicationDir, workingDirectory);
             } catch (Exception ie) {
+                LOGGER.log(Level.SEVERE, "Failed to generate application: " + ie.getMessage(), ie);
                 throw new RuntimeException("Failed to generate application.", ie);
             } finally {
                 if (applicationDir != null) {
