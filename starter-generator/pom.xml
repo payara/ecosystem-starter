@@ -4,7 +4,7 @@
     <parent>
         <groupId>fish.payara.starter</groupId>
         <artifactId>payara-starter-parent</artifactId>
-        <version>1.0.0-beta16-SNAPSHOT</version>
+        <version>1.0.0-beta16</version>
     </parent>
     <artifactId>payara-starter-generator</artifactId>
     <name>Payara Starter Generator</name>
