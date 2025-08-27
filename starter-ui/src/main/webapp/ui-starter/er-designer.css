@@ -54,7 +54,6 @@ button:disabled {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	overflow: auto;
 	background-color: rgba(var(--onyx), 0.9);
 	padding: var(--padding);
 }
@@ -69,12 +68,50 @@ button:disabled {
 	position: relative;
 }
 
+/* Set both columns in the ERD as flex so we can have the middle items (code and SVG preview) take up any available space or kick in a scroll on shorter screens. */
+.card.half {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 1;
+}
+/* Keep the titles and footer to only the size they need. */
+.title-container,
+.inline-elements {
+	flex: 0 1 auto;
+}
+/* Stretch the code and SVG preview items. We add a min-height as an absolute fallback for smaller screens, it get's ignored on wider screens so it doesn't hurt to include at this point.  */
+.CodeMirror,
+.livePreview {
+	flex: 1 1 1vh;
+	min-height: 20vh;
+}
+.CodeMirror-scroll {
+	min-height: 20vh;
+}
+/* Smaller width screens, whcih off the vertical scrolling on the code and SVG preview items, we now need the whole popup to scroll and we don't want an awful multiple scrolling to happen. */
+@media (max-width: 700px) {
+	.modal-content {
+		display: block;
+		flex-flow: column;
+		overflow: auto;
+	}
+	/* Easiest way to clear the flex scrolling. */
+	.card.half {
+		display: block;
+	}
+	/* Unset the default coming in from the main codemirror CSS, there's no point setting a min height on mobile and thus forcing users to scroll over an empty code item. */
+	.CodeMirror {
+		height: auto;
+	}
+}
+
 .close {
 	display: block;
 	margin: 0;
 	position: absolute;
-	right: 0;
-	top: 0;
+	right: calc(var(--padding) + 0.4rem);
+	top: calc(var(--padding) + 0.4rem);
+	padding: 0;
 }
 
 .title-container {
@@ -83,8 +120,8 @@ button:disabled {
 
 #livePreview {
 	border: 1px solid var(--form-field-border);
-	height: 82%;
 	margin-bottom: var(--gutter);
+	overflow: auto
 }
 
 #sourceCode {
@@ -110,7 +147,6 @@ button:disabled {
 }
 
 .CodeMirror {
-	height: 82%;
 	font-size: small;
 	border: 1px solid var(--form-field-border);
 	margin-bottom: var(--gutter);
