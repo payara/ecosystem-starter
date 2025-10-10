@@ -25,7 +25,7 @@
     #if (${jakartaEEVersion} == '8')
         #set ($payaraVersion = "5.2022.5")
     #else
-        #set ($payaraVersion = "6.2024.2")
+        #set ($payaraVersion = "6.2025.9")
     #end
 #end
 <?xml version="1.0" encoding="UTF-8"?>
@@ -79,9 +79,9 @@
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>${eeArtifactId}</artifactId>
-        #if (${profile} == 'core')
+#if (${profile} == 'core')
             <version>${jakartaee-api.version}</version>
-        #end
+#end
             <scope>provided</scope>
         </dependency>
 #if (${addConcurrentApi} == "true")
@@ -138,13 +138,11 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.2</version> 
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>1.8.0.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -152,10 +150,15 @@
             <artifactId>arquillian-testenricher-resource</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Client-side JAXRS client to be used by test -->
+        <!-- Client-side JAXRS client libs to be used by test -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- Standalone jersey usage requires injection implementation, default is HK2 -->
@@ -193,7 +196,7 @@
                 <version>2.5.1</version>
 #end
                 <configuration>
-                    <payaraVersion>${payara.version}</payaraVersion>
+                    <payaraMicroVersion>${payara.version}</payaraMicroVersion>
 #if (${deployWar} == "true")
                     <deployWar>true</deployWar>
 #end
@@ -230,7 +233,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.5.4</version>
                 <configuration>
                     <systemPropertyVariables>
 #if ((${platform} == 'server'))
@@ -269,7 +272,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.9.0</version>
+                <version>1.13.0</version>
                 <executions>
                     <execution>
                         <id>swagger-ui</id>
