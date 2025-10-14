@@ -20,9 +20,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="$schemaLocation">
     <welcome-file-list>
-    #if ($generateWeb == 'jsf')
+    #if ($generateWeb == 'jsf' && $erDiagram == 'true')
         <welcome-file>home.xhtml</welcome-file>
-    #elseif ($generateWeb == 'html')
+    #elseif ($generateWeb == 'html' && $erDiagram == 'true')
         <welcome-file>main.html</welcome-file>
     #else
         <welcome-file>index.html</welcome-file>
