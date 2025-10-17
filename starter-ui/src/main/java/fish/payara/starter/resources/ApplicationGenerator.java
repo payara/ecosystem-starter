@@ -57,7 +57,7 @@ import static fish.payara.starter.resources.ApplicationConfiguration.MP_FAULT_TO
 import static fish.payara.starter.resources.ApplicationConfiguration.MP_METRICS;
 import static fish.payara.starter.resources.ApplicationConfiguration.MP_OPEN_API;
 import static fish.payara.starter.resources.ApplicationConfiguration.PACKAGE;
-import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_CLOUD;
+import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_QUBE;
 import static fish.payara.starter.resources.ApplicationConfiguration.PAYARA_VERSION;
 import static fish.payara.starter.resources.ApplicationConfiguration.PLATFORM;
 import static fish.payara.starter.resources.ApplicationConfiguration.PROFILE;
@@ -214,7 +214,7 @@ public class ApplicationGenerator {
         properties.put(INCLUDE_TESTS, appProperties.isIncludeTests());
         properties.put(ADD_PAYARA_API, appProperties.isAddPayaraApi());
         properties.put(DOCKER, appProperties.isDocker());
-        properties.put(PAYARA_CLOUD, appProperties.isCloud());
+        properties.put(PAYARA_QUBE, appProperties.isQube());
         properties.put(MP_CONFIG, appProperties.isMpConfig());
         properties.put(MP_OPEN_API, appProperties.isMpOpenAPI());
         properties.put(MP_FAULT_TOLERANCE, appProperties.isMpFaultTolerance());

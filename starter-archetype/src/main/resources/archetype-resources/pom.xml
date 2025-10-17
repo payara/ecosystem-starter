@@ -221,8 +221,8 @@
                     </configuration>
             </plugin>
 #end
-#if (${cloud} == "true")
-            <!-- Execute 'mvn clean package payara-cloud:dev' to run the application in Payara Cloud. -->
+#if (${qube} == "true")
+            <!-- Execute 'mvn clean package payara-cloud:dev' to run the application in Payara Qube. -->
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
                 <artifactId>payara-cloud-maven-plugin</artifactId>
