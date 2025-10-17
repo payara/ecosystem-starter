@@ -119,7 +119,7 @@ public class StarterPageLocators {
     public final Supplier<Locator> deploymentBlock = () -> page.locator("fieldset#stb0-st5");
     public final Supplier<Locator> deploymentBlockTitle = () -> deploymentBlock.get().locator("div.legend a[href='#stb0-st5']");
     public final Supplier<Locator> deploymentDocker = () -> deploymentBlock.get().locator("input#docker");
-    public final Supplier<Locator> deploymentCloud = () -> deploymentBlock.get().locator("input#cloud");
+    public final Supplier<Locator> deploymentQube = () -> deploymentBlock.get().locator("input#qube");
     public final Supplier<Locator> previousButtonToDiagram = () -> deploymentBlock.get().locator("a[href='#stb0-st4']");
     public final Supplier<Locator> nextButtonToDiagram = () -> deploymentBlock.get().locator("a[href='#stb0-st6']");
 

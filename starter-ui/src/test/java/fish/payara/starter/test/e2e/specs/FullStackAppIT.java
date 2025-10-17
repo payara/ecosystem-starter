@@ -153,7 +153,7 @@ public class FullStackAppIT {
 
     @Test
     void flightReservationSystemJdk17() throws InterruptedException, IOException {
-        // Build with Maven, EE10 Web Profile, jdk17, Payara Micro 6, MP Metrics + Fault Tolerance, Payara Cloud, ER Diagram = Flight Reservation System, include tests, no security
+        // Build with Maven, EE10 Web Profile, jdk17, Payara Micro 6, MP Metrics + Fault Tolerance, Payara Qube, ER Diagram = Flight Reservation System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "flightReservationSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
         starterPage.closeGuidePopup();
