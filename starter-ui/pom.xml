@@ -213,7 +213,7 @@
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
                 <artifactId>payara-micro-maven-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.5.2</version>
                 <configuration>
                     <commandLineOptions>
                         <!-- we use port 8082 to run the e2e tests -->
@@ -226,8 +226,13 @@
             </plugin>
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
-                <artifactId>payara-cloud-maven-plugin</artifactId>
-                <version>1.0-Alpha4</version>
+                <artifactId>payara-server-maven-plugin</artifactId>
+                <version>1.0.0-Alpha3</version>
+            </plugin>
+            <plugin>
+                <groupId>fish.payara.maven.plugins</groupId>
+                <artifactId>payara-qube-maven-plugin</artifactId>
+                <version>2.0.0</version>
             </plugin>
         </plugins>
     </build>
