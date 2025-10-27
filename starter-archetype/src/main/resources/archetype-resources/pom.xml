@@ -193,7 +193,7 @@
 #if (${javaVersion} == '8')
                 <version>2.0</version>
 #else
-                <version>2.5.1</version>
+                <version>2.5.2</version>
 #end
                 <configuration>
                     <payaraMicroVersion>${payara.version}</payaraMicroVersion>
@@ -225,8 +225,8 @@
             <!-- Execute 'mvn clean package payara-cloud:dev' to run the application in Payara Qube. -->
             <plugin>
                 <groupId>fish.payara.maven.plugins</groupId>
-                <artifactId>payara-cloud-maven-plugin</artifactId>
-                <version>1.0-Alpha4</version>
+                <artifactId>payara-qube-maven-plugin</artifactId>
+                <version>2.0.0</version>
             </plugin>
 #end
 #if (${includeTests} == "true")

@@ -65,6 +65,7 @@ pipeline {
                             }
                             sh '''echo *#*#*#*#*#*#*#*#*#*#*#*#  Testing Payara Starter  *#*#*#*#*#*#*#*#*#*#*#*#*#*#*'''
                             sh '''cd starter-ui'''
+                            sh '''sudo apt-get update --allow-releaseinfo-change'''
                             sh '''mvn verify -De2e -Dmaven.javadoc.skip=true -Pinstall-deps '''
                             }
                         }
