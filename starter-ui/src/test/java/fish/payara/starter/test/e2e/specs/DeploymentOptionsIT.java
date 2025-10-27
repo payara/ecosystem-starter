@@ -69,7 +69,7 @@ public class DeploymentOptionsIT {
         page = context.newPage();
         page.setDefaultTimeout(90000);
         page.navigate("http://localhost:8082/payara-starter");
-        page.waitForSelector("div.hero", new Page.WaitForSelectorOptions().setTimeout(120000));
+        page.waitForSelector("div.hero", new Page.WaitForSelectorOptions().setTimeout(12.1.0-SNAPSHOT));
 
         starterPage = new StarterPageActions(page);
         starterPage.confirmGdpr();
