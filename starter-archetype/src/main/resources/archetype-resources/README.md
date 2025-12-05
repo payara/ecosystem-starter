@@ -58,7 +58,7 @@ Open a terminal and navigate to the project's root directory.
 Execute the following Maven command to build the application and deploy to the Payara Qube:
 
 ```
-./mvn clean package payara-cloud:dev
+./mvn clean package payara-qube:dev
 ```
 #end
 #end

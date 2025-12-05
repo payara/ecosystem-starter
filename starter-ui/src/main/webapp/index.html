@@ -58,8 +58,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/mermaid/mermaid.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.js"></script>
-        <link href="//rawgithub.com/indrimuska/jquery-editable-select/master/dist/jquery-editable-select.min.css" rel="stylesheet">
+        <script src="assets/jquery-editable-select/dist/jquery-editable-select.min.js"></script>
+        <link href="assets/jquery-editable-select/dist/jquery-editable-select.min.css" rel="stylesheet">
         <link rel="stylesheet" href="ui-starter/er-designer.css" type="text/css" media="all">
 
         <!-- Google Tag Manager with HubSpot cookie constent check. -->
@@ -699,7 +699,7 @@
         </script>
         <script type="module">
 //        https://chatgpt.com/share/99102a26-a8ac-45c5-8d5b-76fc118cd602
-            const erDiagrams = [
+            window.erDiagrams = [
                 'Auction Management System',
                 'Customer Relationship Management',
                 'Employee Management',
@@ -954,72 +954,7 @@
                     previewSelect.appendChild(option);
                     erDiagramSelect.appendChild(option.cloneNode(true));
                 }
-
-                $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
-                    if (e.key === 'Enter') {
-                        const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                        if (erDiagrams.includes(selectedDiagramId)) {
-                            if (!erDiagramContent[selectedDiagramId]) {
-                                const content = await fetchErDiagramContent(selectedDiagramId);
-                                if (content) {
-                                    erDiagramContent[selectedDiagramId] = content;
-                                }
-                            }
-                            editor.setValue(erDiagramContent[selectedDiagramId]);
-                            document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
-
-                            erDiagramChat = [];
-                            erDiagramChat.push({"erd": content});
-                            erDiagramChatIndex = erDiagramChat.length - 1;
-                            updateButtonStates();
-
-                        } else {
-                            const content = await fetchCustomErDiagramContent(selectedDiagramId);
-                            erDiagramContent[selectedDiagramId] = content;
-                            prependOptionToMermaidErDiagramList(selectedDiagramId);
-                            if (content) {
-                                editor.setValue(content);
-                                document.getElementById('erDiagram').innerHTML = content;
-                                
-                                erDiagramChat = [];
-                                erDiagramChat.push({"erd": content});
-                                erDiagramChatIndex = erDiagramChat.length - 1;
-                                updateButtonStates();
-                            }
-                        }
-                        
-                    }
-                });
-
-                function prependOptionToMermaidErDiagramList(val) {
-                    var selectElement = document.getElementById('mermaidErDiagramList');
-                    var newOption = document.createElement('option');
-                    newOption.value = val;
-                    newOption.text = val;
-                    if (selectElement.children.length > 1) {
-                        selectElement.insertBefore(newOption, selectElement.children[1]);
-                    } else {
-                        selectElement.appendChild(newOption);
-                    }
-                    newOption.selected = true;
-                }
-                function fetchCustomErDiagramContent(customDiagram) {
-                    showAILoadingBar();
-                    const encodedDiagram = encodeURIComponent(customDiagram);
-                    return fetch(`resources/er-diagram/generate?request=${encodedDiagram}`)
-                            .then(response => {
-                                hideAILoadingBar();
-                                if (!response.ok) {
-                                    checkLimitExhaust(response);
-                                }
-                                return response.text();
-                            })
-                            .catch(error => {
-                                hideAILoadingBar();
-                                console.error('Error fetching custom diagram:', error);
-                                return null;
-                            });
-                }
+                
                 $('#mermaidErDiagramListPreview')
                         .editableSelect()
                         .on('select.editable-select', async function (e, li) {
@@ -1088,7 +1023,7 @@
                     document.getElementById('erDiagram').innerHTML = editor.getValue();
                 }
             };
-
+            
         </script>
         <script>
             // Function to open the modal and populate live preview and source code
@@ -1099,8 +1034,78 @@
                         editor.refresh(); 
                     }
                 }, 200); 
+                
+                $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
+                    debugger;
+                    if (e.key === 'Enter') {
+                        debugger;
+                        const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
+                        if (erDiagrams.includes(selectedDiagramId)) {
+                            if (!erDiagramContent[selectedDiagramId]) {
+                                const content = await fetchErDiagramContent(selectedDiagramId);
+                                if (content) {
+                                    erDiagramContent[selectedDiagramId] = content;
+                                }
+                            }
+                            editor.setValue(erDiagramContent[selectedDiagramId]);
+                            document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
+
+                            erDiagramChat = [];
+                            erDiagramChat.push({"erd": content});
+                            erDiagramChatIndex = erDiagramChat.length - 1;
+                            updateButtonStates();
+
+                        } else {
+                            const content = await fetchCustomErDiagramContent(selectedDiagramId);
+                            erDiagramContent[selectedDiagramId] = content;
+                            prependOptionToMermaidErDiagramList(selectedDiagramId);
+                            if (content) {
+                                editor.setValue(content);
+                                document.getElementById('erDiagram').innerHTML = content;
+                                
+                                erDiagramChat = [];
+                                erDiagramChat.push({"erd": content});
+                                erDiagramChatIndex = erDiagramChat.length - 1;
+                                updateButtonStates();
+                            }
+                        }
+                        
+                    }
+                });
+                
+                
             }
 
+            function prependOptionToMermaidErDiagramList(val) {
+                var selectElement = document.getElementById('mermaidErDiagramList');
+                var newOption = document.createElement('option');
+                newOption.value = val;
+                newOption.text = val;
+                if (selectElement.children.length > 1) {
+                    selectElement.insertBefore(newOption, selectElement.children[1]);
+                } else {
+                    selectElement.appendChild(newOption);
+                }
+                newOption.selected = true;
+            }
+
+            function fetchCustomErDiagramContent(customDiagram) {
+                showAILoadingBar();
+                const encodedDiagram = encodeURIComponent(customDiagram);
+                return fetch(`resources/er-diagram/generate?request=${encodedDiagram}`)
+                        .then(response => {
+                            hideAILoadingBar();
+                            if (!response.ok) {
+                                checkLimitExhaust(response);
+                            }
+                            return response.text();
+                        })
+                        .catch(error => {
+                            hideAILoadingBar();
+                            console.error('Error fetching custom diagram:', error);
+                            return null;
+                        });
+            }
         </script>
 
         <script src="assets/main.js"></script>

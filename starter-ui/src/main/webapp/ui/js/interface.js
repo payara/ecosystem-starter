@@ -56,12 +56,12 @@ var blinky_addIcon = function(icon, t) {
 	// Add the icon to the SVG.
 	if (typeof icon === 'string') {
 		const i_use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-		i_use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: t})+'/ui/images/icons.svg#icon-'+icon);
+		i_use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: t})+'ui/images/icons.svg#icon-'+icon);
 		i.append(i_use);
 	} else {
 		for (const [k, v] of icon.entries()) {
 			const k = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-			k.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: t})+'/ui/images/icons.svg#icon-'+v.icon);
+			k.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: t})+'ui/images/icons.svg#icon-'+v.icon);
 			k.setAttribute('class', v.css);
 			i.append(k);
 		}
@@ -839,7 +839,7 @@ var accordion = (function() {
 		var c = 1;
 		for (var i=0; i<items.length; i++) {
 			if (items[i].parentElement.querySelector('.accordion__toggle') == null) {
-				items[i].insertAdjacentHTML('beforebegin', '<button class="accordion__toggle button button--clear" aria-expanded="false" aria-controls="acc'+c+'" type="button"><svg class="icon icon--nav" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true"><use href="'+acc.icon+'/ui/images/icons.svg#icon-menu-arrow"></use></svg><span class="visually-hidden">'+acc.label+'</span></button>');
+				items[i].insertAdjacentHTML('beforebegin', '<button class="accordion__toggle button button--clear" aria-expanded="false" aria-controls="acc'+c+'" type="button"><svg class="icon icon--nav" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true"><use href="'+acc.icon+'ui/images/icons.svg#icon-menu-arrow"></use></svg><span class="visually-hidden">'+acc.label+'</span></button>');
 			} else {
 				items[i].parentElement.querySelector('.accordion__toggle').setAttribute('aria-controls', 'acc'+c);
 			}
@@ -1064,7 +1064,7 @@ class BlinkyShoutbox extends HTMLElement {
 
 			// Add the icon to the SVG.
 			const icon_use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-			icon_use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: this})+'/ui/images/icons.svg#icon-'+bits.icon);
+			icon_use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', ui_path({el: this})+'ui/images/icons.svg#icon-'+bits.icon);
 			icon.append(icon_use);
 		}
 
@@ -1519,7 +1519,7 @@ var menu = (function() {
 			if (menu_item.type !== 'split') __replicate_toggle_item(toggle);
 			
 			// Add the submenu icons.
-			var icon_code = '<svg class="icon icon--nav" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true"><use href="'+menu_item.icon+'/ui/images/icons.svg#icon-menu-arrow"></use></svg>';
+			var icon_code = '<svg class="icon icon--nav" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true"><use href="'+menu_item.icon+'ui/images/icons.svg#icon-menu-arrow"></use></svg>';
 			if (menu_item.type !== 'split') {
 				toggle.insertAdjacentHTML('beforeend', icon_code);
 			} else {
@@ -3259,7 +3259,7 @@ var file_upload_prettifier = (function() {
 		// Add the filenames to the fake listing.
 		if (el.files.length > 0) {
 			for (i=0; i<el.files.length; i++) {
-				html+= '<span><svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="'+ui_path({el: el})+'/ui/images/icons.svg#icon-page"></use></svg> '+el.files[i].name+'</span>';
+				html+= '<span><svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><use href="'+ui_path({el: el})+'ui/images/icons.svg#icon-page"></use></svg> '+el.files[i].name+'</span>';
 			}
 		}
 
