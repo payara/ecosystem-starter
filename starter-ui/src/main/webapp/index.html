@@ -724,9 +724,9 @@
                 'Waste Management System'
             ];
 
-            var erDiagramContent = {};
-            var erDiagramChat = [];
-            var erDiagramChatIndex = 0;
+            window.erDiagramContent = {};
+            window.erDiagramChat = [];
+            window.erDiagramChatIndex = 0;
 
             document.getElementById('prevERDiagram').addEventListener('click', prevERDiagram);
             document.getElementById('nextERDiagram').addEventListener('click', nextERDiagram);
@@ -1036,9 +1036,7 @@
                 }, 200); 
                 
                 $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
-                    debugger;
                     if (e.key === 'Enter') {
-                        debugger;
                         const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
                         if (erDiagrams.includes(selectedDiagramId)) {
                             if (!erDiagramContent[selectedDiagramId]) {
