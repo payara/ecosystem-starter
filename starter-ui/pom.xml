@@ -58,7 +58,6 @@
             <version>10.0.0</version>
             <scope>provided</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-embedder</artifactId>
