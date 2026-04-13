@@ -1,8 +1,6 @@
 <#-- 
-    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
-
-    Copyright (c) [2025] Payara Foundation and/or its affiliates. All rights reserved.
-
+    Copyright (c) 2026 Payara Foundation and/or its affiliates. All rights reserved.
+   
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
     and Distribution License("CDDL") (collectively, the "License").  You
@@ -11,20 +9,20 @@
     https://github.com/payara/Payara/blob/master/LICENSE.txt
     See the License for the specific
     language governing permissions and limitations under the License.
-
+   
     When distributing the software, include this License Header Notice in each
     file and include the License file at glassfish/legal/LICENSE.txt.
-
+   
     GPL Classpath Exception:
     The Payara Foundation designates this particular file as subject to the "Classpath"
     exception as provided by the Payara Foundation in the GPL Version 2 section of the License
     file that accompanied this code.
-
+   
     Modifications:
     If applicable, add the following below the License Header, with the fields
     enclosed by brackets [] replaced by your own identifying information:
     "Portions Copyright [year] [name of copyright owner]"
-
+   
     Contributor(s):
     If you wish your version of this file to be governed by only the CDDL or
     only the GPL Version 2, indicate your decision by adding "[Contributor]
@@ -39,37 +37,11 @@
 -->
 package ${package};
 
-import ${model.importPrefix}.faces.component.UIComponent;
-import ${model.importPrefix}.faces.context.FacesContext;
-import ${model.importPrefix}.faces.convert.Converter;
-import ${model.importPrefix}.faces.convert.FacesConverter;
-import ${model.importPrefix}.inject.Inject;
 import ${EntityClass_FQN};
-import ${EntityRepository_FQN};
+import ${model.importPrefix}.data.repository.CrudRepository;
+import ${model.importPrefix}.data.repository.Repository;
 
-@FacesConverter(value = "${entityConverterName}", managed = true)
-public class ${entityConverterClass} implements Converter<${instanceType}> {
+@Repository
+public interface ${EntityRepository} extends CrudRepository<${EntityClass}, ${EntityPKClass}> {
 
-    @Inject
-    private ${EntityRepository} ${entityRepository};
-
-    @Override
-    public ${instanceType} getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value == null || value.isEmpty()) {
-            return null;
-        }
-<#if model.jakartaVersion gt 10>
-        return ${entityRepository}.findById(${pkType}.valueOf(value)).orElse(null);
-<#else>
-        return ${entityRepository}.find(${pkType}.valueOf(value));
-</#if>
-    }
-
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, ${instanceType} ${instanceName}) {
-        if (${instanceName} == null || ${instanceName}.${pkGetter}() == null) {
-            return "";
-        }
-        return ${instanceName}.${pkGetter}().toString();
-    }
 }
