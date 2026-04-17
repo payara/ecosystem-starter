@@ -1,5 +1,5 @@
 <#-- 
-    Copyright 2024 the original author or authors from the Jeddict project (https://jeddict.github.io/).
+    Copyright 2024-2026 the original author or authors from the Jeddict project (https://jeddict.github.io/).
 
     Licensed under the Apache License, Version 2.0 (the "License"); you may not
     use this file except in compliance with the License. You may obtain a copy of
@@ -99,7 +99,11 @@ public class ${controllerClass} {
             <#if attribute.multi>
             <#else>
         if (${instanceName}.get${attribute.getTitleCaseName()}() != null && ${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+<#if model.jakartaVersion gt 10>
+            ${instanceName}.set${attribute.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.findById(${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()).orElse(null));
+<#else>
             ${instanceName}.set${attribute.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
+</#if>
         } else {
             ${instanceName}.set${attribute.getTitleCaseName()}(null);
         }
@@ -107,7 +111,11 @@ public class ${controllerClass} {
         <#else>
         </#if>
     </#list>
+<#if model.jakartaVersion gt 10>
+        ${entityRepository}.save(${instanceName});
+<#else>
         ${entityRepository}.create(${instanceName});
+</#if>
         return HeaderUtil.createEntityCreationAlert(Response.created(new URI("/${applicationPath}/api/${entityApiUrl}/" + ${instanceName}.${pkGetter}())),
                 ENTITY_NAME, <#if isPKPrimitive>String.valueOf(${instanceName}.${pkGetter}())<#elseif pkType == "String">${instanceName}.${pkGetter}()<#else>${instanceName}.${pkGetter}().toString()</#if>)
                 .entity(${instanceName}).build();
@@ -137,7 +145,11 @@ public class ${controllerClass} {
             <#if attribute.multi>
             <#else>
         if (${instanceName}.get${attribute.getTitleCaseName()}() != null && ${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}() != null) {
+<#if model.jakartaVersion gt 10>
+            ${instanceName}.set${attribute.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.findById(${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()).orElse(null));
+<#else>
             ${instanceName}.set${attribute.getTitleCaseName()}(${attribute.name}${EntityRepositorySuffix}.find(${instanceName}.get${attribute.getTitleCaseName()}().get${model.getEntity(attribute.type).getPrimaryKeyFirstUpperName()}()));
+</#if>
         } else {
             ${instanceName}.set${attribute.getTitleCaseName()}(null);
         }
@@ -145,7 +157,11 @@ public class ${controllerClass} {
         <#else>
         </#if>
     </#list>
+<#if model.jakartaVersion gt 10>
+        ${entityRepository}.save(${instanceName});
+<#else>
         ${entityRepository}.edit(${instanceName});
+</#if>
         return HeaderUtil.createEntityUpdateAlert(Response.ok(), ENTITY_NAME, <#if isPKPrimitive>String.valueOf(${instanceName}.${pkGetter}())<#else>${instanceName}.${pkGetter}().toString()</#if>)
                 .entity(${instanceName}).build();
     }
@@ -167,7 +183,11 @@ public class ${controllerClass} {
     <#if pagination == "no">
     public List<${instanceType}> getAll${EntityClassPlural}() {
         LOG.log(Level.FINE, "REST request to get all ${EntityClassPlural}");
+<#if model.jakartaVersion gt 10>
+        List<${EntityClass}> ${entityInstancePlural} = ${entityRepository}.findAll().toList();
+<#else>
         List<${EntityClass}> ${entityInstancePlural} = ${entityRepository}.findAll();
+</#if>
         return ${entityInstancePlural};
     }
     <#else>
@@ -195,10 +215,16 @@ public class ${controllerClass} {
     @Produces(MediaType.APPLICATION_JSON)
     public Response get${EntityClass}(@PathParam("${pkName}") ${pkType} ${pkName}) {
         LOG.log(Level.FINE, "REST request to get ${EntityClass} : {}", ${pkName});
+<#if model.jakartaVersion gt 10>
+        return ${entityRepository}.findById(${pkName})
+                .map(res -> Response.status(Response.Status.OK).entity(res).build())
+                .orElse(Response.status(Response.Status.NOT_FOUND).build());
+<#else>
         ${instanceType} ${instanceName} = ${entityRepository}.find(${pkName});
         return Optional.ofNullable(${instanceName})
                 .map(res -> Response.status(Response.Status.OK).entity(${instanceName}).build())
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
+</#if>
     }
 
     /**
@@ -215,7 +241,11 @@ public class ${controllerClass} {
     @Path("/{${pkName}}")
     public Response remove${EntityClass}(@PathParam("${pkName}") ${pkType} ${pkName}) {
         LOG.log(Level.FINE, "REST request to delete ${EntityClass} : {}", ${pkName});
+<#if model.jakartaVersion gt 10>
+        ${entityRepository}.deleteById(${pkName});
+<#else>
         ${entityRepository}.remove(${entityRepository}.find(${pkName}));
+</#if>
         return HeaderUtil.createEntityDeletionAlert(Response.ok(), ENTITY_NAME, <#if isPKPrimitive>String.valueOf(${pkName})<#else>${pkName}.toString()</#if>).build();
     }
 

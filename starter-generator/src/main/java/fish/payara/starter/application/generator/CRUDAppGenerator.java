@@ -304,12 +304,16 @@ public class CRUDAppGenerator {
             Map<String, Object> dataModel = createEntityDataModel(model, entity, _package, domainLayer, repositoryLayer);
             dataModel.put("model", model);
             dataModel.put("package", repositoryPackage);
-            dataModel.put("cdi", true);
-            dataModel.put("named", false);
-            dataModel.put("AbstractRepository", "Abstract" + firstUpper(repositoryLayer));
-            dataModel.put("AbstractRepository_FQN", _package + "." + repositoryLayer + "." + "Abstract" + firstUpper(repositoryLayer));
 
-            processTemplateToFile(cfg, "EntityRepository.java.ftl", dataModel, outputDir, dataModel.get("EntityRepository") + ".java");
+            if (model.getJakartaVersion() > 10) {
+                processTemplateToFile(cfg, "EntityDataRepository.java.ftl", dataModel, outputDir, dataModel.get("EntityRepository") + ".java");
+            } else {
+                dataModel.put("cdi", true);
+                dataModel.put("named", false);
+                dataModel.put("AbstractRepository", "Abstract" + firstUpper(repositoryLayer));
+                dataModel.put("AbstractRepository_FQN", _package + "." + repositoryLayer + "." + "Abstract" + firstUpper(repositoryLayer));
+                processTemplateToFile(cfg, "EntityRepository.java.ftl", dataModel, outputDir, dataModel.get("EntityRepository") + ".java");
+            }
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
@@ -325,7 +329,9 @@ public class CRUDAppGenerator {
     }
 
     private void generateRepositoryBase(Map<String, Object> dataModel, String _package, File outputDir) {
-
+        if (model.getJakartaVersion() > 10) {
+            return; // No AbstractRepository needed for Jakarta Data
+        }
         dataModel.put("package", _package + "." + repositoryLayer);
         dataModel.put("cdi", true);
         dataModel.put("AbstractRepository", "Abstract" + firstUpper(repositoryLayer));
