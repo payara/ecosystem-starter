@@ -72,6 +72,9 @@ dependencies {
 #if (${addMicroprofileApi} == "true")
     providedCompile 'org.eclipse.microprofile:microprofile:${microprofileVersion}'
 #end
+#if (${auth} == "formAuthLDAP")
+    implementation 'com.unboundid:unboundid-ldapsdk:7.0.4'
+#end
 }
 
 repositories {
