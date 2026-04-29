@@ -6,41 +6,28 @@
 #end
 #end
 #if (${platform} == 'server')
-#if (${javaVersion} == '21')
 #if (${profile} == 'full')
-#set ($baseImage = "payara/server-full:${payaraVersion}-jdk21")
+#set ($imageRepo = "payara/server-full")
 #else
-#set ($baseImage = "payara/server-web:${payaraVersion}-jdk21")
-#end
-#elseif (${javaVersion} == '17')
-#if (${profile} == 'full')
-#set ($baseImage = "payara/server-full:${payaraVersion}-jdk17")
-#else
-#set ($baseImage = "payara/server-web:${payaraVersion}-jdk17")
-#end
-#elseif (${javaVersion} == '11')
-#if (${profile} == 'full')
-#set ($baseImage = "payara/server-full:${payaraVersion}-jdk11")
-#else
-#set ($baseImage = "payara/server-web:${payaraVersion}-jdk11")
-#end
-#else
-#if (${profile} == 'full')
-#set ($baseImage = "payara/server-full:${payaraVersion}")
-#else
-#set ($baseImage = "payara/server-web:${payaraVersion}")
-#end
+#set ($imageRepo = "payara/server-web")
 #end
 #elseif (${platform} == 'micro')
-#if (${javaVersion} == '21')
-#set ($baseImage = "payara/micro:${payaraVersion}-jdk21")
-#elseif (${javaVersion} == '17')
-#set ($baseImage = "payara/micro:${payaraVersion}-jdk17")
-#elseif (${javaVersion} == '11')
-#set ($baseImage = "payara/micro:${payaraVersion}-jdk11")
-#else
-#set ($baseImage = "payara/micro:${payaraVersion}")
+#set ($imageRepo = "payara/micro")
 #end
+#if (${dockerJdkTagSupported} == 'true')
+#if (${javaVersion} == '25')
+#set ($baseImage = "${imageRepo}:${payaraVersion}-jdk25")
+#elseif (${javaVersion} == '21')
+#set ($baseImage = "${imageRepo}:${payaraVersion}-jdk21")
+#elseif (${javaVersion} == '17')
+#set ($baseImage = "${imageRepo}:${payaraVersion}-jdk17")
+#elseif (${javaVersion} == '11')
+#set ($baseImage = "${imageRepo}:${payaraVersion}-jdk11")
+#else
+#set ($baseImage = "${imageRepo}:${payaraVersion}")
+#end
+#else
+#set ($baseImage = "${imageRepo}:${payaraVersion}")
 #end
 #if (${build} == 'maven')
 #set ($artifactParentDir = "target")

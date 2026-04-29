@@ -77,6 +77,7 @@ public class ApplicationConfiguration {
     public static final String ER_DIAGRAM_NAME = "erDiagramName";
     public static final String REST_SUBPACKAGE = "restSubpackage";
     public static final String GENERATE_WEB = "generateWeb";
+    public static final String DOCKER_JDK_TAG_SUPPORTED = "dockerJdkTagSupported";
 
     public static final String PAYARA_VERSION_6_2023_11 = "6.2023.11";
 

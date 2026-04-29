@@ -70,7 +70,7 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
         </requiredProperty>
         <requiredProperty key="javaVersion">
             <defaultValue>17</defaultValue>
-            <validationRegex>^(8|11|17|21)$</validationRegex>
+            <validationRegex>^(8|11|17|21|25)$</validationRegex>
         </requiredProperty>
         <requiredProperty key="platform">
             <defaultValue>server</defaultValue>
@@ -151,6 +151,10 @@ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
         <requiredProperty key="generateWeb">
             <defaultValue>none</defaultValue>
             <validationRegex>^(none|jsf|html)$</validationRegex>
+        </requiredProperty>
+        <requiredProperty key="dockerJdkTagSupported">
+            <defaultValue>true</defaultValue>
+            <validationRegex>^(false|true)$</validationRegex>
         </requiredProperty>
     </requiredProperties>
 
