@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2023-2024 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-2026 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -193,7 +193,7 @@ public class ApplicationConfiguration {
     }
 
     public String getArtifactId() {
-        return artifactId;
+        return StringUtil.toKebabCase(artifactId);
     }
 
     public void setArtifactId(String artifactId) {
