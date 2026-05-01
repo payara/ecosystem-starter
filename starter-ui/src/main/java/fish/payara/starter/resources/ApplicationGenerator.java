@@ -46,6 +46,7 @@ import static fish.payara.starter.resources.ApplicationConfiguration.ADD_PAYARA_
 import static fish.payara.starter.resources.ApplicationConfiguration.ARTIFACT_ID;
 import static fish.payara.starter.resources.ApplicationConfiguration.AUTH;
 import static fish.payara.starter.resources.ApplicationConfiguration.BUILD;
+import static fish.payara.starter.resources.ApplicationConfiguration.DOCKER_JDK_TAG_SUPPORTED;
 import static fish.payara.starter.resources.ApplicationConfiguration.DOCKER;
 import static fish.payara.starter.resources.ApplicationConfiguration.GENERATE_WEB;
 import static fish.payara.starter.resources.ApplicationConfiguration.GROUP_ID;
@@ -119,6 +120,9 @@ public class ApplicationGenerator {
 
     @Inject
     private LangChainChatService langChainChatService;
+
+    @Inject
+    private DockerImageTagService dockerImageTagService;
 
     public Future<File> generate(ApplicationConfiguration appProperties) {
         return executorService.submit(() -> {
@@ -222,6 +226,9 @@ public class ApplicationGenerator {
         properties.put(AUTH, appProperties.getAuth());
         properties.put(REST_SUBPACKAGE, appProperties.getRestSubpackage());
         properties.put(GENERATE_WEB, appProperties.getGenerateWeb());
+        boolean jdkTagSupported = dockerImageTagService.isJdkTagAvailable(
+                appProperties.getPayaraVersion(), appProperties.getJavaVersion());
+        properties.put(DOCKER_JDK_TAG_SUPPORTED, jdkTagSupported);
         return properties;
     }
 
