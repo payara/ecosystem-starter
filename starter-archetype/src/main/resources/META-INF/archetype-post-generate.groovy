@@ -86,12 +86,16 @@ private generateSource(build, _package, platform, jakartaEEVersion,
         FileUtils.forceDelete(new File(outputDirectory, "gradle/wrapper/gradle-wrapper.jar"))
         FileUtils.forceDelete(new File(outputDirectory, "gradle/wrapper/gradle-wrapper.properties"))
         FileUtils.forceDelete(new File(outputDirectory, "gradle"))
+        new File(outputDirectory, "mvnw").setExecutable(true, false)
+        println "Setting executable permission for mvnw"
     } else {
         FileUtils.forceDelete(new File(outputDirectory, "pom.xml"))
         FileUtils.forceDelete(new File(outputDirectory, "mvnw"))
         FileUtils.forceDelete(new File(outputDirectory, "mvnw.cmd"))
         FileUtils.forceDelete(new File(outputDirectory, ".mvn/wrapper/maven-wrapper.properties"))
         FileUtils.forceDelete(new File(outputDirectory, ".mvn"))
+        new File(outputDirectory, "gradlew").setExecutable(true, false)
+        println "Setting executable permission for gradlew"
     }
     if (platform.equals("micro")) {
         FileUtils.forceDelete(new File(outputDirectory, "src/test/resources"))
