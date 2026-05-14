@@ -270,7 +270,6 @@ public class ApplicationGenerator {
                     if (executables.contains(destFile.toString())) {
                         Set<PosixFilePermission> perms;
                         if (System.getProperty("os.name").startsWith("Windows")) {
-                            // use typical setup, r/w for owner and group, r for others
                             perms = new HashSet<>(Set.of(
                                     PosixFilePermission.OWNER_READ,
                                     PosixFilePermission.OWNER_WRITE,
@@ -279,10 +278,11 @@ public class ApplicationGenerator {
                                     PosixFilePermission.OTHERS_READ
                             ));
                         } else {
-                            // some of the files should be executable on Unix systems
                             perms = new HashSet<>(Files.getPosixFilePermissions(file));
                         }
-                        perms.add(PosixFilePermission.OWNER_EXECUTE); // existing permissions + executable for user
+                        perms.add(PosixFilePermission.OWNER_EXECUTE);
+                        perms.add(PosixFilePermission.GROUP_EXECUTE);
+                        perms.add(PosixFilePermission.OTHERS_EXECUTE);
                         Files.setAttribute(destFile, "zip:permissions", perms);
                     }
                     return FileVisitResult.CONTINUE;

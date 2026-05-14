@@ -1,14 +1,7 @@
-def appDir = new File("./target/it/appwithtest/AppWithTest")
+def appDir = new File(new File("."), "AppWithTest")
 def isWin = System.getProperty("os.name").toLowerCase().contains("win")
 def mvnCmd = isWin ? ["cmd", "/c", "mvnw.cmd", "verify"] : ["./mvnw", "verify"]
-// Add execute permission to mvnw on Unix-like systems
-if (!isWin) {
-    def mvnw = new File(appDir, "mvnw")
-    if (mvnw.exists()) {
-        mvnw.setExecutable(true)
-    }
-}
-def proc = mvnCmd.execute(null, appDir)
+def proc = new ProcessBuilder(mvnCmd).directory(appDir).start()
 proc.consumeProcessOutput(System.out, System.err)
 def exit = proc.waitFor()
 if (exit != 0) throw new RuntimeException("mvn test failed in AppWithTest")
