@@ -64,10 +64,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -75,6 +78,28 @@ import java.util.function.Predicate;
  * @author Gaurav Gupta
  */
 public class JavaUtil {
+
+    public static final Set<String> JAVA_RESERVED_KEYWORDS = new HashSet<>(Arrays.asList(
+            "abstract", "assert", "boolean", "break", "byte", "case", "catch",
+            "char", "class", "const", "continue", "default", "do", "double",
+            "else", "enum", "extends", "final", "finally", "float", "for",
+            "goto", "if", "implements", "import", "instanceof", "int",
+            "interface", "long", "native", "new", "package", "private",
+            "protected", "public", "return", "short", "static", "strictfp",
+            "super", "switch", "synchronized", "this", "throw", "throws",
+            "transient", "try", "void", "volatile", "while",
+            "true", "false", "null",
+            "_", "yield", "record", "sealed", "non-sealed", "permits", "var"
+    ));
+
+    /**
+     * Returns a valid Java identifier for {@code name}. If {@code name} collides
+     * with a Java reserved keyword (e.g. {@code case}, {@code class}), a single
+     * underscore is appended so the identifier compiles.
+     */
+    public static String escapeJavaIdentifier(String name) {
+        return JAVA_RESERVED_KEYWORDS.contains(name) ? name + "_" : name;
+    }
 
     public static boolean isJava9() {
         return getJavaVersion() >= 9;

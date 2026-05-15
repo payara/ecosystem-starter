@@ -60,6 +60,7 @@ import fish.payara.starter.application.domain.Attribute;
 import static fish.payara.starter.application.util.AttributeType.isBoolean;
 import static fish.payara.starter.application.util.AttributeType.isPrimitive;
 import static fish.payara.starter.application.util.JPAUtil.ALL_RESERVED_KEYWORDS;
+import static fish.payara.starter.application.util.JavaUtil.escapeJavaIdentifier;
 import static fish.payara.starter.application.util.JavaUtil.getIntrospectionPrefix;
 import static fish.payara.starter.application.util.JavaUtil.getMethodName;
 import static fish.payara.starter.application.util.StringUtils.firstLower;
@@ -681,7 +682,7 @@ public class CRUDAppGenerator {
         dataModel.put("entity", entity);
         dataModel.put("entityTranslationKey", entityInstance);
         dataModel.put("instanceType", entity.getClassName());
-        dataModel.put("instanceName", entityInstance);
+        dataModel.put("instanceName", escapeJavaIdentifier(entityInstance));
 
         dataModel.put("model", model);
         dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
