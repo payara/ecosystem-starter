@@ -32,10 +32,10 @@ public class ${beanClass} implements Serializable {
     @Inject
     private transient ${EntityRepository} ${entityRepository};
 
-    private ${EntityClass} ${entityInstance} = new ${EntityClass}();
+    private ${EntityClass} ${instanceName} = new ${EntityClass}();
 
     public ${EntityClass} get${EntityClass}() {
-        return ${entityInstance};
+        return ${instanceName};
     }
 
     public List<${EntityClass}> getAll${EntityClassPlural}() {
@@ -43,16 +43,16 @@ public class ${beanClass} implements Serializable {
     }
 
     public String create() {
-      
+
         return null;
     }
     public String save() {
-        if (${entityInstance}.${pkGetter}() == null) {
-             ${entityRepository}.create(${entityInstance});
+        if (${instanceName}.${pkGetter}() == null) {
+             ${entityRepository}.create(${instanceName});
         } else {
-             ${entityRepository}.edit(${entityInstance});
+             ${entityRepository}.edit(${instanceName});
         }
-        ${entityInstance} = new ${EntityClass}(); // reset
+        ${instanceName} = new ${EntityClass}(); // reset
         return null;
     }
 
@@ -62,7 +62,7 @@ public class ${beanClass} implements Serializable {
     }
 
     public String edit(${EntityClass} p) {
-        this.${entityInstance} = p;
+        this.${instanceName} = p;
         return null;
     }
 
