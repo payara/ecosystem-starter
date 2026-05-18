@@ -60,6 +60,7 @@ import fish.payara.starter.application.domain.Attribute;
 import static fish.payara.starter.application.util.AttributeType.isBoolean;
 import static fish.payara.starter.application.util.AttributeType.isPrimitive;
 import static fish.payara.starter.application.util.JPAUtil.ALL_RESERVED_KEYWORDS;
+import static fish.payara.starter.application.util.JavaUtil.escapeJavaIdentifier;
 import static fish.payara.starter.application.util.JavaUtil.getIntrospectionPrefix;
 import static fish.payara.starter.application.util.JavaUtil.getMethodName;
 import static fish.payara.starter.application.util.StringUtils.firstLower;
@@ -397,7 +398,7 @@ public class CRUDAppGenerator {
             if (attributeName.length() < escapedAttributeName.length()) {
                 sbBody.append("    @Column(name = \"").append(escapedAttributeName).append("\")\n");
             }
-            sbBody.append("    private ").append(attribute.getType()).append(" ").append(attribute.getName()).append(";\n\n");
+            sbBody.append("    private ").append(attribute.getType()).append(" ").append(escapeJavaIdentifier(attribute.getName())).append(";\n\n");
             _imports.addAll(attribute.getImports());
         }
 
@@ -405,12 +406,13 @@ public class CRUDAppGenerator {
         for (Attribute attribute : entity.getAttributes()) {
             String type = attribute.getType();
             String name = attribute.getName();
+            String safeName = escapeJavaIdentifier(name);
             String capitalized = name.substring(0, 1).toUpperCase() + name.substring(1);
             sbfunc.append("    public ").append(type).append(" get").append(capitalized).append("() {\n");
-            sbfunc.append("        return ").append(name).append(";\n");
+            sbfunc.append("        return ").append(safeName).append(";\n");
             sbfunc.append("    }\n\n");
-            sbfunc.append("    public void set").append(capitalized).append("(").append(type).append(" ").append(name).append(") {\n");
-            sbfunc.append("        this.").append(name).append(" = ").append(name).append(";\n");
+            sbfunc.append("    public void set").append(capitalized).append("(").append(type).append(" ").append(safeName).append(") {\n");
+            sbfunc.append("        this.").append(safeName).append(" = ").append(safeName).append(";\n");
             sbfunc.append("    }\n\n");
         }
 
@@ -430,7 +432,7 @@ public class CRUDAppGenerator {
             }
         }
         if (primaryKey != null) {
-            String pkName = primaryKey.getName();
+            String pkName = escapeJavaIdentifier(primaryKey.getName());
 
             sbfunc.append("    @Override\n");
             sbfunc.append("    public int hashCode() {\n");
@@ -465,9 +467,9 @@ public class CRUDAppGenerator {
         sbfunc.append("    @Override\n");
         sbfunc.append("    public String toString() {\n");
         if (displayNameAttr != null) {
-            sbfunc.append("        return String.valueOf(").append(displayNameAttr.getName()).append(");\n");
+            sbfunc.append("        return String.valueOf(").append(escapeJavaIdentifier(displayNameAttr.getName())).append(");\n");
         } else {
-            sbfunc.append("        return String.valueOf(").append(primaryKey.getName()).append(");\n");
+            sbfunc.append("        return String.valueOf(").append(escapeJavaIdentifier(primaryKey.getName())).append(");\n");
         }
         sbfunc.append("    }\n\n");
 
@@ -496,7 +498,8 @@ public class CRUDAppGenerator {
         for (Attribute attribute : entity.getAttributes()) {
             String capitalized = attribute.getName().substring(0, 1).toUpperCase() + attribute.getName().substring(1);
             String queryName = entity.getClassName() + ".findBy" + capitalized;
-            String queryString = "SELECT e FROM " + entity.getClassName() + " e WHERE e." + attribute.getName() + " = :" + attribute.getName();
+            String safeName = escapeJavaIdentifier(attribute.getName());
+            String queryString = "SELECT e FROM " + entity.getClassName() + " e WHERE e." + safeName + " = :" + safeName;
             sb.append("    @NamedQuery(name = \"").append(queryName).append("\", query = \"").append(queryString).append("\"),\n");
         }
 
@@ -519,6 +522,14 @@ public class CRUDAppGenerator {
         String secondEntityVar = relationship.getRelationshipVarNameInSecondEntity() != null ? relationship.getRelationshipVarNameInSecondEntity() : firstEntity.toLowerCase();
         String secondEntityVars = pluralize(secondEntityVar);
         secondEntityVar = singularize(secondEntityVar);
+
+        // Preserve the raw lower-case form for DB column naming before escaping for Java identifiers.
+        String secondEntityVarColumn = secondEntityVar;
+
+        firstEntityVar = escapeJavaIdentifier(firstEntityVar);
+        firstEntityVars = escapeJavaIdentifier(firstEntityVars);
+        secondEntityVar = escapeJavaIdentifier(secondEntityVar);
+        secondEntityVars = escapeJavaIdentifier(secondEntityVars);
 
         if (isFirstEntity) {
             switch (relationshipType) {
@@ -566,7 +577,7 @@ public class CRUDAppGenerator {
                     Attribute attribute = new Attribute(secondEntityVar, false, firstEntity);
                     entity.getAttributes().add(attribute);
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
-                    String joinColumn = "    @JoinColumn(name = \"" + attribute.getName() + "_id\")";
+                    String joinColumn = "    @JoinColumn(name = \"" + secondEntityVarColumn + "_id\")";
                     appendAttribute(sbfunc, sb, attribute, "    @JsonbTransient\n    @OneToOne\n" + joinColumn, _imports, false);
                     break;
                 }
@@ -574,7 +585,7 @@ public class CRUDAppGenerator {
                 case "||--o{": {
                     Attribute attribute = new Attribute(secondEntityVar, false, firstEntity);
                     entity.getAttributes().add(attribute);
-                    String joinColumn = "    @JoinColumn(name = \"" + attribute.getName() + "_id\")";
+                    String joinColumn = "    @JoinColumn(name = \"" + secondEntityVarColumn + "_id\")";
                     appendAttribute(sbfunc, sb, attribute, "    @ManyToOne\n" + joinColumn, _imports, false);
                     break;
                 }
@@ -586,7 +597,7 @@ public class CRUDAppGenerator {
                     entity.getAttributes().add(attribute);
                     _imports.add(model.getImportPrefix() + ".json.bind.annotation.JsonbTransient");
                     _imports.add("java.util.List");
-                    String joinColumn = "    @JoinColumn(name = \"" + secondEntityVar + "_id\")";
+                    String joinColumn = "    @JoinColumn(name = \"" + secondEntityVarColumn + "_id\")";
                     appendAttribute(sbfunc, sb, attribute, "    @JsonbTransient\n    @ManyToMany\n" + joinColumn, _imports, true);
                     break;
                 }
@@ -681,7 +692,7 @@ public class CRUDAppGenerator {
         dataModel.put("entity", entity);
         dataModel.put("entityTranslationKey", entityInstance);
         dataModel.put("instanceType", entity.getClassName());
-        dataModel.put("instanceName", entityInstance);
+        dataModel.put("instanceName", escapeJavaIdentifier(entityInstance));
 
         dataModel.put("model", model);
         dataModel.put("entityNameLowerCase", entity.getLowerCaseName());
@@ -704,7 +715,7 @@ public class CRUDAppGenerator {
 
         String pkName = entity.getPrimaryKeyName();
         String pkType = entity.getPrimaryKeyType();
-        dataModel.put("pkName", firstLower(pkName));
+        dataModel.put("pkName", escapeJavaIdentifier(firstLower(pkName)));
         dataModel.put("pkGetter", getMethodName(getIntrospectionPrefix(isBoolean(pkType)), pkName));
         dataModel.put("pkSetter", getMethodName("set", pkName));
         dataModel.put("pkType", pkType);
