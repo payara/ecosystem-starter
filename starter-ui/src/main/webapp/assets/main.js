@@ -356,29 +356,59 @@ const fileRealmCheckbox = document.getElementById('formAuthFileRealm');
 const databaseCheckbox = document.getElementById('formAuthDB');
 const ldapCheckbox = document.getElementById('formAuthLDAP');
 
+const ER_DIAGRAM_CONTROL_IDS = [
+    'mermaidErDiagramList', 'generateJpa', 'jpaSubpackage',
+    'generateRepository', 'repositorySubpackage',
+    'generateRest', 'restSubpackage', 'generateWeb'
+];
+
+function disableCoreProfileOptions() {
+    // Disable and reset security auth options
+    fileRealmCheckbox.disabled = true;
+    databaseCheckbox.disabled = true;
+    ldapCheckbox.disabled = true;
+    fileRealmCheckbox.checked = false;
+    databaseCheckbox.checked = false;
+    ldapCheckbox.checked = false;
+    noneAuthCheckbox.checked = true;
+    document.getElementById('securityNotice').style.display = 'block';
+
+    // Disable ER Diagram controls
+    ER_DIAGRAM_CONTROL_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = true;
+    });
+    document.querySelector('button[onclick="openMermaidPreview()"]').disabled = true;
+    document.getElementById('erDiagramNotice').style.display = 'block';
+}
+
+function enableCoreProfileOptions() {
+    // Re-enable security auth options
+    fileRealmCheckbox.disabled = false;
+    databaseCheckbox.disabled = false;
+    ldapCheckbox.disabled = false;
+    document.getElementById('securityNotice').style.display = 'none';
+
+    // Re-enable ER Diagram controls
+    ER_DIAGRAM_CONTROL_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = false;
+    });
+    document.querySelector('button[onclick="openMermaidPreview()"]').disabled = false;
+    document.getElementById('erDiagramNotice').style.display = 'none';
+}
+
 coreRadioButton.addEventListener('change', function (event) {
     if (event.target.checked) {
-        // Disable Form Authentication checkboxes for the Core Profile
-        fileRealmCheckbox.disabled = true;
-        databaseCheckbox.disabled = true;
-        ldapCheckbox.disabled = true;
-
-        fileRealmCheckbox.checked = false;
-        databaseCheckbox.checked = false;
-        ldapCheckbox.checked = false;
-        noneAuthCheckbox.checked = true;
+        disableCoreProfileOptions();
     }
 });
 
 platformRadioButton.addEventListener('change', toggleFormAuthCheckboxes);
 webRadioButton.addEventListener('change', toggleFormAuthCheckboxes);
 
-// Function to toggle Form Authentication checkboxes for Platform and Web profiles
 function toggleFormAuthCheckboxes(event) {
     if (platformRadioButton.checked || webRadioButton.checked) {
-        // Enable Form Authentication checkboxes for Platform or Web Profile
-        fileRealmCheckbox.disabled = false;
-        databaseCheckbox.disabled = false;
-        ldapCheckbox.disabled = false;
+        enableCoreProfileOptions();
     }
 }
