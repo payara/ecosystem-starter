@@ -57,14 +57,15 @@ function updateLabelsForBuildSystem() {
 
 function showIncludeTests() {
     const includeTestsCheckbox = document.getElementById('includeTests');
-    includeTestsCheckbox.style.display = 'block'; // Show the checkbox
-    includeTestsCheckbox.disabled = false; // Enable the checkbox
+    includeTestsCheckbox.disabled = false;
+    document.getElementById('includeTestsNotice').style.display = 'none';
 }
 
 function hideAndDeselectIncludeTests() {
     const includeTestsCheckbox = document.getElementById('includeTests');
-    includeTestsCheckbox.style.display = 'none'; // Hide the checkbox
-    includeTestsCheckbox.checked = false; // Deselect the checkbox
+    includeTestsCheckbox.checked = false;
+    includeTestsCheckbox.disabled = true;
+    document.getElementById('includeTestsNotice').style.display = 'block';
 }
 
 // Get all the input fields in the form
@@ -373,11 +374,20 @@ function disableCoreProfileOptions() {
     noneAuthCheckbox.checked = true;
     document.getElementById('securityNotice').style.display = 'block';
 
-    // Disable ER Diagram controls
+    // Disable ER Diagram controls and clear all values
     ER_DIAGRAM_CONTROL_IDS.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = true;
     });
+    document.getElementById('mermaidErDiagramList').value = '';
+    document.getElementById('erDiagram').value = '';
+    document.getElementById('generateJpa').checked = false;
+    document.getElementById('generateRepository').checked = false;
+    document.getElementById('generateRest').checked = false;
+    document.getElementById('jpaSubpackage').value = '';
+    document.getElementById('repositorySubpackage').value = '';
+    document.getElementById('restSubpackage').value = '';
+    document.getElementById('generateWeb').value = 'none';
     document.querySelector('button[onclick="openMermaidPreview()"]').disabled = true;
     document.getElementById('erDiagramNotice').style.display = 'block';
 }
@@ -389,11 +399,18 @@ function enableCoreProfileOptions() {
     ldapCheckbox.disabled = false;
     document.getElementById('securityNotice').style.display = 'none';
 
-    // Re-enable ER Diagram controls
+    // Re-enable ER Diagram controls and restore defaults
     ER_DIAGRAM_CONTROL_IDS.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = false;
     });
+    document.getElementById('generateJpa').checked = true;
+    document.getElementById('generateRepository').checked = true;
+    document.getElementById('generateRest').checked = true;
+    document.getElementById('jpaSubpackage').value = 'domain';
+    document.getElementById('repositorySubpackage').value = 'service';
+    document.getElementById('restSubpackage').value = 'resource';
+    document.getElementById('generateWeb').value = 'jsf';
     document.querySelector('button[onclick="openMermaidPreview()"]').disabled = false;
     document.getElementById('erDiagramNotice').style.display = 'none';
 }
