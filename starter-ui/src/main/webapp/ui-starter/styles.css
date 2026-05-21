@@ -53,3 +53,7 @@
 .page:has(.modal[style*="block"]) {
 	overflow: hidden;
 }
+
+.profile-notice {
+    margin-bottom: 1rem;
+}

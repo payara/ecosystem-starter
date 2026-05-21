@@ -244,6 +244,11 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.diagramBlock.get()).isVisible();
     }
 
+    public void skipERDiagramSection() throws InterruptedException {
+        goToDiagramSection();
+        locators.nextButtonToSecurity.get().click();
+    }
+
     public void selectERDiagram(String value) {
         locators.searchERDiagram.get().selectOption(value);
         PlaywrightAssertions.assertThat(locators.searchERDiagram.get()).hasValue(value);

@@ -209,7 +209,7 @@ public class PayaraVersionsIT {
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
         starterPage.setDeployment(false, false);
-        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
+        starterPage.skipERDiagramSection();
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServerCore6EE10Jdk17.zip"));
 
