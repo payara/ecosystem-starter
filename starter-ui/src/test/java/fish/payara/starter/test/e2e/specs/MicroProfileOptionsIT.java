@@ -94,7 +94,7 @@ public class MicroProfileOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("Full MP");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17FullMP.zip"));
@@ -113,7 +113,7 @@ public class MicroProfileOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Config");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17MPConfig.zip"));
@@ -132,7 +132,7 @@ public class MicroProfileOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Fault Tolerance");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17MPFault.zip"));
@@ -151,7 +151,7 @@ public class MicroProfileOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17MPMetrics.zip"));
