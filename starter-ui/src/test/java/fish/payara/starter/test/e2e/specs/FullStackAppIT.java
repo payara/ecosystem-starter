@@ -95,7 +95,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 8", "8");
         starterPage.setMicroProfile("Full MP");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Product Catalog", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("Form Authentication - Database");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "productCatalogJdk8.zip"));
@@ -116,7 +116,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Micro", "5.2022.5", "5.2022.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 8", "8");
         starterPage.setMicroProfile("Full MP");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Sales Tracking", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("Form Authentication - LDAP");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "salesTrackingJdk8.zip"));
@@ -136,7 +136,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
         starterPage.setMicroProfile("MicroProfile Metrics");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Inventory System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
@@ -153,7 +153,7 @@ public class FullStackAppIT {
 
     @Test
     void flightReservationSystemJdk17() throws InterruptedException, IOException {
-        // Build with Maven, EE10 Web Profile, jdk17, Payara Micro 6, MP Metrics + Fault Tolerance, Payara Qube, ER Diagram = Flight Reservation System, include tests, no security
+        // Build with Maven, EE10 Web Profile, jdk17, Payara Micro 6, MP Metrics + Fault Tolerance, ER Diagram = Flight Reservation System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "flightReservationSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
         starterPage.closeGuidePopup();
@@ -161,7 +161,7 @@ public class FullStackAppIT {
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setMicroProfile("MicroProfile Fault Tolerance");
-        starterPage.setDeployment(false, true);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Flight Reservation System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("FLIGHT ||--o{ RESERVATION : ");
@@ -186,7 +186,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Auction Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "auctionManagementSystemJdk17.zip"));
@@ -206,7 +206,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Customer Relationship Management", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "customerRelationshipManagementJdk17.zip"));
@@ -226,7 +226,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Employee Management", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "employeeManagementJdk17.zip"));
@@ -246,7 +246,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Energy Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "energyManagementSystemJdk17.zip"));
@@ -266,7 +266,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Event Management", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "eventManagementJdk17.zip"));
@@ -286,7 +286,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Healthcare System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "healthcareSystemJdk17.zip"));
@@ -306,7 +306,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Insurance Claim Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "insuranceClaimManagementSystemJdk17.zip"));
@@ -326,7 +326,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Inventory System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "inventorySystemJdk17.zip"));
@@ -346,7 +346,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Laboratory Information Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "laboratoryInformationManagementSystemJdk17.zip"));
@@ -366,7 +366,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Law Firm Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "lawFirmManagementSystemJdk17.zip"));
@@ -386,7 +386,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Legal Case Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "legalCaseManagementSystemJdk17.zip"));
@@ -406,7 +406,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Library Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "libraryManagementSystemJdk17.zip"));
@@ -426,7 +426,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Membership Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "membershipManagementSystemJdk17.zip"));
@@ -446,7 +446,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Music Streaming Platform", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "musicStreamingPlatformJdk17.zip"));
@@ -466,7 +466,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Property Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "propertyManagementSystemJdk17.zip"));
@@ -486,7 +486,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Recruitment Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "recruitmentManagementSystemJdk17.zip"));
@@ -506,7 +506,7 @@ public class FullStackAppIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("Sales Tracking", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "salesTrackingJdk17.zip"));

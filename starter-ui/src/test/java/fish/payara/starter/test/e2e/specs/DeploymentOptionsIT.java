@@ -50,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @UsePlaywright
 public class DeploymentOptionsIT {
-    // Generates a simple application permuting the deployment options Docker/Payara Qube
+    // Generates a simple application with Docker deployment option
     private static Playwright playwright;
     private static Browser browser;
     private static BrowserContext context;
@@ -93,7 +93,7 @@ public class DeploymentOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(true, false);
+        starterPage.setDeployment(true);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer5EE8Jdk11Docker.zip"));
@@ -104,22 +104,4 @@ public class DeploymentOptionsIT {
                 "<maven.compiler.release>11</maven.compiler.release>"));
     }
 
-    @Test
-    void PayaraServer6EE10Jdk17Qube() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17Qube", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
-        starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, true);
-        starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("None");
-        starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17Qube.zip"));
-
-        FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17Qube.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17Qube");
-        assertTrue(FileManagement.checkFilePresence(new File("./target/test-app-maven/PayaraServer6EE10Jdk17Qube/pom.xml")));
-        assertTrue(FileManagement.checkFileContains(new File("./target/test-app-maven/PayaraServer6EE10Jdk17Qube/pom.xml"),
-                "<maven.compiler.release>17</maven.compiler.release>"));
-    }
 }

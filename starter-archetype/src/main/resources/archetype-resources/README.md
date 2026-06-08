@@ -49,20 +49,6 @@ To run the application locally, follow these steps:
 4. Once the runtime starts, you can access the project at http://localhost:8080/
 #end
 
-#if (${qube} == 'true')
-#[[##]]# Deploying to Payara Qube
-To deploy the application to Payara Qube follow these steps:
-
-#if (${build} == 'maven')
-Open a terminal and navigate to the project's root directory.
-Execute the following Maven command to build the application and deploy to the Payara Qube:
-
-```
-./mvn clean package payara-qube:dev
-```
-#end
-#end
-
 #if (${docker} == 'true')
 #[[##]]# Building a Docker Image
 To build a Docker image for this application follow these steps:

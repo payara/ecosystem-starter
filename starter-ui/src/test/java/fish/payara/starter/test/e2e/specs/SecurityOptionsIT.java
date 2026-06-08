@@ -94,7 +94,7 @@ public class SecurityOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("Form Authentication - File Realm");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuFileRealm.zip"));
@@ -113,7 +113,7 @@ public class SecurityOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("Form Authentication - Database");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuDB.zip"));
@@ -132,7 +132,7 @@ public class SecurityOptionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("Form Authentication - LDAP");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuLdap.zip"));

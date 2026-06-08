@@ -94,7 +94,7 @@ public class GradleBuildIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "gradleJdk11.zip"));
@@ -113,7 +113,7 @@ public class GradleBuildIT {
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "gradleJdk17.zip"));
@@ -132,7 +132,7 @@ public class GradleBuildIT {
         starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 21", "21");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "gradleJdk21.zip"));

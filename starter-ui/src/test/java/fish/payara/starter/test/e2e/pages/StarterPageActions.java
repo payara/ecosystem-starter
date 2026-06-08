@@ -220,20 +220,10 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.deploymentDocker.get()).isChecked();
     }
 
-    public void enableQubeDeployment() {
-        if (!locators.deploymentQube.get().isChecked()) {
-            locators.deploymentBlock.get().getByText("Payara Qube").click();
-        }
-        PlaywrightAssertions.assertThat(locators.deploymentQube.get()).isChecked();
-    }
-
-    public void setDeployment(Boolean docker, Boolean qube) throws InterruptedException {
+    public void setDeployment(Boolean docker) throws InterruptedException {
         goToDeploymentSection();
         if (docker) {
             enableDockerDeployment();
-        }
-        if (qube) {
-            enableQubeDeployment();
         }
     }
 

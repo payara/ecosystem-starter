@@ -94,7 +94,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer5EE8Jdk11.zip"));
@@ -113,7 +113,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE9Jdk11.zip"));
@@ -132,7 +132,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE91Jdk11.zip"));
@@ -151,7 +151,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17.zip"));
@@ -170,7 +170,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraMicro6EE10Jdk17.zip"));
@@ -189,7 +189,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServerWeb6EE10Jdk17.zip"));
@@ -208,7 +208,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.skipERDiagramSection();
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServerCore6EE10Jdk17.zip"));
@@ -227,7 +227,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 21", "21");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraMicro6EE10Jdk21.zip"));
@@ -246,7 +246,7 @@ public class PayaraVersionsIT {
         starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 21", "21");
         starterPage.setMicroProfile("");
-        starterPage.setDeployment(false, false);
+        starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
         starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer7EE11Jdk21.zip"));

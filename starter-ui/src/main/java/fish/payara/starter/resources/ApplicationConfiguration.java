@@ -57,7 +57,6 @@ public class ApplicationConfiguration {
     public static final String PLATFORM = "platform";
     public static final String INCLUDE_TESTS = "includeTests";
     public static final String DOCKER = "docker";
-    public static final String PAYARA_QUBE = "qube";
     public static final String MP_CONFIG = "mpConfig";
     public static final String MP_OPEN_API = "mpOpenAPI";
     public static final String MP_FAULT_TOLERANCE = "mpFaultTolerance";
@@ -113,9 +112,6 @@ public class ApplicationConfiguration {
 
     @JsonbProperty(DOCKER)
     private boolean docker = false;
-
-    @JsonbProperty(PAYARA_QUBE)
-    private boolean qube = false;
 
     @JsonbProperty(MP_CONFIG)
     private boolean mpConfig = false;
@@ -346,14 +342,6 @@ public class ApplicationConfiguration {
 
     public void setDocker(boolean docker) {
         this.docker = docker;
-    }
-
-    public boolean isQube() {
-        return qube;
-    }
-
-    public void setQube(boolean qube) {
-        this.qube = qube;
     }
 
     public boolean isMpConfig() {
