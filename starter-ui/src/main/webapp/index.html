@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <!--
@@ -45,22 +45,13 @@
         <link rel="icon" href="favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <link rel="manifest" href="manifest.webmanifest">
-        <link rel="stylesheet" href="ui/css/payara.min.css">
-        <link rel="stylesheet" href="ui-starter/styles.css" type="text/css" media="all">
-        <link rel="stylesheet" href="ui-starter/hubspot.css" type="text/css" media="all">
-        <link rel="preload" href="ui/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font">
+        <link rel="preload" href="ui-ds/fonts/ibm-plex-sans-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/xml/xml.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/css/css.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/mermaid/mermaid.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/mode/simple.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="assets/jquery-editable-select/dist/jquery-editable-select.min.js"></script>
-        <link href="assets/jquery-editable-select/dist/jquery-editable-select.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="ui-starter/er-designer.css" type="text/css" media="all">
+        <link rel="stylesheet" href="ui-ds/tokens.css">
+        <link rel="stylesheet" href="ui-ds/starter.css">
 
         <!-- Google Tag Manager with HubSpot cookie constent check. -->
         <script>
@@ -79,41 +70,50 @@
         </script>
         <!-- End Google Tag Manager with HubSpot cookie constent check -->
     </head>
-    <body class="page page--sticky-header">
+    <body class="page">
 
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MGV5FR6D" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 
         <header class="page__header">
-            <div class="cards card--no-pad js__main-menu">
-                <div class="card--content-width">
+            <div class="cards">
+                <div>
                     <a href="/" class="logo">
-                        <img src="ui/images/logo.svg" alt="Payara" class="logo__full">
+                        <svg class="logo__full" viewBox="0 49 300 64" role="img" aria-label="Azul Payara"><g clip-path="url(#clip0_590_47)"><path d="M115.187 66.2126L128.489 96.4755H124.862L121.493 88.5248H105.858L102.489 96.4755H98.8611L112.164 66.2126H115.187H115.187ZM107.023 85.7042H120.283L113.675 69.8036L107.023 85.7042Z" fill="currentColor"/><path d="M144.123 76.4712V78.5231L132.289 93.9108H144.556V96.4755H128.144V94.4236L139.977 79.0358H128.748V76.4712H144.124H144.123Z" fill="currentColor"/><path d="M150.473 76.4712V87.756C150.473 92.3299 152.071 94.4244 155.915 94.4244C159.111 94.4244 162.091 91.7317 162.091 86.9012V76.4712H164.942V92.2438C164.942 92.6285 165.114 96.048 165.158 96.4755H162.221C162.135 95.92 162.092 95.4073 162.092 94.8511V93.2693H162.006C160.667 95.4918 157.859 96.9883 155.224 96.9883C149.998 96.9883 147.623 93.9535 147.623 89.337V76.4712H150.473H150.473Z" fill="currentColor"/><path d="M173.925 64.1606V96.4753H171.074V64.1606H173.925Z" fill="currentColor"/><path d="M198.111 66.2126C204.201 66.2126 207.959 68.9914 207.959 74.2913C207.959 79.5912 204.201 82.4126 198.111 82.4126H192.107V96.4755H188.998V66.2126H198.111ZM197.334 79.592C201.826 79.592 204.59 77.7543 204.59 74.2921C204.59 70.8299 201.783 69.0348 197.334 69.0348H192.108V79.5928H197.334V79.592Z" fill="currentColor"/><path d="M225.536 82.926V92.2017C225.536 92.9285 225.666 94.937 225.882 96.476H223.118C222.946 95.5785 222.859 94.4669 222.859 93.2272H222.773C221.088 95.8345 218.885 96.9888 215.646 96.9888C211.629 96.9888 208.692 94.681 208.692 91.1327C208.692 86.5162 212.234 84.2083 221.391 84.2083H222.686V83.7809C222.686 80.1473 221.002 78.5236 217.503 78.5236C215.084 78.5236 213.055 79.3358 211.327 80.8749L209.6 78.8657C211.5 76.9419 214.351 75.959 218.109 75.959C222.73 75.959 225.537 78.7804 225.537 82.926H225.536ZM216.553 94.4242C220.225 94.4242 222.686 92.2017 222.686 87.5852V86.517H220.699C215.3 86.517 211.802 87.8846 211.802 90.7487C211.802 93.0139 213.746 94.4249 216.553 94.4249L216.553 94.4242Z" fill="currentColor"/><path d="M230.893 76.4712L237.242 93.0133L243.418 76.4712H246.873L237.026 101.092C235.169 105.794 233.182 106.734 230.375 106.734C229.511 106.734 228.647 106.649 227.783 106.435L228.086 103.699C228.777 104.041 229.511 104.169 230.245 104.169C231.93 104.169 233.139 103.144 233.917 101.092L235.601 96.7322L227.309 76.4712H230.893H230.893Z" fill="currentColor"/><path d="M265.099 82.926V92.2017C265.099 92.9285 265.229 94.937 265.445 96.476H262.681C262.509 95.5785 262.422 94.4669 262.422 93.2272H262.335C260.651 95.8345 258.448 96.9888 255.208 96.9888C251.192 96.9888 248.255 94.681 248.255 91.1327C248.255 86.5162 251.796 84.2083 260.953 84.2083H262.249V83.7809C262.249 80.1473 260.565 78.5236 257.066 78.5236C254.647 78.5236 252.618 79.3358 250.89 80.8749L249.163 78.8657C251.063 76.9419 253.914 75.959 257.671 75.959C262.293 75.959 265.1 78.7804 265.1 82.926H265.099ZM256.115 94.4242C259.787 94.4242 262.248 92.2017 262.248 87.5852V86.517H260.261C254.862 86.517 251.364 87.8846 251.364 90.7487C251.364 93.0139 253.308 94.4249 256.115 94.4249L256.115 94.4242Z" fill="currentColor"/><path d="M281.468 76.215L280.907 78.9938C280.518 78.8231 280 78.7797 279.308 78.7797C275.421 78.7797 273.002 81.8571 273.002 85.3619V96.4753H270.151V82.5832C270.151 79.6764 270.022 79.0357 269.979 76.471H272.787V80.19H272.873C273.952 77.4973 276.285 75.9583 279.351 75.9583C280.172 75.9583 280.82 76.0436 281.468 76.215Z" fill="currentColor"/><path d="M299.478 82.926V92.2017C299.478 92.9285 299.607 94.937 299.824 96.476H297.06C296.887 95.5785 296.8 94.4669 296.8 93.2272H296.714C295.029 95.8345 292.827 96.9888 289.587 96.9888C285.571 96.9888 282.634 94.681 282.634 91.1327C282.634 86.5162 286.175 84.2083 295.332 84.2083H296.628V83.7809C296.628 80.1473 294.943 78.5236 291.445 78.5236C289.026 78.5236 286.996 79.3358 285.269 80.8749L283.541 78.8657C285.441 76.9419 288.292 75.959 292.05 75.959C296.672 75.959 299.479 78.7804 299.479 82.926H299.478ZM290.494 94.4242C294.166 94.4242 296.627 92.2017 296.627 87.5852V86.517H294.64C289.241 86.517 285.742 87.8846 285.742 90.7487C285.742 93.0139 287.686 94.4249 290.493 94.4249L290.494 94.4242Z" fill="currentColor"/><path d="M25.9089 61.8264C7.71723 68.4826 3.27114 90.1593 2.646 99.2155L25.5047 88.2316C28.518 84.2308 32.1934 78.6299 44.5778 74.9201C57.1462 71.1379 71.1481 74.629 77.4689 76.6298C78.3512 76.9209 79.6738 75.2119 79.0494 74.5208C63.3938 57.536 42.7771 55.6442 25.9089 61.8272V61.8264Z" fill="url(#paint0_linear_590_47)"/><path d="M81.1448 76.7024C78.8336 73.9458 74.4375 69.516 68.9182 65.9875C69.15 65.5364 73.2288 57.6147 77.7273 51.7883C78.1314 51.2428 77.7642 50.4793 77.0659 50.5517C71.987 51.1224 64.332 53.8508 56.1404 60.8041C55.0303 60.6297 53.9062 60.5276 52.7745 60.5169C44.4651 60.4224 37.6077 62.8484 32.0507 66.5178C27.4091 61.3497 28.0742 53.4897 28.6663 50.0062C28.7764 49.3151 28.0419 48.7696 27.4168 49.0972V49.0606C2.05828 63.1722 -1.24915 89.0319 0.331424 100.379C2.70575 98.2443 11.5548 98.5826 13.3779 101.223C13.4149 101.281 13.451 101.339 13.488 101.397C13.4256 101.608 13.3556 101.826 13.2709 102.048C12.3078 104.306 8.83481 108.362 8.63695 108.198C6.02781 106.925 4.52114 104.379 3.7859 102.779C3.67581 102.561 3.45485 102.634 3.45485 102.852C3.85904 105.47 5.51275 108.598 6.39504 110.017C4.55733 109.653 2.57333 107.252 1.6179 105.107C1.54476 104.889 1.1398 104.961 1.1398 105.179C1.39695 109.507 3.9699 112.162 5.36571 112.999C5.38187 113 5.38418 113.003 5.40266 112.999C11.0621 112.344 24.6968 110.089 32.3771 104.888C39.4701 100.087 43.9901 94.7044 44.6152 88.2311C44.6884 87.3579 44.248 87.2124 43.7699 87.94C41.528 91.3588 35.5745 100.052 28.7025 96.6328C20.2129 92.4506 31.5326 71.865 60.0869 73.3926C69.0907 73.8658 75.9627 76.0479 80.0053 77.9756C80.8137 78.3756 81.733 77.3935 81.1448 76.7024ZM16.7215 90.4132C16.7215 92.123 16.0602 93.1043 14.5535 93.9409C13.451 94.5588 12.1284 94.2685 12.1284 92.5588C12.1284 90.849 13.0469 89.249 14.5535 88.4124C15.1748 88.0634 16.7215 87.5034 16.7215 87.5034V90.4132Z" fill="url(#paint1_linear_590_47)"/><path d="M28.6655 50.0062C28.7756 49.3151 28.0411 48.7696 27.416 49.0972C2.05828 63.2088 -1.24915 89.0318 0.331426 100.379C2.75657 98.197 11.9444 98.597 13.488 101.398C13.0838 103.398 8.85714 108.381 8.63695 108.199C6.02781 106.926 4.52114 104.38 3.7859 102.78C3.67581 102.562 3.45485 102.634 3.45485 102.852C3.85904 105.471 5.51275 108.599 6.39504 110.017C4.55733 109.654 2.57333 107.253 1.6179 105.108C1.54477 104.89 1.13981 104.962 1.13981 105.18C1.39695 109.508 3.9699 112.163 5.36571 113C9.11428 111.981 21.5726 107.435 23.6674 97.0336C25.3912 88.5008 24.7676 78.176 46.0388 71.4116L45.6076 71.4291C26.6446 71.4291 27.747 55.4265 28.6655 50.0069V50.0062ZM16.7215 90.4132C16.7215 92.123 16.0602 93.1043 14.5535 93.9409C13.451 94.5588 12.1284 94.2685 12.1284 92.5588C12.1284 90.849 13.0469 89.249 14.5535 88.4124C15.1748 88.0634 16.7215 87.5034 16.7215 87.5034V90.4132Z" fill="url(#paint2_linear_590_47)"/><path d="M77.7268 51.7888C73.096 57.7897 68.9255 65.9819 68.9255 65.9819C68.9255 65.9819 52.4515 71.0692 46.0383 71.4113C57.6767 56.4197 69.9433 51.3529 77.0647 50.5522C77.763 50.4798 78.1302 51.2432 77.7261 51.7888H77.7268Z" fill="url(#paint3_linear_590_47)"/><path d="M79.0126 74.5199C63.357 57.5351 42.7032 55.6799 25.8351 61.8629C7.6442 68.519 0.955432 91.3599 0.331055 100.452L25.8358 88.9591C27.9307 86.0493 31.9733 78.5939 43.6233 75.211C56.4126 70.9556 71.149 74.6654 77.4335 76.6655C78.3158 76.9566 79.6385 75.211 79.0141 74.5199H79.0126ZM16.7211 90.4136C16.7211 92.1234 16.0598 93.1047 14.5531 93.9413C13.4507 94.5593 12.128 94.269 12.128 92.5592C12.128 90.8495 13.0465 89.2494 14.5531 88.4128C15.1744 88.0639 16.7211 87.5038 16.7211 87.5038V90.4136Z" fill="url(#paint4_linear_590_47)"/><path d="M15.0675 86.9592C10.9148 90.4869 11.8333 92.378 12.3845 93.8332C12.4214 93.9422 12.4576 94.0511 12.4946 94.1609C12.6416 94.634 13.8172 95.3975 16.3533 93.3243C18.007 88.5965 18.5582 84.4136 18.5582 84.4136C18.5582 84.4136 16.7243 85.5412 15.0668 86.9592H15.0675ZM14.5533 93.9422C13.4508 94.5601 12.1281 94.2698 12.1281 92.5601C12.1281 90.8503 13.0466 89.2503 14.5533 88.4137C15.1746 88.0647 16.7213 87.5047 16.7213 87.5047V90.4145C16.7213 92.1242 16.0599 93.1056 14.5533 93.9422Z" fill="url(#paint5_linear_590_47)"/></g><defs><linearGradient id="paint0_linear_590_47" x1="39.9393" y1="68.0551" x2="40.9467" y2="87.8373" gradientUnits="userSpaceOnUse"><stop stop-color="#FFC747"/><stop offset="1" stop-color="#FED473" stop-opacity="0"/></linearGradient><linearGradient id="paint1_linear_590_47" x1="43.4797" y1="90.814" x2="38.4274" y2="75.1347" gradientUnits="userSpaceOnUse"><stop stop-color="#FB8A07"/><stop offset="1" stop-color="#FF8401" stop-opacity="0"/></linearGradient><linearGradient id="paint2_linear_590_47" x1="30.7919" y1="51.9155" x2="16.3099" y2="105" gradientUnits="userSpaceOnUse"><stop stop-color="#F0981B"/><stop offset="0.3" stop-color="#F0981B"/><stop offset="0.8" stop-color="#FC8E11"/><stop offset="1" stop-color="#FB8A06"/></linearGradient><linearGradient id="paint3_linear_590_47" x1="63.5948" y1="67.1461" x2="60.7804" y2="56.8299" gradientUnits="userSpaceOnUse"><stop stop-color="#F0981B"/><stop offset="0.3" stop-color="#F0981B"/><stop offset="0.8" stop-color="#FC8E11"/><stop offset="1" stop-color="#FB8A06"/></linearGradient><linearGradient id="paint4_linear_590_47" x1="34.1783" y1="45.768" x2="39.2918" y2="85.0246" gradientUnits="userSpaceOnUse"><stop stop-color="#FFC747"/><stop offset="1" stop-color="#FED473" stop-opacity="0"/></linearGradient><linearGradient id="paint5_linear_590_47" x1="10.8024" y1="84.5576" x2="16.1474" y2="90.0685" gradientUnits="userSpaceOnUse"><stop stop-color="#FFCA59"/><stop offset="1" stop-color="#FFCA59" stop-opacity="0"/></linearGradient><clipPath id="clip0_590_47"><rect width="300" height="64" fill="white" transform="translate(0 49)"/></clipPath></defs></svg>
                     </a>
                 </div>
-                <div class="card--content-width text-align--right">
-                    <nav class="menu menu--horizontal">
-                        <ul class="menu__group">
+                <div>
+                    <nav class="menu" aria-label="Main">
+                        <button type="button" class="button button--ghost menu__toggle" aria-expanded="false" aria-controls="main-menu">
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#menu-2"></use></svg>
+                            <span class="visually-hidden">Menu</span>
+                        </button>
+                        <ul class="menu__group" id="main-menu">
 
-                            <li class="menu__item">
-                                <a href="https://www.payara.fish/enterprise/" class="menu__content">
-                                    <span class="menu__text">Enterprise</span>
+                            <li>
+                                <a href="https://www.azul.com/products/payara-server/" class="menu__content">
+                                    <span>Enterprise</span>
                                 </a>
                             </li>
-                            <li class="menu__item">
-                                <a href="https://www.payara.fish/learn/resources/" class="menu__content">
-                                    <span class="menu__text">Learn</span>
+                            <li>
+                                <a href="https://www.azul.com/resources" class="menu__content">
+                                    <span>Learn</span>
                                 </a>
                             </li>
-                            <li class="menu__item">
-                                <a href="https://blog.payara.fish/" class="menu__content">
-                                    <span class="menu__text">Blog</span>
+                            <li>
+                                <a href="https://www.azul.com/blog" class="menu__content">
+                                    <span>Blog</span>
                                 </a>
                             </li>
-                            <li class="menu__item">
-                                <a href="https://www.payara.fish/about/community/" class="menu__content">
-                                    <span class="menu__text">Community</span>
+                            <li>
+                                <a href="https://www.azul.com/downloads/azul-payara-community-edition/" class="menu__content">
+                                    <span>Community</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://docs.azul.com/payara-community/technical-documentation/ecosystem/project-management-tools/payara-starter.html" class="menu__content">
+                                    <span>Docs</span>
                                 </a>
                             </li>
                         </ul>
@@ -129,16 +129,20 @@
                     <div class="hero">
                         <div class="cards--max-width cards--max-width--medium">
                             <div>
-                                <div class="cards card--no-pad">
+                                <div class="cards">
                                     <div>
                                         <h1 class="h1">Payara Starter</h1>
                                         <p>Payara Starter is a source code generator to create new Payara Server or Payara Micro projects. It allows you to quickly and easily start with Payara Platform!</p>
                                         <p>Take advantage of customisation options: select your chosen JDK versions, Jakarta EE profiles, build tools, Docker support, and more. Payara Starter will also streamline your project by integrating with popular IDEs.</p>
-                                        <p class="h2">Simply select your options, and click &lsquo;Generate&rsquo; - and Payara Platform is ready to use.</p>
+                                        <p class="h2">Simply select your options, and click &lsquo;Download project&rsquo; - and Payara Platform is ready to use.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <a class="button button--outline button--pill button--icon scroll-cue" href="#appForm">
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-down"></use></svg>
+                            <span class="visually-hidden">Go to the project options</span>
+                        </a>
                     </div>     
 
                     <div class="cards--max-width cards--max-width--medium">
@@ -146,408 +150,396 @@
                             <div class="cards">
                                 <div>
 
-                                    <form class="form form-steps form-steps--hide-previous-fields form-steps--clickable-legends" data-step-error="Please correct the errors in this step before moving forward." style="--scroll-margin-top: 9rem" id="appForm">
+                                    <form class="form form-steps" style="--scroll-margin-top: 9rem" id="appForm">
 
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Project Description</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Description</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
+                                        <fieldset class="form-steps__step" id="step-project" data-step-label="Project">
+                                            <legend class="visually-hidden form-steps__title">Project</legend>
+                                            <div class="form-steps__heading">
+                                                <div class="legend h3 form-steps__title" aria-hidden="true">Project</div>
+                                                <span class="help" data-docs="using-the-payara-starter-web-application" data-label="Project">Pick Maven or Gradle, name the project and its base package, and choose whether to add unit tests.</span>
                                             </div>
-                                            <div class="form-steps__fields">
+                                            <div>
                                                 <div class="form-steps__inner">
+                                                    <fieldset class="form__row">
+                                                        <legend class="form__label">Build</legend>
+                                                        <div class="tab-group">
+                                                            <label class="tab-group__tab"><input class="tab-group__input" type="radio" name="build" id="maven" value="maven" checked><span>Maven</span></label>
+                                                            <label class="tab-group__tab"><input class="tab-group__input" type="radio" name="build" id="gradle" value="gradle"><span>Gradle</span></label>
+                                                        </div>
+                                                    </fieldset>
                                                     <p class="form__row">
-                                                        <span class="form__label">Build</span>
-                                                        <input class="form__radbox" type="radio" name="build" id="maven" value="maven" checked>
-                                                        <label class="form__radbox-label" for="maven">Maven</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="radio" name="build" id="gradle" value="gradle">
-                                                        <label class="form__radbox-label" for="gradle">Gradle</label>
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="groupId">Group ID</label>
-                                                        <input type="text" name="groupId" id="groupId" value="fish.payara" class="form__text">
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="artifactId">Artifact ID</label>
-                                                        <input type="text" name="artifactId" id="artifactId" value="hello-world" class="form__text">
+                                                        <span class="form__label-group">
+                                                            <label class="form__label" for="groupId">Group ID</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Group ID">Identifies your organisation, usually as a reversed domain name such as fish.payara.</span>
+                                                        </span>
+                                                        <input type="text" name="groupId" id="groupId" value="fish.payara" class="form__text" placeholder="e.g. fish.payara" data-check="name">
                                                     </p>
                                                     <p class="form__row">
-                                                        <label class="form__label" for="version">Version</label>
-                                                        <input type="text" name="version" id="version" value="0.1-SNAPSHOT" class="form__text">
+                                                        <span class="form__label-group">
+                                                            <label class="form__label" for="artifactId">Artifact ID</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Artifact ID">The project’s name, also used to name the downloaded archive and the build output.</span>
+                                                        </span>
+                                                        <input type="text" name="artifactId" id="artifactId" value="hello-world" class="form__text" placeholder="e.g. hello-world" data-check="name">
                                                     </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Jakarta EE</span></span>
-                                                        </a>
+                                                    <p class="form__row">
+                                                        <span class="form__label-group">
+                                                            <label class="form__label" for="version">Version</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Version">The project’s version. A -SNAPSHOT suffix marks a version still in development.</span>
+                                                        </span>
+                                                        <input type="text" name="version" id="version" value="0.1-SNAPSHOT" class="form__text" placeholder="e.g. 0.1-SNAPSHOT" data-check="name">
                                                     </p>
+                                                    <p class="form__row">
+                                                        <span class="form__label-group">
+                                                            <label class="form__label" for="package">Package</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Package">The base Java package for the generated classes, such as fish.payara.</span>
+                                                        </span>
+                                                        <input type="text" name="package" id="package" value="fish.payara" class="form__text" placeholder="e.g. fish.payara" data-check="package">
+                                                    </p>
+                                                    <p class="form__row">
+                                                        <span class="form__option">
+                                                            <input class="form__radbox" type="checkbox" id="includeTests" name="includeTests" value="true">
+                                                            <label class="form__radbox-label" for="includeTests">Include Tests</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Include Tests">Adds generated unit tests. Available for Maven projects only.</span>
+                                                        </span>
+                                                    </p>
+                                                    <div class="form__row status" id="includeTestsNotice" style="display: none;">
+                                                        <svg class="status__icon icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#info-circle"></use></svg>
+                                                        <div>
+                                                            <p>Include Tests is not available with Gradle build system.</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </fieldset>
-                                        
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Jakarta EE</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Jakarta EE</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
+
+                                        <!-- Each choice here narrows the ones below it: the Jakarta EE version decides whether
+                                             Core Profile is offered and which Payara versions are listed; the Payara version
+                                             decides which Java versions are. -->
+                                        <fieldset class="form-steps__step" id="step-platform" data-step-label="Platform">
+                                            <legend class="visually-hidden form-steps__title">Platform</legend>
+                                            <div class="form-steps__heading">
+                                                <div class="legend h3 form-steps__title" aria-hidden="true">Platform</div>
+                                                <span class="help" data-docs="supported-jakartaee-profiles" data-label="Platform">The Jakarta EE version and profile, Payara Server or Payara Micro and its version, and the Java version. Each choice narrows the ones below it.</span>
                                             </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">      
+                                            <div>
+                                                <div class="form-steps__inner">
                                                     <p class="form__row">
-                                                        <label class="form__label" for="jakartaEEVersion">Jakarta EE version</label>
+                                                        <span class="form__label-group">
+                                                            <label class="form__label" for="jakartaEEVersion">Jakarta EE version</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Jakarta EE version">The Jakarta EE release to compile against. Azul Payara 7 doesn’t support versions older than 10.</span>
+                                                        </span>
                                                         <select class="form__select" name="jakartaEEVersion" id="jakartaEEVersion">
                                                         </select>
                                                     </p>
-                                                    <p class="form__row">
-                                                        <span class="form__label">Jakarta EE Profile</span>
+                                                    <fieldset class="form__row" aria-labelledby="profileLabel">
+                                                        <legend class="form__label-group">
+                                                            <span class="form__label" id="profileLabel">Jakarta EE Profile</span>
+                                                            <span class="help help--field" data-docs="supported-jakartaee-profiles" data-label="Jakarta EE Profile">How much of Jakarta EE the project uses: Platform is the full API, Web Profile the subset for web applications, Core Profile the minimal set for microservices.</span>
+                                                        </legend>
                                                         <input class="form__radbox" type="radio" name="profile" id="full" value="full" checked>
                                                         <label class="form__radbox-label" for="full">Platform</label>
                                                         <br>
                                                         <input class="form__radbox" type="radio" name="profile" id="web" value="web">
                                                         <label class="form__radbox-label" for="web">Web Profile</label>
                                                         <br>
-                                                        <input class="form__radbox" type="radio" name="profile" id="core" value="core">
+                                                        <input class="form__radbox" type="radio" name="profile" id="core" value="core" aria-describedby="coreProfileHint">
                                                         <label class="form__radbox-label" for="core">Core Profile</label>
-                                                    </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Details</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Payara Platform</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                        
-                                        
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Payara Platform</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Payara Platform</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">
-                                                    <p class="form__row">
-                                                        <span class="form__label">Platform</span>
+                                                        <span class="form__hint" id="coreProfileHint" hidden>Needs Jakarta EE 10 or later</span>
+                                                    </fieldset>
+                                                    <div class="form__row status" id="coreProfileNotice" style="display: none;">
+                                                        <svg class="status__icon icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#info-circle"></use></svg>
+                                                        <div>
+                                                            <p>Core Profile has no security or ER Diagram Designer, so both are turned off in Features.</p>
+                                                        </div>
+                                                    </div>
+                                                    <fieldset class="form__row" aria-labelledby="platformLabel">
+                                                        <legend class="form__label-group">
+                                                            <span class="form__label" id="platformLabel">Payara</span>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Payara">Payara Server is a full application server. Payara Micro runs the application from a single JAR, suited to microservices and containers.</span>
+                                                        </legend>
                                                         <input class="form__radbox" type="radio" name="platform" id="server" value="server" checked>
                                                         <label class="form__radbox-label" for="server">Payara Server</label>
                                                         <br>
                                                         <input class="form__radbox" type="radio" name="platform" id="micro" value="micro">
                                                         <label class="form__radbox-label" for="micro">Payara Micro</label>
-                                                    </p>
+                                                    </fieldset>
                                                     <p class="form__row">
-                                                        <label class="form__label" for="payaraVersion">Payara Platform version:</label>
+                                                        <span class="form__label-group">
+                                                            <label class="form__label" for="payaraVersion">Payara version</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Payara version">The Payara release to target, as published on Maven Central. The list follows the Jakarta EE version.</span>
+                                                        </span>
                                                         <select class="form__select" name="payaraVersion" id="payaraVersion"></select>
                                                     </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Jakarta EE</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Project Configuration</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                        
-                                        
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Project Configuration</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Project Configuration</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">
                                                     <p class="form__row">
-                                                        <label class="form__label" for="package">Package</label>
-                                                        <input type="text" name="package" id="package" value="fish.payara" class="form__text">
-                                                    </p>
-                                                    <p class="form__row">
-                                                        <input class="form__radbox" type="checkbox" id="includeTests" name="includeTests" value="true">
-                                                        <label class="form__radbox-label" for="includeTests">Include Tests</label>
-                                                    </p>
-                                                    <div class="form__row status status--whisper status--icon profile-notice" id="includeTestsNotice" style="display: none;">
-                                                        <svg class="status__icon icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-info"></use>
-                                                        </svg>
-                                                        <div class="status__content">
-                                                            <p>Include Tests is not available with Gradle build system.</p>
-                                                        </div>
-                                                    </div>
-                                                    <p class="form__row">
-                                                        <label class="form__label" for="javaVersion">Java Version</label>
+                                                        <span class="form__label-group">
+                                                            <label class="form__label" for="javaVersion">Java version</label>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Java version">The Java version to build and run with. The list follows the Jakarta EE and Payara versions; Azul Payara 7 doesn’t support Java older than 11.</span>
+                                                        </span>
                                                         <select class="form__select" name="javaVersion" id="javaVersion"></select>
                                                     </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: MicroProfile</span></span>
-                                                        </a>
-                                                    </p>
                                                 </div>
                                             </div>
                                         </fieldset>
 
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">MicroProfile</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">MicroProfile</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
+                                        <fieldset class="form-steps__step" id="step-features" data-step-label="Features">
+                                            <legend class="visually-hidden form-steps__title">Features</legend>
+                                            <div class="form-steps__heading">
+                                                <div class="legend h3 form-steps__title" aria-hidden="true">Features</div>
+                                                <span class="help" data-docs="optional-features-and-dependencies" data-label="Features">All optional: MicroProfile APIs, a login, Docker support, and JPA entities and REST endpoints generated from an ER diagram.</span>
                                             </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner"> 
-                                                    <p class="form__row">
-                                                        <input class="form__radbox" type="checkbox" id="selectAllMP" name="selectAllMP" value="false">
-                                                        <label class="form__radbox-label" for="selectAllMP">Full MP</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="checkbox" id="mpConfig" name="mpConfig" value="false">
-                                                        <label class="form__radbox-label" for="mpConfig">MicroProfile Config</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="checkbox" id="mpOpenAPI" name="mpOpenAPI" value="false">
-                                                        <label class="form__radbox-label" for="mpOpenAPI">MicroProfile Open API</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="checkbox" id="mpFaultTolerance" name="mpFaultTolerance" value="false">
-                                                        <label class="form__radbox-label" for="mpFaultTolerance">MicroProfile Fault Tolerance</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="checkbox" id="mpMetrics" name="mpMetrics" value="false">
-                                                        <label class="form__radbox-label" for="mpMetrics">MicroProfile Metrics</label>
-                                                    </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Project Configuration</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Deployment Options</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Deployment Options</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Deployment Options</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
+                                            <div>
                                                 <div class="form-steps__inner">
-                                                    <p class="form__row">
-                                                        <input class="form__radbox" type="checkbox" id="docker" name="docker" value="false">
-                                                        <label class="form__radbox-label" for="docker">Docker</label>
-                                                    </p>
-                                                    
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: MicroProfile</span></span>
-                                                        </a>
-                                                        <a class="button button--ghost form__step__button">
-                                                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Next<span class="visually-hidden">: Advanced Configuration</span></span>
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </fieldset>
+                                                    <fieldset class="form-section" id="section-microprofile" aria-labelledby="microprofileTitle">
+                                                        <legend class="form-section__heading">
+                                                            <span class="form-section__title" id="microprofileTitle">MicroProfile</span>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="MicroProfile">Add MicroProfile Config, OpenAPI, Fault Tolerance and Metrics. Full MP selects all four.</span>
+                                                        </legend>
+                                                        <div class="form__row form__tree">
+                                                            <div class="form__layer form__layer--0">
+                                                                <input class="form__radbox" type="checkbox" id="selectAllMP" name="selectAllMP" value="false" aria-controls="mpConfig mpOpenAPI mpFaultTolerance mpMetrics">
+                                                                <label class="form__radbox-label" for="selectAllMP">Full MP</label>
+                                                            </div>
+                                                            <div class="form__layer form__layer--1 form__layer--leaf form__layer--sibling">
+                                                                <input class="form__radbox" type="checkbox" id="mpConfig" name="mpConfig" value="false">
+                                                                <label class="form__radbox-label" for="mpConfig">MicroProfile Config</label>
+                                                                <span class="help help--field" data-docs="payara-archetype-parameters" data-label="MicroProfile Config">Reads configuration from property files, environment variables and system properties.</span>
+                                                            </div>
+                                                            <div class="form__layer form__layer--1 form__layer--leaf form__layer--sibling">
+                                                                <input class="form__radbox" type="checkbox" id="mpOpenAPI" name="mpOpenAPI" value="false">
+                                                                <label class="form__radbox-label" for="mpOpenAPI">MicroProfile Open API</label>
+                                                                <span class="help help--field" data-docs="payara-archetype-parameters" data-label="MicroProfile Open API">Publishes an OpenAPI description of the application’s REST endpoints.</span>
+                                                            </div>
+                                                            <div class="form__layer form__layer--1 form__layer--leaf form__layer--sibling">
+                                                                <input class="form__radbox" type="checkbox" id="mpFaultTolerance" name="mpFaultTolerance" value="false">
+                                                                <label class="form__radbox-label" for="mpFaultTolerance">MicroProfile Fault Tolerance</label>
+                                                                <span class="help help--field" data-docs="payara-archetype-parameters" data-label="MicroProfile Fault Tolerance">Retries, timeouts, circuit breakers and fallbacks for calls that can fail.</span>
+                                                            </div>
+                                                            <div class="form__layer form__layer--1 form__layer--leaf">
+                                                                <input class="form__radbox" type="checkbox" id="mpMetrics" name="mpMetrics" value="false">
+                                                                <label class="form__radbox-label" for="mpMetrics">MicroProfile Metrics</label>
+                                                                <span class="help help--field" data-docs="payara-archetype-parameters" data-label="MicroProfile Metrics">Exposes application and runtime metrics over HTTP.</span>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
 
-                                        <fieldset class="form-steps__step">
-                                                <legend class="visually-hidden form-steps__title">ER Diagram Designer</legend>
-                                                <div class="legend h3 form-steps__title" aria-hidden="true">ER Diagram Designer</div>
-                                                <div class="form-steps__icon">
-                                                    <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                        <use href="ui/images/icons.svg#icon-tick" class="icon--tick"></use>
-                                                        <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                        <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                    </svg>
-                                                </div>
-                                                <div class="form-steps__fields">
-                                                    <div class="form-steps__inner">
-                                                        <div class="form__row status status--whisper status--icon profile-notice" id="erDiagramNotice" style="display: none;">
-                                                            <svg class="status__icon icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                <use href="ui/images/icons.svg#icon-info"></use>
-                                                            </svg>
-                                                            <div class="status__content">
+                                                    <fieldset class="form-section" id="section-security" aria-labelledby="securityTitle">
+                                                        <legend class="form-section__heading">
+                                                            <span class="form-section__title" id="securityTitle">Security</span>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Security">How users log in: no login, or form authentication against a file realm, a database or LDAP.</span>
+                                                        </legend>
+                                                        <div class="form__row status" id="securityNotice" style="display: none;">
+                                                            <svg class="status__icon icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#info-circle"></use></svg>
+                                                            <div>
+                                                                <p>Security configuration is not available with Jakarta EE Core Profile.</p>
+                                                            </div>
+                                                        </div>
+                                                        <fieldset class="form__row" aria-labelledby="loginLabel">
+                                                            <legend class="form__label-group">
+                                                                <span class="form__label" id="loginLabel">Login</span>
+                                                                <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Login">No login, or a login form that checks users against a file realm, a database or an LDAP directory.</span>
+                                                            </legend>
+                                                            <input class="form__radbox" type="radio" name="auth" id="noneAuth" value="none" checked>
+                                                            <label class="form__radbox-label" for="noneAuth">None</label>
+                                                            <br>
+                                                            <input class="form__radbox" type="radio" name="auth" id="formAuthFileRealm" value="formAuthFileRealm">
+                                                            <label class="form__radbox-label" for="formAuthFileRealm">Form Authentication - File Realm</label>
+                                                            <br>
+                                                            <input class="form__radbox" type="radio" name="auth" id="formAuthDB" value="formAuthDB">
+                                                            <label class="form__radbox-label" for="formAuthDB">Form Authentication - Database</label>
+                                                            <br>
+                                                            <input class="form__radbox" type="radio" name="auth" id="formAuthLDAP" value="formAuthLDAP">
+                                                            <label class="form__radbox-label" for="formAuthLDAP">Form Authentication - LDAP</label>
+                                                        </fieldset>
+                                                    </fieldset>
+
+                                                    <fieldset class="form-section" id="section-deployment" aria-labelledby="deploymentTitle">
+                                                        <legend class="form-section__heading">
+                                                            <span class="form-section__title" id="deploymentTitle">Deployment</span>
+                                                            <span class="help help--field" data-docs="payara-archetype-parameters" data-label="Deployment">Adds Docker support to the generated project.</span>
+                                                        </legend>
+                                                        <p class="form__row">
+                                                            <input class="form__radbox" type="checkbox" id="docker" name="docker" value="false" checked>
+                                                            <label class="form__radbox-label" for="docker">Docker</label>
+                                                        </p>
+                                                    </fieldset>
+
+                                                    <fieldset class="form-section" id="section-er-diagram" aria-labelledby="erDiagramTitle">
+                                                        <legend class="form-section__heading">
+                                                            <span class="form-section__title" id="erDiagramTitle">ER Diagram</span>
+                                                            <span class="help help--field" data-docs="new-feature-er-diagram-integration" data-label="ER Diagram">Pick or generate an ER diagram with AI help; Starter turns it into JPA entities and REST endpoints.</span>
+                                                        </legend>
+                                                        <div class="form__row status" id="erDiagramNotice" style="display: none;">
+                                                            <svg class="status__icon icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#info-circle"></use></svg>
+                                                            <div>
                                                                 <p>ER Diagram Designer is not available with Jakarta EE Core Profile.</p>
                                                             </div>
                                                         </div>
                                                         <p class="form__row">
-                                                            <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
-                                                            <select name="erDiagramName" id="mermaidErDiagramList" class="form__select" title="Select an existing diagram or type to create a new one"></select>
+                                                            <span class="form__label-group">
+                                                                <label class="form__label" for="mermaidErDiagramList">Search ER Diagram</label>
+                                                                <span class="help help--field" data-docs="open-the-existing-or-generate-a-new-er-diagram" data-label="Search ER Diagram">Start from one of the sample diagrams, or describe a new one in Diagram Builder &amp; Live Preview.</span>
+                                                            </span>
+                                                            <select name="erDiagramName" id="mermaidErDiagramList" class="form__select" data-combobox-placeholder="Search diagrams" data-combobox-empty="No diagrams found"></select>
                                                             <textarea id="erDiagram" name="erDiagram" hidden> </textarea>
                                                         </p>
                                                         <p class="form__row">
-                                                            <button type="button" class="button button--ghost" title="Open the Diagram Builder and Preview" onclick="openMermaidPreview()">
+                                                            <button type="button" class="button button--ghost" id="erBuilderOpen" aria-haspopup="dialog">
                                                                 <span class="button__text">Diagram Builder & Live Preview</span>
                                                             </button>
                                                         </p>
-                                                        <p class="form__row">
-                                                            <span class="form__label">Generate Code For:</span>
-                                                            <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked title="Generate JPA code">
-                                                            <label class="form__radbox-label" for="generateJpa">JPA</label>
-                                                            <label class="form__label" for="jpaSubpackage">Package</label>
-                                                            <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" value="domain" placeholder="Subpackage for JPA" title="Specify the subpackage for JPA">
-                                                            <br><br>
-                                                            <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked title="Generate Repository code">
-                                                            <label class="form__radbox-label" for="generateRepository">Repository</label>
-                                                            <label class="form__label" for="repositorySubpackage">Package</label>
-                                                            <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" value="service" placeholder="Subpackage for Repository" title="Specify the subpackage for Repository">
-                                                            <br><br>
-                                                            <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked title="Generate REST code">
-                                                            <label class="form__radbox-label" for="generateRest">REST</label>
-                                                            <label class="form__label" for="restSubpackage">Package</label>
-                                                            <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST">
-                                                            <br><br>
-                                                            <label for="generateWeb" class="form__radbox-label">Web</label>
-                                                            <select class="form__select" id="generateWeb" name="generateWeb" title="Generate Web code">
-                                                              <option value="none">None</option>
-                                                              <option value="html">HTML</option>
-                                                              <option value="jsf" selected>Jakarta Faces</option>
-                                                            </select>
-                                                        </p>
-
-                                                        <p class="form__row form-steps__controls">
-                                                            <a class="button button--ghost form__step__button-back" title="Go back to the previous step">
-                                                                <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                    <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                                </svg>
-                                                                <span class="button__text">Previous<span class="visually-hidden">: Payara Platform</span></span>
-                                                            </a>
-                                                            <a class="button button--ghost form__step__button" title="Proceed to the next step">
-                                                                <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                                    <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                                </svg>
-                                                                <span class="button__text">Next<span class="visually-hidden">: Security Configuration</span></span>
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-
-                                        <fieldset class="form-steps__step">
-                                            <legend class="visually-hidden form-steps__title">Security Configuration</legend>
-                                            <div class="legend h3 form-steps__title" aria-hidden="true">Security Configuration</div>
-                                            <div class="form-steps__icon">
-                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                <use href="ui/images/icons.svg#icon-tick"></use>
-                                                <use href="ui/images/icons.svg#icon-dot" class="icon--dot"></use>
-                                                <use href="ui/images/icons.svg#icon-dot_outline" class="icon--dot-outline"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="form-steps__fields">
-                                                <div class="form-steps__inner">
-                                                    <div class="form__row status status--whisper status--icon profile-notice" id="securityNotice" style="display: none;">
-                                                        <svg class="status__icon icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-info"></use>
-                                                        </svg>
-                                                        <div class="status__content">
-                                                            <p>Security configuration is not available with Jakarta EE Core Profile.</p>
-                                                        </div>
-                                                    </div>
-                                                    <p class="form__row">
-                                                        <span class="form__label">Login</span>
-                                                        <input class="form__radbox" type="radio" name="auth" id="noneAuth" value="none" checked>
-                                                        <label class="form__radbox-label" for="noneAuth">None</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="radio" name="auth" id="formAuthFileRealm" value="formAuthFileRealm">
-                                                        <label class="form__radbox-label" for="formAuthFileRealm">Form Authentication - File Realm</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="radio" name="auth" id="formAuthDB" value="formAuthDB">
-                                                        <label class="form__radbox-label" for="formAuthDB">Form Authentication - Database</label>
-                                                        <br>
-                                                        <input class="form__radbox" type="radio" name="auth" id="formAuthLDAP" value="formAuthLDAP">
-                                                        <label class="form__radbox-label" for="formAuthLDAP">Form Authentication - LDAP</label>
-                                                    </p>
-                                                    <p class="form__row form-steps__controls">
-                                                        <a class="button button--ghost form__step__button-back">
-                                                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                            <use href="ui/images/icons.svg#icon-arrow"></use>
-                                                            </svg>
-                                                            <span class="button__text">Previous<span class="visually-hidden">: Data Model Configuration</span></span>
-                                                        </a>
-                                                    </p>
+                                                        <fieldset class="form__row form__layers" aria-labelledby="generateCodeLabel">
+                                                            <legend class="form__label-group">
+                                                                <span class="form__label" id="generateCodeLabel">Generate Code For:</span>
+                                                                <span class="help help--field" data-docs="optional-features-and-dependencies" data-label="Generate Code For">Each layer needs the ones before it: without JPA nothing else is generated, without Repository no REST or Web, without REST no Web.</span>
+                                                            </legend>
+                                                            <div class="form__layer form__layer--0">
+                                                                <input class="form__radbox" type="checkbox" id="generateJpa" name="generateJpa" value="true" checked title="Generate JPA code">
+                                                                <label class="form__radbox-label" for="generateJpa" id="generateJpaLabel">JPA</label>
+                                                                <span class="form__layer-package">
+                                                                    <label class="form__label" for="jpaSubpackage" id="jpaSubpackageLabel">Package</label>
+                                                                    <input class="form__textfield" type="text" id="jpaSubpackage" name="jpaSubpackage" aria-labelledby="generateJpaLabel jpaSubpackageLabel" value="domain" placeholder="Subpackage for JPA" title="Specify the subpackage for JPA" data-check="package" data-check-when="generateJpa">
+                                                                </span>
+                                                            </div>
+                                                            <div class="form__layer form__layer--1">
+                                                                <input class="form__radbox" type="checkbox" id="generateRepository" name="generateRepository" value="true" checked title="Generate Repository code">
+                                                                <label class="form__radbox-label" for="generateRepository" id="generateRepositoryLabel">Repository</label>
+                                                                <span class="form__layer-package">
+                                                                    <label class="form__label" for="repositorySubpackage" id="repositorySubpackageLabel">Package</label>
+                                                                    <input class="form__textfield" type="text" id="repositorySubpackage" name="repositorySubpackage" aria-labelledby="generateRepositoryLabel repositorySubpackageLabel" value="service" placeholder="Subpackage for Repository" title="Specify the subpackage for Repository" data-check="package" data-check-when="generateRepository">
+                                                                </span>
+                                                            </div>
+                                                            <div class="form__layer form__layer--2">
+                                                                <input class="form__radbox" type="checkbox" id="generateRest" name="generateRest" value="true" checked title="Generate REST code">
+                                                                <label class="form__radbox-label" for="generateRest" id="generateRestLabel">REST</label>
+                                                                <span class="form__layer-package">
+                                                                    <label class="form__label" for="restSubpackage" id="restSubpackageLabel">Package</label>
+                                                                    <input class="form__textfield" type="text" id="restSubpackage" name="restSubpackage" aria-labelledby="generateRestLabel restSubpackageLabel" value="resource" placeholder="Subpackage for REST" title="Specify the subpackage for REST" data-check="package" data-check-when="generateRest">
+                                                                </span>
+                                                            </div>
+                                                            <div class="form__layer form__layer--3 form__layer--leaf">
+                                                                <label for="generateWeb" class="form__radbox-label">Web</label>
+                                                                <select class="form__select" id="generateWeb" name="generateWeb" title="Generate Web code">
+                                                                    <option value="none">None</option>
+                                                                    <option value="html">HTML</option>
+                                                                    <option value="jsf" selected>Jakarta Faces</option>
+                                                                </select>
+                                                            </div>
+                                                        </fieldset>
+                                                    </fieldset>
                                                 </div>
                                             </div>
                                         </fieldset>
 
+                                        <!-- Review: every choice in one place (starter.js fills each value from the field
+                                             named in data-summary: an id, or the name of a radio group; data-summary-any
+                                             lists the ticked boxes among several), with a way back to each step. -->
+                                        <fieldset class="form-steps__step" id="step-review" data-step-label="Review">
+                                            <legend class="visually-hidden form-steps__title">Review</legend>
+                                            <div class="form-steps__heading">
+                                                <div class="legend h3 form-steps__title" aria-hidden="true">Review</div>
+                                            </div>
+                                            <div>
+                                                <div class="form-steps__inner summary">
+                                                    <section class="summary__group" aria-labelledby="summaryProject">
+                                                        <div class="summary__heading">
+                                                            <h2 class="summary__title" id="summaryProject">Project</h2>
+                                                            <button type="button" class="button button--ghost button--small" data-summary-edit="step-project">Edit<span class="visually-hidden"> project</span></button>
+                                                        </div>
+                                                        <dl class="summary__list">
+                                                            <div class="summary__row"><dt>Build</dt><dd data-summary="build"></dd></div>
+                                                            <div class="summary__row"><dt data-summary-label="groupId">Group ID</dt><dd data-summary="groupId"></dd></div>
+                                                            <div class="summary__row"><dt data-summary-label="artifactId">Artifact ID</dt><dd data-summary="artifactId"></dd></div>
+                                                            <div class="summary__row"><dt>Version</dt><dd data-summary="version"></dd></div>
+                                                            <div class="summary__row"><dt>Package</dt><dd data-summary="package"></dd></div>
+                                                            <div class="summary__row"><dt>Tests</dt><dd data-summary="includeTests"></dd></div>
+                                                        </dl>
+                                                    </section>
+                                                    <section class="summary__group" aria-labelledby="summaryPlatform">
+                                                        <div class="summary__heading">
+                                                            <h2 class="summary__title" id="summaryPlatform">Platform</h2>
+                                                            <button type="button" class="button button--ghost button--small" data-summary-edit="step-platform">Edit<span class="visually-hidden"> platform</span></button>
+                                                        </div>
+                                                        <dl class="summary__list">
+                                                            <div class="summary__row"><dt>Jakarta EE</dt><dd data-summary="jakartaEEVersion"></dd></div>
+                                                            <div class="summary__row"><dt>Profile</dt><dd data-summary="profile"></dd></div>
+                                                            <div class="summary__row"><dt>Payara</dt><dd data-summary="platform"></dd></div>
+                                                            <div class="summary__row"><dt>Payara version</dt><dd data-summary="payaraVersion"></dd></div>
+                                                            <div class="summary__row"><dt>Java</dt><dd data-summary="javaVersion"></dd></div>
+                                                        </dl>
+                                                    </section>
+                                                    <section class="summary__group" aria-labelledby="summaryFeatures">
+                                                        <div class="summary__heading">
+                                                            <h2 class="summary__title" id="summaryFeatures">Features</h2>
+                                                            <button type="button" class="button button--ghost button--small" data-summary-edit="step-features">Edit<span class="visually-hidden"> features</span></button>
+                                                        </div>
+                                                        <dl class="summary__list">
+                                                            <div class="summary__row"><dt>MicroProfile</dt><dd data-summary-any="mpConfig mpOpenAPI mpFaultTolerance mpMetrics"></dd></div>
+                                                            <div class="summary__row"><dt>Login</dt><dd data-summary="auth"></dd></div>
+                                                            <div class="summary__row"><dt>Docker</dt><dd data-summary="docker"></dd></div>
+                                                            <div class="summary__row"><dt>ER diagram</dt><dd data-summary="mermaidErDiagramList"></dd></div>
+                                                            <div class="summary__row"><dt>Generated code</dt><dd data-summary-any="generateJpa generateRepository generateRest"></dd></div>
+                                                            <div class="summary__row"><dt>Web</dt><dd data-summary="generateWeb"></dd></div>
+                                                        </dl>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <!-- After Download project the open step and this action row give way to the panel below
+                                             (starter.js): generating, then ready or failed with what to do next. -->
+                                        <section class="form-result" id="formResult" hidden>
+                                            <div class="form-result__state" data-result="generating">
+                                                <h2 class="form-steps__title form-result__title" tabindex="-1">Generating your project</h2>
+                                                <p class="form-result__text">Your request is in the queue. Please wait a moment while we process it.</p>
+                                                <span class="loader loader--line form-result__progress" aria-hidden="true"><span class="loader__fish"></span></span>
+                                            </div>
+                                            <div class="form-result__state" data-result="generated" hidden>
+                                                <svg class="icon form-result__icon form-result__icon--success" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#circle-check"></use></svg>
+                                                <h2 class="form-steps__title form-result__title" tabindex="-1">Your project is ready</h2>
+                                                <p class="form-result__text"><span class="form-result__file">Your project</span> has been downloaded. Didn’t get it? <button type="button" class="form-result__link" data-result-action="download">Download again</button></p>
+                                                <div class="form-result__actions">
+                                                    <button type="button" class="button button--ghost" data-result-action="back">
+                                                        <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-left"></use></svg>
+                                                        <span class="button__text">Back to options</span>
+                                                    </button>
+                                                    <button type="reset" class="button button--ghost">
+                                                        <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#refresh"></use></svg>
+                                                        <span class="button__text">Start over</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="form-result__state" data-result="failed" hidden>
+                                                <svg class="icon form-result__icon form-result__icon--error" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#alert-circle"></use></svg>
+                                                <h2 class="form-steps__title form-result__title" tabindex="-1">We couldn’t generate your project</h2>
+                                                <p class="form-result__text">Something went wrong. Try again, or go back and change the options.</p>
+                                                <div class="form-result__actions">
+                                                    <button type="button" class="button button--ghost" data-result-action="back">
+                                                        <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-left"></use></svg>
+                                                        <span class="button__text">Back to options</span>
+                                                    </button>
+                                                    <button type="button" class="button" data-result-action="retry">
+                                                        <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#refresh"></use></svg>
+                                                        <span class="button__text">Try again</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </section>
+
                                         <p class="form__row form__row--footer">
-                                            <span class="form__progress" id="loadingBar" style="display: none; color: grey;">
-                                                Your request is in the queue. Please wait a moment while we process it.
-                                                <span class="loader loader--line" >
-                                                    <span class="loader__fish"></span>
-                                                </span>
-                                            </span>
-                                            <span>
-                                                <button type="submit" class="button">
-                                                    <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                                    <use href="ui/images/icons.svg#icon-download"></use>
-                                                    </svg>
-                                                    <span class="button__text">Generate</span>
-                                                </button>
-                                            </span>
+                                            <button type="button" class="button button--ghost form__step__button-back" hidden>
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-left"></use></svg>
+                                                <span class="button__text">Back</span>
+                                            </button>
+                                            <button type="submit" class="button button--ghost" aria-label="Download project">
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#download"></use></svg>
+                                                <span class="button__text">Download<span class="button__text-more">&nbsp;project</span></span>
+                                            </button>
+                                            <button type="button" class="button form__step__button" hidden>
+                                                <span class="button__text">Next</span>
+                                                <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-right"></use></svg>
+                                            </button>
                                         </p>
+                                        <p class="visually-hidden" id="formStatus" role="status"></p>
 
                                     </form>
                                 </div>
@@ -560,641 +552,161 @@
         </div>
 
         <footer class="page__footer">
-            <div class="cards card--no-pad">
-                <div class="text-align--left">
-                    <theme-switch settings='[{"v_align": "up", "display_label": "false"}]'></theme-switch>
-                    <span class="buttons--light">
-                        <i></i>
-                        <button type="button" class="button button--ghost" id="hs_show_banner_button" onclick="(function(){
-                            var _hsp = window._hsp = window._hsp || [];
-                            _hsp.push(['showBanner']);
-                        })()">
-                            Cookies
-                        </button>
-                    </span>
-                </div>
-                <div class="card--content-width buttons--light text-align--right"> 
-                    <span>Follow Us: </span>
-                    <a href="https://twitter.com/Payara_Fish" class="button button--ghost">
-                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                        <use href="ui/images/icons.svg#icon-twitter"></use>
-                        </svg>
-                        <span class="visually-hidden">Twitter</span>
-                    </a>
-                    <a href="https://www.facebook.com/PayaraFish" class="button button--ghost">
-                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                        <use href="ui/images/icons.svg#icon-facebook"></use>
-                        </svg>
-                        <span class="visually-hidden">Facebook</span>
-                    </a>
-                    <a href="https://www.linkedin.com/company/payara" class="button button--ghost">
-                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                        <use href="ui/images/icons.svg#icon-linkedin"></use>
-                        </svg>
-                        <span class="visually-hidden">LinkedIn</span>
-                    </a>
-                    <a href="https://www.youtube.com/user/payarafish" class="button button--ghost">
-                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                        <use href="ui/images/icons.svg#icon-youtube"></use>
-                        </svg>
-                        <span class="visually-hidden">YouTube</span>
-                    </a>
-                    <a href="https://www.instagram.com/payaraculture" class="button button--ghost">
-                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                        <use href="ui/images/icons.svg#icon-instagram"></use>
-                        </svg>
-                        <span class="visually-hidden">Instagram</span>
-                    </a>
-                    <a href="https://www.meetup.com/payara-global-meetup/" class="button button--ghost">
-                        <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                        <use href="ui/images/icons.svg#icon-meetup"></use>
-                        </svg>
-                        <span class="visually-hidden">Meetup</span>
-                    </a>
-                </div>
-                <div class="card--content-width">
-                    <a href="https://www.payara.fish/about/contact-us/" class="button">
-                        <span class="button__text">Contact Us</span>
-                    </a>
+            <div class="footer">
+                <nav class="footer__nav" aria-label="Azul">
+                    <div>
+                        <h2 class="footer__title">Products &amp; Solutions</h2>
+                        <ul class="footer__links">
+                            <li><a class="footer__link" href="https://www.azul.com/products/core/">Azul Core</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/products/prime/">Azul Prime</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/products/payara-micro/">Azul Payara Micro</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/products/payara-server/">Azul Payara Server</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/products/intelligence-cloud/">Azul Intelligence Cloud</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/products/pricing/">Pricing</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="footer__title">Customers</h2>
+                        <ul class="footer__links">
+                            <li><a class="footer__link" href="https://www.azul.com/customer-success/">Customer Success</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/downloads/">Download Software</a></li>
+                            <li><a class="footer__link" href="https://docs.azul.com/">Documentation</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="footer__title">Partners &amp; Resellers</h2>
+                        <ul class="footer__links">
+                            <li><a class="footer__link" href="https://www.azul.com/channel-partners/">Channel Partners</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/tech-partners-alliances/">Tech Partners &amp; Alliances</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/partner-directory/">Find a Partner</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="footer__title">News &amp; Events</h2>
+                        <ul class="footer__links">
+                            <li><a class="footer__link" href="https://www.azul.com/newsroom/">Newsroom</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/resources/">Resources</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/events/">Events &amp; Webinars</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/blog/">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="footer__title">Company</h2>
+                        <ul class="footer__links">
+                            <li><a class="footer__link" href="https://www.azul.com/about/">About Azul</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/leadership/">Leadership</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/careers/">Careers</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/why-azul/">Why Azul</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/contact/">Contact</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/glossary/">Glossary</a></li>
+                            <li><a class="footer__link" href="https://www.azul.com/azul-ai-instructions/">AI Instructions</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="footer__legal">
+                    <p class="footer__disclaimer">Azul, Azul Systems, Zing, Zulu, Zulu Enterprise, ReadyNow! are either registered trademarks or trademarks of Azul Systems Inc., registered in the U.S. and elsewhere. All other trademarks belong to their respective owners.</p>
+                    <p class="footer__copyright">&copy; Azul 2026. All rights reserved.</p>
+                    <ul class="footer__legal-links">
+                        <li><a class="footer__link" href="https://www.azul.com/compliance/">Compliance</a></li>
+                        <li><a class="footer__link" href="https://www.azul.com/privacy-policy/">Privacy Policy</a></li>
+                        <li><a class="footer__link" href="https://www.azul.com/legal/">Legal</a></li>
+                        <li><a class="footer__link" href="https://www.azul.com/terms-of-use/">Terms of Use</a></li>
+                        <li><button type="button" class="footer__link" id="privacySettings">Privacy Settings</button></li>
+                    </ul>
                 </div>
             </div>
         </footer>
         <!-- HTML structure for the modal dialog -->
-        <div id="previewModal" class="modal er-designer">
-            <div class="modal-content cards card--no-pad">
-                <div class="half card" id="diagramSource">
-                    <div class="inline-elements title-container"  id="diagramSourceTopTool">
-                        <h2>Source</h2>
-                        <select name="mermaidErDiagramListPreview" id="mermaidErDiagramListPreview" class="form__select" title="Select an existing diagram or type to create a new one"></select>
+        <dialog id="previewModal" class="modal" aria-labelledby="erBuilderTitle">
+            <div class="er-builder">
+                <div class="er-builder__header">
+                    <div class="er-builder__heading">
+                        <h2 class="er-builder__title" id="erBuilderTitle">ER Diagram Builder</h2>
+                        <span class="help help--field" data-docs="er-diagram-instructions-examples" data-label="ER Diagram Builder">Describe changes in plain words or edit the Mermaid code. Each change is kept as a version you can step back to.</span>
                     </div>
-                    <textarea id="sourceCode"></textarea>
-                    <div id="graphDiv"></div>
-                    <div class="inline-elements" id="diagramSourceBottomTool">
-                        <input id="queryBox" type="text" class="form__text" style="width: -webkit-fill-available;" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter"> 
+                    <button type="button" class="button button--ghost button--small close">
+                        <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#x"></use></svg>
+                        <span class="visually-hidden">Close ER Diagram Builder</span>
+                    </button>
+                </div>
+
+                <div class="er-builder__toolbar">
+                    <div class="er-builder__diagram">
+                        <label class="er-builder__label" for="mermaidErDiagramListPreview">Diagram</label>
+                        <select id="mermaidErDiagramListPreview" class="form__select" data-combobox-placeholder="Search diagrams" data-combobox-empty="No diagrams found"></select>
+                    </div>
+                    <div class="tab-group" role="tablist" aria-label="View">
+                        <button type="button" class="tab-group__tab" role="tab" id="erTabCode" aria-controls="erPanelCode" aria-selected="false" tabindex="-1">Code</button>
+                        <button type="button" class="tab-group__tab" role="tab" id="erTabPreview" aria-controls="erPanelPreview" aria-selected="true">Preview</button>
+                    </div>
+                    <div class="er-builder__history" role="group" aria-label="Versions">
+                        <button type="button" class="button button--ghost button--small" id="prevERDiagram" disabled>
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-back-up"></use></svg>
+                            <span class="visually-hidden">Previous version</span>
+                        </button>
+                        <span class="er-builder__version" id="erVersion"></span>
+                        <button type="button" class="button button--ghost button--small" id="nextERDiagram" disabled>
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-forward-up"></use></svg>
+                            <span class="visually-hidden">Next version</span>
+                        </button>
                     </div>
                 </div>
-                <div class="half card" id="diagramView">
-                    <div class="inline-elements title-container"  id="diagramSourceTopTool">
-                        <h2 id="headerAI"  style="white-space: nowrap;">Live Preview</h2>
-                        <span class="form__progress loader loader--line" id="loadingBarAI" style="display: none;">
-                            <span class="loader__fish"></span>
-                        </span>
-                    </div> 
-                    <div id="livePreview" class="livePreview"></div>
-                    <div class="inline-elements" id="diagramViewBottomTool">
-                        <input id="queryBoxHidden" type="text" class="form__text" style="width: -webkit-fill-available;display:none" placeholder="Tell us how you want to change the diagram (e.g., 'Add customer address') and press Enter"> 
 
-                        <button type="button" class="button button--ghost" id="prevERDiagram" disabled>
-                            <svg class="icon icon--90deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                <use href="ui/images/icons.svg#icon-arrow"></use>
-                            </svg>
-                            <span class="visually-hidden">Previous ER Diagram</span>
-                        </button>
-
-                        <button type="button" class="button button--ghost" id="nextERDiagram" disabled>
-                            <svg class="icon icon--270deg" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                <use href="ui/images/icons.svg#icon-arrow"></use>
-                            </svg>
-                            <span class="visually-hidden">Next ER Diagram</span>
-                        </button>
-
-                        <button type="button" class="button button--ghost" id="enlargeERDiagram">
-                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                <use href="ui/images/icons.svg#icon-zoom-in"></use>
-                            </svg>
-                            <span class="visually-hidden">Enlarge ER Diagram</span>
-                        </button>
-
-                        <button type="button" class="button button--ghost" id="shrinkERDiagram">
-                            <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                                <use href="ui/images/icons.svg#icon-zoom-out"></use>
-                            </svg>
-                            <span class="visually-hidden">Shrink ER Diagram</span>
-                        </button>
-
-                        <blinky-toggle-button type="icon-only" button-class="button button--ghost" button-id="fullscreenDiagram" icon-0="fullscreen" text-0="Fullscreen Diagram" icon-1="fullscreen-exit" text-1="Exit Fullscreen Diagram" toggled="0" data-ui-paths="../.." onclick="toggleDiagramView()">
-                        </blinky-toggle-button>
+                <div class="er-builder__body">
+                    <span class="form__progress loader loader--line er-builder__progress" id="loadingBarAI" hidden>
+                        <span class="loader__fish"></span>
+                    </span>
+                    <div class="er-builder__panel" role="tabpanel" id="erPanelCode" aria-labelledby="erTabCode" hidden>
+                        <textarea id="sourceCode" aria-label="Mermaid ER diagram code"></textarea>
+                    </div>
+                    <div class="er-builder__panel" role="tabpanel" id="erPanelPreview" aria-labelledby="erTabPreview">
+                        <p class="er-builder__empty" id="erEmpty" hidden>No diagram yet. Pick a sample in Diagram, or describe your application below.</p>
+                        <div id="livePreview" class="livePreview"></div>
+                        <div class="er-builder__zoom" id="erZoom" role="group" aria-label="Zoom">
+                            <button type="button" class="button button--ghost button--small" id="erZoomOut">
+                                <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#zoom-out"></use></svg>
+                                <span class="visually-hidden">Zoom out</span>
+                            </button>
+                            <span class="er-builder__zoom-level" id="erZoomLevel" aria-live="polite"></span>
+                            <button type="button" class="button button--ghost button--small" id="erZoomIn">
+                                <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#zoom-in"></use></svg>
+                                <span class="visually-hidden">Zoom in</span>
+                            </button>
+                            <button type="button" class="button button--ghost button--small" id="erZoomFit">
+                                <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#maximize"></use></svg>
+                                <span class="visually-hidden">Fit to view</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <form class="composer" id="erComposer">
+                    <label class="visually-hidden" for="queryBox" id="queryBoxLabel">Describe a change to the diagram</label>
+                    <textarea class="composer__input" id="queryBox" rows="1" autofocus placeholder="Describe a change, e.g. “Add customer address”"></textarea>
+                    <div class="composer__bar">
+                        <div class="composer__chips" id="erSuggestions" role="group" aria-label="Suggestions">
+                            <button type="button" class="chip" id="enlargeERDiagram"><svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#table-plus"></use></svg>Add more entities</button>
+                            <button type="button" class="chip" id="shrinkERDiagram"><svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#table-minus"></use></svg>Simplify diagram</button>
+                        </div>
+                        <button type="button" class="composer__button" id="erMoreSuggestions" hidden>
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#chevron-right"></use></svg>
+                            <span class="visually-hidden">More suggestions</span>
+                        </button>
+                        <button type="submit" class="composer__send" id="erSend" disabled>
+                            <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="ui-ds/icons.svg#arrow-up"></use></svg>
+                            <span class="visually-hidden">Send</span>
+                        </button>
+                    </div>
+                </form>
+                <p class="er-builder__status" id="erStatus" role="status"></p>
             </div>
-            <button class="button button--small close">
-                <span class="button__text">
-                    <svg class="icon" width="1em" height="1em" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                        <use href="ui/images/icons.svg#icon-cross"></use>
-                    </svg>
-                    <span class="visually-hidden">Close ER Designer</span>
-                </span>
-            </button>
-        </div>
-        <script>
-                function toggleDiagramView() {
-                    const diagramView = document.getElementById('diagramView');
-                    const diagramSource = document.getElementById('diagramSource');
-                    const makeFullscreen = diagramView.style.width !== '100%';
-                    diagramView.style.width = makeFullscreen ? '100%' : '';
-                    diagramSource.style.width = makeFullscreen ? '0%' : '';
-                    document.getElementById('queryBox').style.display = makeFullscreen ? 'none' : 'inline';
-                    document.getElementById('queryBoxHidden').style.display = makeFullscreen ? 'inline' : 'none';
-                    diagramSource.style.display = makeFullscreen ? 'none' : '';
-                }
-        </script>
-        <script>
-           var editor;
-        </script>
-        <script type="module">
-//        https://chatgpt.com/share/99102a26-a8ac-45c5-8d5b-76fc118cd602
-            window.erDiagrams = [
-                'Auction Management System',
-                'Customer Relationship Management',
-                'Employee Management',
-                'Energy Management System',
-                'Event Management',
-                'Flight Reservation System',
-                'Healthcare System',
-                'Insurance Claim Management System',
-                'Inventory System',
-                'Laboratory Information Management System',
-                'Law Firm Management System',
-                'Legal Case Management System',
-                'Library Management System',
-                'Membership Management System',
-                'Music Streaming Platform',
-                'Product Catalog',
-                'Property Management System',
-                'Recruitment Management System',
-                'Sales Tracking',
-                'School Management',
-                'Video Streaming Platform',
-                'Waste Management System'
-            ];
-
-            window.erDiagramContent = {};
-            window.erDiagramChat = [];
-            window.erDiagramChatIndex = 0;
-
-            document.getElementById('prevERDiagram').addEventListener('click', prevERDiagram);
-            document.getElementById('nextERDiagram').addEventListener('click', nextERDiagram);
-            document.getElementById('enlargeERDiagram').addEventListener('click', enlargeERDiagram);
-            document.getElementById('shrinkERDiagram').addEventListener('click', shrinkERDiagram);
-            $('#queryBox, #queryBoxHidden').on('keypress', async function (e) {
-                if (e.key === 'Enter') {
-                    updateERDiagram();
-                }
-            });
-
-            async function prevERDiagram() {
-                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex, erDiagramChat.length - 1));
-                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex-1, erDiagramChat.length - 1));
-                    var content = erDiagramChat[erDiagramChatIndex]["erd"];
-                      var action = erDiagramChat[erDiagramChatIndex]["action"];
-                   if(action) {
-                        document.getElementById('queryBox').value = action;
-                   }
-                    erDiagramContent[selectedDiagramId] = content;
-                    if (content) {
-                        editor.setValue(content);
-                    }
-                    updateButtonStates();
-            }
-
-            async function nextERDiagram() {
-                     const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex, erDiagramChat.length - 1)); 
-                     erDiagramChatIndex = Math.max(0, Math.min(erDiagramChatIndex+1, erDiagramChat.length - 1)); 
-                   var content = erDiagramChat[erDiagramChatIndex]["erd"];
-                   var action = erDiagramChat[erDiagramChatIndex]["action"];
-                   if(action) {
-                        document.getElementById('queryBox').value = action;
-                   }
-                    erDiagramContent[selectedDiagramId] = content;
-                    if (content) {
-                        editor.setValue(content);
-                    }
-                    updateButtonStates();
-            }
-            
-            function updateButtonStates() {
-                const nextButton = document.getElementById('nextERDiagram');
-                const prevButton = document.getElementById('prevERDiagram');
-                nextButton.disabled = erDiagramChatIndex >= erDiagramChat.length - 1;
-                prevButton.disabled = erDiagramChatIndex <= 0;
-            }
-            
-            async function enlargeERDiagram() {
-                showAILoadingBar();
-                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
-                const erDiagramData = encodeURIComponent(editor.getValue());
-
-                try {
-                    const response = await fetch(`resources/er-diagram/enlarge?name=${encodedDiagramId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'text/plain'
-                        },
-                        body: erDiagramData
-                    });
-                    hideAILoadingBar();
-
-                    if (!response.ok) {
-                        checkLimitExhaust(response);
-                    }
-
-                    var content = await response.text();
-                    content = content.replace(/```mermaid|```/g, '').trim();
-
-                    erDiagramContent[selectedDiagramId] = content;
-                    if (content) {
-                        editor.setValue(content);
-                        erDiagramChat.push({"erd": content});
-                        erDiagramChatIndex = erDiagramChat.length - 1;
-                    updateButtonStates();
-                    }
-                } catch (error) {
-                    hideAILoadingBar();
-                    console.error('Error fetching custom diagram:', error);
-                }
-
-            }
-            async function shrinkERDiagram() {
-                showAILoadingBar();
-                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
-                const erDiagramData = encodeURIComponent(editor.getValue());
-
-                try {
-                    const response = await fetch(`resources/er-diagram/shrink?name=${encodedDiagramId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'text/plain'
-                        },
-                        body: erDiagramData
-                    });
-                    hideAILoadingBar();
-
-                    if (!response.ok) {
-                        checkLimitExhaust(response);
-                    }
-
-                    var content = await response.text();
-                    content = content.replace(/```mermaid|```/g, '').trim();
-
-                    erDiagramContent[selectedDiagramId] = content;
-                    if (content) {
-                        editor.setValue(content);
-                        erDiagramChat.push({"erd": content});
-                        erDiagramChatIndex = erDiagramChat.length - 1;
-                        updateButtonStates();
-                    }
-                } catch (error) {
-                    hideAILoadingBar();
-                    console.error('Error fetching diagram:', error);
-                }
-            }
-            
-            async function updateERDiagram() {
-                showAILoadingBar();
-                const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                const encodedDiagramId = encodeURIComponent(selectedDiagramId);
-                const queryBox = document.getElementById('queryBox').value.trim();
-                const encodedQueryBox = encodeURIComponent(queryBox);
-                const erDiagramData = encodeURIComponent(editor.getValue());
-
-                try {
-                    const response = await fetch(`resources/er-diagram/update?request=${encodedQueryBox}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'text/plain'
-                        },
-                        body: erDiagramData
-                    });
-                    hideAILoadingBar();
-
-                    if (!response.ok) {
-                        checkLimitExhaust(response);
-                    }
-
-                    var content = await response.text();
-                    content = content.replace(/```mermaid|```/g, '').trim();
-
-                    erDiagramContent[selectedDiagramId] = content;
-                    if (content) {
-                        editor.setValue(content);
-                        erDiagramChat.push({"erd": content, "action": queryBox});
-                        erDiagramChatIndex = erDiagramChat.length - 1;
-                        updateButtonStates();
-                    }
-                } catch (error) {
-                    hideAILoadingBar();
-                    console.error('Error fetching diagram:', error);
-                }
-            }
-            // Function to fetch ER diagram content from the server
-            function fetchErDiagramContent(diagramId) {
-                showAILoadingBar();
-                return fetch(`erDiagram/${diagramId}.mmd`)
-                        .then(response => {
-                            hideAILoadingBar();
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.text(); // This line fetches the text content
-                        })
-                        .catch(error => {
-                            hideAILoadingBar();
-                            console.error('Error fetching diagram:', error);
-                            return null;
-                        });
-            }
-
-            // Function to populate the select elements with ER diagrams
-            async function populateErDiagrams() {
-                const previewSelect = document.getElementById('mermaidErDiagramListPreview');
-                const erDiagramSelect = document.getElementById('mermaidErDiagramList');
-
-                previewSelect.addEventListener('change', function () {
-                    erDiagramSelect.value = this.value;
-                });
-                erDiagramSelect.addEventListener('change', function () {
-                    previewSelect.value = this.value;
-                });
-                $('#mermaidErDiagramList').change(async function () {
-                    const selectedDiagramId = $(this).val();
-                    const selectedDiagramContent = erDiagramContent[selectedDiagramId];
-                    var content;
-                    if (!selectedDiagramContent && selectedDiagramId) {
-                        content = await fetchErDiagramContent(selectedDiagramId);
-                        if (content) {
-                            erDiagramContent[selectedDiagramId] = content;
-                        }
-                    }
-                    if(erDiagramContent[selectedDiagramId]) {
-                        editor.setValue(erDiagramContent[selectedDiagramId]);
-                        document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
-                        $('#mermaidErDiagramListPreview').val(selectedDiagramId);
-
-                        erDiagramChat = [];
-                        erDiagramChat.push({"erd": content});
-                        erDiagramChatIndex = erDiagramChat.length - 1;
-                    } else {
-                        erDiagramChat = [];
-                        erDiagramChatIndex = 0;
-                    }
-                    updateButtonStates();
-                });
-
-
-                // Clear existing options
-                previewSelect.innerHTML = '';
-                erDiagramSelect.innerHTML = '';
-                const option = document.createElement('option');
-                previewSelect.appendChild(option);
-                erDiagramSelect.appendChild(option.cloneNode(true));
-                for (const diagram of erDiagrams) {
-                    const option = document.createElement('option');
-                    option.value = diagram;
-                    option.textContent = diagram;
-                    previewSelect.appendChild(option);
-                    erDiagramSelect.appendChild(option.cloneNode(true));
-                }
-                
-                $('#mermaidErDiagramListPreview')
-                        .editableSelect()
-                        .on('select.editable-select', async function (e, li) {
-                            const selectedDiagramId = li[0].getAttribute("value");
-                            const selectedDiagramContent = erDiagramContent[selectedDiagramId];
-                            if (!selectedDiagramContent) {
-                                const content = await fetchErDiagramContent(selectedDiagramId);
-                                if (content) {
-                                    erDiagramContent[selectedDiagramId] = content;
-                                }
-                            }
-                            editor.setValue(erDiagramContent[selectedDiagramId]);
-                            document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
-
-                            const selectElement = document.getElementById('mermaidErDiagramList');
-                            for (let i = 0; i < selectElement.options.length; i++) {
-                                if (selectElement.options[i].value === selectedDiagramId) {
-                                    selectElement.options[i].selected = true;
-                                    break;
-                                }
-                            }
-                        });
-            }
-
-            document.addEventListener('DOMContentLoaded', populateErDiagrams);
-
-
-            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-
-            function updateMermaidDiagram() {
-                console.info('Updating diagram with new content.');
-                document.getElementById('erDiagram').innerHTML = editor.getValue();
-                mermaid.render('graphDiv', editor.getValue()).then(({ svg, bindFunctions }) => {
-                    var element = document.querySelector('#graphDiv');
-                    document.querySelector('div.livePreview').innerHTML = svg;
-                    bindFunctions?.(element);
-                });
-            }
-
-            editor = CodeMirror.fromTextArea(document.getElementById("sourceCode"), {
-                lineNumbers: true,
-                mode: "mermaid",
-                theme: "default"
-            });
-            editor.on("change", updateMermaidDiagram);
-
-            function closeModal() {
-                document.getElementById("previewModal").style.display = "none";
-                document.getElementById('erDiagram').innerHTML = editor.getValue();
-            }
-            var modal = document.getElementById("previewModal");
-            var span = document.getElementsByClassName("close")[0];
-
-            function openModal() {
-                modal.style.display = "block";
-            }
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none";
-                document.getElementById('erDiagram').innerHTML = editor.getValue();
-            };
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                    document.getElementById('erDiagram').innerHTML = editor.getValue();
-                }
-            };
-            
-        </script>
-        <script>
-            // Function to open the modal and populate live preview and source code
-            function openMermaidPreview() {
-                document.getElementById("previewModal").style.display = "block";
-                setTimeout(() => {
-                    if (editor) {
-                        editor.refresh(); 
-                    }
-                }, 200); 
-                
-                $('#mermaidErDiagramListPreview').on('keypress', async function (e) {
-                    if (e.key === 'Enter') {
-                        const selectedDiagramId = document.getElementById('mermaidErDiagramListPreview').value.trim();
-                        if (erDiagrams.includes(selectedDiagramId)) {
-                            if (!erDiagramContent[selectedDiagramId]) {
-                                const content = await fetchErDiagramContent(selectedDiagramId);
-                                if (content) {
-                                    erDiagramContent[selectedDiagramId] = content;
-                                }
-                            }
-                            editor.setValue(erDiagramContent[selectedDiagramId]);
-                            document.getElementById('erDiagram').innerHTML = erDiagramContent[selectedDiagramId];
-
-                            erDiagramChat = [];
-                            erDiagramChat.push({"erd": content});
-                            erDiagramChatIndex = erDiagramChat.length - 1;
-                            updateButtonStates();
-
-                        } else {
-                            const content = await fetchCustomErDiagramContent(selectedDiagramId);
-                            erDiagramContent[selectedDiagramId] = content;
-                            prependOptionToMermaidErDiagramList(selectedDiagramId);
-                            if (content) {
-                                editor.setValue(content);
-                                document.getElementById('erDiagram').innerHTML = content;
-                                
-                                erDiagramChat = [];
-                                erDiagramChat.push({"erd": content});
-                                erDiagramChatIndex = erDiagramChat.length - 1;
-                                updateButtonStates();
-                            }
-                        }
-                        
-                    }
-                });
-                
-                
-            }
-
-            function prependOptionToMermaidErDiagramList(val) {
-                var selectElement = document.getElementById('mermaidErDiagramList');
-                var newOption = document.createElement('option');
-                newOption.value = val;
-                newOption.text = val;
-                if (selectElement.children.length > 1) {
-                    selectElement.insertBefore(newOption, selectElement.children[1]);
-                } else {
-                    selectElement.appendChild(newOption);
-                }
-                newOption.selected = true;
-            }
-
-            function fetchCustomErDiagramContent(customDiagram) {
-                showAILoadingBar();
-                const encodedDiagram = encodeURIComponent(customDiagram);
-                return fetch(`resources/er-diagram/generate?request=${encodedDiagram}`)
-                        .then(response => {
-                            hideAILoadingBar();
-                            if (!response.ok) {
-                                checkLimitExhaust(response);
-                            }
-                            return response.text();
-                        })
-                        .catch(error => {
-                            hideAILoadingBar();
-                            console.error('Error fetching custom diagram:', error);
-                            return null;
-                        });
-            }
-        </script>
-
+        </dialog>
         <script src="assets/main.js"></script>
-        <script src="ui/js/interface.min.js"></script>
-        <script>
-            form_steps.init();
-        </script>
+        <script src="ui-ds/starter.js"></script>
+        <script type="module" src="ui-ds/er-builder.js"></script>
+        <script src="ui-ds/wave.js"></script>
 
-        <script>
-            function handleCheckboxDependencies() {
-                const jpaCheckbox = document.getElementById('generateJpa');
-                const repositoryCheckbox = document.getElementById('generateRepository');
-                const restCheckbox = document.getElementById('generateRest');
-                const generateWeb = document.getElementById('generateWeb');
 
-                repositoryCheckbox.addEventListener('change', function () {
-                    if (repositoryCheckbox.checked) {
-                        jpaCheckbox.checked = true;
-                    }
-                });
-
-                restCheckbox.addEventListener('change', function () {
-                    if (restCheckbox.checked) {
-                        jpaCheckbox.checked = true;
-                        repositoryCheckbox.checked = true;
-                    }
-                });
-
-                generateWeb.addEventListener('change', function () {
-                    if (generateWeb.value !== 'none') {
-                        jpaCheckbox.checked = true;
-                        repositoryCheckbox.checked = true;
-                        restCheckbox.checked = true;
-                    }
-                });
-
-                jpaCheckbox.addEventListener('change', function () {
-                    if (!jpaCheckbox.checked) {
-                        repositoryCheckbox.checked = false;
-                        restCheckbox.checked = false;
-                        generateWeb.value = 'none'; 
-                    }
-                });
-
-                repositoryCheckbox.addEventListener('change', function () {
-                    if (!repositoryCheckbox.checked) {
-                        restCheckbox.checked = false;
-                        generateWeb.value = 'none'; 
-                    }
-                });
-
-                restCheckbox.addEventListener('change', function () {
-                    if (!restCheckbox.checked) {
-                        generateWeb.value = 'none'; 
-                    }
-                });
-            }
-
-            document.addEventListener('DOMContentLoaded', handleCheckboxDependencies);
-        </script>
-
-        <script>
-
-            function showAILoadingBar() {
-                document.getElementById('loadingBarAI').style.display = 'block';
-                document.getElementById('headerAI').innerHTML = 'Loading Preview';
-            }
-
-            function hideAILoadingBar() {
-                document.getElementById('loadingBarAI').style.display = 'none';
-                document.getElementById('headerAI').innerHTML = 'Live Preview';
-            }
-            
-            function checkLimitExhaust(response) {
-                if (response.status === 429) {
-                    alert(
-                        "Too many requests have been made in a short period.\n\n" +
-                        "To ensure optimal performance, we limit the number of requests per hour. " +
-                        "Please wait a few moments before trying again. Thank you for your understanding!"
-                    );
-                    throw new Error('Generative AI access is temporarily disabled. Please try again later.');
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            }
-            
-        </script>
 
 		<!-- Start of HubSpot Embed Code -->
 		<script id="hs-script-loader" async defer src="https://js.hs-scripts.com/334594.js"></script>
