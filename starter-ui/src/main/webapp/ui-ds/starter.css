@@ -2399,6 +2399,16 @@ body:has(.modal[open]) {
   }
 }
 
+/* ============================== HubSpot marketing pop-ups ============================== */
+/* HubSpot's pop-ups (a call to action over a dimmed page, slide-ins, banners) never show on this
+   page: their containers stay out. The cookie banner below is separate and stays. */
+#hs-interactives-modal-overlay,
+[id^='hs-overlay-cta-'],
+[id^='hs-web-interactives'],
+[data-hs-container-type] {
+  display: none !important;
+}
+
 /* ============================== HubSpot cookie banner ============================== */
 /* Third-party markup; !important is the only way past its inline styles. Accept and decline
    carry equal weight (both secondary); "Cookies settings" is a link. */
