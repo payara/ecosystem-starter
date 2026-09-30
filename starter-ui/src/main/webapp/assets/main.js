@@ -78,8 +78,8 @@ function hideAndDeselectIncludeTests() {
     announce(document.getElementById('includeTestsNotice'));
 }
 
-// Get all the input fields in the form
-const formInputs = document.querySelectorAll('form input, form select, form textarea');
+// Get all the input fields in the Starter form (the ER Diagram Builder's prompt has a form of its own)
+const formInputs = document.querySelectorAll('#appForm input, #appForm select, #appForm textarea');
 const form = document.getElementById('appForm');
 
 const inputToConfigurationMap = {
