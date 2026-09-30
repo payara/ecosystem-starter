@@ -39,19 +39,60 @@
 package fish.payara.starter.test.e2e.pages;
 
 import com.microsoft.playwright.Download;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.junit.UsePlaywright;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 
 @UsePlaywright
 public class StarterPageActions {
 
     private StarterPageLocators locators; 
+    private Page page;
 
     public StarterPageActions(Page page) {
+        this.page = page;
         locators = new StarterPageLocators(page);
+        hideMarketingPopups();
+    }
+
+    // HubSpot's marketing popups (live content that changes over time) anchor to the bottom of the
+    // viewport, over the wizard's Back / Next row. The tests exercise the Starter form, so they are
+    // hidden; the cookie banner stays, for confirmGdpr().
+    private void hideMarketingPopups() {
+        page.addStyleTag(new Page.AddStyleTagOptions().setContent(
+                "[id^='hs-web-interactives'], [data-hs-container-type] { display: none !important; }"));
+    }
+
+    // The wizard shows one step at a time: Back or Next until the step holding the block (a step,
+    // a section of one, or a field) is the open one.
+    private void goToStep(Locator block) {
+        String indexOf = "el => [...document.querySelectorAll('fieldset.form-steps__step')]"
+                + ".indexOf(el.closest('fieldset.form-steps__step'))";
+        int target = ((Number) block.evaluate(indexOf)).intValue();
+        for (int i = 0; i < locators.steps.get().count(); i++) {
+            int open = ((Number) page.evaluate("() => [...document.querySelectorAll('fieldset.form-steps__step')]"
+                    + ".findIndex(step => step.classList.contains('form-steps__step--active'))")).intValue();
+            if (open == target) {
+                break;
+            }
+            (open < target ? locators.nextButton : locators.backButton).get().click();
+        }
+        PlaywrightAssertions.assertThat(block).isVisible();
+    }
+
+    // A radio or checkbox by the exact text of its label (help tooltips repeat option names).
+    private Locator option(Locator scope, String text) {
+        return scope.locator("label").filter(new Locator.FilterOptions().setHasText(exactText(text)));
+    }
+
+    // Whole-text match. Playwright runs the pattern as a JavaScript RegExp, which has no \\Q...\\E
+    // quoting (Pattern.quote), so special characters are escaped one by one.
+    private static Pattern exactText(String text) {
+        return Pattern.compile("^\\s*" + text.replaceAll("[.*+?^${}()|\\[\\]\\\\]", "\\\\$0") + "\\s*$");
     }
 
     public void confirmGdpr() {
@@ -61,21 +102,20 @@ public class StarterPageActions {
     }
 
     public void closeGuidePopup() {
-        if (!locators.popupGuide.get().all().isEmpty()) {
+        if (locators.popupGuide.get().isVisible()) {
             locators.popupCloseButton.get().click();
         }
     }
 
     // Project Description
     public void goToProjectDescription() throws InterruptedException {
-        locators.projectDescriptionTitle.get().click();
-        Thread.sleep(1000);
+        goToStep(locators.projectDescriptionBlock.get());
         PlaywrightAssertions.assertThat(locators.projectDescriptionTitle.get()).isVisible();
     }
 
     public void chooseBuild(String value) {
-        locators.projectBuild.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.projectBuild.get().getByText(value)).isChecked();
+        option(locators.projectBuild.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.projectBuild.get(), value)).isChecked();
     }
     
     
@@ -107,9 +147,8 @@ public class StarterPageActions {
 
     // Jakarta EE
     public void goToJakartaEESection() throws InterruptedException {
-        locators.jakartaeeBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.jakartaeeBlock.get()).isVisible();
+        goToStep(locators.jakartaeeBlock.get());
+        PlaywrightAssertions.assertThat(locators.jakartaeeBlockTitle.get()).isVisible();
     }
 
     public void selectJakartaEEVersion(String option, String value) {
@@ -118,8 +157,8 @@ public class StarterPageActions {
     }
 
     public void selectJakartaEEProfile(String value) {
-        locators.jakartaeeProfile.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.jakartaeeProfile.get().getByText(value)).isChecked();
+        option(locators.jakartaeeProfile.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.jakartaeeProfile.get(), value)).isChecked();
     }
 
     public void setJakartaEE(String jakartaEEVersion, String jakartaEEValue, String jakartaEEProfile) throws InterruptedException {
@@ -130,14 +169,13 @@ public class StarterPageActions {
 
     // Payara Platform
     public void goToPayaraPlatformSection() throws InterruptedException {
-        locators.payaraPlatformBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.payaraPlatformBlock.get()).isVisible();
+        goToStep(locators.payaraPlatformBlock.get());
+        PlaywrightAssertions.assertThat(locators.payaraPlatformBlockTitle.get()).isVisible();
     }
 
     public void selectPayaraPlatform(String value) {
-        locators.payaraPlatform.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.payaraPlatform.get().getByText(value)).isChecked();
+        option(locators.payaraPlatform.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.payaraPlatform.get(), value)).isChecked();
     }
 
     public void selectPayaraPlatformVersion(String option, String value) {
@@ -153,9 +191,8 @@ public class StarterPageActions {
 
     // Project Configuration
     public void goToProjectConfigurationSection() throws InterruptedException {
-        locators.projectConfigurationBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.projectConfigurationBlock.get()).isVisible();
+        goToStep(locators.projectConfigurationBlock.get());
+        PlaywrightAssertions.assertThat(locators.projectConfigurationBlockTitle.get()).isVisible();
     }
 
     public void setPackage(String value) {
@@ -184,20 +221,20 @@ public class StarterPageActions {
         goToProjectConfigurationSection();
         setPackage(packageValue);
         includeTests(includeTests);
+        goToStep(locators.projectJavaVersion.get());
         selectJavaVersion(javaVersion, javaVersionValue);
     }
 
     // Micro Profile
     public void goToMicroProfileSection() throws InterruptedException {
-        locators.microProfileBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.microProfileBlock.get()).isVisible();
+        goToStep(locators.microProfileBlock.get());
+        PlaywrightAssertions.assertThat(locators.microProfileBlockTitle.get()).isVisible();
     }
 
     public void selectMicroProfile(String value) {
         if (!value.isEmpty()) {
-        locators.microProfileBlock.get().getByText(value).click();
-            PlaywrightAssertions.assertThat(locators.microProfileBlock.get().getByText(value)).isChecked();
+            option(locators.microProfileBlock.get(), value).click();
+            PlaywrightAssertions.assertThat(option(locators.microProfileBlock.get(), value)).isChecked();
         }
     }
 
@@ -208,30 +245,39 @@ public class StarterPageActions {
 
     // Deployment Options
     public void goToDeploymentSection() throws InterruptedException {
-        locators.deploymentBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.deploymentBlock.get()).isVisible();
+        goToStep(locators.deploymentBlock.get());
+        PlaywrightAssertions.assertThat(locators.deploymentBlockTitle.get()).isVisible();
     }
 
     public void enableDockerDeployment() {
         if (!locators.deploymentDocker.get().isChecked()) {
-            locators.deploymentBlock.get().getByText("Docker").click();
+            locators.deploymentDockerLabel.get().click();
         }
         PlaywrightAssertions.assertThat(locators.deploymentDocker.get()).isChecked();
     }
 
+    public void disableDockerDeployment() {
+        if (locators.deploymentDocker.get().isChecked()) {
+            locators.deploymentDockerLabel.get().click();
+        }
+        PlaywrightAssertions.assertThat(locators.deploymentDocker.get()).isChecked(
+                new LocatorAssertions.IsCheckedOptions().setChecked(false));
+    }
+
+    // Docker is pre-selected, so "no Docker" has to clear it.
     public void setDeployment(Boolean docker) throws InterruptedException {
         goToDeploymentSection();
         if (docker) {
             enableDockerDeployment();
+        } else {
+            disableDockerDeployment();
         }
     }
 
     // ER Diagram Designer
     public void goToDiagramSection() throws InterruptedException {
-        locators.diagramBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.diagramBlock.get()).isVisible();
+        goToStep(locators.diagramBlock.get());
+        PlaywrightAssertions.assertThat(locators.diagramBlockTitle.get()).isVisible();
     }
 
     public void skipERDiagramSection() throws InterruptedException {
@@ -239,8 +285,13 @@ public class StarterPageActions {
         locators.nextButtonToSecurity.get().click();
     }
 
+    // Picked through the search field; the native select behind it holds the value.
     public void selectERDiagram(String value) {
-        locators.searchERDiagram.get().selectOption(value);
+        if (!value.isEmpty()) {
+            locators.searchERDiagramInput.get().click();
+            locators.searchERDiagramInput.get().fill(value);
+            locators.searchERDiagramOptions.get().filter(new Locator.FilterOptions().setHasText(exactText(value))).click();
+        }
         PlaywrightAssertions.assertThat(locators.searchERDiagram.get()).hasValue(value);
     }
 
@@ -317,10 +368,12 @@ public class StarterPageActions {
     }
 
     public void checkDiagramCodeContains(String value) {
+        locators.codeTab.get().click();
         PlaywrightAssertions.assertThat(locators.diagramSourceText.get()).containsText(value);
     }
 
     public void checkDiagramGraphContains(String value) {
+        locators.previewTab.get().click();
         PlaywrightAssertions.assertThat(locators.livePreviewGraph.get()).containsText(value);
     }
 
@@ -332,15 +385,14 @@ public class StarterPageActions {
 
     // Security Configuration
     public void goToSecuritySection() throws InterruptedException {
-        locators.securityBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.securityBlock.get()).isVisible();
+        goToStep(locators.securityBlock.get());
+        PlaywrightAssertions.assertThat(locators.securityBlockTitle.get()).isVisible();
     }
 
 
     public void setLogin(String value) {
-        locators.securityBlock.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.securityBlock.get().getByText(value)).isChecked();
+        option(locators.securityBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.securityBlock.get(), value)).isChecked();
     }
 
 
