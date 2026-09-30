@@ -45,20 +45,29 @@ function updateLabelsForBuildSystem() {
     const buildSystem = document.querySelector('input[name="build"]:checked').value;
 
     if (buildSystem === 'maven') {
-        document.querySelector('label[for="groupId"]').textContent = 'Group ID:';
-        document.querySelector('label[for="artifactId"]').textContent = 'Artifact ID:';
+        document.querySelector('label[for="groupId"]').textContent = 'Group ID';
+        document.querySelector('label[for="artifactId"]').textContent = 'Artifact ID';
         showIncludeTests(); // Show and enable Include Tests checkbox
     } else if (buildSystem === 'gradle') {
-        document.querySelector('label[for="groupId"]').textContent = 'Group:';
-        document.querySelector('label[for="artifactId"]').textContent = 'Project Name:';
+        document.querySelector('label[for="groupId"]').textContent = 'Group';
+        document.querySelector('label[for="artifactId"]').textContent = 'Project Name';
         hideAndDeselectIncludeTests(); // Hide and deselect Include Tests checkbox
     }
+}
+
+// Notices appear away from the focused control, so screen readers get their text through the
+// form's status line (#formStatus, a polite live region). Called with no notice, it clears the
+// line, so the same notice is read again the next time it appears.
+function announce(...notices) {
+    document.getElementById('formStatus').textContent =
+        notices.map((notice) => notice.textContent.trim()).join(' ');
 }
 
 function showIncludeTests() {
     const includeTestsCheckbox = document.getElementById('includeTests');
     includeTestsCheckbox.disabled = false;
     document.getElementById('includeTestsNotice').style.display = 'none';
+    announce();
 }
 
 function hideAndDeselectIncludeTests() {
@@ -66,6 +75,7 @@ function hideAndDeselectIncludeTests() {
     includeTestsCheckbox.checked = false;
     includeTestsCheckbox.disabled = true;
     document.getElementById('includeTestsNotice').style.display = 'block';
+    announce(document.getElementById('includeTestsNotice'));
 }
 
 // Get all the input fields in the form
@@ -87,16 +97,24 @@ formInputs.forEach((input, index) => {
     });
 });
 
-// Add event listener for form submission
+// The downloaded project, kept so it can be saved again from the result panel.
+let projectUrl = '';
+
+// Add event listener for form submission. The form hears how it goes (starter.js shows it):
+// starter:generating, then starter:generated (the file name and a way to save the file again)
+// or starter:failed.
 form.addEventListener('submit', function (event) {
     event.preventDefault();
 
     const form = event.target;
     const submitButton = form.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
+    // While busy the button is aria-disabled rather than disabled, so it keeps the focus.
+    if (submitButton.getAttribute('aria-disabled') === 'true') {
+        return;
+    }
+    submitButton.setAttribute('aria-disabled', 'true');
     submitButton.classList.add('button--disabled');
-    document.getElementById('loadingBar').style.display = 'block';
-    document.getElementById('loadingBar').scrollIntoView({behavior: 'smooth'});
+    form.dispatchEvent(new CustomEvent('starter:generating'));
 
     const formData = new FormData(form);
     const jsonObject = {};
@@ -112,7 +130,7 @@ form.addEventListener('submit', function (event) {
             }
         } else {
             jsonObject[key] = input.value;
-            if (input.id == 'erDiagram' && !$("#mermaidErDiagramList").val()) {
+            if (input.id == 'erDiagram' && !document.getElementById('mermaidErDiagramList').value) {
                 jsonObject[key] = '';
             }
         }
@@ -128,37 +146,50 @@ form.addEventListener('submit', function (event) {
 
     fetch('resources/starter', requestOptions)
             .then(response => {
-                if (response.status === 200) {
-                    return response.blob();
-                } else {
-                    alert('Error generating application. Please try again.');
-                    submitButton.disabled = false;
-                    submitButton.classList.remove('button--disabled');
+                if (response.status !== 200) {
+                    throw new Error(`Generating the application failed with status ${response.status}`);
                 }
+                return response.blob();
             })
             .then(blob => {
-                document.getElementById('loadingBar').style.display = 'none';
-
                 const filename = jsonObject['artifactId'] + '.zip';
-                const url = window.URL.createObjectURL(blob);
+                window.URL.revokeObjectURL(projectUrl);
+                projectUrl = window.URL.createObjectURL(blob);
 
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-
-                window.URL.revokeObjectURL(url);
-                submitButton.disabled = false;
-                submitButton.classList.remove('button--disabled');
+                const download = () => {
+                    const a = document.createElement('a');
+                    a.href = projectUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                };
+                download();
+                form.dispatchEvent(new CustomEvent('starter:generated', {detail: {filename, download}}));
             })
             .catch(error => {
-                document.getElementById('loadingBar').style.display = 'none';
                 console.error('Error:', error);
-                alert('An error occurred while generating the application.');
-                submitButton.disabled = false;
+                form.dispatchEvent(new CustomEvent('starter:failed'));
+            })
+            .finally(() => {
+                submitButton.removeAttribute('aria-disabled');
                 submitButton.classList.remove('button--disabled');
             });
+});
+
+// Start over (the reset button after a download): after this event the browser puts every field
+// back to its default; then the options that depend on others are worked out again.
+form.addEventListener('reset', function () {
+    setTimeout(() => {
+        payaraVersionSelect.value = ''; // no choice to keep: the lists start from their first version
+        javaVersionSelect.value = '';
+        jakartaEEVersionSelect.value = '10';
+        jakartaEEVersionSelect.dispatchEvent(new Event('change')); // Payara and Java versions, Core Profile
+        updateLabelsForBuildSystem(); // build labels, Include Tests
+        enableCoreProfileOptions(); // Security and ER Diagram back on
+        selectAllMP.dispatchEvent(new Event('change')); // MicroProfile options follow Full MP
+        document.getElementById('mermaidErDiagramList').dispatchEvent(new Event('change')); // empty ER diagram
+    });
 });
 
 
@@ -218,6 +249,7 @@ function populatePayaraVersionsDropdown(jakartaEEVersion) {
                 }
             })
             .then(versions => {
+                const chosen = payaraVersionSelect.value;
                 payaraVersionSelect.innerHTML = ''; // Clear existing options
 
                 // Add an option for each version
@@ -227,6 +259,9 @@ function populatePayaraVersionsDropdown(jakartaEEVersion) {
                     option.text = version;
                     payaraVersionSelect.appendChild(option);
                 });
+                if (versions.includes(chosen)) {
+                    payaraVersionSelect.value = chosen; // still on offer: keep it
+                }
                 listJavaVersionOption();
             })
             .catch(error => {
@@ -243,16 +278,19 @@ jakartaEEVersionSelect.addEventListener('change', function (event) {
     // Call the function to populate the Payara version dropdown with the selected Jakarta EE version
     populatePayaraVersionsDropdown(selectedValue);
 
-    // Disable the Core Profile radio button for versions below 10
+    // Disable the Core Profile radio button for versions below 10, and say why beside it. A Core
+    // Profile choice becomes Web Profile, which gets back what Core Profile turned off.
     if (selectedVersion < 10) {
         if (coreProfileRadioButton.checked) {
             webProfileRadioButton.checked = true;
+            enableCoreProfileOptions();
         }
         coreProfileRadioButton.disabled = true;
         coreProfileRadioButton.checked = false;
     } else {
         coreProfileRadioButton.disabled = false;
     }
+    document.getElementById('coreProfileHint').hidden = !coreProfileRadioButton.disabled;
 });
 
 // Attach an event listener to the payaraVersion select element
@@ -265,6 +303,7 @@ function listJavaVersionOption() {
     const jakartaEEVersion = jakartaEEVersionSelect.value;
     const payaraVersion = payaraVersionSelect.value;
 
+    const chosen = javaVersionSelect.value;
     // Get the "Java Version" options select element
     const javaVersionOptions = javaVersionSelect.querySelectorAll('option');
     // Clear existing options
@@ -285,6 +324,9 @@ function listJavaVersionOption() {
         }
         addJavaVersionOption('17', 'Java SE 17');
         addJavaVersionOption('11', 'Java SE 11');
+    }
+    if ([...javaVersionSelect.options].some(option => option.value === chosen)) {
+        javaVersionSelect.value = chosen; // still on offer: keep it
     }
 }
 
@@ -379,7 +421,10 @@ function disableCoreProfileOptions() {
         const el = document.getElementById(id);
         if (el) el.disabled = true;
     });
-    document.getElementById('mermaidErDiagramList').value = '';
+    const erDiagramList = document.getElementById('mermaidErDiagramList');
+    erDiagramList.value = '';
+    // er-builder.js clears its editor and versions too.
+    erDiagramList.dispatchEvent(new Event('change'));
     document.getElementById('erDiagram').value = '';
     document.getElementById('generateJpa').checked = false;
     document.getElementById('generateRepository').checked = false;
@@ -388,8 +433,10 @@ function disableCoreProfileOptions() {
     document.getElementById('repositorySubpackage').value = '';
     document.getElementById('restSubpackage').value = '';
     document.getElementById('generateWeb').value = 'none';
-    document.querySelector('button[onclick="openMermaidPreview()"]').disabled = true;
+    document.getElementById('erBuilderOpen').disabled = true;
     document.getElementById('erDiagramNotice').style.display = 'block';
+    document.getElementById('coreProfileNotice').style.display = 'block';
+    announce(document.getElementById('coreProfileNotice'));
 }
 
 function enableCoreProfileOptions() {
@@ -411,8 +458,10 @@ function enableCoreProfileOptions() {
     document.getElementById('repositorySubpackage').value = 'service';
     document.getElementById('restSubpackage').value = 'resource';
     document.getElementById('generateWeb').value = 'jsf';
-    document.querySelector('button[onclick="openMermaidPreview()"]').disabled = false;
+    document.getElementById('erBuilderOpen').disabled = false;
     document.getElementById('erDiagramNotice').style.display = 'none';
+    document.getElementById('coreProfileNotice').style.display = 'none';
+    announce();
 }
 
 coreRadioButton.addEventListener('change', function (event) {
