@@ -370,6 +370,7 @@
 			result.addEventListener('click', (event) => {
 				const action = event.target.closest('[data-result-action]')?.dataset.resultAction;
 				if (action === 'download') saveAgain();
+				// Download project is hidden while the result panel shows, but it is still the form's submit button.
 				if (action === 'retry') form.requestSubmit(download);
 				if (action === 'back') {
 					closeResult();
