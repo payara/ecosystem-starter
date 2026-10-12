@@ -43,7 +43,7 @@ const SAMPLES = [
 	'Waste Management System',
 ];
 
-const MERMAID_URL = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+const MERMAID_URL = 'https://cdn.jsdelivr.net/npm/mermaid@10.9.8/dist/mermaid.esm.min.mjs';
 
 const MESSAGES = {
 	busy: 'Updating the diagram…',
@@ -366,8 +366,12 @@ function initErBuilder() {
 
 	// ----- Preview -----
 	// Mermaid comes from a CDN and is loaded on its own: if it fails, only the preview is lost.
+	// The diagram code can come from the AI, so it is drawn with Mermaid's strict security level.
 	const mermaidReady = import(MERMAID_URL)
-		.then((module) => module.default)
+		.then(({ default: mermaid }) => {
+			mermaid.initialize({ startOnLoad: false, securityLevel: 'strict' });
+			return mermaid;
+		})
 		.catch((error) => {
 			console.error('Mermaid could not be loaded:', error);
 			return null;
