@@ -264,7 +264,6 @@ public class StarterPageActions {
                 new LocatorAssertions.IsCheckedOptions().setChecked(false));
     }
 
-    // Docker is pre-selected, so "no Docker" has to clear it.
     public void setDeployment(Boolean docker) throws InterruptedException {
         goToDeploymentSection();
         if (docker) {
