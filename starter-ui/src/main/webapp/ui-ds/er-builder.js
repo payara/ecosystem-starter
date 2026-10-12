@@ -228,6 +228,7 @@ function initErBuilder() {
 		versions: [], // this diagram's versions: { code, change }
 		version: -1,
 		busy: false,
+		pending: 0, // requests still running
 	};
 	const hasDiagram = () => editor.getValue().trim() !== '';
 
@@ -246,8 +247,10 @@ function initErBuilder() {
 		syncComposer();
 	}
 
-	// One request at a time, with progress and any error shown in the dialog.
+	// A request with progress and any error shown in the dialog. Requests can overlap (a sample
+	// loading while the AI answers), so the dialog stays busy until the last one ends.
 	async function run(task) {
+		state.pending++;
 		setBusy(true);
 		try {
 			return await task();
@@ -256,7 +259,7 @@ function initErBuilder() {
 			setStatus(messageFor(error), true);
 			return null;
 		} finally {
-			setBusy(false);
+			if (--state.pending === 0) setBusy(false);
 		}
 	}
 
