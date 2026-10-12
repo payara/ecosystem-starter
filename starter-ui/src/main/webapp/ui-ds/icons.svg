@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg">
-<!-- Tabler Icons 3.45.0 (MIT, https://tabler.io/icons), outline set. Used by index.html via <use href="ui-ds/icons.svg#name">. -->
+<!-- Tabler Icons 3.45.0 (MIT, https://tabler.io/icons; licence in icons/LICENSE.txt), outline set. Used by index.html via <use href="ui-ds/icons.svg#name">. -->
 <symbol id="arrow-left" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l14 0" /> <path d="M5 12l6 6" /> <path d="M5 12l6 -6" /></g></symbol>
 <symbol id="arrow-right" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l14 0" /> <path d="M13 18l6 -6" /> <path d="M13 6l6 6" /></g></symbol>
 <symbol id="check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10" /></g></symbol>
