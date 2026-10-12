@@ -55,9 +55,6 @@ public class StarterPageLocators {
     public final Supplier<Locator> gdprConfirmButton = () -> gdprArea.get().locator("#hs-eu-confirmation-button");
     public final Supplier<Locator> gdprDeclineButton = () -> gdprArea.get().locator("#hs-eu-decline-button");
     public final Supplier<Locator> introduction = () -> page.locator(".hero");
-    public final Supplier<Locator> popupGuide = () -> page.locator("[data-hs-container-type='SLIDE_IN']");
-    public final Supplier<Locator> popupCloseButton = () -> popupGuide.get().locator("#interactive-close-button");
-    public final Supplier<Locator> popupViewGuideButton = () -> popupGuide.get().locator(".interactive-button");
     public final Supplier<Locator> footer = () -> page.locator(".form__row--footer");
     public final Supplier<Locator> generateButton = () -> footer.get().locator("button[type='submit']");
 
@@ -66,6 +63,7 @@ public class StarterPageLocators {
     public final Supplier<Locator> steps = () -> page.locator("fieldset.form-steps__step");
     public final Supplier<Locator> nextButton = () -> footer.get().locator("button.form__step__button");
     public final Supplier<Locator> backButton = () -> footer.get().locator("button.form__step__button-back");
+    public final Supplier<Locator> dockedStepBar = () -> page.locator(".page__header nav.wizard-progress");
 
     // Project Description
     public final Supplier<Locator> projectDescriptionBlock = () -> page.locator("fieldset#step-project");
@@ -76,23 +74,18 @@ public class StarterPageLocators {
     public final Supplier<Locator> groupIdInputBox = () -> projectDescriptionBlock.get().locator("#groupId");
     public final Supplier<Locator> artifactIdInputBox = () -> projectDescriptionBlock.get().locator("#artifactId");
     public final Supplier<Locator> versionInputBox = () -> projectDescriptionBlock.get().locator("#version");
-    public final Supplier<Locator> nextButtonToJakartaee = () -> nextButton.get();
 
     // Jakarta EE (Platform step)
     public final Supplier<Locator> jakartaeeBlock = () -> page.locator("fieldset#step-platform");
     public final Supplier<Locator> jakartaeeBlockTitle = () -> jakartaeeBlock.get().locator("div.form-steps__title");
     public final Supplier<Locator> jarkataeeVersion = () -> jakartaeeBlock.get().locator("select#jakartaEEVersion");
     public final Supplier<Locator> jakartaeeProfile = () -> jakartaeeBlock.get();
-    public final Supplier<Locator> previousButtonToPayaraPlatform = () -> backButton.get();
-    public final Supplier<Locator> nextButtonToPayaraPlatform = () -> nextButton.get();
 
     // Payara Platform (Platform step)
     public final Supplier<Locator> payaraPlatformBlock = () -> page.locator("fieldset#step-platform");
     public final Supplier<Locator> payaraPlatformBlockTitle = () -> payaraPlatformBlock.get().locator("div.form-steps__title");
     public final Supplier<Locator> payaraPlatform = () -> payaraPlatformBlock.get();
     public final Supplier<Locator> payaraPlatformVersion = () -> payaraPlatformBlock.get().locator("select#payaraVersion");
-    public final Supplier<Locator> previousButtonToProjectConfiguration = () -> backButton.get();
-    public final Supplier<Locator> nextButtonToProjectConfiguration = () -> nextButton.get();
 
     // Project Configuration: the package and tests are in the Project step, the Java version in Platform
     public final Supplier<Locator> projectConfigurationBlock = () -> page.locator("fieldset#step-project");
@@ -103,23 +96,17 @@ public class StarterPageLocators {
             "label[for='includeTests']");
     public final Supplier<Locator> projectIncludeTests = () -> projectConfigurationBlock.get().locator("input#includeTests");
     public final Supplier<Locator> projectJavaVersion = () -> page.locator("fieldset#step-platform select#javaVersion");
-    public final Supplier<Locator> previousButtonToMicroProfile = () -> backButton.get();
-    public final Supplier<Locator> nextButtonToMicroProfile = () -> nextButton.get();
 
     // MicroProfile (Features step)
     public final Supplier<Locator> microProfileBlock = () -> page.locator("fieldset#section-microprofile");
     public final Supplier<Locator> microProfileBlockTitle = () -> microProfileBlock.get().locator(".form-section__title");
     public final Supplier<Locator> microProfileOptions = () -> microProfileBlock.get();
-    public final Supplier<Locator> previousButtonToDeployment = () -> backButton.get();
-    public final Supplier<Locator> nextButtonToDeployment = () -> nextButton.get();
 
     // Deployment Options (Features step)
     public final Supplier<Locator> deploymentBlock = () -> page.locator("fieldset#section-deployment");
     public final Supplier<Locator> deploymentBlockTitle = () -> deploymentBlock.get().locator(".form-section__title");
     public final Supplier<Locator> deploymentDocker = () -> deploymentBlock.get().locator("input#docker");
     public final Supplier<Locator> deploymentDockerLabel = () -> deploymentBlock.get().locator("label[for='docker']");
-    public final Supplier<Locator> previousButtonToDiagram = () -> backButton.get();
-    public final Supplier<Locator> nextButtonToDiagram = () -> nextButton.get();
 
     // ER Diagram Designer (Features step)
     public final Supplier<Locator> diagramBlock = () -> page.locator("fieldset#section-er-diagram");
@@ -127,7 +114,6 @@ public class StarterPageLocators {
     // The native select holds the value; the page shows a search field with suggestions over it.
     public final Supplier<Locator> searchERDiagram = () -> diagramBlock.get().locator("select#mermaidErDiagramList");
     public final Supplier<Locator> searchERDiagramInput = () -> diagramBlock.get().locator("input[role='combobox']");
-    public final Supplier<Locator> searchERDiagramOptions = () -> diagramBlock.get().locator("[role='option']");
     public final Supplier<Locator> diagramPreviewButton = () -> diagramBlock.get().locator("button.button");
     public final Supplier<Locator> generateJPA = () -> diagramBlock.get().locator("label[for='generateJpa']");
     public final Supplier<Locator> jpaSubPackage = () -> diagramBlock.get().locator("input#jpaSubpackage");
@@ -136,12 +122,22 @@ public class StarterPageLocators {
     public final Supplier<Locator> generateRest = () -> diagramBlock.get().locator("label[for='generateRest']");
     public final Supplier<Locator> restSubpackage = () -> diagramBlock.get().locator("input#restSubpackage");
     public final Supplier<Locator> generateWeb = () -> diagramBlock.get().locator("select#generateWeb");
-    public final Supplier<Locator> previousButtonToSecurity = () -> backButton.get();
-    public final Supplier<Locator> nextButtonToSecurity = () -> nextButton.get();
 
     // Security Configuration (Features step)
     public final Supplier<Locator> securityBlock = () -> page.locator("fieldset#section-security");
     public final Supplier<Locator> securityBlockTitle = () -> securityBlock.get().locator(".form-section__title");
+
+    // Review step
+    public final Supplier<Locator> reviewBlock = () -> page.locator("fieldset#step-review");
+    public final Supplier<Locator> editProjectButton = () -> reviewBlock.get().locator("button[data-summary-edit='step-project']");
+
+    // Result panel: takes the step's place while the project is generated, then says how it went
+    public final Supplier<Locator> resultBlock = () -> page.locator("section#formResult");
+    public final Supplier<Locator> resultReady = () -> resultBlock.get().locator("[data-result='generated']");
+    public final Supplier<Locator> resultReadyFile = () -> resultReady.get().locator(".form-result__file");
+    public final Supplier<Locator> startOverButton = () -> resultReady.get().locator("button[type='reset']");
+    public final Supplier<Locator> resultFailed = () -> resultBlock.get().locator("[data-result='failed']");
+    public final Supplier<Locator> tryAgainButton = () -> resultFailed.get().locator("button[data-result-action='retry']");
 
     // ER Diagram Builder (dialog)
     public final Supplier<Locator> previewDiagramBlock = () -> page.locator("dialog#previewModal");

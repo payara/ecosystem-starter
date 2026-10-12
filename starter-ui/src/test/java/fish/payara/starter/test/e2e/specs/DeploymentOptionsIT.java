@@ -90,7 +90,6 @@ public class DeploymentOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer5EE8Jdk11Docker", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 8", "8", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
         starterPage.setMicroProfile("");
         starterPage.setDeployment(true);

@@ -91,7 +91,6 @@ public class MicroProfileOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17FullMP", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("Full MP");
         starterPage.setDeployment(false);
@@ -110,7 +109,6 @@ public class MicroProfileOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPConfig", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Config");
         starterPage.setDeployment(false);
@@ -129,7 +127,6 @@ public class MicroProfileOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPFault", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Fault Tolerance");
         starterPage.setDeployment(false);
@@ -148,7 +145,6 @@ public class MicroProfileOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPMetrics", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setDeployment(false);

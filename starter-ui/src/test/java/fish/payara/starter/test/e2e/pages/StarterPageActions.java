@@ -41,9 +41,11 @@ package fish.payara.starter.test.e2e.pages;
 import com.microsoft.playwright.Download;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Route;
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.junit.UsePlaywright;
+import com.microsoft.playwright.options.AriaRole;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
@@ -56,15 +58,6 @@ public class StarterPageActions {
     public StarterPageActions(Page page) {
         this.page = page;
         locators = new StarterPageLocators(page);
-        hideMarketingPopups();
-    }
-
-    // HubSpot's marketing popups (live content that changes over time) anchor to the bottom of the
-    // viewport, over the wizard's Back / Next row. The tests exercise the Starter form, so they are
-    // hidden; the cookie banner stays, for confirmGdpr().
-    private void hideMarketingPopups() {
-        page.addStyleTag(new Page.AddStyleTagOptions().setContent(
-                "[id^='hs-web-interactives'], [data-hs-container-type] { display: none !important; }"));
     }
 
     // The wizard shows one step at a time: Back or Next until the step holding the block (a step,
@@ -84,26 +77,57 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(block).isVisible();
     }
 
-    // A radio or checkbox by the exact text of its label (help tooltips repeat option names).
+    // A radio or checkbox by the exact text of its label (help tooltips repeat option names). The
+    // inputs themselves are visually hidden, so the label's text is clicked; Playwright follows it
+    // to the input for isChecked().
     private Locator option(Locator scope, String text) {
-        return scope.locator("label").filter(new Locator.FilterOptions().setHasText(exactText(text)));
+        return scope.locator("label").getByText(text, new Locator.GetByTextOptions().setExact(true));
     }
 
-    // Whole-text match. Playwright runs the pattern as a JavaScript RegExp, which has no \\Q...\\E
-    // quoting (Pattern.quote), so special characters are escaped one by one.
-    private static Pattern exactText(String text) {
-        return Pattern.compile("^\\s*" + text.replaceAll("[.*+?^${}()|\\[\\]\\\\]", "\\\\$0") + "\\s*$");
+    // Steps
+    public void next() {
+        locators.nextButton.get().click();
+    }
+
+    public void checkStepOpen(String id) {
+        PlaywrightAssertions.assertThat(page.locator("fieldset#" + id)).hasClass(
+                Pattern.compile("\\bform-steps__step--active\\b"));
+    }
+
+    // The step bar has a button per step, named after it ("Step 3 of 4: Features"). Once the form is
+    // scrolled to, the bar docks under the page header and the form's own copy hides, so the form is
+    // scrolled to first and the docked bar is clicked.
+    public void openStepFromBar(String name) {
+        page.locator("#appForm").scrollIntoViewIfNeeded();
+        PlaywrightAssertions.assertThat(locators.dockedStepBar.get()).isVisible();
+        locators.dockedStepBar.get().getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName(name).setExact(true)).click();
+    }
+
+    // Field checks: once a field has been left, a problem marks it invalid and shows a message after it.
+    public void leaveField(String id) {
+        page.locator("#" + id).blur();
+    }
+
+    public void checkFieldProblem(String id, String message) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).hasAttribute("aria-invalid", "true");
+        PlaywrightAssertions.assertThat(page.locator("#" + id + "-problem")).hasText(message);
+    }
+
+    public void checkFieldFocused(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isFocused();
+    }
+
+    public void checkFieldValue(String id, String value) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).hasValue(value);
+    }
+
+    public void checkFieldChecked(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isChecked();
     }
 
     public void confirmGdpr() {
         if (!locators.gdprArea.get().all().isEmpty()) {
             locators.gdprConfirmButton.get().click();
-        }
-    }
-
-    public void closeGuidePopup() {
-        if (locators.popupGuide.get().isVisible()) {
-            locators.popupCloseButton.get().click();
         }
     }
 
@@ -281,7 +305,7 @@ public class StarterPageActions {
 
     public void skipERDiagramSection() throws InterruptedException {
         goToDiagramSection();
-        locators.nextButtonToSecurity.get().click();
+        locators.nextButton.get().click();
     }
 
     // Picked through the search field; the native select behind it holds the value.
@@ -289,7 +313,7 @@ public class StarterPageActions {
         if (!value.isEmpty()) {
             locators.searchERDiagramInput.get().click();
             locators.searchERDiagramInput.get().fill(value);
-            locators.searchERDiagramOptions.get().filter(new Locator.FilterOptions().setHasText(exactText(value))).click();
+            locators.diagramBlock.get().getByRole(AriaRole.OPTION, new Locator.GetByRoleOptions().setName(value).setExact(true)).click();
         }
         PlaywrightAssertions.assertThat(locators.searchERDiagram.get()).hasValue(value);
     }
@@ -400,6 +424,58 @@ public class StarterPageActions {
         setLogin(login);
     }
 
+
+    // Review
+    public void goToReview() {
+        goToStep(locators.reviewBlock.get());
+    }
+
+    // A line of the review, by the field (or radio group) it shows.
+    public void checkReviewLine(String key, String text) {
+        PlaywrightAssertions.assertThat(locators.reviewBlock.get().locator("dd[data-summary='" + key + "']")).hasText(text);
+    }
+
+    public void editProjectFromReview() {
+        locators.editProjectButton.get().click();
+    }
+
+    // Download project and the result panel
+    public void clickDownload() {
+        locators.generateButton.get().click();
+    }
+
+    // Waits for the file itself (path()): WebKit won't close the context while a download is unfinished.
+    public void download() {
+        page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000), this::clickDownload).path();
+    }
+
+    public void checkProjectReady(String filename) {
+        PlaywrightAssertions.assertThat(locators.resultReady.get()).isVisible();
+        PlaywrightAssertions.assertThat(locators.resultReadyFile.get()).hasText(filename);
+    }
+
+    public void checkProjectFailed() {
+        PlaywrightAssertions.assertThat(locators.resultFailed.get()).isVisible();
+    }
+
+    public void tryAgain() {
+        page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000),
+                () -> locators.tryAgainButton.get().click()).path();
+    }
+
+    public void startOver() {
+        locators.startOverButton.get().click();
+        PlaywrightAssertions.assertThat(locators.resultBlock.get()).isHidden();
+    }
+
+    // The generator answers with a server error until restoreGeneration().
+    public void failGeneration() {
+        page.route("**/resources/starter", route -> route.fulfill(new Route.FulfillOptions().setStatus(500)));
+    }
+
+    public void restoreGeneration() {
+        page.unroute("**/resources/starter");
+    }
 
     public void generate(Page page, Path filepath) {
         Download download = page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000), () -> {

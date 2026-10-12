@@ -91,7 +91,6 @@ public class SecurityOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuFileRealm", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
         starterPage.setDeployment(false);
@@ -110,7 +109,6 @@ public class SecurityOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuDB", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
         starterPage.setDeployment(false);
@@ -129,7 +127,6 @@ public class SecurityOptionsIT {
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuLdap", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
         starterPage.setDeployment(false);

@@ -91,7 +91,6 @@ public class GradleBuildIT {
         starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "gradleJdk11", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 8", "8", "Platform");
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
-        starterPage.closeGuidePopup();
         starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
         starterPage.setMicroProfile("");
         starterPage.setDeployment(false);
@@ -109,7 +108,6 @@ public class GradleBuildIT {
     void gradleJdk17() throws InterruptedException, IOException {
         starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "gradleJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 9.1", "9.1", "Web Profile");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -128,7 +126,6 @@ public class GradleBuildIT {
     void gradleJdk21() throws InterruptedException, IOException {
         starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "gradleJdk21", "2.0");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Micro", "6.2025.1", "6.2025.1");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 21", "21");
         starterPage.setMicroProfile("");
