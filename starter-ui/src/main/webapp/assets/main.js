@@ -63,11 +63,18 @@ function announce(...notices) {
         notices.map((notice) => notice.textContent.trim()).join(' ');
 }
 
+// The notices that are showing, so hiding one does not silence another.
+function announceVisible() {
+    announce(...['includeTestsNotice', 'coreProfileNotice']
+        .map((id) => document.getElementById(id))
+        .filter((notice) => notice.style.display === 'block'));
+}
+
 function showIncludeTests() {
     const includeTestsCheckbox = document.getElementById('includeTests');
     includeTestsCheckbox.disabled = false;
     document.getElementById('includeTestsNotice').style.display = 'none';
-    announce();
+    announceVisible();
 }
 
 function hideAndDeselectIncludeTests() {
@@ -75,7 +82,7 @@ function hideAndDeselectIncludeTests() {
     includeTestsCheckbox.checked = false;
     includeTestsCheckbox.disabled = true;
     document.getElementById('includeTestsNotice').style.display = 'block';
-    announce(document.getElementById('includeTestsNotice'));
+    announceVisible();
 }
 
 // Get all the input fields in the Starter form (the ER Diagram Builder's prompt has a form of its own)
@@ -436,7 +443,7 @@ function disableCoreProfileOptions() {
     document.getElementById('erBuilderOpen').disabled = true;
     document.getElementById('erDiagramNotice').style.display = 'block';
     document.getElementById('coreProfileNotice').style.display = 'block';
-    announce(document.getElementById('coreProfileNotice'));
+    announceVisible();
 }
 
 function enableCoreProfileOptions() {
@@ -461,7 +468,7 @@ function enableCoreProfileOptions() {
     document.getElementById('erBuilderOpen').disabled = false;
     document.getElementById('erDiagramNotice').style.display = 'none';
     document.getElementById('coreProfileNotice').style.display = 'none';
-    announce();
+    announceVisible();
 }
 
 coreRadioButton.addEventListener('change', function (event) {

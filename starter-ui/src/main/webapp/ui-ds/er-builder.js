@@ -323,12 +323,19 @@ function initErBuilder() {
 	}
 
 	async function pick(name) {
+		const previous = state.name;
 		state.name = name;
 		showPicked(name);
 		let code = name ? state.saved.get(name) : '';
 		if (code === undefined) {
 			code = await run(() => backend.sample(name));
-			if (code === null || state.name !== name) return;
+			if (state.name !== name) return;
+			if (code === null) {
+				// The sample did not load: the editor still holds the previous diagram, so keep its name.
+				state.name = previous;
+				showPicked(previous);
+				return;
+			}
 		}
 		startVersions(code);
 	}
@@ -405,20 +412,27 @@ function initErBuilder() {
 	// ----- Preview -----
 	// Mermaid comes from a CDN and is loaded on its own: if it fails, only the preview is lost.
 	// The diagram code can come from the AI, so it is drawn with Mermaid's strict security level.
-	const mermaidReady = import(MERMAID_URL)
-		.then(({ default: mermaid }) => {
-			mermaid.initialize({ startOnLoad: false, securityLevel: 'strict' });
-			return mermaid;
-		})
-		.catch((error) => {
-			console.error('Mermaid could not be loaded:', error);
-			return null;
-		});
+	// It is only fetched when a diagram is first drawn, so visitors who never open the builder
+	// do not pay for it.
+	let mermaidPromise = null;
+	function loadMermaid() {
+		mermaidPromise ??= import(MERMAID_URL)
+			.then(({ default: mermaid }) => {
+				mermaid.initialize({ startOnLoad: false, securityLevel: 'strict' });
+				return mermaid;
+			})
+			.catch((error) => {
+				console.error('Mermaid could not be loaded:', error);
+				return null;
+			});
+		return mermaidPromise;
+	}
 	let renderCount = 0;
+	let renderId = 0;
 
 	async function render(code) {
 		const ticket = ++renderCount;
-		const mermaid = await mermaidReady;
+		const mermaid = await loadMermaid();
 		if (ticket !== renderCount) return;
 		if (!mermaid) {
 			const message = document.createElement('p');
@@ -431,8 +445,9 @@ function initErBuilder() {
 			preview.replaceChildren();
 			return;
 		}
+		const id = `er-diagram-preview-${++renderId}`;
 		try {
-			const { svg, bindFunctions } = await mermaid.render('er-diagram-preview', code);
+			const { svg, bindFunctions } = await mermaid.render(id, code);
 			if (ticket !== renderCount) return;
 			preview.innerHTML = svg;
 			// One image for assistive technology.
@@ -442,7 +457,10 @@ function initErBuilder() {
 			drawing?.removeAttribute('aria-roledescription');
 			bindFunctions?.(drawing);
 		} catch {
-			// Code being edited is often not valid Mermaid yet: keep the last drawing.
+			// Code being edited is often not valid Mermaid yet: keep the last drawing, and drop the
+			// error drawing Mermaid may leave in the page.
+			document.getElementById(`d${id}`)?.remove();
+			document.getElementById(id)?.remove();
 		}
 	}
 

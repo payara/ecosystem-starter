@@ -209,7 +209,9 @@
 			if (!message) {
 				note?.remove();
 				field.removeAttribute('aria-invalid');
-				if (field.getAttribute('aria-describedby') === id) field.removeAttribute('aria-describedby');
+				const rest = (field.getAttribute('aria-describedby') || '').split(/\s+/).filter((token) => token && token !== id);
+				if (rest.length) field.setAttribute('aria-describedby', rest.join(' '));
+				else field.removeAttribute('aria-describedby');
 				return;
 			}
 			if (!note) {
@@ -220,7 +222,8 @@
 			}
 			note.textContent = message;
 			field.setAttribute('aria-invalid', 'true');
-			field.setAttribute('aria-describedby', id);
+			const tokens = (field.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+			if (!tokens.includes(id)) field.setAttribute('aria-describedby', [...tokens, id].join(' '));
 		}
 
 		// Brings the field's validity up to date; says whether it is fine.

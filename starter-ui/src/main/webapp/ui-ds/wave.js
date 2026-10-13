@@ -200,7 +200,7 @@
 
 		const themeObserver = new MutationObserver(refresh);
 		for (const element of [document.documentElement, document.body]) {
-			themeObserver.observe(element, { attributes: true, attributeFilter: ['class', 'style'] });
+			themeObserver.observe(element, { attributes: true, attributeFilter: ['class'] });
 		}
 		const sizeObserver = new ResizeObserver(refresh);
 		sizeObserver.observe(canvas);
@@ -223,7 +223,7 @@
 		refresh();
 	}
 
-	// Keycloak's inherited template loads theme scripts in <head>, without defer.
+	// The script may load in <head>, before the canvas exists, so wait for the document.
 	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
 	else init();
 })();

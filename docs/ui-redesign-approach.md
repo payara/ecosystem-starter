@@ -3,7 +3,7 @@
 | | |
 | --- | --- |
 | Ticket | FISH-14046 |
-| Pull request | [#190](https://github.com/payara/ecosystem-starter/pull/190) |
+| Pull request | [#191](https://github.com/payara/ecosystem-starter/pull/191) |
 | Status | **Proposed**, waiting for approval |
 | Approved by | _(name, date)_ |
 
@@ -43,7 +43,7 @@ The page ran on an old theme (`ui/js/interface.min.js` with jQuery, jquery-edita
 - **Result screen** while generating: ready (Download again, Back to options, Start over) or failed (Back to options, Try again), in place of `alert()`.
 - **ER Diagram Builder** in a native dialog: searchable picker, Code and Preview tabs, zoom, version history, prompt composer.
 - **HubSpot marketing pop-ups hidden.** The cookie banner, analytics and Privacy Settings are unchanged.
-- **Accessibility fixes**: named groups and fields, focus management, announced notices, keyboard support. axe-core 3.5.6 and 4.12 report no violations on any step (as tested for #190).
+- **Accessibility fixes**: named groups and fields, focus management, announced notices, keyboard support. axe-core 3.5.6 and 4.12 report no violations on any step (as tested for #191).
 
 ## What does not change
 
