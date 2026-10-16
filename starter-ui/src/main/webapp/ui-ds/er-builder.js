@@ -414,15 +414,19 @@ function initErBuilder() {
 	// The diagram code can come from the AI, so it is drawn with Mermaid's strict security level.
 	// It is only fetched when a diagram is first drawn, so visitors who never open the builder
 	// do not pay for it.
+	// A failed import() of a URL is remembered by the browser for the life of the page, so a retry
+	// asks for the same file with a throwaway query string.
 	let mermaidPromise = null;
+	let mermaidAttempts = 0;
 	function loadMermaid() {
-		mermaidPromise ??= import(MERMAID_URL)
+		mermaidPromise ??= import(mermaidAttempts++ ? `${MERMAID_URL}?retry=${mermaidAttempts}` : MERMAID_URL)
 			.then(({ default: mermaid }) => {
 				mermaid.initialize({ startOnLoad: false, securityLevel: 'strict' });
 				return mermaid;
 			})
 			.catch((error) => {
 				console.error('Mermaid could not be loaded:', error);
+				mermaidPromise = null; // let the next render try again
 				return null;
 			});
 		return mermaidPromise;
