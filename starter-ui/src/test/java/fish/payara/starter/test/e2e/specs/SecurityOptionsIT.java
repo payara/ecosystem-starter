@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2025 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025-2026 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -88,15 +88,13 @@ public class SecurityOptionsIT {
 
     @Test
     void PayaraServer6EE10Jdk17SecuFileRealm() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuFileRealm", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuFileRealm", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.1", "6.2025.1",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("Form Authentication - File Realm");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("Form Authentication - File Realm");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuFileRealm.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17SecuFileRealm.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17SecuFileRealm");
@@ -107,15 +105,13 @@ public class SecurityOptionsIT {
 
     @Test
     void PayaraServer6EE10Jdk17SecuDB() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuDB", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuDB", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.1", "6.2025.1",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("Form Authentication - Database");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("Form Authentication - Database");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuDB.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17SecuDB.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17SecuDB");
@@ -126,15 +122,13 @@ public class SecurityOptionsIT {
 
     @Test
     void PayaraServer6EE10Jdk17SecuLdap() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuLdap", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.closeGuidePopup();
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17SecuLdap", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.1", "6.2025.1",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("Form Authentication - LDAP");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("Form Authentication - LDAP");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17SecuLdap.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17SecuLdap.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17SecuLdap");

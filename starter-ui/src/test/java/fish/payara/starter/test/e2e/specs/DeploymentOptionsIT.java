@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2025 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025-2026 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -87,15 +87,13 @@ public class DeploymentOptionsIT {
 
     @Test
     void PayaraServer5EE8Jdk11Docker() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer5EE8Jdk11Docker", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 8", "8", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
-        starterPage.closeGuidePopup();
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 11", "11");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer5EE8Jdk11Docker", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 8", "8", "Platform", "Payara Server", "5.2022.5", "5.2022.5",
+                "Java SE 11", "11");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(true);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer5EE8Jdk11Docker.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer5EE8Jdk11Docker.zip", "./target/test-app-maven/PayaraServer5EE8Jdk11Docker");

@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2025 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025-2026 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -55,104 +55,95 @@ public class StarterPageLocators {
     public final Supplier<Locator> gdprConfirmButton = () -> gdprArea.get().locator("#hs-eu-confirmation-button");
     public final Supplier<Locator> gdprDeclineButton = () -> gdprArea.get().locator("#hs-eu-decline-button");
     public final Supplier<Locator> introduction = () -> page.locator(".hero");
-    public final Supplier<Locator> popupGuide = () -> page.locator("[data-hs-container-type='SLIDE_IN']");
-    public final Supplier<Locator> popupCloseButton = () -> popupGuide.get().locator("#interactive-close-button");
-    public final Supplier<Locator> popupViewGuideButton = () -> popupGuide.get().locator(".interactive-button");
     public final Supplier<Locator> footer = () -> page.locator(".form__row--footer");
-    public final Supplier<Locator> generateButton = () -> footer.get().locator(".button");
+    public final Supplier<Locator> generateButton = () -> footer.get().locator("button[type='submit']");
 
-    // Project Description
-    public final Supplier<Locator> projectDescriptionBlock = () -> page.locator("fieldset#stb0-st0");
-    public final Supplier<Locator> projectDescriptionTitle = () -> projectDescriptionBlock.get().locator(
-            "div.legend a[href='#stb0-st0']");
-    public final Supplier<Locator> projectBuild = () -> projectDescriptionBlock.get();
-    public final Supplier<Locator> mavenRadio = () -> projectDescriptionBlock.get().locator("label[for='maven']");
-    public final Supplier<Locator> gradleRadio = () -> projectDescriptionBlock.get().locator("label[for='gradle']");
-    public final Supplier<Locator> groupIdInputBox = () -> projectDescriptionBlock.get().locator("#groupId");
-    public final Supplier<Locator> artifactIdInputBox = () -> projectDescriptionBlock.get().locator("#artifactId");
-    public final Supplier<Locator> versionInputBox = () -> projectDescriptionBlock.get().locator("#version");
-    public final Supplier<Locator> nextButtonToJakartaee = () -> projectDescriptionBlock.get().locator(
-            "a[href='#stb0-st1']");
+    // The wizard shows one step at a time (Project, Platform, Features, Review); Back and Next are
+    // shared by all steps. The Features step groups its options in sections.
+    public final Supplier<Locator> steps = () -> page.locator("fieldset.form-steps__step");
+    public final Supplier<Locator> nextButton = () -> footer.get().locator("button.form__step__button");
+    public final Supplier<Locator> backButton = () -> footer.get().locator("button.form__step__button-back");
+    public final Supplier<Locator> dockedStepBar = () -> page.locator(".page__header nav.wizard-progress");
 
-    // Jakarta EE
-    public final Supplier<Locator> jakartaeeBlock = () -> page.locator("fieldset#stb0-st1");
-    public final Supplier<Locator> jakartaeeBlockTitle = () -> jakartaeeBlock.get().locator("div.legend a[href='#stb0-st1']");
-    public final Supplier<Locator> jarkataeeVersion = () -> jakartaeeBlock.get().locator("select#jakartaEEVersion");
-    public final Supplier<Locator> jakartaeeProfile = () -> jakartaeeBlock.get().locator("label.form__radbox-label");
-    public final Supplier<Locator> previousButtonToPayaraPlatform = () -> jakartaeeBlock.get().locator("a[href='#stb0-st0']");
-    public final Supplier<Locator> nextButtonToPayaraPlatform = () -> jakartaeeBlock.get().locator("a[href='#stb0-st2']");
+    // Project step: build, coordinates, package and tests
+    public final Supplier<Locator> projectBlock = () -> page.locator("fieldset#step-project");
+    public final Supplier<Locator> projectBlockTitle = () -> projectBlock.get().locator("div.form-steps__title");
+    public final Supplier<Locator> mavenRadio = () -> projectBlock.get().locator("input#maven");
+    public final Supplier<Locator> gradleRadio = () -> projectBlock.get().locator("input#gradle");
+    public final Supplier<Locator> groupIdInputBox = () -> projectBlock.get().locator("#groupId");
+    public final Supplier<Locator> artifactIdInputBox = () -> projectBlock.get().locator("#artifactId");
+    public final Supplier<Locator> versionInputBox = () -> projectBlock.get().locator("#version");
+    public final Supplier<Locator> projectPackage = () -> projectBlock.get().locator("input#package");
+    public final Supplier<Locator> projectIncludeTestsLabel = () -> projectBlock.get().locator("label[for='includeTests']");
+    public final Supplier<Locator> projectIncludeTests = () -> projectBlock.get().locator("input#includeTests");
 
-    // Payara Platform
-    public final Supplier<Locator> payaraPlatformBlock = () -> page.locator("fieldset#stb0-st2");
-    public final Supplier<Locator> payaraPlatformBlockTitle = () -> payaraPlatformBlock.get().locator(
-            "div.legend a[href='#stb0-st2']");
-    public final Supplier<Locator> payaraPlatform = () -> payaraPlatformBlock.get();
-    public final Supplier<Locator> payaraPlatformVersion = () -> payaraPlatformBlock.get().locator("select#payaraVersion");
-    public final Supplier<Locator> previousButtonToProjectConfiguration = () -> payaraPlatformBlock.get().locator(
-            "a[href='#stb0-st1']");
-    public final Supplier<Locator> nextButtonToProjectConfiguration = () -> payaraPlatformBlock.get().locator(
-            "a[href='#stb0-st3']");
+    // Platform step: Jakarta EE version and profile, Payara platform and version, Java version
+    public final Supplier<Locator> platformBlock = () -> page.locator("fieldset#step-platform");
+    public final Supplier<Locator> platformBlockTitle = () -> platformBlock.get().locator("div.form-steps__title");
+    public final Supplier<Locator> jakartaeeVersion = () -> platformBlock.get().locator("select#jakartaEEVersion");
+    public final Supplier<Locator> payaraPlatformVersion = () -> platformBlock.get().locator("select#payaraVersion");
+    public final Supplier<Locator> projectJavaVersion = () -> platformBlock.get().locator("select#javaVersion");
 
-    // Project Configuration
-    public final Supplier<Locator> projectConfigurationBlock = () -> page.locator("fieldset#stb0-st3");
-    public final Supplier<Locator> projectConfigurationBlockTitle = () -> projectConfigurationBlock.get().locator(
-            "div.legend a[href='#stb0-st3']");
-    public final Supplier<Locator> projectPackage = () -> projectConfigurationBlock.get().locator("input#package");
-    public final Supplier<Locator> projectIncludeTestsLabel = () -> projectConfigurationBlock.get().locator(
-            "label[for='includeTests']");
-    public final Supplier<Locator> projectIncludeTests = () -> projectConfigurationBlock.get().locator("input#includeTests");
-    public final Supplier<Locator> projectJavaVersion = () -> projectConfigurationBlock.get().locator("select#javaVersion");
-    public final Supplier<Locator> previousButtonToMicroProfile = () -> projectConfigurationBlock.get().locator(
-            "a[href='#stb0-st2']");
-    public final Supplier<Locator> nextButtonToMicroProfile = () -> projectConfigurationBlock.get().locator(
-            "a[href='#stb0-st4']");
-
+    // Features step: sections for MicroProfile, Security, Deployment and the ER Diagram
     // MicroProfile
-    public final Supplier<Locator> microProfileBlock = () -> page.locator("fieldset#stb0-st4");
-    public final Supplier<Locator> microProfileBlockTitle = () -> microProfileBlock.get().
-            locator("div.legend a[href='#stb0-st4']");
-    public final Supplier<Locator> microProfileOptions = () -> microProfileBlock.get();
-    public final Supplier<Locator> previousButtonToDeployment = () -> microProfileBlock.get().locator("a[href='#stb0-st3']");
-    public final Supplier<Locator> nextButtonToDeployment = () -> microProfileBlock.get().locator("a[href='#stb0-st5']");
+    public final Supplier<Locator> microProfileBlock = () -> page.locator("fieldset#section-microprofile");
+    public final Supplier<Locator> microProfileBlockTitle = () -> microProfileBlock.get().locator(".form-section__title");
 
-    // Deployment Options
-    public final Supplier<Locator> deploymentBlock = () -> page.locator("fieldset#stb0-st5");
-    public final Supplier<Locator> deploymentBlockTitle = () -> deploymentBlock.get().locator("div.legend a[href='#stb0-st5']");
+    // Deployment Options (Features step)
+    public final Supplier<Locator> deploymentBlock = () -> page.locator("fieldset#section-deployment");
+    public final Supplier<Locator> deploymentBlockTitle = () -> deploymentBlock.get().locator(".form-section__title");
     public final Supplier<Locator> deploymentDocker = () -> deploymentBlock.get().locator("input#docker");
-    public final Supplier<Locator> previousButtonToDiagram = () -> deploymentBlock.get().locator("a[href='#stb0-st4']");
-    public final Supplier<Locator> nextButtonToDiagram = () -> deploymentBlock.get().locator("a[href='#stb0-st6']");
+    public final Supplier<Locator> deploymentDockerLabel = () -> deploymentBlock.get().locator("label[for='docker']");
 
-    // ER Diagram Designer
-    public final Supplier<Locator> diagramBlock = () -> page.locator("fieldset#stb0-st6");
-    public final Supplier<Locator> diagramBlockTitle = () -> diagramBlock.get().locator("div.legend a[href='#stb0-st6']");
+    // ER Diagram Designer (Features step)
+    public final Supplier<Locator> diagramBlock = () -> page.locator("fieldset#section-er-diagram");
+    public final Supplier<Locator> diagramBlockTitle = () -> diagramBlock.get().locator(".form-section__title");
+    // The native select holds the value; the page shows a search field with suggestions over it.
     public final Supplier<Locator> searchERDiagram = () -> diagramBlock.get().locator("select#mermaidErDiagramList");
+    public final Supplier<Locator> searchERDiagramInput = () -> diagramBlock.get().locator("input[role='combobox']");
     public final Supplier<Locator> diagramPreviewButton = () -> diagramBlock.get().locator("button.button");
     public final Supplier<Locator> generateJPA = () -> diagramBlock.get().locator("label[for='generateJpa']");
     public final Supplier<Locator> jpaSubPackage = () -> diagramBlock.get().locator("input#jpaSubpackage");
-    public final Supplier<Locator> generateRepository = () -> diagramBlock.get().locator("input#generateRepository");
+    public final Supplier<Locator> generateRepository = () -> diagramBlock.get().locator("label[for='generateRepository']");
     public final Supplier<Locator> repositorySubpackage = () -> diagramBlock.get().locator("input#repositorySubpackage");
-    public final Supplier<Locator> generateRest = () -> diagramBlock.get().locator("input#generateRest");
+    public final Supplier<Locator> generateRest = () -> diagramBlock.get().locator("label[for='generateRest']");
     public final Supplier<Locator> restSubpackage = () -> diagramBlock.get().locator("input#restSubpackage");
     public final Supplier<Locator> generateWeb = () -> diagramBlock.get().locator("select#generateWeb");
-    public final Supplier<Locator> previousButtonToSecurity = () -> diagramBlock.get().locator("a[href='#stb0-st5']");
-    public final Supplier<Locator> nextButtonToSecurity = () -> diagramBlock.get().locator("a[href='#stb0-st7']");
 
-    // Security Configuration
-    public final Supplier<Locator> securityBlock = () -> page.locator("fieldset#stb0-st7");
-    public final Supplier<Locator> securityBlockTitle = () -> securityBlock.get().locator("div.legend a[href='#stb0-st7']");
+    // Security Configuration (Features step)
+    public final Supplier<Locator> securityBlock = () -> page.locator("fieldset#section-security");
+    public final Supplier<Locator> securityBlockTitle = () -> securityBlock.get().locator(".form-section__title");
 
-    // Diagram Builder & Live Preview
-    public final Supplier<Locator> previewDiagramBlock = () -> page.locator("div#previewModal");
-    public final Supplier<Locator> diagramSource = () -> previewDiagramBlock.get().locator("div#diagramSource");
-    public final Supplier<Locator> diagramSourceSelect = () -> diagramSource.get().locator("input#mermaidErDiagramListPreview");
+    // Review step
+    public final Supplier<Locator> reviewBlock = () -> page.locator("fieldset#step-review");
+    public final Supplier<Locator> editProjectButton = () -> reviewBlock.get().locator("button[data-summary-edit='step-project']");
+    public final Supplier<Locator> editPlatformButton = () -> reviewBlock.get().locator("button[data-summary-edit='step-platform']");
+    public final Supplier<Locator> editFeaturesButton = () -> reviewBlock.get().locator("button[data-summary-edit='step-features']");
+
+    // Result panel: takes the step's place while the project is generated, then says how it went
+    public final Supplier<Locator> resultBlock = () -> page.locator("section#formResult");
+    public final Supplier<Locator> resultReady = () -> resultBlock.get().locator("[data-result='generated']");
+    public final Supplier<Locator> resultReadyFile = () -> resultReady.get().locator(".form-result__file");
+    public final Supplier<Locator> startOverButton = () -> resultReady.get().locator("button[type='reset']");
+    public final Supplier<Locator> resultFailed = () -> resultBlock.get().locator("[data-result='failed']");
+    public final Supplier<Locator> tryAgainButton = () -> resultFailed.get().locator("button[data-result-action='retry']");
+
+    // ER Diagram Builder (dialog)
+    public final Supplier<Locator> previewDiagramBlock = () -> page.locator("dialog#previewModal");
+    public final Supplier<Locator> diagramSourceSelect = () -> previewDiagramBlock.get().locator("input[role='combobox']");
+    public final Supplier<Locator> codeTab = () -> previewDiagramBlock.get().locator("button#erTabCode");
+    public final Supplier<Locator> previewTab = () -> previewDiagramBlock.get().locator("button#erTabPreview");
+    public final Supplier<Locator> diagramSource = () -> previewDiagramBlock.get().locator("div#erPanelCode");
     public final Supplier<Locator> diagramSourceText = () -> diagramSource.get().locator("div.CodeMirror");
-    public final Supplier<Locator> diagramSourcePrompt = () -> diagramSource.get().locator("input#queryBox");
-    public final Supplier<Locator> livePreview = () -> previewDiagramBlock.get().locator("div#diagramView");
-    public final Supplier<Locator> livePreviewGraph = () -> livePreview.get().locator("svg#graphDiv");
-    public final Supplier<Locator> previousERDiagram = () -> livePreview.get().locator("button#prevERDiagram");
-    public final Supplier<Locator> nextERDiagram = () -> livePreview.get().locator("button#nextERDiagram");
-    public final Supplier<Locator> enlargeERDiagram = () -> livePreview.get().locator("button#enlargeERDiagram");
-    public final Supplier<Locator> shrinkERDiagram = () -> livePreview.get().locator("button#shrinkERDiagram");
-    public final Supplier<Locator> fullscreenDiagram = () -> livePreview.get().locator("button#fullscreenDiagram");
+    public final Supplier<Locator> diagramSourcePrompt = () -> previewDiagramBlock.get().locator("textarea#queryBox");
+    public final Supplier<Locator> livePreview = () -> previewDiagramBlock.get().locator("div#erPanelPreview");
+    public final Supplier<Locator> livePreviewGraph = () -> livePreview.get().locator("div#livePreview svg");
+    public final Supplier<Locator> previousERDiagram = () -> previewDiagramBlock.get().locator("button#prevERDiagram");
+    public final Supplier<Locator> nextERDiagram = () -> previewDiagramBlock.get().locator("button#nextERDiagram");
+    public final Supplier<Locator> enlargeERDiagram = () -> previewDiagramBlock.get().locator("button#enlargeERDiagram");
+    public final Supplier<Locator> shrinkERDiagram = () -> previewDiagramBlock.get().locator("button#shrinkERDiagram");
+    public final Supplier<Locator> zoomInDiagram = () -> previewDiagramBlock.get().locator("button#erZoomIn");
+    public final Supplier<Locator> zoomOutDiagram = () -> previewDiagramBlock.get().locator("button#erZoomOut");
+    public final Supplier<Locator> fitDiagram = () -> previewDiagramBlock.get().locator("button#erZoomFit");
     public final Supplier<Locator> closePreview = () -> previewDiagramBlock.get().locator("button.close");
 }

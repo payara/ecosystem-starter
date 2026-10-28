@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2025 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025-2026 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -39,19 +39,118 @@
 package fish.payara.starter.test.e2e.pages;
 
 import com.microsoft.playwright.Download;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Route;
 import com.microsoft.playwright.assertions.LocatorAssertions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.junit.UsePlaywright;
+import com.microsoft.playwright.options.AriaRole;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 
 @UsePlaywright
 public class StarterPageActions {
 
     private StarterPageLocators locators; 
+    private Page page;
 
     public StarterPageActions(Page page) {
+        this.page = page;
         locators = new StarterPageLocators(page);
+    }
+
+    // The wizard shows one step at a time: Back or Next until the step holding the block (a step,
+    // a section of one, or a field) is the open one.
+    private void goToStep(Locator block) {
+        String indexOf = "el => [...document.querySelectorAll('fieldset.form-steps__step')]"
+                + ".indexOf(el.closest('fieldset.form-steps__step'))";
+        int target = ((Number) block.evaluate(indexOf)).intValue();
+        for (int i = 0; i < locators.steps.get().count(); i++) {
+            int open = ((Number) page.evaluate("() => [...document.querySelectorAll('fieldset.form-steps__step')]"
+                    + ".findIndex(step => step.classList.contains('form-steps__step--active'))")).intValue();
+            if (open == target) {
+                break;
+            }
+            (open < target ? locators.nextButton : locators.backButton).get().click();
+        }
+        PlaywrightAssertions.assertThat(block).isVisible();
+    }
+
+    // A radio or checkbox by the exact text of its label (help tooltips repeat option names). The
+    // inputs themselves are visually hidden, so the label's text is clicked; Playwright follows it
+    // to the input for isChecked().
+    private Locator option(Locator scope, String text) {
+        return scope.locator("label").getByText(text, new Locator.GetByTextOptions().setExact(true));
+    }
+
+    // Steps
+    public void next() {
+        locators.nextButton.get().click();
+    }
+
+    public void checkStepOpen(String id) {
+        PlaywrightAssertions.assertThat(page.locator("fieldset#" + id)).hasClass(
+                Pattern.compile("\\bform-steps__step--active\\b"));
+    }
+
+    // The step bar has a button per step, named after it ("Step 3 of 4: Features"). Once the form is
+    // scrolled to, the bar docks under the page header and the form's own copy hides, so the form is
+    // scrolled to first and the docked bar is clicked.
+    public void openStepFromBar(String name) {
+        page.locator("#appForm").scrollIntoViewIfNeeded();
+        PlaywrightAssertions.assertThat(locators.dockedStepBar.get()).isVisible();
+        locators.dockedStepBar.get().getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName(name).setExact(true)).click();
+    }
+
+    // Field checks: once a field has been left, a problem marks it invalid and shows a message after it.
+    public void leaveField(String id) {
+        page.locator("#" + id).blur();
+    }
+
+    public void checkFieldProblem(String id, String message) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).hasAttribute("aria-invalid", "true");
+        PlaywrightAssertions.assertThat(page.locator("#" + id + "-problem")).hasText(message);
+    }
+
+    public void checkFieldFocused(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isFocused();
+    }
+
+    public void checkFieldValue(String id, String value) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).hasValue(value);
+    }
+
+    public void checkFieldChecked(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isChecked();
+    }
+
+    // Dependent fields: a choice can turn other fields off (or back on) and say why in a notice.
+    public void checkFieldDisabled(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isDisabled();
+    }
+
+    public void checkFieldEnabled(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isEnabled();
+    }
+
+    public void checkFieldNotChecked(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isChecked(
+                new LocatorAssertions.IsCheckedOptions().setChecked(false));
+    }
+
+    // A notice (or hint) shows or hides by itself; the step holding it has to be the open one to see it.
+    public void checkNotice(String id, String text) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isVisible();
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).containsText(text);
+    }
+
+    public void checkNoticeHidden(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isHidden();
+    }
+
+    public void checkSelectOptions(String id, String... labels) {
+        PlaywrightAssertions.assertThat(page.locator("select#" + id + " option")).hasText(labels);
     }
 
     public void confirmGdpr() {
@@ -60,25 +159,17 @@ public class StarterPageActions {
         }
     }
 
-    public void closeGuidePopup() {
-        if (!locators.popupGuide.get().all().isEmpty()) {
-            locators.popupCloseButton.get().click();
-        }
-    }
-
-    // Project Description
-    public void goToProjectDescription() throws InterruptedException {
-        locators.projectDescriptionTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.projectDescriptionTitle.get()).isVisible();
+    // Project step
+    public void goToProject() {
+        goToStep(locators.projectBlock.get());
+        PlaywrightAssertions.assertThat(locators.projectBlockTitle.get()).isVisible();
     }
 
     public void chooseBuild(String value) {
-        locators.projectBuild.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.projectBuild.get().getByText(value)).isChecked();
+        option(locators.projectBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.projectBlock.get(), value)).isChecked();
     }
-    
-    
+
     public void setGroupId(String value) {
         locators.groupIdInputBox.get().clear();
         locators.groupIdInputBox.get().fill(value);
@@ -97,67 +188,6 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.versionInputBox.get()).hasValue(value);
     }
 
-    public void setProjectDescription(String build, String groupId, String artifactId, String version) throws InterruptedException {
-        goToProjectDescription();
-        chooseBuild(build);
-        setGroupId(groupId);
-        setArtifactId(artifactId);
-        setVersion(version);
-    }
-
-    // Jakarta EE
-    public void goToJakartaEESection() throws InterruptedException {
-        locators.jakartaeeBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.jakartaeeBlock.get()).isVisible();
-    }
-
-    public void selectJakartaEEVersion(String option, String value) {
-        locators.jarkataeeVersion.get().selectOption(option);
-        PlaywrightAssertions.assertThat(locators.jarkataeeVersion.get()).hasValue(value);
-    }
-
-    public void selectJakartaEEProfile(String value) {
-        locators.jakartaeeProfile.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.jakartaeeProfile.get().getByText(value)).isChecked();
-    }
-
-    public void setJakartaEE(String jakartaEEVersion, String jakartaEEValue, String jakartaEEProfile) throws InterruptedException {
-        goToJakartaEESection();
-        selectJakartaEEVersion(jakartaEEVersion, jakartaEEValue);
-        selectJakartaEEProfile(jakartaEEProfile);
-    }
-
-    // Payara Platform
-    public void goToPayaraPlatformSection() throws InterruptedException {
-        locators.payaraPlatformBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.payaraPlatformBlock.get()).isVisible();
-    }
-
-    public void selectPayaraPlatform(String value) {
-        locators.payaraPlatform.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.payaraPlatform.get().getByText(value)).isChecked();
-    }
-
-    public void selectPayaraPlatformVersion(String option, String value) {
-        locators.payaraPlatformVersion.get().selectOption(option);
-        PlaywrightAssertions.assertThat(locators.payaraPlatformVersion.get()).hasValue(value);
-    }
-
-    public void setPayaraPlatform(String platform, String platformVersion, String platformValue) throws InterruptedException {
-        goToPayaraPlatformSection();
-        selectPayaraPlatform(platform);
-        selectPayaraPlatformVersion(platformVersion, platformValue);
-    }
-
-    // Project Configuration
-    public void goToProjectConfigurationSection() throws InterruptedException {
-        locators.projectConfigurationBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.projectConfigurationBlock.get()).isVisible();
-    }
-
     public void setPackage(String value) {
         locators.projectPackage.get().clear();
         locators.projectPackage.get().fill(value);
@@ -174,30 +204,75 @@ public class StarterPageActions {
         }
     }
 
+    public void setProject(String build, String groupId, String artifactId, String version, String packageValue,
+            Boolean includeTests) {
+        goToProject();
+        chooseBuild(build);
+        setGroupId(groupId);
+        setArtifactId(artifactId);
+        setVersion(version);
+        setPackage(packageValue);
+        includeTests(includeTests);
+    }
+
+    // Platform step
+    public void goToPlatform() {
+        goToStep(locators.platformBlock.get());
+        PlaywrightAssertions.assertThat(locators.platformBlockTitle.get()).isVisible();
+    }
+
+    public void selectJakartaEEVersion(String option, String value) {
+        locators.jakartaeeVersion.get().selectOption(option);
+        PlaywrightAssertions.assertThat(locators.jakartaeeVersion.get()).hasValue(value);
+    }
+
+    public void selectJakartaEEProfile(String value) {
+        option(locators.platformBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.platformBlock.get(), value)).isChecked();
+    }
+
+    public void selectPayaraPlatform(String value) {
+        option(locators.platformBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.platformBlock.get(), value)).isChecked();
+    }
+
+    public void selectPayaraPlatformVersion(String option, String value) {
+        locators.payaraPlatformVersion.get().selectOption(option);
+        PlaywrightAssertions.assertThat(locators.payaraPlatformVersion.get()).hasValue(value);
+    }
+
     public void selectJavaVersion(String option, String value) {
         locators.projectJavaVersion.get().selectOption(option);
         PlaywrightAssertions.assertThat(locators.projectJavaVersion.get()).hasValue(value);
     }
 
-    public void setProjectConfiguration(String packageValue, Boolean includeTests, String javaVersion, String javaVersionValue)
-            throws InterruptedException {
-        goToProjectConfigurationSection();
-        setPackage(packageValue);
-        includeTests(includeTests);
-        selectJavaVersion(javaVersion, javaVersionValue);
+    // Each choice narrows the next ones, so they are made in the page's order.
+    public void setPlatform(String jakartaEEVersion, String jakartaEEValue, String jakartaEEProfile, String platform,
+            String platformVersion, String platformValue, String javaVersion, String javaValue) {
+        goToPlatform();
+        selectJakartaEEVersion(jakartaEEVersion, jakartaEEValue);
+        selectJakartaEEProfile(jakartaEEProfile);
+        selectPayaraPlatform(platform);
+        selectPayaraPlatformVersion(platformVersion, platformValue);
+        selectJavaVersion(javaVersion, javaValue);
+    }
+
+    public void setJakartaEE(String jakartaEEVersion, String jakartaEEValue, String jakartaEEProfile) {
+        goToPlatform();
+        selectJakartaEEVersion(jakartaEEVersion, jakartaEEValue);
+        selectJakartaEEProfile(jakartaEEProfile);
     }
 
     // Micro Profile
     public void goToMicroProfileSection() throws InterruptedException {
-        locators.microProfileBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.microProfileBlock.get()).isVisible();
+        goToStep(locators.microProfileBlock.get());
+        PlaywrightAssertions.assertThat(locators.microProfileBlockTitle.get()).isVisible();
     }
 
     public void selectMicroProfile(String value) {
         if (!value.isEmpty()) {
-        locators.microProfileBlock.get().getByText(value).click();
-            PlaywrightAssertions.assertThat(locators.microProfileBlock.get().getByText(value)).isChecked();
+            option(locators.microProfileBlock.get(), value).click();
+            PlaywrightAssertions.assertThat(option(locators.microProfileBlock.get(), value)).isChecked();
         }
     }
 
@@ -206,41 +281,72 @@ public class StarterPageActions {
         selectMicroProfile(value);
     }
 
+    // Security Configuration
+    public void goToSecuritySection() throws InterruptedException {
+        goToStep(locators.securityBlock.get());
+        PlaywrightAssertions.assertThat(locators.securityBlockTitle.get()).isVisible();
+    }
+
+
+    public void setLogin(String value) {
+        option(locators.securityBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.securityBlock.get(), value)).isChecked();
+    }
+
+
+    public void setSecurity(String login) throws InterruptedException {
+        goToSecuritySection();
+        setLogin(login);
+    }
+
     // Deployment Options
     public void goToDeploymentSection() throws InterruptedException {
-        locators.deploymentBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.deploymentBlock.get()).isVisible();
+        goToStep(locators.deploymentBlock.get());
+        PlaywrightAssertions.assertThat(locators.deploymentBlockTitle.get()).isVisible();
     }
 
     public void enableDockerDeployment() {
         if (!locators.deploymentDocker.get().isChecked()) {
-            locators.deploymentBlock.get().getByText("Docker").click();
+            locators.deploymentDockerLabel.get().click();
         }
         PlaywrightAssertions.assertThat(locators.deploymentDocker.get()).isChecked();
+    }
+
+    public void disableDockerDeployment() {
+        if (locators.deploymentDocker.get().isChecked()) {
+            locators.deploymentDockerLabel.get().click();
+        }
+        PlaywrightAssertions.assertThat(locators.deploymentDocker.get()).isChecked(
+                new LocatorAssertions.IsCheckedOptions().setChecked(false));
     }
 
     public void setDeployment(Boolean docker) throws InterruptedException {
         goToDeploymentSection();
         if (docker) {
             enableDockerDeployment();
+        } else {
+            disableDockerDeployment();
         }
     }
 
     // ER Diagram Designer
     public void goToDiagramSection() throws InterruptedException {
-        locators.diagramBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.diagramBlock.get()).isVisible();
+        goToStep(locators.diagramBlock.get());
+        PlaywrightAssertions.assertThat(locators.diagramBlockTitle.get()).isVisible();
     }
 
     public void skipERDiagramSection() throws InterruptedException {
         goToDiagramSection();
-        locators.nextButtonToSecurity.get().click();
+        locators.nextButton.get().click();
     }
 
+    // Picked through the search field; the native select behind it holds the value.
     public void selectERDiagram(String value) {
-        locators.searchERDiagram.get().selectOption(value);
+        if (!value.isEmpty()) {
+            locators.searchERDiagramInput.get().click();
+            locators.searchERDiagramInput.get().fill(value);
+            locators.diagramBlock.get().getByRole(AriaRole.OPTION, new Locator.GetByRoleOptions().setName(value).setExact(true)).click();
+        }
         PlaywrightAssertions.assertThat(locators.searchERDiagram.get()).hasValue(value);
     }
 
@@ -317,10 +423,12 @@ public class StarterPageActions {
     }
 
     public void checkDiagramCodeContains(String value) {
+        locators.codeTab.get().click();
         PlaywrightAssertions.assertThat(locators.diagramSourceText.get()).containsText(value);
     }
 
     public void checkDiagramGraphContains(String value) {
+        locators.previewTab.get().click();
         PlaywrightAssertions.assertThat(locators.livePreviewGraph.get()).containsText(value);
     }
 
@@ -330,25 +438,66 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.previewDiagramBlock.get()).isHidden();
     }
 
-    // Security Configuration
-    public void goToSecuritySection() throws InterruptedException {
-        locators.securityBlockTitle.get().click();
-        Thread.sleep(1000);
-        PlaywrightAssertions.assertThat(locators.securityBlock.get()).isVisible();
+
+    // Review
+    public void goToReview() {
+        goToStep(locators.reviewBlock.get());
     }
 
-
-    public void setLogin(String value) {
-        locators.securityBlock.get().getByText(value).click();
-        PlaywrightAssertions.assertThat(locators.securityBlock.get().getByText(value)).isChecked();
+    // A line of the review, by the field (or radio group) it shows.
+    public void checkReviewLine(String key, String text) {
+        PlaywrightAssertions.assertThat(locators.reviewBlock.get().locator("dd[data-summary='" + key + "']")).hasText(text);
     }
 
-
-    public void setSecurity(String login) throws InterruptedException {
-        goToSecuritySection();
-        setLogin(login);
+    public void editProjectFromReview() {
+        locators.editProjectButton.get().click();
     }
 
+    public void editPlatformFromReview() {
+        locators.editPlatformButton.get().click();
+    }
+
+    public void editFeaturesFromReview() {
+        locators.editFeaturesButton.get().click();
+    }
+
+    // Download project and the result panel
+    public void clickDownload() {
+        locators.generateButton.get().click();
+    }
+
+    // Waits for the file itself (path()): WebKit won't close the context while a download is unfinished.
+    public void download() {
+        page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000), this::clickDownload).path();
+    }
+
+    public void checkProjectReady(String filename) {
+        PlaywrightAssertions.assertThat(locators.resultReady.get()).isVisible();
+        PlaywrightAssertions.assertThat(locators.resultReadyFile.get()).hasText(filename);
+    }
+
+    public void checkProjectFailed() {
+        PlaywrightAssertions.assertThat(locators.resultFailed.get()).isVisible();
+    }
+
+    public void tryAgain() {
+        page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000),
+                () -> locators.tryAgainButton.get().click()).path();
+    }
+
+    public void startOver() {
+        locators.startOverButton.get().click();
+        PlaywrightAssertions.assertThat(locators.resultBlock.get()).isHidden();
+    }
+
+    // The generator answers with a server error until restoreGeneration().
+    public void failGeneration() {
+        page.route("**/resources/starter", route -> route.fulfill(new Route.FulfillOptions().setStatus(500)));
+    }
+
+    public void restoreGeneration() {
+        page.unroute("**/resources/starter");
+    }
 
     public void generate(Page page, Path filepath) {
         Download download = page.waitForDownload(new Page.WaitForDownloadOptions().setTimeout(120000), () -> {
