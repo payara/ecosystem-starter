@@ -125,24 +125,51 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(page.locator("#" + id)).isChecked();
     }
 
+    // Dependent fields: a choice can turn other fields off (or back on) and say why in a notice.
+    public void checkFieldDisabled(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isDisabled();
+    }
+
+    public void checkFieldEnabled(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isEnabled();
+    }
+
+    public void checkFieldNotChecked(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isChecked(
+                new LocatorAssertions.IsCheckedOptions().setChecked(false));
+    }
+
+    // A notice (or hint) shows or hides by itself; the step holding it has to be the open one to see it.
+    public void checkNotice(String id, String text) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isVisible();
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).containsText(text);
+    }
+
+    public void checkNoticeHidden(String id) {
+        PlaywrightAssertions.assertThat(page.locator("#" + id)).isHidden();
+    }
+
+    public void checkSelectOptions(String id, String... labels) {
+        PlaywrightAssertions.assertThat(page.locator("select#" + id + " option")).hasText(labels);
+    }
+
     public void confirmGdpr() {
         if (!locators.gdprArea.get().all().isEmpty()) {
             locators.gdprConfirmButton.get().click();
         }
     }
 
-    // Project Description
-    public void goToProjectDescription() throws InterruptedException {
-        goToStep(locators.projectDescriptionBlock.get());
-        PlaywrightAssertions.assertThat(locators.projectDescriptionTitle.get()).isVisible();
+    // Project step
+    public void goToProject() {
+        goToStep(locators.projectBlock.get());
+        PlaywrightAssertions.assertThat(locators.projectBlockTitle.get()).isVisible();
     }
 
     public void chooseBuild(String value) {
-        option(locators.projectBuild.get(), value).click();
-        PlaywrightAssertions.assertThat(option(locators.projectBuild.get(), value)).isChecked();
+        option(locators.projectBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.projectBlock.get(), value)).isChecked();
     }
-    
-    
+
     public void setGroupId(String value) {
         locators.groupIdInputBox.get().clear();
         locators.groupIdInputBox.get().fill(value);
@@ -161,64 +188,6 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.versionInputBox.get()).hasValue(value);
     }
 
-    public void setProjectDescription(String build, String groupId, String artifactId, String version) throws InterruptedException {
-        goToProjectDescription();
-        chooseBuild(build);
-        setGroupId(groupId);
-        setArtifactId(artifactId);
-        setVersion(version);
-    }
-
-    // Jakarta EE
-    public void goToJakartaEESection() throws InterruptedException {
-        goToStep(locators.jakartaeeBlock.get());
-        PlaywrightAssertions.assertThat(locators.jakartaeeBlockTitle.get()).isVisible();
-    }
-
-    public void selectJakartaEEVersion(String option, String value) {
-        locators.jarkataeeVersion.get().selectOption(option);
-        PlaywrightAssertions.assertThat(locators.jarkataeeVersion.get()).hasValue(value);
-    }
-
-    public void selectJakartaEEProfile(String value) {
-        option(locators.jakartaeeProfile.get(), value).click();
-        PlaywrightAssertions.assertThat(option(locators.jakartaeeProfile.get(), value)).isChecked();
-    }
-
-    public void setJakartaEE(String jakartaEEVersion, String jakartaEEValue, String jakartaEEProfile) throws InterruptedException {
-        goToJakartaEESection();
-        selectJakartaEEVersion(jakartaEEVersion, jakartaEEValue);
-        selectJakartaEEProfile(jakartaEEProfile);
-    }
-
-    // Payara Platform
-    public void goToPayaraPlatformSection() throws InterruptedException {
-        goToStep(locators.payaraPlatformBlock.get());
-        PlaywrightAssertions.assertThat(locators.payaraPlatformBlockTitle.get()).isVisible();
-    }
-
-    public void selectPayaraPlatform(String value) {
-        option(locators.payaraPlatform.get(), value).click();
-        PlaywrightAssertions.assertThat(option(locators.payaraPlatform.get(), value)).isChecked();
-    }
-
-    public void selectPayaraPlatformVersion(String option, String value) {
-        locators.payaraPlatformVersion.get().selectOption(option);
-        PlaywrightAssertions.assertThat(locators.payaraPlatformVersion.get()).hasValue(value);
-    }
-
-    public void setPayaraPlatform(String platform, String platformVersion, String platformValue) throws InterruptedException {
-        goToPayaraPlatformSection();
-        selectPayaraPlatform(platform);
-        selectPayaraPlatformVersion(platformVersion, platformValue);
-    }
-
-    // Project Configuration
-    public void goToProjectConfigurationSection() throws InterruptedException {
-        goToStep(locators.projectConfigurationBlock.get());
-        PlaywrightAssertions.assertThat(locators.projectConfigurationBlockTitle.get()).isVisible();
-    }
-
     public void setPackage(String value) {
         locators.projectPackage.get().clear();
         locators.projectPackage.get().fill(value);
@@ -235,18 +204,63 @@ public class StarterPageActions {
         }
     }
 
+    public void setProject(String build, String groupId, String artifactId, String version, String packageValue,
+            Boolean includeTests) {
+        goToProject();
+        chooseBuild(build);
+        setGroupId(groupId);
+        setArtifactId(artifactId);
+        setVersion(version);
+        setPackage(packageValue);
+        includeTests(includeTests);
+    }
+
+    // Platform step
+    public void goToPlatform() {
+        goToStep(locators.platformBlock.get());
+        PlaywrightAssertions.assertThat(locators.platformBlockTitle.get()).isVisible();
+    }
+
+    public void selectJakartaEEVersion(String option, String value) {
+        locators.jakartaeeVersion.get().selectOption(option);
+        PlaywrightAssertions.assertThat(locators.jakartaeeVersion.get()).hasValue(value);
+    }
+
+    public void selectJakartaEEProfile(String value) {
+        option(locators.platformBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.platformBlock.get(), value)).isChecked();
+    }
+
+    public void selectPayaraPlatform(String value) {
+        option(locators.platformBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.platformBlock.get(), value)).isChecked();
+    }
+
+    public void selectPayaraPlatformVersion(String option, String value) {
+        locators.payaraPlatformVersion.get().selectOption(option);
+        PlaywrightAssertions.assertThat(locators.payaraPlatformVersion.get()).hasValue(value);
+    }
+
     public void selectJavaVersion(String option, String value) {
         locators.projectJavaVersion.get().selectOption(option);
         PlaywrightAssertions.assertThat(locators.projectJavaVersion.get()).hasValue(value);
     }
 
-    public void setProjectConfiguration(String packageValue, Boolean includeTests, String javaVersion, String javaVersionValue)
-            throws InterruptedException {
-        goToProjectConfigurationSection();
-        setPackage(packageValue);
-        includeTests(includeTests);
-        goToStep(locators.projectJavaVersion.get());
-        selectJavaVersion(javaVersion, javaVersionValue);
+    // Each choice narrows the next ones, so they are made in the page's order.
+    public void setPlatform(String jakartaEEVersion, String jakartaEEValue, String jakartaEEProfile, String platform,
+            String platformVersion, String platformValue, String javaVersion, String javaValue) {
+        goToPlatform();
+        selectJakartaEEVersion(jakartaEEVersion, jakartaEEValue);
+        selectJakartaEEProfile(jakartaEEProfile);
+        selectPayaraPlatform(platform);
+        selectPayaraPlatformVersion(platformVersion, platformValue);
+        selectJavaVersion(javaVersion, javaValue);
+    }
+
+    public void setJakartaEE(String jakartaEEVersion, String jakartaEEValue, String jakartaEEProfile) {
+        goToPlatform();
+        selectJakartaEEVersion(jakartaEEVersion, jakartaEEValue);
+        selectJakartaEEProfile(jakartaEEProfile);
     }
 
     // Micro Profile
@@ -265,6 +279,24 @@ public class StarterPageActions {
     public void setMicroProfile(String value) throws InterruptedException {
         goToMicroProfileSection();
         selectMicroProfile(value);
+    }
+
+    // Security Configuration
+    public void goToSecuritySection() throws InterruptedException {
+        goToStep(locators.securityBlock.get());
+        PlaywrightAssertions.assertThat(locators.securityBlockTitle.get()).isVisible();
+    }
+
+
+    public void setLogin(String value) {
+        option(locators.securityBlock.get(), value).click();
+        PlaywrightAssertions.assertThat(option(locators.securityBlock.get(), value)).isChecked();
+    }
+
+
+    public void setSecurity(String login) throws InterruptedException {
+        goToSecuritySection();
+        setLogin(login);
     }
 
     // Deployment Options
@@ -406,24 +438,6 @@ public class StarterPageActions {
         PlaywrightAssertions.assertThat(locators.previewDiagramBlock.get()).isHidden();
     }
 
-    // Security Configuration
-    public void goToSecuritySection() throws InterruptedException {
-        goToStep(locators.securityBlock.get());
-        PlaywrightAssertions.assertThat(locators.securityBlockTitle.get()).isVisible();
-    }
-
-
-    public void setLogin(String value) {
-        option(locators.securityBlock.get(), value).click();
-        PlaywrightAssertions.assertThat(option(locators.securityBlock.get(), value)).isChecked();
-    }
-
-
-    public void setSecurity(String login) throws InterruptedException {
-        goToSecuritySection();
-        setLogin(login);
-    }
-
 
     // Review
     public void goToReview() {
@@ -437,6 +451,14 @@ public class StarterPageActions {
 
     public void editProjectFromReview() {
         locators.editProjectButton.get().click();
+    }
+
+    public void editPlatformFromReview() {
+        locators.editPlatformButton.get().click();
+    }
+
+    public void editFeaturesFromReview() {
+        locators.editFeaturesButton.get().click();
     }
 
     // Download project and the result panel

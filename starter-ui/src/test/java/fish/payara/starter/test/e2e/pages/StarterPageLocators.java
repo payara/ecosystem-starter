@@ -65,42 +65,29 @@ public class StarterPageLocators {
     public final Supplier<Locator> backButton = () -> footer.get().locator("button.form__step__button-back");
     public final Supplier<Locator> dockedStepBar = () -> page.locator(".page__header nav.wizard-progress");
 
-    // Project Description
-    public final Supplier<Locator> projectDescriptionBlock = () -> page.locator("fieldset#step-project");
-    public final Supplier<Locator> projectDescriptionTitle = () -> projectDescriptionBlock.get().locator("div.form-steps__title");
-    public final Supplier<Locator> projectBuild = () -> projectDescriptionBlock.get();
-    public final Supplier<Locator> mavenRadio = () -> projectDescriptionBlock.get().locator("input#maven");
-    public final Supplier<Locator> gradleRadio = () -> projectDescriptionBlock.get().locator("input#gradle");
-    public final Supplier<Locator> groupIdInputBox = () -> projectDescriptionBlock.get().locator("#groupId");
-    public final Supplier<Locator> artifactIdInputBox = () -> projectDescriptionBlock.get().locator("#artifactId");
-    public final Supplier<Locator> versionInputBox = () -> projectDescriptionBlock.get().locator("#version");
+    // Project step: build, coordinates, package and tests
+    public final Supplier<Locator> projectBlock = () -> page.locator("fieldset#step-project");
+    public final Supplier<Locator> projectBlockTitle = () -> projectBlock.get().locator("div.form-steps__title");
+    public final Supplier<Locator> mavenRadio = () -> projectBlock.get().locator("input#maven");
+    public final Supplier<Locator> gradleRadio = () -> projectBlock.get().locator("input#gradle");
+    public final Supplier<Locator> groupIdInputBox = () -> projectBlock.get().locator("#groupId");
+    public final Supplier<Locator> artifactIdInputBox = () -> projectBlock.get().locator("#artifactId");
+    public final Supplier<Locator> versionInputBox = () -> projectBlock.get().locator("#version");
+    public final Supplier<Locator> projectPackage = () -> projectBlock.get().locator("input#package");
+    public final Supplier<Locator> projectIncludeTestsLabel = () -> projectBlock.get().locator("label[for='includeTests']");
+    public final Supplier<Locator> projectIncludeTests = () -> projectBlock.get().locator("input#includeTests");
 
-    // Jakarta EE (Platform step)
-    public final Supplier<Locator> jakartaeeBlock = () -> page.locator("fieldset#step-platform");
-    public final Supplier<Locator> jakartaeeBlockTitle = () -> jakartaeeBlock.get().locator("div.form-steps__title");
-    public final Supplier<Locator> jarkataeeVersion = () -> jakartaeeBlock.get().locator("select#jakartaEEVersion");
-    public final Supplier<Locator> jakartaeeProfile = () -> jakartaeeBlock.get();
+    // Platform step: Jakarta EE version and profile, Payara platform and version, Java version
+    public final Supplier<Locator> platformBlock = () -> page.locator("fieldset#step-platform");
+    public final Supplier<Locator> platformBlockTitle = () -> platformBlock.get().locator("div.form-steps__title");
+    public final Supplier<Locator> jakartaeeVersion = () -> platformBlock.get().locator("select#jakartaEEVersion");
+    public final Supplier<Locator> payaraPlatformVersion = () -> platformBlock.get().locator("select#payaraVersion");
+    public final Supplier<Locator> projectJavaVersion = () -> platformBlock.get().locator("select#javaVersion");
 
-    // Payara Platform (Platform step)
-    public final Supplier<Locator> payaraPlatformBlock = () -> page.locator("fieldset#step-platform");
-    public final Supplier<Locator> payaraPlatformBlockTitle = () -> payaraPlatformBlock.get().locator("div.form-steps__title");
-    public final Supplier<Locator> payaraPlatform = () -> payaraPlatformBlock.get();
-    public final Supplier<Locator> payaraPlatformVersion = () -> payaraPlatformBlock.get().locator("select#payaraVersion");
-
-    // Project Configuration: the package and tests are in the Project step, the Java version in Platform
-    public final Supplier<Locator> projectConfigurationBlock = () -> page.locator("fieldset#step-project");
-    public final Supplier<Locator> projectConfigurationBlockTitle = () -> projectConfigurationBlock.get().locator(
-            "div.form-steps__title");
-    public final Supplier<Locator> projectPackage = () -> projectConfigurationBlock.get().locator("input#package");
-    public final Supplier<Locator> projectIncludeTestsLabel = () -> projectConfigurationBlock.get().locator(
-            "label[for='includeTests']");
-    public final Supplier<Locator> projectIncludeTests = () -> projectConfigurationBlock.get().locator("input#includeTests");
-    public final Supplier<Locator> projectJavaVersion = () -> page.locator("fieldset#step-platform select#javaVersion");
-
-    // MicroProfile (Features step)
+    // Features step: sections for MicroProfile, Security, Deployment and the ER Diagram
+    // MicroProfile
     public final Supplier<Locator> microProfileBlock = () -> page.locator("fieldset#section-microprofile");
     public final Supplier<Locator> microProfileBlockTitle = () -> microProfileBlock.get().locator(".form-section__title");
-    public final Supplier<Locator> microProfileOptions = () -> microProfileBlock.get();
 
     // Deployment Options (Features step)
     public final Supplier<Locator> deploymentBlock = () -> page.locator("fieldset#section-deployment");
@@ -130,6 +117,8 @@ public class StarterPageLocators {
     // Review step
     public final Supplier<Locator> reviewBlock = () -> page.locator("fieldset#step-review");
     public final Supplier<Locator> editProjectButton = () -> reviewBlock.get().locator("button[data-summary-edit='step-project']");
+    public final Supplier<Locator> editPlatformButton = () -> reviewBlock.get().locator("button[data-summary-edit='step-platform']");
+    public final Supplier<Locator> editFeaturesButton = () -> reviewBlock.get().locator("button[data-summary-edit='step-features']");
 
     // Result panel: takes the step's place while the project is generated, then says how it went
     public final Supplier<Locator> resultBlock = () -> page.locator("section#formResult");
