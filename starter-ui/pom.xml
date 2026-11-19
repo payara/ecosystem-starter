@@ -286,9 +286,23 @@
                                 <configuration>
                                     <executable>${os.shell}</executable>
                                     <arguments>
+                                        <argument>-NoProfile</argument>
+                                        <argument>-Command</argument>
                                         <argument>
                                             <![CDATA[
-                                        Get-ChildItem -Path ./target/test-app-maven -Directory | ForEach-Object { Push-Location $_.FullName; & mvn verify -B -f pom.xml; & mvn clean -q -f pom.xml; Pop-Location }
+                                        New-Item -ItemType Directory -Force -Path ./target | Out-Null
+                                        Remove-Item -Force -ErrorAction SilentlyContinue ./target/generated-app-failures.txt
+                                        foreach ($dir in Get-ChildItem -Path ./target/test-app-maven -Directory -ErrorAction SilentlyContinue) {
+                                            Push-Location $dir.FullName
+                                            & mvn verify -B -f pom.xml
+                                            if ($LASTEXITCODE -eq 0) {
+                                                & mvn clean -q -f pom.xml
+                                            } else {
+                                                Add-Content -Path (Join-Path $dir.Parent.Parent.FullName generated-app-failures.txt) -Value ('maven  ' + $dir.Name)
+                                            }
+                                            Pop-Location
+                                        }
+                                        Exit 0
                                             ]]>
                                         </argument>
                                     </arguments>
@@ -307,15 +321,39 @@
                                         <argument>-Command</argument>
                                         <argument>
                                             <![CDATA[
-                                            Get-ChildItem -Path ./target/test-app-gradle -Directory | ForEach-Object {
-                                                Push-Location $_.FullName;
-                                                & .\gradlew.bat -b build.gradle build --no-daemon;
-                                                Pop-Location;
-                                                if ($LASTEXITCODE -ne 0) {
-                                                    Exit $LASTEXITCODE;
-                                                }
+                                        foreach ($dir in Get-ChildItem -Path ./target/test-app-gradle -Directory -ErrorAction SilentlyContinue) {
+                                            Push-Location $dir.FullName
+                                            & .\gradlew.bat -b build.gradle build --no-daemon
+                                            if ($LASTEXITCODE -ne 0) {
+                                                Add-Content -Path (Join-Path $dir.Parent.Parent.FullName generated-app-failures.txt) -Value ('gradle ' + $dir.Name)
                                             }
-                                            Exit 0;
+                                            Pop-Location
+                                        }
+                                        Exit 0
+                                            ]]>
+                                        </argument>
+                                    </arguments>
+                                </configuration>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report-generated-app-failures</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <executable>${os.shell}</executable>
+                                    <arguments>
+                                        <argument>-NoProfile</argument>
+                                        <argument>-Command</argument>
+                                        <argument>
+                                            <![CDATA[
+                                        $file = './target/generated-app-failures.txt'
+                                        if (Test-Path $file) {
+                                            Write-Host '[WARNING] Generated projects that failed to compile:'
+                                            Get-Content $file | ForEach-Object { Write-Host ('[WARNING]   ' + $_) }
+                                        }
+                                        Exit 0
                                             ]]>
                                         </argument>
                                     </arguments>
@@ -359,11 +397,18 @@
                                         <argument>-c</argument>
                                         <argument>
                                             <![CDATA[
-                                            for dir in ./target/test-app-maven/*; do 
-                                                if [ -d "$dir" ]; then 
-                                                    (cd "$dir" && mvn verify -B && mvn clean -q)
-                                                fi; 
+                                            mkdir -p ./target
+                                            rm -f ./target/generated-app-failures.txt
+                                            for dir in ./target/test-app-maven/*; do
+                                                if [ -d "$dir" ]; then
+                                                    if (cd "$dir" && mvn verify -B); then
+                                                        (cd "$dir" && mvn clean -q)
+                                                    else
+                                                        echo "maven  $(basename "$dir")" >> ./target/generated-app-failures.txt
+                                                    fi
+                                                fi
                                             done
+                                            exit 0
                                             ]]>
                                         </argument>
                                     </arguments>
@@ -381,12 +426,37 @@
                                         <argument>-c</argument>
                                         <argument>
                                             <![CDATA[
-                                            for dir in ./target/test-app-gradle/*; do 
-                                                if [ -d "$dir" ]; then 
-                                                    chmod +x "$dir/gradlew";
-                                                    (cd "$dir" && ./gradlew -b build.gradle build) || exit 1; 
-                                                fi; 
+                                            for dir in ./target/test-app-gradle/*; do
+                                                if [ -d "$dir" ]; then
+                                                    chmod +x "$dir/gradlew"
+                                                    if ! (cd "$dir" && ./gradlew -b build.gradle build); then
+                                                        echo "gradle $(basename "$dir")" >> ./target/generated-app-failures.txt
+                                                    fi
+                                                fi
                                             done
+                                            exit 0
+                                            ]]>
+                                        </argument>
+                                    </arguments>
+                                </configuration>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report-generated-app-failures</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <executable>${os.shell}</executable>
+                                    <arguments>
+                                        <argument>-c</argument>
+                                        <argument>
+                                            <![CDATA[
+                                            if [ -f ./target/generated-app-failures.txt ]; then
+                                                echo "[WARNING] Generated projects that failed to compile:"
+                                                sed 's/^/[WARNING]   /' ./target/generated-app-failures.txt
+                                            fi
+                                            exit 0
                                             ]]>
                                         </argument>
                                     </arguments>

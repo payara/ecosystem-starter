@@ -89,14 +89,13 @@ public class FullStackAppIT {
     @Test
     void productCatalogJdk8() throws InterruptedException, IOException {
         // Build with Maven, EE8 Web profile, jdk8, Payara Server 5, Full MP, ER Diagram = Product Catalog, tests, Security DB
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "productCatalogJdk8", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
-        starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 8", "8");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "productCatalogJdk8", "1.0-SNAPSHOT", "fish.payara.e2e", true);
+        starterPage.setPlatform("Jakarta EE 8", "8", "Web Profile", "Payara Server", "5.2022.5", "5.2022.5",
+                "Java SE 8", "8");
         starterPage.setMicroProfile("Full MP");
+        starterPage.setSecurity("Form Authentication - Database");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Product Catalog", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("Form Authentication - Database");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "productCatalogJdk8.zip"));
 
         FileManagement.unzip("./target/test-app-maven/productCatalogJdk8.zip", "./target/test-app-maven/productCatalogJdk8");
@@ -109,14 +108,13 @@ public class FullStackAppIT {
     // Disabled - gradle miss the ldap library - FISH-11339
     void salesTrackingJdk8() throws InterruptedException, IOException {
         // Build with Gradle, EE8 Full, jdk8, Payara Micro 5, Full MP, ER Diagram = Sales Tracking, no test, Security LDAP
-        starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "salesTrackingJdk8", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 8", "8", "Platform");
-        starterPage.setPayaraPlatform("Payara Micro", "5.2022.5", "5.2022.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 8", "8");
+        starterPage.setProject("Gradle", "fish.payara.playwright.test", "salesTrackingJdk8", "1.0-SNAPSHOT", "fish.payara.e2e", true);
+        starterPage.setPlatform("Jakarta EE 8", "8", "Platform", "Payara Micro", "5.2022.5", "5.2022.5",
+                "Java SE 8", "8");
         starterPage.setMicroProfile("Full MP");
+        starterPage.setSecurity("Form Authentication - LDAP");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Sales Tracking", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("Form Authentication - LDAP");
         starterPage.generate(page, Paths.get("./target/test-app-gradle", "salesTrackingJdk8.zip"));
 
         FileManagement.unzip("./target/test-app-gradle/salesTrackingJdk8.zip", "./target/test-app-gradle/salesTrackingJdk8");
@@ -128,18 +126,17 @@ public class FullStackAppIT {
     @Test
     void inventorySystemJdk11() throws InterruptedException, IOException {
         // Build with Maven, EE8, jdk11, Web Profile, Payara Server 5, MP Metrics, ER Diagram = Inventory System, tests
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "inventorySystemJdk11", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
-        starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "inventorySystemJdk11", "1.0-SNAPSHOT", "fish.payara.e2e", true);
+        starterPage.setPlatform("Jakarta EE 8", "8", "Web Profile", "Payara Server", "5.2022.5", "5.2022.5",
+                "Java SE 11", "11");
         starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Inventory System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("PRODUCT ||--o{ INVENTORY : contains");
         starterPage.checkDiagramGraphContains("INVENTORY");
         starterPage.closeERDiagramPreview();
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "inventorySystemJdk11.zip"));
 
         FileManagement.unzip("./target/test-app-maven/inventorySystemJdk11.zip", "./target/test-app-maven/inventorySystemJdk11");
@@ -151,19 +148,18 @@ public class FullStackAppIT {
     @Test
     void flightReservationSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Web Profile, jdk17, Payara Micro 6, MP Metrics + Fault Tolerance, ER Diagram = Flight Reservation System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "flightReservationSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "flightReservationSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", true);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Web Profile", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Metrics");
         starterPage.setMicroProfile("MicroProfile Fault Tolerance");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Flight Reservation System", true, "domain", true, "service", true, "resource", "HTML", "html");
         starterPage.openERDiagramPreview();
         starterPage.checkDiagramCodeContains("FLIGHT ||--o{ RESERVATION : ");
         starterPage.checkDiagramGraphContains("PASSENGER");
         starterPage.closeERDiagramPreview();
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "flightReservationSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/flightReservationSystemJdk17.zip", "./target/test-app-maven/flightReservationSystemJdk17");
@@ -176,14 +172,13 @@ public class FullStackAppIT {
     @Test
     void auctionManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Auction Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "auctionManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "auctionManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Auction Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "auctionManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/auctionManagementSystemJdk17.zip", "./target/test-app-maven/auctionManagementSystemJdk17");
@@ -195,14 +190,13 @@ public class FullStackAppIT {
     @Test
     void customerRelationshipManagementJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Customer Relationship Management, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "customerRelationshipManagementJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "customerRelationshipManagementJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Customer Relationship Management", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "customerRelationshipManagementJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/customerRelationshipManagementJdk17.zip", "./target/test-app-maven/customerRelationshipManagementJdk17");
@@ -214,14 +208,13 @@ public class FullStackAppIT {
     @Test
     void employeeManagementJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Employee Management, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "employeeManagementJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "employeeManagementJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Employee Management", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "employeeManagementJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/employeeManagementJdk17.zip", "./target/test-app-maven/employeeManagementJdk17");
@@ -233,14 +226,13 @@ public class FullStackAppIT {
     @Test
     void energyManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Energy Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "energyManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "energyManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Energy Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "energyManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/energyManagementSystemJdk17.zip", "./target/test-app-maven/energyManagementSystemJdk17");
@@ -252,14 +244,13 @@ public class FullStackAppIT {
     @Test
     void eventManagementJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Event Management, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "eventManagementJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "eventManagementJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Event Management", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "eventManagementJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/eventManagementJdk17.zip", "./target/test-app-maven/eventManagementJdk17");
@@ -271,14 +262,13 @@ public class FullStackAppIT {
     @Test
     void healthcareSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Healthcare System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "healthcareSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "healthcareSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Healthcare System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "healthcareSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/healthcareSystemJdk17.zip", "./target/test-app-maven/healthcareSystemJdk17");
@@ -290,14 +280,13 @@ public class FullStackAppIT {
     @Test
     void insuranceClaimManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Insurance Claim Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "insuranceClaimManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "insuranceClaimManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Insurance Claim Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "insuranceClaimManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/insuranceClaimManagementSystemJdk17.zip", "./target/test-app-maven/insuranceClaimManagementSystemJdk17");
@@ -309,14 +298,13 @@ public class FullStackAppIT {
     @Test
     void inventorySystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Inventory System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "inventorySystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "inventorySystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Inventory System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "inventorySystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/inventorySystemJdk17.zip", "./target/test-app-maven/inventorySystemJdk17");
@@ -328,14 +316,13 @@ public class FullStackAppIT {
     @Test
     void laboratoryInformationManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Laboratory Information Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "laboratoryInformationManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "laboratoryInformationManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Laboratory Information Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "laboratoryInformationManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/laboratoryInformationManagementSystemJdk17.zip", "./target/test-app-maven/laboratoryInformationManagementSystemJdk17");
@@ -347,14 +334,13 @@ public class FullStackAppIT {
     @Test
     void lawFirmManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Law Firm Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "lawFirmManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "lawFirmManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Law Firm Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "lawFirmManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/lawFirmManagementSystemJdk17.zip", "./target/test-app-maven/lawFirmManagementSystemJdk17");
@@ -366,14 +352,13 @@ public class FullStackAppIT {
     @Test
     void legalCaseManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Legal Case Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "legalCaseManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "legalCaseManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Legal Case Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "legalCaseManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/legalCaseManagementSystemJdk17.zip", "./target/test-app-maven/legalCaseManagementSystemJdk17");
@@ -385,14 +370,13 @@ public class FullStackAppIT {
     @Test
     void libraryManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Library Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "libraryManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "libraryManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Library Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "libraryManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/libraryManagementSystemJdk17.zip", "./target/test-app-maven/libraryManagementSystemJdk17");
@@ -404,14 +388,13 @@ public class FullStackAppIT {
     @Test
     void membershipManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Membership Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "membershipManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "membershipManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Membership Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "membershipManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/membershipManagementSystemJdk17.zip", "./target/test-app-maven/membershipManagementSystemJdk17");
@@ -423,14 +406,13 @@ public class FullStackAppIT {
     @Test
     void musicStreamingPlatformJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Music Streaming Platform, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "musicStreamingPlatformJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "musicStreamingPlatformJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Music Streaming Platform", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "musicStreamingPlatformJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/musicStreamingPlatformJdk17.zip", "./target/test-app-maven/musicStreamingPlatformJdk17");
@@ -442,14 +424,13 @@ public class FullStackAppIT {
     @Test
     void propertyManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Property Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "propertyManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "propertyManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Property Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "propertyManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/propertyManagementSystemJdk17.zip", "./target/test-app-maven/propertyManagementSystemJdk17");
@@ -461,14 +442,13 @@ public class FullStackAppIT {
     @Test
     void recruitmentManagementSystemJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Recruitment Management System, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "recruitmentManagementSystemJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "recruitmentManagementSystemJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Recruitment Management System", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "recruitmentManagementSystemJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/recruitmentManagementSystemJdk17.zip", "./target/test-app-maven/recruitmentManagementSystemJdk17");
@@ -480,14 +460,13 @@ public class FullStackAppIT {
     @Test
     void salesTrackingJdk17() throws InterruptedException, IOException {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Sales Tracking, include tests, no security
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "salesTrackingJdk17", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
-        starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "salesTrackingJdk17", "1.0-SNAPSHOT", "fish.payara.e2e", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.5", "6.2025.5",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("Sales Tracking", true, "domain", true, "service", true, "resource", "HTML", "html");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "salesTrackingJdk17.zip"));
 
         FileManagement.unzip("./target/test-app-maven/salesTrackingJdk17.zip", "./target/test-app-maven/salesTrackingJdk17");

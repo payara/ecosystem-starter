@@ -88,14 +88,13 @@ public class MicroProfileOptionsIT {
 
     @Test
     void PayaraServer6EE10Jdk17FullMP() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17FullMP", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17FullMP", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.1", "6.2025.1",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("Full MP");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17FullMP.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17FullMP.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17FullMP");
@@ -106,14 +105,13 @@ public class MicroProfileOptionsIT {
 
     @Test
     void PayaraServer6EE10Jdk17MPConfig() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPConfig", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPConfig", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.1", "6.2025.1",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Config");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17MPConfig.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17MPConfig.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17MPConfig");
@@ -124,14 +122,13 @@ public class MicroProfileOptionsIT {
 
     @Test
     void PayaraServer6EE10Jdk17MPFault() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPFault", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPFault", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.1", "6.2025.1",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Fault Tolerance");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17MPFault.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17MPFault.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17MPFault");
@@ -142,14 +139,13 @@ public class MicroProfileOptionsIT {
 
     @Test
     void PayaraServer6EE10Jdk17MPMetrics() throws InterruptedException, IOException {
-        starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPMetrics", "1.0-SNAPSHOT");
-        starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.setPayaraPlatform("Payara Server", "6.2025.1", "6.2025.1");
-        starterPage.setProjectConfiguration("fish.payara.test", false, "Java SE 17", "17");
+        starterPage.setProject("Maven", "fish.payara.playwright.test", "PayaraServer6EE10Jdk17MPMetrics", "1.0-SNAPSHOT", "fish.payara.test", false);
+        starterPage.setPlatform("Jakarta EE 10", "10", "Platform", "Payara Server", "6.2025.1", "6.2025.1",
+                "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Metrics");
+        starterPage.setSecurity("None");
         starterPage.setDeployment(false);
         starterPage.setERDiagram("", false, "domain", false, "service", false, "resource", "None", "none");
-        starterPage.setSecurity("None");
         starterPage.generate(page, Paths.get("./target/test-app-maven", "PayaraServer6EE10Jdk17MPMetrics.zip"));
 
         FileManagement.unzip("./target/test-app-maven/PayaraServer6EE10Jdk17MPMetrics.zip", "./target/test-app-maven/PayaraServer6EE10Jdk17MPMetrics");
