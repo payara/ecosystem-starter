@@ -1,0 +1,2532 @@
+/*
+ *
+ * Copyright (c) 2026 Payara Foundation and/or its affiliates. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of either the GNU
+ * General Public License Version 2 only ("GPL") or the Common Development
+ * and Distribution License("CDDL") (collectively, the "License").  You
+ * may not use this file except in compliance with the License.  You can
+ * obtain a copy of the License at
+ * https://github.com/payara/Payara/blob/master/LICENSE.txt
+ * See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * When distributing the software, include this License Header Notice in each
+ * file and include the License file at glassfish/legal/LICENSE.txt.
+ *
+ * GPL Classpath Exception:
+ * The Payara Foundation designates this particular file as subject to the "Classpath"
+ * exception as provided by the Payara Foundation in the GPL Version 2 section of the License
+ * file that accompanied this code.
+ *
+ * Modifications:
+ * If applicable, add the following below the License Header, with the fields
+ * enclosed by brackets [] replaced by your own identifying information:
+ * "Portions Copyright [year] [name of copyright owner]"
+ *
+ * Contributor(s):
+ * If you wish your version of this file to be governed by only the CDDL or
+ * only the GPL Version 2, indicate your decision by adding "[Contributor]
+ * elects to include this software in this distribution under the [CDDL or GPL
+ * Version 2] license."  If you don't indicate a single choice of license, a
+ * recipient has the option to distribute your version of this file under
+ * either the CDDL, the GPL Version 2 or to extend the choice of license to
+ * its licensees as provided above.  However, if you add GPL Version 2 code
+ * and therefore, elected the GPL Version 2 license, then the option applies
+ * only if the new code is made subject to such option by the copyright
+ * holder.
+ */
+/*
+ * Payara Starter on the payara-ds design system (light theme only).
+ *
+ * Replaces the blinky pattern library; the behaviour lives in ui-ds/starter.js and the
+ * decorative wave in ui-ds/wave.js. Every value is a payara-ds token from ui-ds/tokens.css.
+ * Icons are Tabler (ui-ds/icons.svg).
+ */
+
+/* ============================== Fonts ============================== */
+/* The tokens name "IBM Plex Sans Variable". Starter already ships static cuts of IBM Plex Sans
+   in every weight the tokens use (400 / 500 / 700), so they are registered under that name. */
+@font-face {
+  font-family: 'IBM Plex Sans Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ibm-plex-sans-v2-latin-regular.woff2') format('woff2'),
+    url('fonts/ibm-plex-sans-v2-latin-regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Variable';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ibm-plex-sans-v2-latin-italic.woff2') format('woff2'),
+    url('fonts/ibm-plex-sans-v2-latin-italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Variable';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/ibm-plex-sans-v2-latin-500.woff2') format('woff2'),
+    url('fonts/ibm-plex-sans-v2-latin-500.woff') format('woff');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Variable';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/ibm-plex-sans-v2-latin-500italic.woff2') format('woff2'),
+    url('fonts/ibm-plex-sans-v2-latin-500italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Variable';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/ibm-plex-sans-v2-latin-700.woff2') format('woff2'),
+    url('fonts/ibm-plex-sans-v2-latin-700.woff') format('woff');
+}
+@font-face {
+  font-family: 'IBM Plex Sans Variable';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/ibm-plex-sans-v2-latin-700italic.woff2') format('woff2'),
+    url('fonts/ibm-plex-sans-v2-latin-700italic.woff') format('woff');
+}
+
+/* ============================== Reset ============================== */
+/* Element reset. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+figure,
+blockquote,
+fieldset,
+legend,
+form,
+label {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+}
+
+html {
+  text-size-adjust: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+fieldset {
+  min-width: 0;
+}
+
+legend {
+  display: block;
+  width: 100%;
+}
+
+input,
+button,
+select,
+textarea {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none;
+}
+
+/* Keyboard focus: the payara-ds focus ring on every link and button. Controls drawn by their label
+   (checkboxes, radios, the Build tab group) put it on the drawn control instead. */
+:where(a, button):focus-visible {
+  outline: var(--borderwidth-selectable-l) solid var(--color-border-focus);
+  outline-offset: var(--borderwidth-selectable-l);
+}
+
+/* ============================== Page ============================== */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: var(--color-background-default);
+  color: var(--color-text-primary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family),
+    sans-serif;
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.page__main {
+  flex: 1 0 auto;
+}
+
+/* The page's lower padding (--space-page-inset-xxl; the mobile tokens tighten it) separates
+   the steps from the footer. */
+.page__content-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-page-inside-m);
+  padding-block-end: var(--space-page-inset-xxl);
+}
+
+/* The one reading column for the hero text and the wizard. Width literal: payara-ds has no
+   layout width tokens. */
+.cards--max-width {
+  width: 100%;
+  max-width: 48rem;
+  margin-inline: auto;
+  padding-inline: var(--space-page-inset-m);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================== Icons ============================== */
+/* Tabler outline icons (ui-ds/icons.svg), sized on the --size-icon-* ramp. */
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--size-icon-s);
+  height: var(--size-icon-s);
+}
+
+/* ============================== Header ============================== */
+.page__header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-background-default);
+  box-shadow: var(--shadow-l1);
+}
+
+.page__header > .cards {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-container-inside-m);
+  padding: var(--space-container-inset-m) var(--space-container-inset-l);
+}
+
+.logo {
+  display: inline-flex;
+  border-radius: var(--borderradius-selectable-m);
+  color: var(--color-text-primary);
+}
+
+.logo__full {
+  width: auto;
+  height: var(--size-containers-s);
+}
+
+.menu__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-selectable-inside-m) var(--space-container-stack-m);
+}
+
+/* Header navigation: plain links in the footer links' colour, underlined on hover. */
+.menu__content {
+  border-radius: var(--borderradius-selectable-m);
+  color: var(--color-interactive-secondary-unselected-foreground-default);
+  font: var(--typography-interactive-medium-default-font-weight)
+    var(--typography-interactive-medium-default-font-size) /
+    var(--typography-interactive-medium-default-line-height)
+    var(--typography-interactive-medium-default-font-family);
+  letter-spacing: var(--typography-interactive-medium-default-letter-spacing);
+  text-decoration: var(--typography-interactive-medium-default-text-decoration);
+}
+
+.menu__content:hover {
+  text-decoration: underline;
+}
+
+/* Phone: the links fold into a menu button that opens a panel under the bar (starter.js). */
+.menu .menu__toggle {
+  display: none;
+}
+
+@media (width <= 768px) {
+  .menu .menu__toggle {
+    display: inline-flex;
+  }
+
+  .menu__group {
+    display: none;
+  }
+
+  .menu__toggle[aria-expanded='true'] + .menu__group {
+    position: absolute;
+    z-index: 1;
+    inset-inline: 0;
+    top: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-container-stack-s);
+    padding: var(--space-container-inset-m) var(--space-container-inset-l);
+    background-color: var(--color-background-default);
+    box-shadow: var(--shadow-l2);
+  }
+}
+
+/* ============================== Hero (page title) ============================== */
+/* The hero's lower inset is the band where the wave shows. */
+.hero {
+  --wave-band: calc(var(--space-page-inset-xxl) * 1.5);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: var(--space-page-inset-xl) var(--wave-band);
+}
+
+/* The halftone wave canvas added by ui-ds/wave.js (from the observability-tool Keycloak theme);
+   its colour is read from this rule by the script. It spans the whole title block so the folds
+   keep their proportions, and is masked out behind the text, leaving it in the lower band. */
+.hero .insights-wave {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  /* The canvas paints its dots with this fill token; wave.js reads it from `color` (same token as the Keycloak theme). */
+  color: var(--color-interactive-primary-background-default);
+  opacity: 0.9;
+  mask-image: linear-gradient(
+    to top,
+    currentColor calc(var(--wave-band) * 0.75),
+    transparent calc(var(--wave-band) * 1.25)
+  );
+  pointer-events: none;
+}
+
+/* The Azul Payara header gradient, edge to edge behind the page title (brand artwork keeps its
+   own colours). */
+.page__main {
+  background-image: url('hero-azul.svg');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
+.hero .cards > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-container-inside-m);
+}
+
+.hero .h1 {
+  font: var(--typography-h1-strong-font-weight)
+    var(--typography-h1-strong-font-size) / var(--typography-h1-strong-line-height)
+    var(--typography-h1-strong-font-family);
+  letter-spacing: var(--typography-h1-strong-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+.hero p {
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+  color: var(--color-text-secondary);
+}
+
+.hero .h2 {
+  font: var(--typography-p1-medium-font-weight)
+    var(--typography-p1-medium-font-size) / var(--typography-p1-medium-line-height)
+    var(--typography-p1-medium-font-family);
+  letter-spacing: var(--typography-p1-medium-letter-spacing);
+  color: var(--color-text-primary);
+}
+
+/* ============================== Button ============================== */
+/* `.button` is the primary action; `.button--ghost` is secondary; the step "Previous" and
+   plain-text ghost buttons are tertiary; glyph-only ghost buttons are the icon variant. The
+   footer "Contact Us" goes to another page, so it is a link. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-selectable-inside-m);
+  height: var(--size-selectable-m);
+  padding-block: 0;
+  padding-inline: var(--space-selectable-inset-l);
+  border: none;
+  border-radius: var(--borderradius-selectable-m);
+  background-color: var(--color-interactive-primary-background-default);
+  color: var(--color-interactive-primary-foreground-default);
+  font: var(--typography-interactive-medium-default-font-weight)
+    var(--typography-interactive-medium-default-font-size) /
+    var(--typography-interactive-medium-default-line-height)
+    var(--typography-interactive-medium-default-font-family);
+  letter-spacing: var(--typography-interactive-medium-default-letter-spacing);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.button:hover {
+  text-decoration: none;
+}
+
+.button:disabled,
+.button.button--disabled {
+  cursor: not-allowed;
+}
+
+.button__text {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Primary */
+.button:hover:not(:disabled, .button--disabled) {
+  background-color: var(--color-interactive-primary-background-hover);
+}
+
+.button:active:not(:disabled, .button--disabled) {
+  background-color: var(--color-interactive-primary-background-pressed);
+}
+
+.button:disabled,
+.button.button--disabled {
+  background-color: var(--color-interactive-primary-background-disabled);
+}
+
+/* Secondary */
+.button--ghost {
+  border: var(--borderwidth-selectable-m) solid
+    var(--color-interactive-secondary-unselected-border-default);
+  background-color: var(--color-interactive-secondary-unselected-background-default);
+  color: var(--color-interactive-secondary-unselected-foreground-default);
+}
+
+.button--ghost:hover:not(:disabled, .button--disabled) {
+  border-color: var(--color-interactive-secondary-unselected-border-hover);
+  background-color: var(--color-interactive-secondary-unselected-background-hover);
+}
+
+.button--ghost:active:not(:disabled, .button--disabled) {
+  border-color: var(--color-interactive-secondary-unselected-border-pressed);
+  background-color: var(--color-interactive-secondary-selected-background-pressed);
+}
+
+.button--ghost:disabled,
+.button--ghost.button--disabled {
+  border-color: var(--color-interactive-secondary-unselected-border-disabled);
+  background-color: var(--color-interactive-secondary-unselected-background-default);
+  color: var(--color-interactive-secondary-unselected-foreground-disabled);
+}
+
+/* Tertiary */
+.button--ghost.form__step__button-back,
+.button--ghost:not(:has(> .icon, .button__text)) {
+  border: none;
+  background-color: var(--color-interactive-tertiary-unselected-background-default);
+  color: var(--color-interactive-tertiary-unselected-foreground-default);
+}
+
+.button--ghost.form__step__button-back:hover,
+.button--ghost:not(:has(> .icon, .button__text)):hover {
+  background-color: var(--color-interactive-tertiary-unselected-background-default);
+  color: var(--color-interactive-tertiary-unselected-foreground-hover);
+}
+
+.button--ghost.form__step__button-back:active,
+.button--ghost:not(:has(> .icon, .button__text)):active {
+  background-color: var(--color-interactive-tertiary-unselected-background-default);
+  color: var(--color-interactive-tertiary-unselected-foreground-pressed);
+}
+
+/* Icon: a square glyph-only control on the surface ladder. */
+.button--ghost:has(> .icon):not(:has(.button__text:not(.visually-hidden))) {
+  --icon-size: var(--size-icon-m);
+
+  width: var(--size-selectable-m);
+  padding-inline: 0;
+  border: none;
+  background-color: var(--color-interactive-surface-default);
+  color: var(--color-icon-primary);
+}
+
+.button--ghost:has(> .icon):not(:has(.button__text:not(.visually-hidden))):hover:not(:disabled) {
+  background-color: var(--color-interactive-surface-hover);
+}
+
+.button--ghost:has(> .icon):not(:has(.button__text:not(.visually-hidden))):active:not(:disabled) {
+  background-color: var(--color-interactive-surface-pressed);
+}
+
+.button--ghost:has(> .icon):not(:has(.button__text:not(.visually-hidden))):disabled {
+  background-color: var(--color-interactive-surface-default);
+  color: var(--color-icon-disabled);
+}
+
+.button--ghost:has(> .icon):not(:has(.button__text:not(.visually-hidden))) .icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.button--small {
+  height: var(--size-selectable-s);
+}
+
+/* The small icon Button is square. */
+.button--ghost.button--small:has(> .icon):not(:has(.button__text:not(.visually-hidden))) {
+  --icon-size: var(--size-icon-m);
+
+  width: var(--size-selectable-s);
+}
+
+/* Outline, pill-shaped as on azul.com, and square (so round, with the pill) for a glyph-only
+   link: the hero's "steps below" cue. */
+.button--outline {
+  border: var(--borderwidth-selectable-m) solid var(--color-border-default);
+  background-color: var(--color-interactive-surface-default);
+  color: var(--color-interactive-secondary-unselected-foreground-default);
+}
+
+.button--outline:hover:not(:disabled) {
+  background-color: var(--color-interactive-surface-hover);
+}
+
+.button--outline:active:not(:disabled) {
+  background-color: var(--color-interactive-surface-pressed);
+}
+
+.button--pill {
+  border-radius: var(--borderradius-selectable-pill);
+}
+
+.button--icon {
+  width: var(--size-selectable-m);
+  padding-inline: 0;
+}
+
+.button--outline .icon {
+  width: var(--size-icon-m);
+  height: var(--size-icon-m);
+}
+
+/* ============================== Form fields ============================== */
+.form__row {
+  position: relative;
+}
+
+/* Input label. */
+.form__label {
+  display: block;
+  margin-block-end: var(--space-container-inside-xxs);
+  color: var(--color-text-primary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+/* A label with its help icon beside it: the payara-ds Input / Combobox label group. */
+.form__label-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-container-inside-xs);
+  margin-block-end: var(--space-container-inside-xxs);
+}
+
+.form__label-group > .form__label {
+  margin-block-end: 0;
+}
+
+/* Input box; the native select starts from it and takes the Select trigger's tokens below. */
+.form__text,
+.form__textfield,
+.form__select {
+  display: block;
+  width: 100%;
+  padding: var(--space-selectable-inset-s);
+  border: var(--borderwidth-selectable-m) solid
+    var(--color-interactive-secondary-unselected-border-unfocused);
+  border-radius: var(--borderradius-selectable-m);
+  outline: none;
+  background-color: var(--color-background-default);
+  color: var(--color-text-primary);
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+  transition: border-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.form__text::placeholder,
+.form__textfield::placeholder {
+  color: var(--color-interactive-secondary-unselected-foreground-placeholder);
+}
+
+.form__text:focus,
+.form__textfield:focus {
+  border-color: var(--color-interactive-secondary-selected-border-default);
+}
+
+.form__text[aria-invalid='true'],
+.form__textfield[aria-invalid='true'],
+.form__select[aria-invalid='true'] {
+  border-color: var(--color-feedback-error-border);
+}
+
+.form__text:disabled,
+.form__textfield:disabled,
+.form__select:disabled {
+  background-color: var(--color-background-subtle);
+  cursor: not-allowed;
+}
+
+/* The payara-ds Select trigger (medium): p2 text on the surface, the chevron (a --size-icon-m
+   glyph) sets the content height, and the border turns focus-coloured on hover and focus. */
+.form__select {
+  height: calc(
+    var(--size-icon-m) + 2 * var(--space-selectable-inset-s) + 2 * var(--borderwidth-selectable-m)
+  );
+  background-color: var(--color-interactive-surface-default);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.form__select:hover:not(:disabled),
+.form__select:focus {
+  border-color: var(--color-border-focus);
+}
+
+.form__select:disabled {
+  border: none;
+  color: var(--color-text-tertiary);
+}
+
+select.form__select {
+  padding-block: 0;
+  padding-inline-end: calc(
+    var(--space-selectable-inset-s) + var(--space-selectable-inside-m) + var(--size-icon-m)
+  );
+  appearance: none;
+  cursor: pointer;
+}
+
+/* A select that a combobox (starter.js) has replaced stays in the form, unseen. */
+select.form__select[hidden] {
+  display: none;
+}
+
+/* The chevron, on the box that ends with a select: a form row (every select there is the last,
+   full-width box) and a "Generate Code For" layer. */
+.form__row:has(> select.form__select:not([hidden]))::after,
+.form__layer:has(> select.form__select)::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: calc(var(--space-selectable-inset-s) + var(--borderwidth-selectable-m));
+  inset-block-end: calc(var(--space-selectable-inset-s) + var(--borderwidth-selectable-m));
+  width: var(--size-icon-m);
+  height: var(--size-icon-m);
+  background-color: var(--color-text-primary);
+  mask: url('icons/chevron-down.svg') center / contain no-repeat;
+  pointer-events: none;
+}
+
+.form__row:has(> select.form__select:not([hidden]):disabled)::after,
+.form__layer:has(> select.form__select:disabled)::after {
+  background-color: var(--color-text-tertiary);
+}
+
+/* ============================== Search field with suggestions ============================== */
+/* combobox.js builds it over a native select: the field looks like the payara-ds
+   SearchField (search glyph, clear button) at the Input's medium density, and the suggestions
+   open in a dropdown panel like the Combobox's. One value, shown as the field's text. */
+.combobox {
+  position: relative;
+}
+
+.combobox__field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-selectable-inside-m);
+  padding: var(--space-selectable-inset-s);
+  border: var(--borderwidth-selectable-m) solid
+    var(--color-interactive-secondary-unselected-border-unfocused);
+  border-radius: var(--borderradius-selectable-m);
+  background-color: var(--color-background-default);
+  cursor: text;
+  transition: border-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.combobox__field:hover:not(:focus-within) {
+  border-color: var(--color-interactive-secondary-unselected-border-unfocused-hover);
+}
+
+.combobox--open .combobox__field,
+.combobox__field:focus-within {
+  border-color: var(--color-interactive-secondary-selected-border-default);
+}
+
+.combobox--disabled .combobox__field {
+  border: none;
+  background-color: var(--color-background-subtle);
+  cursor: not-allowed;
+}
+
+.combobox__field > .icon {
+  width: var(--size-icon-m);
+  height: var(--size-icon-m);
+  color: var(--color-icon-secondary);
+}
+
+.combobox--disabled .combobox__field > .icon {
+  color: var(--color-icon-disabled);
+}
+
+.combobox__input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.combobox__input::placeholder {
+  color: var(--color-interactive-secondary-unselected-foreground-placeholder);
+}
+
+.combobox__input:disabled {
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}
+
+/* The clear button: the Button icon variant, sized to the glyph box so it never stretches the
+   field (the SearchField clear). */
+.combobox__clear {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-icon-m);
+  height: var(--size-icon-m);
+  padding: 0;
+  border: none;
+  border-radius: var(--borderradius-selectable-m);
+  background-color: var(--color-interactive-surface-default);
+  color: var(--color-icon-secondary);
+}
+
+.combobox__clear[hidden] {
+  display: none;
+}
+
+.combobox__clear:hover {
+  background-color: transparent;
+}
+
+.combobox__clear:active {
+  background-color: var(--color-interactive-surface-pressed);
+}
+
+/* Height literal: payara-ds has no layout size tokens; the value is the Combobox's own.
+   z-index is raw: payara-ds has no z-index tokens. */
+.combobox__dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-container-inside-xxs));
+  inset-inline: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  max-height: 22rem;
+  overflow: hidden;
+  border: var(--borderwidth-decorative-s) solid var(--color-border-default);
+  border-end-start-radius: var(--borderradius-container-s);
+  border-end-end-radius: var(--borderradius-container-s);
+  background-color: var(--color-background-default);
+  box-shadow: var(--shadow-l2);
+}
+
+.combobox__dropdown[hidden] {
+  display: none;
+}
+
+.combobox__options {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--space-container-inside-xs);
+  overflow-y: auto;
+  padding-block-start: var(--space-container-inset-xxs);
+}
+
+.combobox__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-selectable-inside-m);
+  padding: var(--space-selectable-inset-xs) var(--space-selectable-inset-l);
+  background-color: var(--color-interactive-surface-default);
+  color: var(--color-text-primary);
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.combobox__option:hover,
+.combobox__option[data-highlighted] {
+  background-color: var(--color-interactive-surface-hover);
+}
+
+.combobox__option:active {
+  background-color: var(--color-interactive-surface-pressed);
+}
+
+/* The selected option carries the Select item's check. */
+.combobox__option .icon {
+  color: var(--color-interactive-secondary-selected-foreground-emphasized);
+}
+
+.combobox__empty {
+  padding: var(--space-container-inset-s) var(--space-container-inset-xs);
+  color: var(--color-interactive-secondary-unselected-foreground-default);
+  text-align: center;
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .combobox__field,
+  .combobox__option {
+    transition: none;
+  }
+}
+
+/* ============================== Build tool tab group ============================== */
+/* Drawn as the payara-ds Tabs tab list, sized to its tabs. The inputs are real radios (native
+   arrow-key selection, form value) in a fieldset whose legend is the row's label. */
+.tab-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-selectable-inside-xs);
+  padding: var(--space-container-inset-xxxs);
+  border-radius: var(--borderradius-selectable-m);
+  background-color: var(--color-background-subtle);
+}
+
+.tab-group__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-container-inset-xxxs) var(--space-container-inset-m);
+  border-radius: var(--borderradius-selectable-m);
+  color: var(--color-interactive-secondary-unselected-foreground-default);
+  font: var(--typography-p1-medium-font-weight)
+    var(--typography-p1-medium-font-size) / var(--typography-p1-medium-line-height)
+    var(--typography-p1-medium-font-family);
+  letter-spacing: var(--typography-p1-medium-letter-spacing);
+  cursor: pointer;
+  user-select: none;
+}
+
+.tab-group__tab:hover {
+  background-color: var(--color-interactive-secondary-unselected-background-hover);
+}
+
+.tab-group__tab:active {
+  background-color: var(--color-interactive-secondary-unselected-background-pressed);
+}
+
+button.tab-group__tab {
+  border: none;
+  background-color: transparent;
+}
+
+.tab-group__tab:is(:has(.tab-group__input:checked), [aria-selected='true']) {
+  background-color: var(--color-interactive-secondary-selected-background-default);
+  color: var(--color-interactive-secondary-selected-foreground-default);
+}
+
+.tab-group__tab:is(:has(.tab-group__input:checked), [aria-selected='true']):hover {
+  background-color: var(--color-interactive-secondary-selected-background-hover);
+}
+
+.tab-group__tab:is(:has(.tab-group__input:checked), [aria-selected='true']):active {
+  background-color: var(--color-interactive-secondary-selected-background-pressed);
+}
+
+.tab-group__tab:has(.tab-group__input:focus-visible) {
+  outline: var(--borderwidth-selectable-l) solid var(--color-border-focus);
+  outline-offset: var(--borderwidth-selectable-l);
+}
+
+.tab-group__tab:has(.tab-group__input:disabled) {
+  color: var(--color-interactive-secondary-unselected-foreground-disabled);
+  cursor: not-allowed;
+}
+
+.tab-group__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  appearance: none;
+}
+
+/* ============================== Checkbox & radio ============================== */
+/* The native input stays (visually hidden, the accessibility and focus source) and its label
+   paints the control. */
+.form__radbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  appearance: none;
+}
+
+.form__radbox-label {
+  color: var(--color-text-primary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.form__radbox + .form__radbox-label {
+  --control-bg: var(--color-interactive-secondary-unselected-background-default);
+  --control-mark: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-selectable-inside-m);
+  margin-block-start: var(--space-selectable-inside-m);
+  cursor: pointer;
+  user-select: none;
+}
+
+.form__radbox + .form__radbox-label::before {
+  content: '';
+  flex-shrink: 0;
+  width: var(--size-selectable-smaller-m);
+  height: var(--size-selectable-smaller-m);
+  border: var(--borderwidth-selectable-m) solid
+    var(--color-interactive-secondary-unselected-border-unfocused);
+  background-color: var(--control-bg);
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-standard),
+    border-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.form__radbox[type='checkbox'] + .form__radbox-label::before {
+  border-radius: var(--borderradius-selectable-m);
+}
+
+.form__radbox[type='radio'] + .form__radbox-label::before {
+  /* The dot is the control's content box; this inside step sets its geometry. */
+  padding: var(--space-selectable-inside-s);
+  border-radius: var(--borderradius-selectable-pill);
+  background-color: transparent;
+  background-image:
+    linear-gradient(var(--control-mark), var(--control-mark)),
+    linear-gradient(var(--control-bg), var(--control-bg));
+  background-clip: content-box, border-box;
+}
+
+/* The check glyph (Tabler "check"). */
+.form__radbox[type='checkbox'] + .form__radbox-label::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  width: var(--size-selectable-smaller-m);
+  height: var(--size-selectable-smaller-m);
+  translate: 0 -50%;
+  background-color: var(--control-mark);
+  mask: url('icons/check.svg') center / var(--size-icon-s) no-repeat;
+}
+
+/* A mixed (indeterminate) checkbox is filled like a checked one and shows a minus. Only
+   checkboxes: :indeterminate also matches radios in a group with nothing picked. */
+.form__radbox:is(:checked, [type='checkbox']:indeterminate) + .form__radbox-label {
+  --control-bg: var(--color-interactive-secondary-selected-background-default);
+  --control-mark: var(--color-interactive-secondary-selected-foreground-default);
+}
+
+.form__radbox:is(:checked, [type='checkbox']:indeterminate) + .form__radbox-label::before {
+  border: none;
+}
+
+.form__radbox[type='checkbox']:indeterminate + .form__radbox-label::after {
+  mask-image: url('icons/minus.svg');
+}
+
+.form__radbox:is(:checked, [type='checkbox']:indeterminate):not(:disabled)
+  + .form__radbox-label:hover {
+  --control-bg: var(--color-interactive-secondary-selected-background-hover);
+}
+
+.form__radbox:is(:checked, [type='checkbox']:indeterminate):not(:disabled)
+  + .form__radbox-label:active {
+  --control-bg: var(--color-interactive-secondary-selected-background-pressed);
+}
+
+.form__radbox:focus-visible + .form__radbox-label::before {
+  outline: var(--borderwidth-selectable-l) solid var(--color-border-focus);
+  outline-offset: var(--borderwidth-selectable-l);
+}
+
+.form__radbox:disabled + .form__radbox-label {
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}
+
+.form__radbox:is(:checked, [type='checkbox']:indeterminate):disabled + .form__radbox-label {
+  --control-bg: var(--color-interactive-secondary-selected-background-disabled);
+  --control-mark: var(--color-interactive-secondary-selected-foreground-default-disabled);
+}
+
+/* A choice list: the group label sits one control-gap above its first option. */
+.form__row:has(> .form__radbox) > :is(.form__label, .form__label-group) {
+  margin-block-end: 0;
+}
+
+/* An option with its own help icon, which follows the option's text. */
+.form__option {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-container-inside-xs);
+}
+
+/* Tree rows: an option indented under the one it belongs to and joined to it by tree lines.
+   Used by MicroProfile (Full MP and the four specifications it selects: siblings) and by the
+   ER Diagram "Generate Code For" layers (JPA → Repository → REST → Web: a chain, each needing
+   the one before). Each row paints its own stretch of line, with the gap above it as padding so
+   the stretches meet: up from its parent's box to its tick, the tick, down towards its own child
+   (unless --leaf), and on past it to a following sibling (--sibling). --0 … --3 set the depth. */
+.form__layer {
+  --tree-line: var(--borderwidth-decorative-m);
+  --tree-color: var(--color-border-subtle);
+  --tree-step: var(--space-container-inset-m);
+  --tree-box: var(--size-selectable-smaller-m);
+  --tree-gap: var(--space-container-inside-s);
+  --tree-level: 0;
+  --tree-x: calc((var(--tree-box) - var(--tree-line)) / 2);
+  --tree-parent: calc((var(--tree-level) - 1) * var(--tree-step) + var(--tree-x));
+  --tree-self: calc(var(--tree-level) * var(--tree-step) + var(--tree-x));
+  --tree-tick: calc(var(--tree-step) - var(--tree-x) - var(--space-selectable-inside-s));
+  --tree-up: var(--tree-line) calc(50% + var(--tree-gap) / 2 + var(--tree-line) / 2);
+  --tree-across: var(--tree-tick) var(--tree-line);
+  --tree-down: var(--tree-line) calc(50% - var(--tree-gap) / 2 - var(--tree-box) / 2);
+  --tree-on: 0 0;
+
+  position: relative;
+  padding-block-start: var(--tree-gap);
+  background-image:
+    linear-gradient(var(--tree-color), var(--tree-color)),
+    linear-gradient(var(--tree-color), var(--tree-color)),
+    linear-gradient(var(--tree-color), var(--tree-color)),
+    linear-gradient(var(--tree-color), var(--tree-color));
+  background-repeat: no-repeat;
+  background-position:
+    var(--tree-parent) 0,
+    var(--tree-parent) calc(50% + var(--tree-gap) / 2),
+    var(--tree-self) 100%,
+    var(--tree-parent) 100%;
+  background-size: var(--tree-up), var(--tree-across), var(--tree-down), var(--tree-on);
+}
+
+/* The root has no parent. */
+.form__layer--0 {
+  --tree-up: 0 0;
+  --tree-across: 0 0;
+}
+
+.form__layer--1 {
+  --tree-level: 1;
+}
+
+.form__layer--2 {
+  --tree-level: 2;
+}
+
+.form__layer--3 {
+  --tree-level: 3;
+}
+
+.form__layer--leaf {
+  --tree-down: 0 0;
+}
+
+.form__layer--sibling {
+  --tree-on: var(--tree-line) calc(50% - var(--tree-gap) / 2 + var(--tree-line) / 2);
+}
+
+/* MicroProfile: each row is the option and its help icon. */
+.form__tree {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form__tree > .form__layer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-container-inside-xs);
+}
+
+.form__tree > .form__layer > .help {
+  margin-block-end: 0;
+}
+
+/* "Generate Code For": a checked layer shows its Package field; the rows share the columns
+   (subgrid) so the fields line up at every depth. */
+.form__layers {
+  display: grid;
+  grid-template-columns: max-content max-content 1fr;
+  column-gap: var(--space-container-inside-m);
+}
+
+.form__layers > .form__label-group {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.form__layers > .form__layer {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+}
+
+.form__layer > .form__radbox-label {
+  margin: 0;
+  margin-inline-start: calc(var(--tree-level) * var(--tree-step));
+}
+
+.form__layer-package {
+  display: contents;
+}
+
+.form__radbox:not(:checked) ~ .form__layer-package {
+  display: none;
+}
+
+.form__layer-package > .form__label {
+  margin: 0;
+}
+
+.form__layer > select.form__select {
+  grid-column: 2 / -1;
+}
+
+/* A field's problem (starter.js checks the fields), under the field in the payara-ds Input's
+   error helper text; the field's border turns to the error colour (aria-invalid, above). In a
+   "Generate Code For" row it sits under the package field. */
+.form__error {
+  display: block;
+  margin-block-start: var(--space-container-inside-xxs);
+  color: var(--color-feedback-error-strong);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.form__layer .form__error {
+  grid-column: 3 / -1;
+}
+
+/* Why an option is off, beside it: Core Profile before Jakarta EE 10. */
+.form__hint {
+  margin-inline-start: var(--space-container-inside-xs);
+  color: var(--color-text-secondary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.form__hint[hidden] {
+  display: none;
+}
+
+/* ============================== Sections of a step ============================== */
+/* The Features step groups its options in sections: a fieldset headed by its title and help icon
+   (aria-labelledby names the group by the title alone, without the help text). */
+.form-steps__inner > .form-section + .form-section {
+  margin-block-start: var(--space-container-stack-l);
+}
+
+.form-section > * + * {
+  margin-block-start: var(--space-container-stack-s);
+}
+
+.form-section__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-container-inside-xs);
+}
+
+.form-section__title {
+  color: var(--color-text-primary);
+  font: var(--typography-h5-strong-font-weight)
+    var(--typography-h5-strong-font-size) / var(--typography-h5-strong-line-height)
+    var(--typography-h5-strong-font-family);
+  letter-spacing: var(--typography-h5-strong-letter-spacing);
+}
+
+/* ============================== Notice ============================== */
+/* The scripts toggle these with style.display, so the layout is positional. */
+.status {
+  position: relative;
+  padding: var(--space-container-inset-s);
+  padding-inline-start: calc(
+    var(--space-container-inset-s) + var(--size-icon-m) + var(--space-container-inside-s)
+  );
+  border: var(--borderwidth-decorative-s) solid var(--color-feedback-info-border);
+  border-radius: var(--borderradius-container-m);
+  background-color: var(--color-feedback-info-background);
+  color: var(--color-feedback-info-foreground);
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+}
+
+.status__icon {
+  position: absolute;
+  inset-inline-start: var(--space-container-inset-s);
+  top: var(--space-container-inset-s);
+  width: var(--size-icon-m);
+  height: var(--size-icon-m);
+}
+
+/* ============================== Wizard (one step at a time) ============================== */
+/* starter.js shows one step at a time under "Step N of M" and its title, with one Back / Next
+   row beside Download project, under a step bar that also rides the header's lower edge.
+   Without the script every step is simply shown. */
+.form-steps__title {
+  margin-block-end: var(--space-container-stack-m);
+  color: var(--color-text-primary);
+  font: var(--typography-h4-strong-font-weight)
+    var(--typography-h4-strong-font-size) / var(--typography-h4-strong-line-height)
+    var(--typography-h4-strong-font-family);
+  letter-spacing: var(--typography-h4-strong-letter-spacing);
+}
+
+.form-steps__title[data-step]::before {
+  content: attr(data-step);
+  display: block;
+  margin-block-end: var(--space-container-inside-s);
+  color: var(--color-text-secondary);
+  font: var(--typography-p2-uppercase-font-weight)
+    var(--typography-p2-uppercase-font-size) / var(--typography-p2-uppercase-line-height)
+    var(--typography-p2-uppercase-font-family);
+  letter-spacing: var(--typography-p2-uppercase-letter-spacing);
+  text-transform: var(--typography-p2-uppercase-text-case);
+}
+
+/* The title row: the step title and its help link, centred on the title's text line. */
+.form-steps__heading {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-container-inside-xs);
+  margin-block-end: var(--space-container-stack-m);
+}
+
+.form-steps__heading > .form-steps__title {
+  margin-block-end: 0;
+}
+
+/* Help: a bare help icon, as beside payara-ds Combobox labels, linking to the matching section of
+   the Payara Starter documentation (new tab), with a payara-ds Tooltip under it on hover and
+   keyboard focus. starter.js shifts the tooltip (--help-shift) to keep it inside the column, and
+   Escape hides it. Beside a step title the icon is --size-icon-m, centred on the title line. */
+.help {
+  --help-arrow: var(--space-selectable-inside-s);
+  --help-icon: var(--size-icon-m);
+
+  position: relative;
+  display: inline-flex;
+  margin-block-end: calc(
+    (
+        var(--typography-h4-strong-font-size) * var(--typography-h4-strong-line-height) -
+          var(--help-icon)
+      ) / 2
+  );
+}
+
+/* Until starter.js builds the link, the tooltip text in the markup stays out of sight. */
+.help:not(:has(.help__link)) {
+  display: none;
+}
+
+.help__link {
+  display: inline-flex;
+  border-radius: var(--borderradius-selectable-m);
+  color: var(--color-icon-secondary);
+}
+
+.help__link .icon {
+  width: var(--help-icon);
+  height: var(--help-icon);
+}
+
+/* Width literal: payara-ds has no tooltip width token. z-index is raw: no z-index tokens. */
+.help__tooltip {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + var(--help-arrow));
+  left: 50%;
+  display: none;
+  width: max-content;
+  max-width: 20rem;
+  padding: var(--space-container-inset-xxxs) var(--space-container-inset-xxs);
+  border-radius: var(--borderradius-container-s);
+  background-color: var(--color-background-inversed);
+  color: var(--color-text-oncolor);
+  font: var(--typography-p3-default-font-weight)
+    var(--typography-p3-default-font-size) / var(--typography-p3-default-line-height)
+    var(--typography-p3-default-font-family);
+  letter-spacing: var(--typography-p3-default-letter-spacing);
+  overflow-wrap: break-word;
+  translate: calc(-50% + var(--help-shift, 0px)) 0;
+  animation: help-tooltip-in var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+/* The arrow, kept under the icon however far the tooltip shifts. Its strip spans the tooltip's
+   width so the pointer can cross from the icon onto the tooltip without closing it. */
+.help__tooltip::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 100%;
+  height: var(--help-arrow);
+  background:
+    linear-gradient(to bottom right, transparent 50%, var(--color-background-inversed) 50%)
+      calc(50% - var(--help-shift, 0px) - var(--help-arrow) / 2) 100% / var(--help-arrow) 100%
+      no-repeat,
+    linear-gradient(to bottom left, transparent 50%, var(--color-background-inversed) 50%)
+      calc(50% - var(--help-shift, 0px) + var(--help-arrow) / 2) 100% / var(--help-arrow) 100%
+      no-repeat;
+}
+
+.help:hover:not(.help--dismissed) .help__tooltip,
+.help:has(.help__link:focus-visible):not(.help--dismissed) .help__tooltip {
+  display: block;
+}
+
+/* Beside a field label or an option: the Combobox label icon size, centred on the p2 text line. */
+.help--field {
+  --help-icon: var(--size-icon-s);
+
+  margin-block-end: calc(
+    (var(--typography-p2-default-font-size) * var(--typography-p2-default-line-height) - var(--help-icon)) /
+      2
+  );
+}
+
+.form__label-group > .help--field {
+  margin-block-end: 0;
+}
+
+@keyframes help-tooltip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .help__tooltip {
+    animation: none;
+  }
+}
+
+.form-steps__step + .form-steps__step {
+  margin-block-start: var(--space-page-inside-m);
+}
+
+.form-steps__inner > * + * {
+  margin-block-start: var(--space-container-stack-s);
+}
+
+.js__form-steps .form-steps__step {
+  margin: 0;
+  scroll-margin-top: var(--scroll-margin-top);
+}
+
+.js__form-steps .form-steps__step:not(.form-steps__step--active) {
+  display: none;
+}
+
+/* The step itself takes focus when it opens (its legend names it); no ring for that. */
+.js__form-steps .form-steps__step:focus {
+  outline: none;
+}
+
+.js__form-steps .form-steps__step--active {
+  animation: starter-step-in var(--motion-duration-base) var(--motion-easing-standard);
+}
+
+@keyframes starter-step-in {
+  from {
+    opacity: 0;
+    translate: 0 var(--space-container-inside-s);
+  }
+}
+
+/* The step bar: one segment per step, filled up to the open one, with the step's name under it.
+   A segment is a button that opens its step. */
+.wizard-progress {
+  margin-block-end: var(--space-container-stack-m);
+}
+
+.wizard-progress__list {
+  display: flex;
+  gap: var(--space-container-inside-xxs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wizard-progress__list > li {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* The step block fills the screen under the header: one step per screen with its actions at
+   the bottom. starter.js publishes the header's height as --page-header-height. */
+.js__form-steps {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--page-header-height, 0px));
+  padding-block: var(--space-container-inset-l);
+  scroll-margin-top: var(--page-header-height, var(--scroll-margin-top));
+}
+
+.js__form-steps .form-steps__step--active {
+  flex: 1 0 auto;
+}
+
+/* "The steps are below": a round arrow link centred in the hero's wave band, above the steps;
+   it scrolls to the form. It sits on the page canvas so it reads over the wave, and a slow bob
+   draws the eye (stopped under reduced motion). */
+.hero .scroll-cue {
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc((var(--wave-band) - var(--size-selectable-m)) / 2);
+  display: flex;
+  margin-inline: auto;
+  background-color: var(--color-background-default);
+  animation: starter-cue calc(var(--motion-duration-slow) * 6) var(--motion-easing-standard) infinite;
+}
+
+.hero .scroll-cue:hover {
+  background-color: var(--color-interactive-surface-hover);
+}
+
+.hero .scroll-cue:active {
+  background-color: var(--color-interactive-surface-pressed);
+}
+
+@keyframes starter-cue {
+  50% {
+    translate: 0 var(--space-container-inside-xs);
+  }
+}
+
+.wizard-progress__segment {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-container-inside-xs);
+  width: 100%;
+  padding: 0;
+  border: none;
+  border-radius: var(--borderradius-selectable-s);
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font: var(--typography-p3-default-font-weight) var(--typography-p3-default-font-size) /
+    var(--typography-p3-default-line-height) var(--typography-p3-default-font-family);
+  letter-spacing: var(--typography-p3-default-letter-spacing);
+  text-align: center;
+}
+
+.wizard-progress__segment::before {
+  content: '';
+  height: calc(var(--size-selectable-smaller-s) / 4);
+  background-color: var(--color-background-subtlest);
+  transition: background-color var(--motion-duration-base) var(--motion-easing-standard);
+}
+
+.wizard-progress__segment--reached::before {
+  background-color: var(--color-interactive-primary-background-default);
+}
+
+.wizard-progress__segment:hover {
+  color: var(--color-text-primary);
+}
+
+.wizard-progress__segment:hover::before {
+  background-color: var(--color-border-strong);
+}
+
+.wizard-progress__segment--reached:hover::before {
+  background-color: var(--color-interactive-primary-background-hover);
+}
+
+.wizard-progress__segment[aria-current='step'] {
+  color: var(--color-text-primary);
+  font: var(--typography-p3-interactive-font-weight) var(--typography-p3-interactive-font-size) /
+    var(--typography-p3-interactive-line-height) var(--typography-p3-interactive-font-family);
+  letter-spacing: var(--typography-p3-interactive-letter-spacing);
+}
+
+.wizard-progress__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Docked: a second bar along the header's lower edge, full width, once the steps have risen past
+   the middle of the screen (starter.js flies it out of the form's bar, which steps out of reach
+   meanwhile). The names hide while it stretches and fade back in once it lands. */
+.page__header .wizard-progress {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  margin: 0;
+  padding-block-end: var(--space-container-inset-xxs);
+  background-color: var(--color-background-default);
+  transform-origin: center;
+}
+
+.page__header .wizard-progress[hidden] {
+  display: none;
+}
+
+.page__header .wizard-progress:not(.wizard-progress--flying) .wizard-progress__label {
+  transition: opacity var(--motion-duration-base) var(--motion-easing-standard);
+}
+
+.wizard-progress--flying .wizard-progress__label {
+  opacity: 0;
+}
+
+.wizard-progress--docked {
+  visibility: hidden;
+}
+
+/* The action row: Back at the start; Download project and Next at the end. Download project is
+   secondary until the last step, where it is the one primary (starter.js). */
+.form__row--footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-container-inside-s);
+  margin-block-start: var(--space-container-stack-l);
+  padding-block-start: var(--space-container-inset-m);
+  border-block-start: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+}
+
+/* Docked (starter.js), the action row spreads from the column to the full width of the
+   screen: its rule runs edge to edge and the buttons move out to the header's content edges.
+   --bleed-start / --bleed-end are the column's distances from the viewport edges. */
+.js__form-steps .form__row--footer {
+  transition:
+    margin-inline var(--motion-duration-slow) var(--motion-easing-standard),
+    padding-inline var(--motion-duration-slow) var(--motion-easing-standard);
+}
+
+.form-steps--docked .form__row--footer {
+  margin-inline: calc(-1 * var(--bleed-start, 0px)) calc(-1 * var(--bleed-end, 0px));
+  padding-inline: var(--space-container-inset-l);
+}
+
+.form__row--footer .form__step__button-back {
+  margin-inline-end: auto;
+}
+
+.button[hidden] {
+  display: none;
+}
+
+@media (width <= 576px) {
+  .button__text-more {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js__form-steps .form-steps__step--active,
+  .scroll-cue {
+    animation: none;
+  }
+
+  .wizard-progress__segment::before,
+  .js__form-steps .form__row--footer,
+  .form__text,
+  .form__textfield,
+  .form__select,
+  .form__radbox + .form__radbox-label::before {
+    transition: none;
+  }
+}
+
+/* ============================== Review ============================== */
+/* The last step: every choice in three groups, each with an Edit button back to its step, as
+   rows of the choice's name and value. A value that still needs a fix says so (starter.js). */
+.summary > .summary__group + .summary__group {
+  margin-block-start: var(--space-container-stack-l);
+}
+
+.summary__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-container-inside-s);
+  margin-block-end: var(--space-container-inside-s);
+}
+
+.summary__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font: var(--typography-h5-strong-font-weight)
+    var(--typography-h5-strong-font-size) / var(--typography-h5-strong-line-height)
+    var(--typography-h5-strong-font-family);
+  letter-spacing: var(--typography-h5-strong-letter-spacing);
+}
+
+.summary__list {
+  margin: 0;
+}
+
+.summary__row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: baseline;
+  gap: var(--space-container-inside-m);
+  padding-block: var(--space-container-inset-xs);
+  border-block-start: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+}
+
+.summary__row > dt {
+  color: var(--color-text-secondary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.summary__row > dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-text-primary);
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+}
+
+.summary__problem {
+  color: var(--color-feedback-error-strong);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+@media (width <= 576px) {
+  .summary__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-container-inside-xxs);
+  }
+}
+
+/* ============================== Download result ============================== */
+/* After Download project the open step and the action row fade out (starter.js) and this panel
+   takes their place, its content centred in the step's column: the queue message over a progress
+   bar, then the project ready or failed, with what to do next. */
+.js__form-steps.form-steps--result :is(.form-steps__step, .form__row--footer) {
+  display: none;
+}
+
+.form-result {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.form-result[hidden],
+.form-result__state[hidden] {
+  display: none;
+}
+
+.form-result__state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: starter-step-in var(--motion-duration-base) var(--motion-easing-standard);
+}
+
+.form-result__icon {
+  width: var(--size-icon-xl);
+  height: var(--size-icon-xl);
+  margin-block-end: var(--space-container-stack-s);
+}
+
+.form-result__icon--success {
+  color: var(--color-feedback-success-strong);
+}
+
+.form-result__icon--error {
+  color: var(--color-feedback-error-strong);
+}
+
+/* .form-steps__title gives it the step titles' type. It takes focus for screen readers; no ring. */
+.form-result__title {
+  margin-block-end: var(--space-container-inside-s);
+}
+
+.form-result__title:focus {
+  outline: none;
+}
+
+.form-result__text {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+}
+
+.form-result__progress {
+  align-self: stretch;
+  margin-block-start: var(--space-container-stack-m);
+}
+
+/* "Download again": a link in the sentence, underlined like running-text links. */
+.form-result__link {
+  padding: 0;
+  border: none;
+  border-radius: var(--borderradius-selectable-s);
+  background: none;
+  color: var(--color-interactive-tertiary-unselected-foreground-default);
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form-result__link:hover {
+  color: var(--color-interactive-tertiary-unselected-foreground-hover);
+}
+
+.form-result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-container-inside-s);
+  margin-block-start: var(--space-container-stack-l);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-result__state {
+    animation: none;
+  }
+}
+
+/* ============================== Progress (indeterminate) ============================== */
+/* The sweep period is a local value: payara-ds motion durations stop at 300ms, too short for a
+   looping sweep. */
+.form__progress {
+  flex: 1 1 auto;
+  color: var(--color-text-secondary);
+}
+
+.loader--line {
+  --progress-sweep-period: 1.5s;
+
+  position: relative;
+  display: block;
+  height: calc(var(--size-selectable-smaller-s) / 2);
+  margin-block-start: var(--space-container-inside-xs);
+  overflow: hidden;
+  border-radius: var(--borderradius-container-pill);
+  background-color: var(--color-background-subtlest);
+}
+
+.loader__fish {
+  position: absolute;
+  inset-block: 0;
+  width: 40%;
+  border-radius: var(--borderradius-container-pill);
+  background-color: var(--color-feedback-info-interactive-default);
+  animation: starter-progress-sweep var(--progress-sweep-period) var(--motion-easing-standard)
+    infinite;
+}
+
+@keyframes starter-progress-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes starter-progress-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader__fish {
+    width: 100%;
+    animation: starter-progress-pulse var(--progress-sweep-period) linear infinite;
+  }
+}
+
+/* ============================== Footer ============================== */
+/* The Azul footer (azul.com): link columns, then the legal row.
+   The structure is azul.com's; every value is a payara-ds token. */
+.page__footer {
+  border-block-start: var(--borderwidth-decorative-s) solid var(--color-border-subtlest);
+  background-color: var(--color-background-default);
+  color: var(--color-text-primary);
+}
+
+/* Width literal: payara-ds has no layout width tokens. */
+.footer {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: var(--space-container-inset-l);
+}
+
+.footer__nav {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-container-stack-l) var(--space-container-stack-m);
+  padding-block-end: var(--space-container-inset-l);
+}
+
+.footer__title {
+  margin-block-end: var(--space-container-inside-m);
+  color: var(--color-text-primary);
+  font: var(--typography-h6-strong-font-weight)
+    var(--typography-h6-strong-font-size) / var(--typography-h6-strong-line-height)
+    var(--typography-h6-strong-font-family);
+  letter-spacing: var(--typography-h6-strong-letter-spacing);
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-container-inside-s);
+}
+
+/* Footer links read as quiet navigation rows, not in the accent link colour. */
+.footer__link {
+  padding: 0;
+  border: none;
+  border-radius: var(--borderradius-selectable-m);
+  background: none;
+  color: var(--color-interactive-secondary-unselected-foreground-default);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer__link:hover {
+  text-decoration: underline;
+}
+
+.footer__legal {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-container-inside-m);
+  padding-block-start: var(--space-container-inset-l);
+  border-block-start: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+}
+
+.footer__disclaimer,
+.footer__copyright,
+.footer__legal-links .footer__link {
+  font: var(--typography-p3-default-font-weight)
+    var(--typography-p3-default-font-size) / var(--typography-p3-default-line-height)
+    var(--typography-p3-default-font-family);
+  letter-spacing: var(--typography-p3-default-letter-spacing);
+}
+
+.footer__disclaimer {
+  grid-column: 1 / -1;
+  color: var(--color-text-secondary);
+}
+
+.footer__copyright {
+  color: var(--color-text-tertiary);
+}
+
+.footer__legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-container-inside-s);
+}
+
+.footer__legal-links li + li {
+  padding-inline-start: var(--space-container-inset-xxs);
+  border-inline-start: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+}
+
+@media (width <= 1024px) {
+  .footer__nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (width <= 576px) {
+  .footer__nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer__legal {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ============================== ER Diagram Builder (dialog) ============================== */
+/* A native modal <dialog> (er-builder.js) holding a payara-ds Modal card, top to bottom: the title
+   and Close; the diagram picker, the Code / Preview tabs and the version history; the view; the
+   composer that asks the AI for changes; and a status line for progress and errors. The dialog
+   itself is a transparent frame over the whole viewport; the page behind is dimmed by its
+   backdrop and does not scroll. */
+.modal:modal {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--space-page-inset-m);
+  overflow: hidden;
+  border: none;
+  background: transparent;
+}
+
+.modal::backdrop {
+  background-color: var(--color-background-overlay);
+}
+
+body:has(.modal[open]) {
+  overflow: hidden;
+}
+
+/* Width literal: payara-ds has no layout width tokens; the cap keeps the composer's lines readable. */
+.er-builder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-container-inside-m);
+  max-width: 80rem;
+  height: 100%;
+  margin-inline: auto;
+  padding: var(--space-container-inset-l);
+  border: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+  border-radius: var(--borderradius-container-s);
+  background-color: var(--color-background-default);
+  box-shadow: var(--shadow-l3);
+}
+
+.er-builder__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-container-inside-m);
+}
+
+.er-builder__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-container-inside-xs);
+}
+
+.er-builder__heading > .help {
+  margin-block-end: 0;
+}
+
+.er-builder__title {
+  color: var(--color-text-primary);
+  font: var(--typography-h5-default-font-weight)
+    var(--typography-h5-default-font-size) / var(--typography-h5-default-line-height)
+    var(--typography-h5-default-font-family);
+  letter-spacing: var(--typography-h5-default-letter-spacing);
+}
+
+.er-builder__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-container-inside-m);
+}
+
+.er-builder__diagram {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--space-container-inside-s);
+  min-width: 0;
+}
+
+.er-builder__label {
+  color: var(--color-text-primary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.er-builder__diagram > .combobox {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.er-builder__history {
+  display: flex;
+  align-items: center;
+  gap: var(--space-container-inside-xs);
+  margin-inline-start: auto;
+}
+
+.er-builder__version {
+  color: var(--color-text-secondary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+  white-space: nowrap;
+}
+
+.er-builder__body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  border: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+  border-radius: var(--borderradius-container-s);
+  background-color: var(--color-background-default);
+}
+
+.er-builder__panel {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.er-builder__panel[hidden] {
+  display: none;
+}
+
+.er-builder__progress[hidden] {
+  display: none;
+}
+
+.er-builder__progress.loader--line {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 0;
+  inset-inline: 0;
+  margin: 0;
+}
+
+.livePreview {
+  display: flex;
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: var(--space-container-inset-s);
+}
+
+/* Auto margins centre the diagram without cutting off a zoomed one that overflows. starter.js
+   sets its width from the zoom. */
+.livePreview svg {
+  flex-shrink: 0;
+  height: auto;
+  margin: auto;
+}
+
+/* Zoom out / level / Zoom in / Fit, floating in the preview's corner on a raised surface. */
+.er-builder__zoom {
+  position: absolute;
+  inset-block-end: var(--space-container-inset-xs);
+  inset-inline-end: var(--space-container-inset-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-container-inside-xxs);
+  padding: var(--space-container-inset-xxxs);
+  border: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+  border-radius: var(--borderradius-container-s);
+  background-color: var(--color-background-default);
+  box-shadow: var(--shadow-l1);
+}
+
+.er-builder__zoom[hidden] {
+  display: none;
+}
+
+.er-builder__zoom-level {
+  min-width: var(--size-selectable-m);
+  color: var(--color-text-secondary);
+  text-align: center;
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+
+.er-builder__empty {
+  margin: auto;
+  padding: var(--space-container-inset-s);
+  color: var(--color-text-secondary);
+  text-align: center;
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+}
+
+.er-builder__empty[hidden],
+.livePreview[hidden] {
+  display: none;
+}
+
+/* The Mermaid source in CodeMirror, coloured by the Mermaid ER mode in starter.js. payara-ds has no
+   syntax colours: the categories take the chart palette's categorical colours that pass AA on
+   the white background (checked 2026-09-29), and text colours for labels and comments. */
+.er-builder .CodeMirror {
+  flex: 1 1 auto;
+  height: auto;
+  background-color: var(--color-background-default);
+  color: var(--color-text-primary);
+}
+
+.er-builder .CodeMirror-gutters {
+  border-inline-end: var(--borderwidth-decorative-s) solid var(--color-border-subtle);
+  background-color: var(--color-background-subtle);
+}
+
+.er-builder .CodeMirror-linenumber {
+  color: var(--color-text-tertiary);
+}
+
+.er-builder .CodeMirror-cursor {
+  border-inline-start-color: var(--color-text-primary);
+}
+
+.er-builder .cm-s-default .cm-keyword,
+.er-builder .cm-s-default .cm-operator {
+  color: var(--color-graph-qualitative-fifth);
+}
+
+.er-builder .cm-s-default .cm-def {
+  color: var(--color-graph-qualitative-sixth);
+}
+
+.er-builder .cm-s-default .cm-type {
+  color: var(--color-graph-qualitative-first);
+}
+
+.er-builder .cm-s-default .cm-attribute {
+  color: var(--color-graph-qualitative-second);
+}
+
+.er-builder .cm-s-default .cm-variable,
+.er-builder .cm-s-default .cm-bracket {
+  color: var(--color-text-primary);
+}
+
+.er-builder .cm-s-default .cm-string {
+  color: var(--color-text-secondary);
+}
+
+.er-builder .cm-s-default .cm-comment {
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+/* The composer: a multi-line field over a bar of the AI suggestions and Send. The field is
+   the payara-ds SearchField container (border, hover, focus-within); the suggestion chips are
+   small outline Buttons as pills; Send is a small primary icon Button. */
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-container-inside-s);
+  padding: var(--space-container-inset-xs) var(--space-container-inset-s);
+  border: var(--borderwidth-selectable-m) solid
+    var(--color-interactive-secondary-unselected-border-unfocused);
+  border-radius: var(--borderradius-container-l);
+  background-color: var(--color-background-default);
+  box-shadow: var(--shadow-l1);
+}
+
+.composer:hover:not(:focus-within) {
+  border-color: var(--color-interactive-secondary-unselected-border-unfocused-hover);
+}
+
+.composer:focus-within {
+  border-color: var(--color-interactive-secondary-selected-border-default);
+}
+
+/* Grows with its text (starter.js) up to six lines, then scrolls. */
+.composer__input {
+  --composer-line: calc(var(--typography-p1-default-font-size) * var(--typography-p1-default-line-height));
+
+  display: block;
+  width: 100%;
+  min-height: var(--composer-line);
+  max-height: calc(var(--composer-line) * 6);
+  padding: 0;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  font: var(--typography-p1-default-font-weight)
+    var(--typography-p1-default-font-size) / var(--typography-p1-default-line-height)
+    var(--typography-p1-default-font-family);
+  letter-spacing: var(--typography-p1-default-letter-spacing);
+}
+
+.composer__input::placeholder {
+  color: var(--color-interactive-secondary-unselected-foreground-placeholder);
+}
+
+.composer__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-container-inside-s);
+}
+
+/* The chips scroll sideways; while more are hidden the row fades out and "More" appears. */
+.composer__chips {
+  display: flex;
+  flex: 1 1 auto;
+  gap: var(--space-container-inside-s);
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.composer__chips::-webkit-scrollbar {
+  display: none;
+}
+
+.composer__chips--more {
+  mask-image: linear-gradient(
+    to right,
+    currentColor calc(100% - var(--size-selectable-m)),
+    transparent
+  );
+}
+
+.chip,
+.composer__button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-selectable-inside-m);
+  height: var(--size-selectable-s);
+  border: var(--borderwidth-selectable-m) solid var(--color-border-default);
+  border-radius: var(--borderradius-selectable-pill);
+  background-color: var(--color-interactive-surface-default);
+  color: var(--color-interactive-secondary-unselected-foreground-default);
+  font: var(--typography-interactive-medium-default-font-weight)
+    var(--typography-interactive-medium-default-font-size) /
+    var(--typography-interactive-medium-default-line-height)
+    var(--typography-interactive-medium-default-font-family);
+  letter-spacing: var(--typography-interactive-medium-default-letter-spacing);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.chip {
+  padding-inline: var(--space-selectable-inset-m);
+}
+
+.composer__button {
+  width: var(--size-selectable-s);
+  padding: 0;
+}
+
+.composer__button[hidden] {
+  display: none;
+}
+
+.chip:hover:not(:disabled),
+.composer__button:hover:not(:disabled) {
+  background-color: var(--color-interactive-surface-hover);
+}
+
+.chip:active:not(:disabled),
+.composer__button:active:not(:disabled) {
+  background-color: var(--color-interactive-surface-pressed);
+}
+
+.chip:disabled,
+.composer__button:disabled {
+  border-color: var(--color-border-disabled);
+  color: var(--color-interactive-secondary-unselected-foreground-disabled);
+  cursor: not-allowed;
+}
+
+.chip .icon,
+.composer__button .icon,
+.composer__send .icon {
+  width: var(--size-icon-s);
+  height: var(--size-icon-s);
+}
+
+.chip .icon {
+  color: var(--color-icon-brand);
+}
+
+.chip:disabled .icon {
+  color: var(--color-icon-disabled);
+}
+
+.composer__send {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-selectable-s);
+  height: var(--size-selectable-s);
+  padding: 0;
+  border: none;
+  border-radius: var(--borderradius-selectable-pill);
+  background-color: var(--color-interactive-primary-background-default);
+  color: var(--color-interactive-primary-foreground-default);
+  cursor: pointer;
+}
+
+.composer__send:hover:not(:disabled) {
+  background-color: var(--color-interactive-primary-background-hover);
+}
+
+.composer__send:active:not(:disabled) {
+  background-color: var(--color-interactive-primary-background-pressed);
+}
+
+.composer__send:disabled {
+  background-color: var(--color-interactive-primary-background-disabled);
+  cursor: not-allowed;
+}
+
+/* Holds one line even when empty, so progress and errors don't shift the layout. */
+.er-builder__status {
+  min-height: calc(var(--typography-p2-default-font-size) * var(--typography-p2-default-line-height));
+  margin: 0;
+  color: var(--color-text-secondary);
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family);
+  letter-spacing: var(--typography-p2-default-letter-spacing);
+}
+
+.er-builder__status--error {
+  color: var(--color-feedback-error-strong);
+}
+
+@media (width <= 768px) {
+  .modal:modal {
+    padding: var(--space-page-inset-s);
+  }
+
+  .er-builder {
+    padding: var(--space-container-inset-s);
+  }
+
+  .er-builder__diagram {
+    flex-basis: 100%;
+  }
+}
+
+/* Phone: the dialog takes the whole screen. */
+@media (width <= 576px) {
+  .modal:modal {
+    padding: 0;
+  }
+
+  .er-builder {
+    gap: var(--space-container-inside-s);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* ============================== HubSpot marketing pop-ups ============================== */
+/* HubSpot's pop-ups (a call to action over a dimmed page, slide-ins, banners) never show on this
+   page: their containers stay out. The cookie banner below is separate and stays. */
+#hs-interactives-modal-overlay,
+[id^='hs-overlay-cta-'],
+[id^='hs-web-interactives'],
+[data-hs-container-type] {
+  display: none !important;
+}
+
+/* ============================== HubSpot cookie banner ============================== */
+/* Third-party markup; !important is the only way past its inline styles. Accept and decline
+   carry equal weight (both secondary); "Cookies settings" is a link. */
+body div#hs-eu-cookie-confirmation {
+  border: none !important;
+  border-block-start: var(--borderwidth-decorative-s) solid var(--color-border-subtle) !important;
+  background: var(--color-background-default) !important;
+  box-shadow: var(--shadow-l2) !important;
+  color: var(--color-text-primary) !important;
+  font: var(--typography-p2-default-font-weight)
+    var(--typography-p2-default-font-size) / var(--typography-p2-default-line-height)
+    var(--typography-p2-default-font-family) !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner {
+  max-width: 48rem !important;
+  margin: auto !important;
+  padding: var(--space-container-inset-m) !important;
+  background: none !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner p {
+  color: var(--color-text-primary) !important;
+  font: inherit !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner div#hs-en-cookie-confirmation-buttons-area {
+  justify-content: flex-end !important;
+  gap: var(--space-container-inside-s) !important;
+  margin: var(--space-container-inside-m) 0 0 0 !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-confirmation-button,
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-decline-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: var(--size-selectable-m) !important;
+  margin: 0 !important;
+  padding: 0 var(--space-selectable-inset-l) !important;
+  border: var(--borderwidth-selectable-m) solid
+    var(--color-interactive-secondary-unselected-border-default) !important;
+  border-radius: var(--borderradius-selectable-m) !important;
+  background: var(--color-interactive-secondary-unselected-background-default) !important;
+  box-shadow: none !important;
+  color: var(--color-interactive-secondary-unselected-foreground-default) !important;
+  font: var(--typography-interactive-medium-default-font-weight)
+    var(--typography-interactive-medium-default-font-size) /
+    var(--typography-interactive-medium-default-line-height)
+    var(--typography-interactive-medium-default-font-family) !important;
+  text-decoration: none !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-confirmation-button:hover,
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-decline-button:hover {
+  border-color: var(--color-interactive-secondary-unselected-border-hover) !important;
+  background: var(--color-interactive-secondary-unselected-background-hover) !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-confirmation-button:active,
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-decline-button:active {
+  border-color: var(--color-interactive-secondary-unselected-border-pressed) !important;
+  background: var(--color-interactive-secondary-selected-background-pressed) !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-cookie-settings-button {
+  margin: 0 var(--space-container-inside-s) 0 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: var(--color-link-default) !important;
+  font: inherit !important;
+  text-decoration: underline !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a#hs-eu-cookie-settings-button:hover {
+  color: var(--color-link-hover) !important;
+}
+
+body div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a:focus-visible {
+  outline: var(--borderwidth-selectable-l) solid var(--color-border-focus) !important;
+  outline-offset: var(--borderwidth-selectable-l) !important;
+}

@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2025 Payara Foundation and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025-2026 Payara Foundation and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -91,7 +91,6 @@ public class FullStackAppIT {
         // Build with Maven, EE8 Web profile, jdk8, Payara Server 5, Full MP, ER Diagram = Product Catalog, tests, Security DB
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "productCatalogJdk8", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 8", "8");
         starterPage.setMicroProfile("Full MP");
@@ -112,7 +111,6 @@ public class FullStackAppIT {
         // Build with Gradle, EE8 Full, jdk8, Payara Micro 5, Full MP, ER Diagram = Sales Tracking, no test, Security LDAP
         starterPage.setProjectDescription("Gradle", "fish.payara.playwright.test", "salesTrackingJdk8", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 8", "8", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Micro", "5.2022.5", "5.2022.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 8", "8");
         starterPage.setMicroProfile("Full MP");
@@ -132,7 +130,6 @@ public class FullStackAppIT {
         // Build with Maven, EE8, jdk11, Web Profile, Payara Server 5, MP Metrics, ER Diagram = Inventory System, tests
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "inventorySystemJdk11", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 8", "8", "Web Profile");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "5.2022.5", "5.2022.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 11", "11");
         starterPage.setMicroProfile("MicroProfile Metrics");
@@ -156,7 +153,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Web Profile, jdk17, Payara Micro 6, MP Metrics + Fault Tolerance, ER Diagram = Flight Reservation System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "flightReservationSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Web Profile");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", true, "Java SE 17", "17");
         starterPage.setMicroProfile("MicroProfile Metrics");
@@ -182,7 +178,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Auction Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "auctionManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -202,7 +197,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Customer Relationship Management, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "customerRelationshipManagementJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -222,7 +216,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Employee Management, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "employeeManagementJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -242,7 +235,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Energy Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "energyManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -262,7 +254,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Event Management, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "eventManagementJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -282,7 +273,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Healthcare System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "healthcareSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -302,7 +292,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Insurance Claim Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "insuranceClaimManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -322,7 +311,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Inventory System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "inventorySystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -342,7 +330,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Laboratory Information Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "laboratoryInformationManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -362,7 +349,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Law Firm Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "lawFirmManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -382,7 +368,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Legal Case Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "legalCaseManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -402,7 +387,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Library Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "libraryManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -422,7 +406,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Membership Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "membershipManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -442,7 +425,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Music Streaming Platform, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "musicStreamingPlatformJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -462,7 +444,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Property Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "propertyManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -482,7 +463,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Recruitment Management System, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "recruitmentManagementSystemJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
@@ -502,7 +482,6 @@ public class FullStackAppIT {
         // Build with Maven, EE10 Full profile, jdk17, Payara Micro 6, no MP, ER Diagram = Sales Tracking, include tests, no security
         starterPage.setProjectDescription("Maven", "fish.payara.playwright.test", "salesTrackingJdk17", "1.0-SNAPSHOT");
         starterPage.setJakartaEE("Jakarta EE 10", "10", "Platform");
-        starterPage.closeGuidePopup();
         starterPage.setPayaraPlatform("Payara Server", "6.2025.5", "6.2025.5");
         starterPage.setProjectConfiguration("fish.payara.e2e", false, "Java SE 17", "17");
         starterPage.setMicroProfile("");
