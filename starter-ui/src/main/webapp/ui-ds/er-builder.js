@@ -262,6 +262,7 @@ function initErBuilder() {
 	const editor = createEditor(byId('sourceCode'));
 	const state = {
 		name: '', // the chosen diagram: a sample name, or the description a diagram was generated from
+		shown: 0, // goes up each time another diagram (or none) is shown, so a late answer can tell
 		saved: new Map(), // latest code by name, so a diagram comes back as it was left
 		versions: [], // this diagram's versions: { code, change }
 		version: -1,
@@ -325,6 +326,7 @@ function initErBuilder() {
 	async function pick(name) {
 		const previous = state.name;
 		state.name = name;
+		state.shown++;
 		showPicked(name);
 		let code = name ? state.saved.get(name) : '';
 		if (code === undefined) {
@@ -378,14 +380,16 @@ function initErBuilder() {
 	// ----- AI requests -----
 	// The picker stays usable while a request runs. If another diagram is picked meanwhile, the
 	// answer no longer applies to what is shown: a new diagram only joins the list, and a change
-	// to the old diagram is dropped.
+	// to the old diagram is dropped. state.shown tells, not the name: with no diagram picked the
+	// name stays '' through Core Profile and Start over, which both empty the builder.
 	async function generate(description) {
-		const name = state.name;
+		const shown = state.shown;
 		const code = await run(() => backend.generate(description));
 		if (!code) return;
 		addChoice(description);
 		state.saved.set(description, code);
-		if (state.name !== name) return;
+		if (state.shown !== shown) return;
+		state.shown++;
 		state.name = description;
 		showPicked(description);
 		startVersions(code, description);
@@ -393,17 +397,17 @@ function initErBuilder() {
 	}
 
 	async function change(request) {
-		const name = state.name;
+		const shown = state.shown;
 		const code = await run(() => backend.update(editor.getValue(), request));
-		if (!code || state.name !== name) return;
+		if (!code || state.shown !== shown) return;
 		addVersion(code, request);
 		clearComposer();
 	}
 
 	async function resize(kind) {
-		const name = state.name;
-		const code = await run(() => backend[kind](editor.getValue(), name));
-		if (code && state.name === name) addVersion(code);
+		const shown = state.shown;
+		const code = await run(() => backend[kind](editor.getValue(), state.name));
+		if (code && state.shown === shown) addVersion(code);
 	}
 
 	byId('enlargeERDiagram').addEventListener('click', () => resize('enlarge'));
